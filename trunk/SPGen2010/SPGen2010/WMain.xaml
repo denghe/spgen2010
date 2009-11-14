@@ -4,34 +4,45 @@
         Title="SPGen2010" Height="350" Width="780" WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
     <Grid>
-        <Menu Style="{StaticResource TopMenu}" Name="TopMenu">
-            <MenuItem Style="{StaticResource TopMenuItem}" Header="_File">
-                <MenuItem Style="{StaticResource TopMenuItem}" Header="_Connect" Name="_Connect_menuItem" Click="_Connect_menuItem_Click" />
-                <Separator />
-                <MenuItem Style="{StaticResource TopMenuItem}" Header="_Quit" Name="_Quit_menuItem" Click="_Quit_menuItem_Click" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Name="TopMenu">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Quit" Name="_Quit_menuItem" Click="_Quit_menuItem_Click" />
             </MenuItem>
         </Menu>
-        <Grid Background="Beige" Margin="0,25,0,25">
+        <Grid Grid.Row="1" Background="Beige">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
-            
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Background="Blue" Width="10"></GridSplitter>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Right" Background="Blue" Width="10"></GridSplitter>
-            
-            <Grid>
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
                     <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Button Name="_Refresh_Button" Width="25" Height="25" HorizontalAlignment="Left" ToolTip="refresh"></Button>
-                <TreeView Name="_TreeView"></TreeView>
+                <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer</Label>
+                <ToolBarTray Grid.Row="1" Background="#bcc7d8">
+                    <ToolBar Band="1" BandIndex="1">
+                        <Button Name="_Connect_Button" Content="Connect" ToolTip="Connect a mssql server instance"/>
+                        <Separator/>
+                        <Button Name="_Refresh_Button" ToolTip="Refresh current node's data">
+                            <Image Source="/SPGen2010;component/Images/b_refresh.png"></Image>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                <TreeView Grid.Row="2" Name="_TreeView"></TreeView>
             </Grid>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Background="Blue" Width="10"></GridSplitter>
             <StackPanel Grid.Column="1" Background="Green" Margin="10,0,10,0"></StackPanel>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Right" Background="Blue" Width="10"></GridSplitter>
             <StackPanel Grid.Column="2" Background="CadetBlue"></StackPanel>
         </Grid>
-        <StatusBar Height="25" VerticalAlignment="Bottom"></StatusBar>
+        <StatusBar Grid.Row="2" Height="25"></StatusBar>
     </Grid>
 </Window>

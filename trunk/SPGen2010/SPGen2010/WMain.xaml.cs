@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
+using System.IO;
 
 #endregion
 
@@ -43,6 +44,26 @@ namespace SPGen2010
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (PopupWindow_Connector()) Refresh();
+            try
+            {
+                var databases = from Database db in this.ServerInstance.Databases
+                                where !db.IsSystemObject && db.IsAccessible
+                                select db;
+                foreach (var db in databases)
+                {
+                    _TreeView.Items.Add(new TreeViewWithIcons
+                    {
+                        HeaderText = db.Name,
+                        Tag = db,
+                        Icon = "SQL_Database.png".NewImageSource()
+                    });
+                }
+                //_TreeView.SelectedItem = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion
