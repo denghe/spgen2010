@@ -1,0 +1,48 @@
+﻿<Application x:Class="SPGen2010.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="WMain.xaml">
+    <Application.Resources>
+        <!-- 通用的改字体为 SimSun 解决字体模糊问题 -->
+        <Style x:Key="Font">
+            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+        </Style>
+        
+        <Style BasedOn="{StaticResource Font}" TargetType="Button">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="Menu">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="MenuItem">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="Window">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="CheckBox">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="Label">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="TextBlock">
+        </Style>
+        <Style BasedOn="{StaticResource Font}" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- 顶部菜单用 -->
+        <Style x:Key="TopMenu" TargetType="Menu" BasedOn="{StaticResource Font}">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>
+        <Style x:Key="TopMenuItem" TargetType="MenuItem" BasedOn="{StaticResource Font}">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Padding" Value="10,3,10,3"></Setter>
+        </Style>
+
+
+    </Application.Resources>
+</Application>
