@@ -119,8 +119,8 @@ namespace SPGen2010.Codes.MySmo
         public bool Identity { get; set; }
         public long IdentityIncrement { get; set; }
         public long IdentitySeed { get; set; }
-        public bool InPrimaryKey { get; }
-        public bool IsForeignKey { get; }
+        public bool InPrimaryKey { get; set; }
+        public bool IsForeignKey { get; set; }
         public bool Nullable { get; set; }
         public bool RowGuidCol { get; set; }
     }

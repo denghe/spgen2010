@@ -72,6 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Codes\ImageSourceHelper.cs" />
+    <Compile Include="Codes\TreeViewWithIcons.cs" />
     <Compile Include="Codes\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,6 +144,43 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\b_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\deletehs.png" />
+    <Resource Include="Images\down.png" />
+    <Resource Include="Images\Filter2HS.png" />
+    <Resource Include="Images\findhs.png" />
+    <Resource Include="Images\findnexths.png" />
+    <Resource Include="Images\FormRunHS.png" />
+    <Resource Include="Images\gotonexths.png" />
+    <Resource Include="Images\highlighths.png" />
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\line.png" />
+    <Resource Include="Images\newdocumenths.png" />
+    <Resource Include="Images\refreshdocviewhs.png" />
+    <Resource Include="Images\right.png" />
+    <Resource Include="Images\sql_column.png" />
+    <Resource Include="Images\sql_constrain.png" />
+    <Resource Include="Images\sql_datatype.png" />
+    <Resource Include="Images\sql_diagram.png" />
+    <Resource Include="Images\sql_empty.png" />
+    <Resource Include="Images\sql_folder.png" />
+    <Resource Include="Images\sql_foreignkey.png" />
+    <Resource Include="Images\sql_function_scale.png" />
+    <Resource Include="Images\sql_function_table.png" />
+    <Resource Include="Images\sql_key.png" />
+    <Resource Include="Images\sql_schema.png" />
+    <Resource Include="Images\sql_server.png" />
+    <Resource Include="Images\sql_storedprocedure.png" />
+    <Resource Include="Images\sql_table.png" />
+    <Resource Include="Images\sql_trigger.png" />
+    <Resource Include="Images\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\addnode.png" />
+    <Resource Include="Images\addnode2.png" />
+    <Resource Include="Images\addroot.png" />
+    <Resource Include="Images\sql_database.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
