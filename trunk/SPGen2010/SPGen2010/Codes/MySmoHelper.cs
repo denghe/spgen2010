@@ -36,8 +36,7 @@ namespace SPGen2010.Codes
         {
             var myt = new My.Table();
             myt.ParentDatabase = mydb;
-            myt.Columns = new List<My.Column>();
-            myt.Columns.AddRange(
+            myt.Columns = new List<My.Column>(
                 from Column c in t.Columns
                 select NewColumn(mydb, myt, c)
             );
@@ -48,8 +47,7 @@ namespace SPGen2010.Codes
         {
             var myv = new My.View();
             myv.ParentDatabase = mydb;
-            myv.Columns = new List<My.Column>();
-            myv.Columns.AddRange(
+            myv.Columns = new List<My.Column>(
                 from Column c in v.Columns
                 select NewColumn(mydb, myv, c)
             );
@@ -58,27 +56,42 @@ namespace SPGen2010.Codes
 
         public static My.Column NewColumn(My.Database mydb, My.ITableBase myt, Column c)
         {
-            var myc = new My.Column();
-            myc.ParentDatabase = mydb;
-            myc.ParentTableBase = myt;
-            myc.DataType = NewDataType(c.DataType);
+            return new My.Column
+            {
+                ParentDatabase = mydb,
+                ParentTableBase = myt,
+                DataType = NewDataType(c.DataType),
 
-            // result.xxxx = c.xxxx;
-            // result.xxxx = c.xxxx;
-            // result.xxxx = c.xxxx;
-
-            return myc;
+                Computed = c.Computed,
+                ComputedText = c.ComputedText,
+                Default = c.Default,
+                Identity = c.Identity,
+                IdentityIncrement = c.IdentityIncrement,
+                IdentitySeed = c.IdentitySeed,
+                InPrimaryKey = c.InPrimaryKey,
+                IsForeignKey = c.IsForeignKey,
+                Nullable = c.Nullable,
+                RowGuidCol = c.RowGuidCol
+            };
         }
 
         public static My.DataType NewDataType(DataType dt)
         {
-            var mydt = new My.DataType();
+            return new My.DataType
+            {
+                Name = dt.Name,
+                MaximumLength = dt.MaximumLength,
+                NumericPrecision = dt.NumericPrecision,
+                NumericScale = dt.NumericScale
+            };
+        }
 
-            // mydt.xxx = dt.xxx;
-            // mydt.xxx = dt.xxx;
-            // mydt.xxx = dt.xxx;
-
-            return mydt;
+        public static List<My.ExtendedProperty> NewExtendProperties(My.IExtendPropertiesBase parent, ExtendedPropertyCollection epc)
+        {
+            return new List<My.ExtendedProperty>(
+                from ExtendedProperty ep in epc
+                select new My.ExtendedProperty { Name = ep.Name, Value = ep.Value, ParentExtendPropertiesBase = parent }
+            );
         }
     }
 
