@@ -15,21 +15,72 @@ namespace SPGen2010.Codes
 {
     public static class MySmoHelper
     {
+        /// <summary>
+        /// todo: filter fill
+        /// </summary>
         public static void FillData(this My.Database mydb, Database db)
         {
-            mydb.Tables.AddRange(
-                from Table t in db.Tables
-                where t.IsSystemObject == false
-                select NewTable(mydb, t)
+            mydb.Tables = new List<My.Table>(
+                from Table o in db.Tables
+                where o.IsSystemObject == false
+                select NewTable(mydb, o)
             );
 
-            mydb.Views.AddRange(
-                from View v in db.Views
-                where v.IsSystemObject == false
-                select NewView(mydb, v)
+            mydb.Views = new List<My.View>(
+                from View o in db.Views
+                where o.IsSystemObject == false
+                select NewView(mydb, o)
             );
 
-            // ... 
+            mydb.UserDefinedFunctions = new List<My.UserDefinedFunction>(
+                from UserDefinedFunction o in db.UserDefinedFunctions
+                where o.IsSystemObject == false
+                select NewUserDefinedFunction(mydb, o)
+            );
+
+            mydb.UserDefinedTableTypes = new List<My.UserDefinedTableType>(
+                from UserDefinedTableType o in db.UserDefinedTableTypes
+                select NewUserDefinedTableType(mydb, o)
+            );
+
+            mydb.StoredProcedures = new List<My.StoredProcedure>(
+                from StoredProcedure o in db.StoredProcedures
+                where o.IsSystemObject == false
+                select NewStoredProcedure(mydb, o)
+            );
+        }
+
+
+        #region NewXxxxxxx Methods
+
+        public static My.StoredProcedure NewStoredProcedure(My.Database mydb, StoredProcedure o)
+        {
+            return new My.StoredProcedure{
+                Name = o.Name,
+                Schema = o.Schema
+            };
+        }
+
+        public static My.UserDefinedFunction NewUserDefinedFunction(My.Database mydb, UserDefinedFunction o)
+        {
+            var myf = new My.UserDefinedFunction();
+            myf.ParentDatabase = mydb;
+            myf.Columns = new List<My.Column>(
+                from Column c in o.Columns
+                select NewColumn(mydb, myf, c)
+            );
+            return myf;
+        }
+
+        public static My.UserDefinedTableType NewUserDefinedTableType(My.Database mydb, UserDefinedTableType o)
+        {
+            var myt = new My.UserDefinedTableType();
+            myt.ParentDatabase = mydb;
+            myt.Columns = new List<My.Column>(
+                from Column c in o.Columns
+                select NewColumn(mydb, myt, c)
+            );
+            return myt;
         }
 
         public static My.Table NewTable(My.Database mydb, Table t)
@@ -60,6 +111,7 @@ namespace SPGen2010.Codes
             {
                 ParentDatabase = mydb,
                 ParentTableBase = myt,
+                Name = c.Name,
                 DataType = NewDataType(c.DataType),
 
                 Computed = c.Computed,
@@ -93,6 +145,7 @@ namespace SPGen2010.Codes
                 select new My.ExtendedProperty { Name = ep.Name, Value = ep.Value, ParentExtendPropertiesBase = parent }
             );
         }
-    }
 
+        #endregion
+    }
 }
