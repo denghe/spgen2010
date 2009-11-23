@@ -53,7 +53,7 @@ namespace SPGen2010.Codes.MySmo
         public List<Table> Tables { get; set; }
         public List<View> Views { get; set; }
         public List<StoredProcedure> StoredProcedures { get; set; }
-        public List<UserDefinedFunction> Functions { get; set; }
+        public List<UserDefinedFunction> UserDefinedFunctions { get; set; }
         public List<UserDefinedTableType> UserDefinedTableTypes { get; set; }
         public string Name { get; set; }
     }
@@ -111,7 +111,6 @@ namespace SPGen2010.Codes.MySmo
         public List<ExtendedProperty> ExtendedProperties { get; set; }
         public DataType DataType { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
 
         public bool Computed { get; set; }
         public string ComputedText { get; set; }
