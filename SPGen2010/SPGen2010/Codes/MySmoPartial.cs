@@ -5,56 +5,75 @@ using System.Text;
 
 namespace SPGen2010.Codes.MySmo
 {
-    public interface IDescription
+    public interface IExtendedInformation
     {
         string Description { get; set; }
+        string Caption { get; set; }
+        string Summary { get; set; }
     }
 
-    partial class Database : IDescription
+
+    partial class Database : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class Table : IDescription
+    partial class Table : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class View : IDescription
+    partial class View : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class UserDefinedTableType : IDescription
+    partial class UserDefinedTableType : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class UserDefinedFunction : IDescription
+    partial class UserDefinedFunction : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class StoredProcedure : IDescription
+    partial class StoredProcedure : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class Column : IDescription
+    partial class Column : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
-    partial class Parameter : IDescription
+    partial class Parameter : IExtendedInformation
     {
         public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
     }
 
     partial class DataType
     {
     }
 
-    partial class ExtendedProperty
+    partial class ExtendedProperties
     {
     }
 
