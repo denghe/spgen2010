@@ -13,7 +13,7 @@ using SmoUtils = SPGen2010.Codes.Helpers.Utils;
 
 namespace SPGen2010.Codes
 {
-    public static class MySmoFiller_MSSQL
+    public static class MySmoFiller
     {
         /// <summary>
         /// todo: filter fill
@@ -57,7 +57,8 @@ namespace SPGen2010.Codes
 
         public static My.StoredProcedure NewStoredProcedure(My.Database mydb, StoredProcedure o)
         {
-            return new My.StoredProcedure{
+            return new My.StoredProcedure
+            {
                 Name = o.Name,
                 Schema = o.Schema
             };
@@ -140,12 +141,12 @@ namespace SPGen2010.Codes
             };
         }
 
-        public static List<My.ExtendedProperty> NewExtendProperties(My.IExtendPropertiesBase parent, ExtendedPropertyCollection epc)
+        public static My.ExtendedProperties NewExtendProperties(My.IExtendPropertiesBase parent, ExtendedPropertyCollection epc)
         {
-            return new List<My.ExtendedProperty>(
-                from ExtendedProperty ep in epc
-                select new My.ExtendedProperty { Name = ep.Name, Value = ep.Value, ParentExtendPropertiesBase = parent }
-            );
+            var eps = new My.ExtendedProperties { ParentExtendPropertiesBase = parent };
+            foreach (ExtendedProperty ep in epc) eps.Add(ep.Name, ep.Value as string);
+            // todo: 检查到如果当前 ep 为子对象的 ep 集（有可能子对象不支持多 ep 集合或不支持 ep）时，将 ep 部署到下级
+            return eps;
         }
 
         #endregion
