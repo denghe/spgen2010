@@ -48,6 +48,8 @@ namespace SPGen2010.Codes
                 where o.IsSystemObject == false
                 select NewStoredProcedure(mydb, o)
             );
+
+            mydb.ExtendedProperties = NewExtendProperties(mydb, db.ExtendedProperties);
         }
 
 
