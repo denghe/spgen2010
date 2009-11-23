@@ -46,8 +46,7 @@ namespace SPGen2010.Codes.MySmo
     #endregion
 
 
-
-    public class Database : IMySmoObject, INameBase, IExtendPropertiesBase
+    public partial class Database : IMySmoObject, INameBase, IExtendPropertiesBase
     {
         public List<ExtendedProperty> ExtendedProperties { get; set; }
         public List<Table> Tables { get; set; }
@@ -58,7 +57,7 @@ namespace SPGen2010.Codes.MySmo
         public string Name { get; set; }
     }
 
-    public class Table : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
+    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public List<ExtendedProperty> ExtendedProperties { get; set; }
@@ -67,7 +66,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class View : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
+    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public List<ExtendedProperty> ExtendedProperties { get; set; }
@@ -76,7 +75,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public List<ExtendedProperty> ExtendedProperties { get; set; }
@@ -85,7 +84,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public List<ExtendedProperty> ExtendedProperties { get; set; }
@@ -95,7 +94,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
+    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public List<ExtendedProperty> ExtendedProperties { get; set; }
@@ -104,7 +103,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase
+    public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ITableBase ParentTableBase { get; set; }
@@ -124,7 +123,7 @@ namespace SPGen2010.Codes.MySmo
         public bool RowGuidCol { get; set; }
     }
 
-    public class Parameter : IMySmoObject, IParentDatabase, IParentParameterBase, INameBase, IExtendPropertiesBase
+    public partial class Parameter : IMySmoObject, IParentDatabase, IParentParameterBase, INameBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public IParameterBase ParentParameterBase { get; set; }
@@ -134,7 +133,7 @@ namespace SPGen2010.Codes.MySmo
         public string Schema { get; set; }
     }
 
-    public class DataType : IMySmoObject, INameBase
+    public partial class DataType : IMySmoObject, INameBase
     {
         public SqlDataType SqlDataType { get; set; }
         public string Name { get; set; }
@@ -143,7 +142,7 @@ namespace SPGen2010.Codes.MySmo
         public int NumericScale { get; set; }
     }
 
-    public class ExtendedProperty : IMySmoObject, INameBase
+    public partial class ExtendedProperty : IMySmoObject, INameBase
     {
         public IExtendPropertiesBase ParentExtendPropertiesBase { get; set; }
         public string Name { get; set; }
