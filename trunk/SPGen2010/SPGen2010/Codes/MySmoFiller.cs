@@ -215,6 +215,7 @@ namespace SPGen2010.Codes
                     }
                     delList.Add(o.Key);
                 }
+                // else if   ResultSettings for SP
             }
 
             foreach (var key in delList) eps.Remove(key);       // 删除已颁布到子元素的并键
