@@ -50,6 +50,21 @@ namespace SPGen2010.Codes.MySmo
             // foreach parameters
         }
 
+        // todo
+        public static void Prepare(this Column o)
+        {
+            // 从 Table 的 ExtendProperties 中取出 Columns 的除了 MS_Description 的配置项并分别写入 Columns 的 ExtendProperties
+            if (o.ParentTableBase is Table) { }
+            // 从 Parent 的 ExtendProperties 中取出 Columns 的配置项并分别写入 Columns 的 ExtendProperties
+            else { }
+        }
+
+        // todo
+        public static void Prepare(this Parameter o)
+        {
+            // 从 Parent 的 ExtendProperties 中取出 Parameters 的配置项并分别写入 Parameters 的 ExtendProperties
+        }
+
 
         public static void PrepareExtendedInformation(this IExtendedInformation o)
         {
