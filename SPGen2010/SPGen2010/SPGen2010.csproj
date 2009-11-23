@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Codes\MySmoPartial.cs" />
     <Compile Include="Codes\ImageSourceHelper.cs" />
     <Compile Include="Codes\TreeViewWithIcons.cs" />
     <Compile Include="Codes\DS.Designer.cs">
