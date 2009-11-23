@@ -22,38 +22,34 @@ namespace SPGen2010.Codes.MySmo
         public static void Prepare(this Table o)
         {
             o.PrepareExtendedInformation();
-            // foreach columns
-            // 从 Table 的 ExtendProperties 中取出 Columns 的除了 MS_Description 的配置项并分别写入 Columns 的 ExtendProperties
+            foreach (var c in o.Columns) c.PrepareExtendedInformation();
         }
 
         public static void Prepare(this View o)
         {
             o.PrepareExtendedInformation();
-            // foreach columns
-            // 从 Parent 的 ExtendProperties 中取出 Columns 的配置项并分别写入 Columns 的 ExtendProperties
+            foreach (var c in o.Columns) c.PrepareExtendedInformation();
         }
 
         public static void Prepare(this UserDefinedFunction o)
         {
             o.PrepareExtendedInformation();
-            // foreach columns
-            // foreach parameters
-            // 从 Parent 的 ExtendProperties 中取出 Columns 的配置项并分别写入 Columns 的 ExtendProperties
-            // 从 Parent 的 ExtendProperties 中取出 Parameters 的配置项并分别写入 Parameters 的 ExtendProperties
+            foreach (var c in o.Columns) c.PrepareExtendedInformation();
+            foreach (var p in o.Parameters) p.PrepareExtendedInformation();
         }
 
         public static void Prepare(this UserDefinedTableType o)
         {
             o.PrepareExtendedInformation();
-            // foreach columns
-            // 从 Parent 的 ExtendProperties 中取出 Columns 的配置项并分别写入 Columns 的 ExtendProperties
+            foreach (var c in o.Columns) c.PrepareExtendedInformation();
         }
 
         public static void Prepare(this StoredProcedure o)
         {
             o.PrepareExtendedInformation();
-            // foreach parameters
-            // 从 Parent 的 ExtendProperties 中取出 Parameters 的配置项并分别写入 Parameters 的 ExtendProperties
+            foreach (var p in o.Parameters) p.PrepareExtendedInformation();
+
+            // todo result 描述
         }
 
         public static void PrepareExtendedInformation(this IExtendedInformation o)

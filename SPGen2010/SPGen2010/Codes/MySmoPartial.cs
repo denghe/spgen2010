@@ -53,6 +53,8 @@ namespace SPGen2010.Codes.MySmo
         public string Description { get; set; }
         public string Caption { get; set; }
         public string Summary { get; set; }
+
+        // todo: result information
     }
 
     partial class Column : IExtendedInformation
