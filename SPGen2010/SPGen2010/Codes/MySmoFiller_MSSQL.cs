@@ -13,7 +13,7 @@ using SmoUtils = SPGen2010.Codes.Helpers.Utils;
 
 namespace SPGen2010.Codes
 {
-    public static class MySmoHelper
+    public static class MySmoFiller_MSSQL
     {
         /// <summary>
         /// todo: filter fill

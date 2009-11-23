@@ -80,7 +80,7 @@
       <DependentUpon>DS.xsd</DependentUpon>
     </Compile>
     <Compile Include="Codes\MySmo.cs" />
-    <Compile Include="Codes\MySmoHelper.cs" />
+    <Compile Include="Codes\MySmoFiller_MSSQL.cs" />
     <Compile Include="Codes\SQLHelper.cs" />
     <Compile Include="Codes\Utils.cs" />
     <Compile Include="WConnector.xaml.cs">
