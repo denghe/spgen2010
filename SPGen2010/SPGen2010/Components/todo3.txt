@@ -1,0 +1,25 @@
+﻿生成界面调整：
+
+对应当前生成项的所有生成结果，纵向铺开　Expander
+
+
+
+
+
+
+
+
+生成物命名空间样本：
+
+
+
+namespace DAL
+namespace DAL.Tables
+namespace DAL.Views
+namespace DAL.UserDefinedFunctions
+namespace DAL.UserDefinedTableTypes
+namespace DAL.StoredProcedures
+
+DAL. ... .dbo.Xxxxx.MethodName
+
+DAL.Schemas (enum)
