@@ -1,0 +1,17 @@
+﻿无视总记录数输出，为提高查询速度，
+查询主体 SP 变为：
+
+. 根据条件（Where, Order, PageSize, Num1, Num2, IsCalcCount ) 返回  总记录数, 前 Num1 条 主键集 和 前 PageSize 条 行集
+
+. 根据 主键集 返回 行集
+
+结果集大致长像：
+
+class QueryResult<T>
+{
+   List<int> IDs;
+   List<T> Rows;
+}
+
+当查询结果大于 Num1 行时， Result 的 IDs 被填充， Rows 只含 PageSize 行数据。
+当结果集小于 Num2 行时， IDs 为空，Rows 含所有数据。
