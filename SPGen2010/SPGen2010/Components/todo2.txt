@@ -12,7 +12,7 @@ class QueryResult<PK, T>
    List<PK> PKs;
    List<T> Rows;
 }
-当参数 IsOutputCount
+当参数 IsOutputCount 为 true 时， Count 为真实数据， 否则为 Max( PKs.Count, Rows.Count )
 当查询结果大等于 PKsSize 行时， Result 的 IDs 被填充， Rows 只含 PageSize 行数据。
 当结果集小等于 RowsSize 行时， IDs 为空，Rows 含所有数据。
 
