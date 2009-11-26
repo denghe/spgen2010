@@ -100,6 +100,15 @@ namespace SPGen2010.ObjectExplorer
         }
         public IEnumerable<UserDefinedFunction> UserDefinedFunctions { get; private set; }
     }
+    [ContentProperty("UserDefinedTableTypes")]
+    public partial class Folder_UserDefinedTableTypes : Folder
+    {
+        public Folder_UserDefinedTableTypes(Database parent)
+            : base(parent, "TableTypes")
+        {
+        }
+        public IEnumerable<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
+    }
 
     #endregion
 
@@ -183,39 +192,22 @@ namespace SPGen2010.ObjectExplorer
         }
     }
 
-    //public partial class Table : NodeBase
-    //{
-    //    public Table(Folder_Tables parent, string caption)
-    //        : base(caption, Database.Icon)
-    //    {
-    //        Parent = parent;
-    //    }
-    //    public Folder_Tables Parent = null;
+    //[ContentProperty("Columns")]
+    public partial class UserDefinedTableType : NodeBase
+    {
+        public UserDefinedTableType(Folder_UserDefinedTableTypes parent, string caption)
+            : base(caption, View.DefaultIcon)
+        {
+            Parent = parent;
+        }
+        public Folder_UserDefinedTableTypes Parent = null;
 
-    //    public static BitmapImage DefaultIcon
-    //    {
-    //        get
-    //        {
-    //            return ImageSourceHelper.NewImageSource("sql_table.png");
-    //        }
-    //    }
-    //}
-
-    //public partial class Table : NodeBase
-    //{
-    //    public Table(Folder_Tables parent, string caption)
-    //        : base(caption, Database.Icon)
-    //    {
-    //        Parent = parent;
-    //    }
-    //    public Folder_Tables Parent = null;
-
-    //    public static BitmapImage DefaultIcon
-    //    {
-    //        get
-    //        {
-    //            return ImageSourceHelper.NewImageSource("sql_table.png");
-    //        }
-    //    }
-    //}
+        public static BitmapImage DefaultIcon
+        {
+            get
+            {
+                return ImageSourceHelper.NewImageSource("sql_tabletype.png");
+            }
+        }
+    }
 }
