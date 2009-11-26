@@ -109,7 +109,24 @@ namespace SPGen2010.ObjectExplorer
         }
         public IEnumerable<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
     }
-
+    [ContentProperty("StoredProcedures")]
+    public partial class Folder_StoredProcedures : Folder
+    {
+        public Folder_StoredProcedures(Database parent)
+            : base(parent, "StoredProcedures")
+        {
+        }
+        public IEnumerable<StoredProcedure> StoredProcedures { get; private set; }
+    }
+    [ContentProperty("Schemas")]
+    public partial class Folder_Schemas : Folder
+    {
+        public Folder_Schemas(Database parent)
+            : base(parent, "Schemas")
+        {
+        }
+        public IEnumerable<Schema> Schemas { get; private set; }
+    }
     #endregion
 
     //[ContentProperty("Columns")]
@@ -196,7 +213,7 @@ namespace SPGen2010.ObjectExplorer
     public partial class UserDefinedTableType : NodeBase
     {
         public UserDefinedTableType(Folder_UserDefinedTableTypes parent, string caption)
-            : base(caption, View.DefaultIcon)
+            : base(caption, UserDefinedTableType.DefaultIcon)
         {
             Parent = parent;
         }
@@ -207,6 +224,44 @@ namespace SPGen2010.ObjectExplorer
             get
             {
                 return ImageSourceHelper.NewImageSource("sql_tabletype.png");
+            }
+        }
+    }
+
+    //[ContentProperty("Columns")]
+    public partial class StoredProcedure : NodeBase
+    {
+        public StoredProcedure(Folder_UserDefinedTableTypes parent, string caption)
+            : base(caption, StoredProcedure.DefaultIcon)
+        {
+            Parent = parent;
+        }
+        public Folder_UserDefinedTableTypes Parent = null;
+
+        public static BitmapImage DefaultIcon
+        {
+            get
+            {
+                return ImageSourceHelper.NewImageSource("sql_tabletype.png");
+            }
+        }
+    }
+
+    //[ContentProperty("Folders")]
+    public partial class Schema : NodeBase
+    {
+        public Schema(Folder_Schemas parent, string caption)
+            : base(caption, Schema.DefaultIcon)
+        {
+            Parent = parent;
+        }
+        public Folder_Schemas Parent = null;
+
+        public static BitmapImage DefaultIcon
+        {
+            get
+            {
+                return ImageSourceHelper.NewImageSource("sql_schema.png");
             }
         }
     }
