@@ -114,9 +114,23 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Tables(Database parent)
             : base(parent, "Tables")
         {
-            this.Tables = new List<Table>();
+            this.Tables = new Tables(this);
         }
-        public List<Table> Tables { get; private set; }
+        public Tables Tables { get; private set; }
+    }
+    public partial class Tables : List<Table>
+    {
+        public Tables(Folder_Tables parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_Tables Parent { get; set; }
+        public T Add<T>(T item) where T : Table
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
     }
     [ContentProperty("Views")]
     public partial class Folder_Views : FolderBase
@@ -124,39 +138,98 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Views(Database parent)
             : base(parent, "Views")
         {
-            this.Views = new List<View>();
+            this.Views = new Views(this);
         }
-        public List<View> Views { get; private set; }
+        public Views Views { get; private set; }
     }
+    public partial class Views : List<View>
+    {
+        public Views(Folder_Views parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_Views Parent { get; set; }
+        public T Add<T>(T item) where T : View
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
+    }
+
     [ContentProperty("UserDefinedFunctions")]
     public partial class Folder_UserDefinedFunctions : FolderBase
     {
         public Folder_UserDefinedFunctions(Database parent)
             : base(parent, "Functions")
         {
-            this.UserDefinedFunctions = new List<UserDefinedFunctionBase>();
+            this.UserDefinedFunctions = new UserDefinedFunctions(this);
         }
-        public List<UserDefinedFunctionBase> UserDefinedFunctions { get; private set; }
+        public UserDefinedFunctions UserDefinedFunctions { get; private set; }
     }
+    public partial class UserDefinedFunctions : List<UserDefinedFunctionBase>
+    {
+        public UserDefinedFunctions(Folder_UserDefinedFunctions parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_UserDefinedFunctions Parent { get; set; }
+        public T Add<T>(T item) where T : UserDefinedFunctionBase
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
+    }
+
     [ContentProperty("UserDefinedTableTypes")]
     public partial class Folder_UserDefinedTableTypes : FolderBase
     {
         public Folder_UserDefinedTableTypes(Database parent)
             : base(parent, "TableTypes")
         {
-            this.UserDefinedTableTypes = new List<UserDefinedTableType>();
+            this.UserDefinedTableTypes = new UserDefinedTableTypes(this);
         }
-        public List<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
+        public UserDefinedTableTypes UserDefinedTableTypes { get; private set; }
     }
+    public partial class UserDefinedTableTypes : List<UserDefinedTableType>
+    {
+        public UserDefinedTableTypes(Folder_UserDefinedTableTypes parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_UserDefinedTableTypes Parent { get; set; }
+        public T Add<T>(T item) where T : UserDefinedTableType
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
+    }
+
     [ContentProperty("StoredProcedures")]
     public partial class Folder_StoredProcedures : FolderBase
     {
         public Folder_StoredProcedures(Database parent)
             : base(parent, "StoredProcedures")
         {
-            this.StoredProcedures = new List<StoredProcedure>();
+            this.StoredProcedures = new StoredProcedures(this);
         }
-        public List<StoredProcedure> StoredProcedures { get; private set; }
+        public StoredProcedures StoredProcedures { get; private set; }
+    }
+    public partial class StoredProcedures : List<StoredProcedure>
+    {
+        public StoredProcedures(Folder_StoredProcedures parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_StoredProcedures Parent { get; set; }
+        public T Add<T>(T item) where T : StoredProcedure
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
     }
     [ContentProperty("Schemas")]
     public partial class Folder_Schemas : FolderBase
@@ -164,9 +237,23 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Schemas(Database parent)
             : base(parent, "Schemas")
         {
-            this.Schemas = new List<Schema>();
+            this.Schemas = new Schemas(this);
         }
-        public List<Schema> Schemas { get; private set; }
+        public Schemas Schemas { get; private set; }
+    }
+    public partial class Schemas : List<Schema>
+    {
+        public Schemas(Folder_Schemas parent)
+        {
+            this.Parent = parent;
+        }
+        public Folder_Schemas Parent { get; set; }
+        public T Add<T>(T item) where T : Schema
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
     }
 
     //[ContentProperty("Columns")]
@@ -271,12 +358,12 @@ namespace SPGen2010.Controls.ObjectExplorerModule
     //[ContentProperty("Columns")]
     public partial class StoredProcedure : NodeBase
     {
-        public StoredProcedure(Folder_UserDefinedTableTypes parent, string caption)
+        public StoredProcedure(Folder_StoredProcedures parent, string caption)
             : base(caption, StoredProcedure.DefaultIcon)
         {
             this.Parent = parent;
         }
-        public Folder_UserDefinedTableTypes Parent { get; set; }
+        public Folder_StoredProcedures Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
