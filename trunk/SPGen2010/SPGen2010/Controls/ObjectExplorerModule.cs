@@ -51,15 +51,13 @@ namespace SPGen2010.ObjectExplorer
                 return ImageSourceHelper.NewImageSource("sql_database.png");
             }
         }
-        public IEnumerable<Folder> Folders { get; private set; }
+        public IEnumerable<FolderBase> Folders { get; private set; }
     }
 
-    #region Folder
-
-    public partial class Folder : NodeBase
+    public partial class FolderBase : NodeBase
     {
-        public Folder(Database parent, string caption)
-            : base(caption, Folder.DefaultIcon)
+        public FolderBase(Database parent, string caption)
+            : base(caption, FolderBase.DefaultIcon)
         {
             Parent = parent;
         }
@@ -74,7 +72,7 @@ namespace SPGen2010.ObjectExplorer
     }
 
     [ContentProperty("Tables")]
-    public partial class Folder_Tables : Folder
+    public partial class Folder_Tables : FolderBase
     {
         public Folder_Tables(Database parent)
             : base(parent, "Tables")
@@ -83,7 +81,7 @@ namespace SPGen2010.ObjectExplorer
         public IEnumerable<Table> Tables { get; private set; }
     }
     [ContentProperty("Views")]
-    public partial class Folder_Views : Folder
+    public partial class Folder_Views : FolderBase
     {
         public Folder_Views(Database parent)
             : base(parent, "Views")
@@ -92,16 +90,16 @@ namespace SPGen2010.ObjectExplorer
         public IEnumerable<View> Views { get; private set; }
     }
     [ContentProperty("UserDefinedFunctions")]
-    public partial class Folder_UserDefinedFunctions : Folder
+    public partial class Folder_UserDefinedFunctions : FolderBase
     {
         public Folder_UserDefinedFunctions(Database parent)
             : base(parent, "Functions")
         {
         }
-        public IEnumerable<UserDefinedFunction> UserDefinedFunctions { get; private set; }
+        public IEnumerable<UserDefinedFunctionBase> UserDefinedFunctions { get; private set; }
     }
     [ContentProperty("UserDefinedTableTypes")]
-    public partial class Folder_UserDefinedTableTypes : Folder
+    public partial class Folder_UserDefinedTableTypes : FolderBase
     {
         public Folder_UserDefinedTableTypes(Database parent)
             : base(parent, "TableTypes")
@@ -110,7 +108,7 @@ namespace SPGen2010.ObjectExplorer
         public IEnumerable<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
     }
     [ContentProperty("StoredProcedures")]
-    public partial class Folder_StoredProcedures : Folder
+    public partial class Folder_StoredProcedures : FolderBase
     {
         public Folder_StoredProcedures(Database parent)
             : base(parent, "StoredProcedures")
@@ -119,7 +117,7 @@ namespace SPGen2010.ObjectExplorer
         public IEnumerable<StoredProcedure> StoredProcedures { get; private set; }
     }
     [ContentProperty("Schemas")]
-    public partial class Folder_Schemas : Folder
+    public partial class Folder_Schemas : FolderBase
     {
         public Folder_Schemas(Database parent)
             : base(parent, "Schemas")
@@ -127,7 +125,6 @@ namespace SPGen2010.ObjectExplorer
         }
         public IEnumerable<Schema> Schemas { get; private set; }
     }
-    #endregion
 
     //[ContentProperty("Columns")]
     public partial class Table : NodeBase
@@ -167,9 +164,9 @@ namespace SPGen2010.ObjectExplorer
         }
     }
 
-    public partial class UserDefinedFunction : NodeBase
+    public partial class UserDefinedFunctionBase : NodeBase
     {
-        public UserDefinedFunction(Folder_UserDefinedFunctions parent, string caption, BitmapImage icon)
+        public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string caption, BitmapImage icon)
             : base(caption, icon)
         {
             Parent = parent;
@@ -177,7 +174,7 @@ namespace SPGen2010.ObjectExplorer
         public Folder_UserDefinedFunctions Parent = null;
     }
     //[ContentProperty("Parameters")]
-    public partial class UserDefinedFunction_Scale : UserDefinedFunction
+    public partial class UserDefinedFunction_Scale : UserDefinedFunctionBase
     {
         public UserDefinedFunction_Scale(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Scale.DefaultIcon)
@@ -193,7 +190,7 @@ namespace SPGen2010.ObjectExplorer
         }
     }
     //[ContentProperty("Folders")]
-    public partial class UserDefinedFunction_Table : UserDefinedFunction
+    public partial class UserDefinedFunction_Table : UserDefinedFunctionBase
     {
         public UserDefinedFunction_Table(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Table.DefaultIcon)
