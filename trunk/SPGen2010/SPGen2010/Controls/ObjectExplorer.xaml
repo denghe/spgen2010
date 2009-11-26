@@ -3,34 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
-             xmlns:common="clr-namespace:System.Windows;assembly=System.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
             <!-- HierarchicalDataTemplates -->
-            <common:HierarchicalDataTemplate x:Key="songEntry">
+            <HierarchicalDataTemplate x:Key="ServerEntry" ItemsSource="{Binding Path=Albums}" ItemTemplate="{StaticResource DatabaseEntry}">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Title}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=Caption}" />
                 </StackPanel>
-            </common:HierarchicalDataTemplate>
+            </HierarchicalDataTemplate>
 
-            <common:HierarchicalDataTemplate x:Key="albumEntry" ItemsSource="{Binding Path=Songs}" ItemTemplate="{StaticResource songEntry}">
+            <HierarchicalDataTemplate x:Key="DatabaseEntry" ItemsSource="{Binding Path=Songs}" ItemTemplate="{StaticResource FolderEntry}">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
-                    <TextBlock Text="{Binding Path=Title}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
+                    <TextBlock Text="{Binding Path=Caption}" />
                 </StackPanel>
-            </common:HierarchicalDataTemplate>
+            </HierarchicalDataTemplate>
 
-            <common:HierarchicalDataTemplate x:Key="artistEntry" ItemsSource="{Binding Path=Albums}" ItemTemplate="{StaticResource albumEntry}">
+            <HierarchicalDataTemplate x:Key="FolderEntry">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
-                    <TextBlock FontWeight="Bold" Text="{Binding Path=ArtistName}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
+                    <TextBlock FontStyle="Italic" Text="{Binding Path=Caption}" />
                 </StackPanel>
-            </common:HierarchicalDataTemplate>
-
+            </HierarchicalDataTemplate>
         </Grid.Resources>
         
         <Grid.RowDefinitions>
@@ -49,6 +46,6 @@
             </ToolBar>
         </ToolBarTray>
         
-        <TreeView Grid.Row="2" Name="_TreeView"></TreeView>
+        <TreeView Grid.Row="2" Name="_TreeView" ItemTemplate="{StaticResource ServerEntry}"></TreeView>
     </Grid>
 </UserControl>

@@ -24,6 +24,9 @@ namespace SPGen2010.Controls
         public ObjectExplorer()
         {
             InitializeComponent();
+
+            var server = new Server("xxx");
+            server.Databases.Add(new Database(server, "db1"));
         }
     }
 }
