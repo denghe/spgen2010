@@ -16,7 +16,8 @@ namespace SPGen2010
         /// <returns>BitmapImage</returns>
         public static BitmapImage NewImageSource(this string fn)
         {
-            return new BitmapImage(new Uri(@"pack://application:,,,/SPGen2010;component/Images/" + fn));
+            return new BitmapImage(new Uri(@"/Images/" + fn, UriKind.Relative));
+            //new Uri(@"pack://application:,,,/SPGen2010;component/Images/" + fn)
         }
     }
 }
