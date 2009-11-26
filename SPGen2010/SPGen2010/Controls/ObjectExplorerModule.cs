@@ -14,7 +14,7 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public BitmapImage Icon { get; private set; }
         public NodeBase(string caption, BitmapImage icon)
         {
-            Caption = caption; Icon = icon;
+            this.Caption = caption; this.Icon = icon;
         }
         public static BitmapImage NewImageSource(string fn)
         {
@@ -28,6 +28,7 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Server(string caption)
             : base(caption, Server.DefaultIcon)
         {
+            this.Databases = new Databases(this);
         }
         public static BitmapImage DefaultIcon
         {
@@ -36,7 +37,22 @@ namespace SPGen2010.Controls.ObjectExplorerModule
                 return NewImageSource("sql_server.png");
             }
         }
-        public IEnumerable<Database> Databases { get; private set; }
+        public Databases Databases { get; private set; }
+    }
+
+    public partial class Databases : List<Database>
+    {
+        public Databases(Server parent)
+        {
+            this.Parent = parent;
+        }
+        public Server Parent { get; set; }
+        public T Add<T>(T item) where T : Database
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
     }
 
     [ContentProperty("Folders")]
@@ -45,9 +61,10 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Database(Server parent, string caption)
             : base(caption, Database.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
+            this.Folders = new Folders(this);
         }
-        public Server Parent { get; private set; }
+        public Server Parent { get; set; }
         public static BitmapImage DefaultIcon
         {
             get
@@ -55,17 +72,33 @@ namespace SPGen2010.Controls.ObjectExplorerModule
                 return NewImageSource("sql_database.png");
             }
         }
-        public IEnumerable<FolderBase> Folders { get; private set; }
+        public Folders Folders { get; private set; }
     }
+
+    public partial class Folders : List<FolderBase>
+    {
+        public Folders(Database parent)
+        {
+            this.Parent = parent;
+        }
+        public Database Parent { get; set; }
+        public T Add<T>(T item) where T : FolderBase
+        {
+            item.Parent = this.Parent;
+            base.Add(item);
+            return item;
+        }
+    }
+
 
     public partial class FolderBase : NodeBase
     {
         public FolderBase(Database parent, string caption)
             : base(caption, FolderBase.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Database Parent { get; private set; }
+        public Database Parent { get; set; }
         public static BitmapImage DefaultIcon
         {
             get
@@ -81,8 +114,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Tables(Database parent)
             : base(parent, "Tables")
         {
+            this.Tables = new List<Table>();
         }
-        public IEnumerable<Table> Tables { get; private set; }
+        public List<Table> Tables { get; private set; }
     }
     [ContentProperty("Views")]
     public partial class Folder_Views : FolderBase
@@ -90,8 +124,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Views(Database parent)
             : base(parent, "Views")
         {
+            this.Views = new List<View>();
         }
-        public IEnumerable<View> Views { get; private set; }
+        public List<View> Views { get; private set; }
     }
     [ContentProperty("UserDefinedFunctions")]
     public partial class Folder_UserDefinedFunctions : FolderBase
@@ -99,8 +134,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_UserDefinedFunctions(Database parent)
             : base(parent, "Functions")
         {
+            this.UserDefinedFunctions = new List<UserDefinedFunctionBase>();
         }
-        public IEnumerable<UserDefinedFunctionBase> UserDefinedFunctions { get; private set; }
+        public List<UserDefinedFunctionBase> UserDefinedFunctions { get; private set; }
     }
     [ContentProperty("UserDefinedTableTypes")]
     public partial class Folder_UserDefinedTableTypes : FolderBase
@@ -108,8 +144,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_UserDefinedTableTypes(Database parent)
             : base(parent, "TableTypes")
         {
+            this.UserDefinedTableTypes = new List<UserDefinedTableType>();
         }
-        public IEnumerable<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
+        public List<UserDefinedTableType> UserDefinedTableTypes { get; private set; }
     }
     [ContentProperty("StoredProcedures")]
     public partial class Folder_StoredProcedures : FolderBase
@@ -117,8 +154,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_StoredProcedures(Database parent)
             : base(parent, "StoredProcedures")
         {
+            this.StoredProcedures = new List<StoredProcedure>();
         }
-        public IEnumerable<StoredProcedure> StoredProcedures { get; private set; }
+        public List<StoredProcedure> StoredProcedures { get; private set; }
     }
     [ContentProperty("Schemas")]
     public partial class Folder_Schemas : FolderBase
@@ -126,8 +164,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Folder_Schemas(Database parent)
             : base(parent, "Schemas")
         {
+            this.Schemas = new List<Schema>();
         }
-        public IEnumerable<Schema> Schemas { get; private set; }
+        public List<Schema> Schemas { get; private set; }
     }
 
     //[ContentProperty("Columns")]
@@ -136,9 +175,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Table(Folder_Tables parent, string caption)
             : base(caption, Table.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_Tables Parent = null;
+        public Folder_Tables Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
@@ -155,9 +194,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public View(Folder_Views parent, string caption)
             : base(caption, View.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_Views Parent = null;
+        public Folder_Views Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
@@ -173,9 +212,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string caption, BitmapImage icon)
             : base(caption, icon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_UserDefinedFunctions Parent = null;
+        public Folder_UserDefinedFunctions Parent { get; set; }
     }
     //[ContentProperty("Parameters")]
     public partial class UserDefinedFunction_Scale : UserDefinedFunctionBase
@@ -183,7 +222,7 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedFunction_Scale(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Scale.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
         public static BitmapImage DefaultIcon
         {
@@ -199,7 +238,7 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedFunction_Table(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Table.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
         public static BitmapImage DefaultIcon
         {
@@ -216,9 +255,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedTableType(Folder_UserDefinedTableTypes parent, string caption)
             : base(caption, UserDefinedTableType.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_UserDefinedTableTypes Parent = null;
+        public Folder_UserDefinedTableTypes Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
@@ -235,9 +274,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public StoredProcedure(Folder_UserDefinedTableTypes parent, string caption)
             : base(caption, StoredProcedure.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_UserDefinedTableTypes Parent = null;
+        public Folder_UserDefinedTableTypes Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
@@ -254,9 +293,9 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public Schema(Folder_Schemas parent, string caption)
             : base(caption, Schema.DefaultIcon)
         {
-            Parent = parent;
+            this.Parent = parent;
         }
-        public Folder_Schemas Parent = null;
+        public Folder_Schemas Parent { get; set; }
 
         public static BitmapImage DefaultIcon
         {
