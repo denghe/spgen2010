@@ -75,6 +75,7 @@
     <Compile Include="Codes\MySmoPrepare.cs" />
     <Compile Include="Codes\MySmoPartial.cs" />
     <Compile Include="Codes\ImageSourceHelper.cs" />
+    <Compile Include="Controls\ObjectExplorerModule.cs" />
     <Compile Include="Codes\TreeViewWithIcons.cs" />
     <Compile Include="Codes\DS.Designer.cs">
       <AutoGen>True</AutoGen>
