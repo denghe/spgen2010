@@ -16,6 +16,10 @@ namespace SPGen2010.ObjectExplorer
         {
             Caption = caption; Icon = icon;
         }
+        public static BitmapImage NewImageSource(string fn)
+        {
+            return ImageSourceHelper.NewImageSource(fn);
+        }
     }
 
     [ContentProperty("Databases")]
@@ -29,7 +33,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_server.png");
+                return NewImageSource("sql_server.png");
             }
         }
         public IEnumerable<Database> Databases { get; private set; }
@@ -48,7 +52,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_database.png");
+                return NewImageSource("sql_database.png");
             }
         }
         public IEnumerable<FolderBase> Folders { get; private set; }
@@ -66,7 +70,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_folder.png");
+                return NewImageSource("sql_folder.png");
             }
         }
     }
@@ -140,7 +144,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_table.png");
+                return NewImageSource("sql_table.png");
             }
         }
     }
@@ -159,7 +163,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_view.png");
+                return NewImageSource("sql_view.png");
             }
         }
     }
@@ -185,7 +189,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_function_scale.png");
+                return NewImageSource("sql_function_scale.png");
             }
         }
     }
@@ -201,7 +205,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_function_table.png");
+                return NewImageSource("sql_function_table.png");
             }
         }
     }
@@ -220,7 +224,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_tabletype.png");
+                return NewImageSource("sql_tabletype.png");
             }
         }
     }
@@ -239,7 +243,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_tabletype.png");
+                return NewImageSource("sql_tabletype.png");
             }
         }
     }
@@ -258,7 +262,7 @@ namespace SPGen2010.ObjectExplorer
         {
             get
             {
-                return ImageSourceHelper.NewImageSource("sql_schema.png");
+                return NewImageSource("sql_schema.png");
             }
         }
     }
