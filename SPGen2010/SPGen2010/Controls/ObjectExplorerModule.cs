@@ -8,10 +8,16 @@ using System.Windows.Media.Imaging;
 
 namespace SPGen2010.Controls.ObjectExplorerModule
 {
+    // todo: 补齐类的默认构造
+
     public partial class NodeBase
     {
-        public string Caption { get; private set; }
+        public string Caption { get; set; }
         public BitmapImage Icon { get; private set; }
+        public NodeBase(BitmapImage icon)
+        {
+            this.Icon = icon;
+        }
         public NodeBase(string caption, BitmapImage icon)
         {
             this.Caption = caption; this.Icon = icon;
@@ -25,6 +31,11 @@ namespace SPGen2010.Controls.ObjectExplorerModule
     [ContentProperty("Databases")]
     public partial class Server : NodeBase
     {
+        public Server()
+            : base("Server", Server.DefaultIcon)
+        {
+            this.Databases = new Databases(this);
+        }
         public Server(string caption)
             : base(caption, Server.DefaultIcon)
         {
@@ -58,11 +69,20 @@ namespace SPGen2010.Controls.ObjectExplorerModule
     [ContentProperty("Folders")]
     public partial class Database : NodeBase
     {
-        public Database(Server parent, string caption)
+        public Database()
+            : base("Database", Database.DefaultIcon)
+        {
+            this.Folders = new Folders(this);
+        }
+        public Database(string caption)
             : base(caption, Database.DefaultIcon)
         {
-            this.Parent = parent;
             this.Folders = new Folders(this);
+        }
+        public Database(Server parent, string caption)
+            : this(caption)
+        {
+            this.Parent = parent;
         }
         public Server Parent { get; set; }
         public static BitmapImage DefaultIcon
