@@ -75,6 +75,9 @@
     <Compile Include="Codes\MySmoPrepare.cs" />
     <Compile Include="Codes\MySmoPartial.cs" />
     <Compile Include="Codes\ImageSourceHelper.cs" />
+    <Compile Include="Controls\ObjectExplorer.xaml.cs">
+      <DependentUpon>ObjectExplorer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ObjectExplorerModule.cs" />
     <Compile Include="Codes\TreeViewWithIcons.cs" />
     <Compile Include="Codes\DS.Designer.cs">
@@ -89,6 +92,10 @@
     <Compile Include="WConnector.xaml.cs">
       <DependentUpon>WConnector.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\ObjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
