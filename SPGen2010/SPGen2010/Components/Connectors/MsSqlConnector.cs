@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// SMO
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer;
+
 namespace SPGen2010.Components.Connectors
 {
-
     public class MsSqlConnector
     {
         private string _server = ".";
