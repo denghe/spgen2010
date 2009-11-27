@@ -168,7 +168,7 @@
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
     <Compile Include="Components\Utils\SQLHelper.cs" />
     <Compile Include="Components\Utils\Utils.cs" />
-    <Compile Include="Components\Controls\ImageSourceHelper.cs" />
+    <Compile Include="Components\Utils\ImageSourceHelper.cs" />
     <Compile Include="Components\Controls\ObjectExplorer.xaml.cs">
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
     </Compile>

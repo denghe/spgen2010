@@ -30,7 +30,12 @@ namespace SPGen2010.Components.Controls
             var database1 = new Database(server, "db1");
             var database2 = new Database(server, "db2");
             var folder_tables1 = new Folder_Tables(database1);
-            var folder_views = new Folder_Views(database1);
+            var folder_views1 = new Folder_Views(database1);
+            var tables1_1 = new SPGen2010.Components.Modules.ObjectExplorer.Table(folder_tables1, "t1");
+            var tables1_2 = new SPGen2010.Components.Modules.ObjectExplorer.Table(folder_tables1, "t2");
+            var tables1_3 = new SPGen2010.Components.Modules.ObjectExplorer.Table(folder_tables1, "t3");
+            var views1_1 = new View(folder_views1, "v1");
+            var views1_2 = new View(folder_views1, "v2");
 
             this._TreeView.ItemsSource = new Server[] { server };
         }

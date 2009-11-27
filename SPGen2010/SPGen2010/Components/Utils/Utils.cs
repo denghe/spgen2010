@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 using SPGen2010.Components.Modules;
 
-namespace SPGen2010.Components
+namespace SPGen2010.Components.SmoHelper
 {
     /// <summary>
     /// 生成器工具类 提供各种生成代码的辅助方法

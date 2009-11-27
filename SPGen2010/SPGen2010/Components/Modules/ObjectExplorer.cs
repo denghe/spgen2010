@@ -5,39 +5,28 @@ using System.Text;
 using System.Windows.Markup;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
-using SPGen2010.Components.Controls;
+using SPGen2010.Components.Utils;
 
 namespace SPGen2010.Components.Modules.ObjectExplorer
 {
     public abstract partial class NodeBase
     {
-        public string Caption { get; set; }
-        public Image Icon { get; set; }
-        public NodeBase(string caption, Image icon)
+        public string Text { get; set; }
+        public string Tips { get; set; }
+        public NodeBase(string text = "", string tips = "")
         {
-            this.Caption = caption; this.Icon = icon;
-        }
-        public static Image NewImage(string fn)
-        {
-            return new Image { Source = ImageSourceHelper.NewImageSource(fn) };
+            this.Text = text; this.Tips = tips;
         }
     }
 
-    [ContentProperty("Databases")]
     public partial class Server : NodeBase
     {
-        public Server(string caption)
-            : base(caption, Server.DefaultIcon)
+        public Server(string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Databases = new Databases(this);
-        }
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_server.png");
-            }
         }
         public Databases Databases { get; private set; }
     }
@@ -57,24 +46,16 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
         }
     }
 
-    [ContentProperty("Folders")]
     public partial class Database : NodeBase
     {
-        public Database(Server parent, string caption)
-            : base(caption, Database.DefaultIcon)
+        public Database(Server parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Folders = new Folders(this);
             this.Parent = parent;
             parent.Databases.Add(this);
         }
         public Server Parent { get; set; }
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_database.png");
-            }
-        }
         public Folders Folders { get; private set; }
     }
 
@@ -95,27 +76,19 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
 
     public abstract partial class FolderBase : NodeBase
     {
-        public FolderBase(Database parent, string caption)
-            : base(caption, FolderBase.DefaultIcon)
+        public FolderBase(Database parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.Folders.Add(this);
         }
         public Database Parent { get; set; }
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_folder.png");
-            }
-        }
     }
 
-    [ContentProperty("Tables")]
     public partial class Folder_Tables : FolderBase
     {
-        public Folder_Tables(Database parent)
-            : base(parent, "Tables")
+        public Folder_Tables(Database parent, string text = "Tables", string tips = "")
+            : base(parent, text, tips)
         {
             this.Tables = new Tables(this);
         }
@@ -135,11 +108,10 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return item;
         }
     }
-    [ContentProperty("Views")]
     public partial class Folder_Views : FolderBase
     {
-        public Folder_Views(Database parent)
-            : base(parent, "Views")
+        public Folder_Views(Database parent, string text = "Views", string tips = "")
+            : base(parent, text, tips)
         {
             this.Views = new Views(this);
         }
@@ -160,11 +132,10 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
         }
     }
 
-    [ContentProperty("UserDefinedFunctions")]
     public partial class Folder_UserDefinedFunctions : FolderBase
     {
-        public Folder_UserDefinedFunctions(Database parent)
-            : base(parent, "Functions")
+        public Folder_UserDefinedFunctions(Database parent, string text = "Functions", string tips = "")
+            : base(parent, text, tips)
         {
             this.UserDefinedFunctions = new UserDefinedFunctions(this);
         }
@@ -185,11 +156,10 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
         }
     }
 
-    [ContentProperty("UserDefinedTableTypes")]
     public partial class Folder_UserDefinedTableTypes : FolderBase
     {
-        public Folder_UserDefinedTableTypes(Database parent)
-            : base(parent, "TableTypes")
+        public Folder_UserDefinedTableTypes(Database parent, string text = "Table Types", string tips = "")
+            : base(parent, text, tips)
         {
             this.UserDefinedTableTypes = new UserDefinedTableTypes(this);
         }
@@ -210,11 +180,10 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
         }
     }
 
-    [ContentProperty("StoredProcedures")]
     public partial class Folder_StoredProcedures : FolderBase
     {
-        public Folder_StoredProcedures(Database parent)
-            : base(parent, "StoredProcedures")
+        public Folder_StoredProcedures(Database parent, string text = "Stored Procedures", string tips = "")
+            : base(parent, text, tips)
         {
             this.StoredProcedures = new StoredProcedures(this);
         }
@@ -234,11 +203,10 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return item;
         }
     }
-    [ContentProperty("Schemas")]
     public partial class Folder_Schemas : FolderBase
     {
-        public Folder_Schemas(Database parent)
-            : base(parent, "Schemas")
+        public Folder_Schemas(Database parent, string text = "Schemas", string tips = "")
+            : base(parent, text, tips)
         {
             this.Schemas = new Schemas(this);
         }
@@ -259,144 +227,83 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
         }
     }
 
-    //[ContentProperty("Columns")]
     public partial class Table : NodeBase
     {
-        public Table(Folder_Tables parent, string caption)
-            : base(caption, Table.DefaultIcon)
+        public Table(Folder_Tables parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.Tables.Add(this);
         }
         public Folder_Tables Parent { get; set; }
-
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_table.png");
-            }
-        }
     }
 
-    //[ContentProperty("Columns")]
     public partial class View : NodeBase
     {
-        public View(Folder_Views parent, string caption)
-            : base(caption, View.DefaultIcon)
+        public View(Folder_Views parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.Views.Add(this);
         }
         public Folder_Views Parent { get; set; }
-
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_view.png");
-            }
-        }
     }
 
     public partial class UserDefinedFunctionBase : NodeBase
     {
-        public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string caption, Image icon)
-            : base(caption, icon)
+        public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.UserDefinedFunctions.Add(this);
         }
         public Folder_UserDefinedFunctions Parent { get; set; }
     }
-    //[ContentProperty("Parameters")]
     public partial class UserDefinedFunction_Scale : UserDefinedFunctionBase
     {
-        public UserDefinedFunction_Scale(Folder_UserDefinedFunctions parent, string caption)
-            : base(parent, caption, UserDefinedFunction_Scale.DefaultIcon)
+        public UserDefinedFunction_Scale(Folder_UserDefinedFunctions parent, string text = "")
+            : base(parent, text)
         {
-        }
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_function_scale.png");
-            }
         }
     }
-    //[ContentProperty("Folders")]
     public partial class UserDefinedFunction_Table : UserDefinedFunctionBase
     {
-        public UserDefinedFunction_Table(Folder_UserDefinedFunctions parent, string caption)
-            : base(parent, caption, UserDefinedFunction_Table.DefaultIcon)
+        public UserDefinedFunction_Table(Folder_UserDefinedFunctions parent, string text = "")
+            : base(parent, text)
         {
-        }
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_function_table.png");
-            }
         }
     }
 
-    //[ContentProperty("Columns")]
     public partial class UserDefinedTableType : NodeBase
     {
-        public UserDefinedTableType(Folder_UserDefinedTableTypes parent, string caption)
-            : base(caption, UserDefinedTableType.DefaultIcon)
+        public UserDefinedTableType(Folder_UserDefinedTableTypes parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.UserDefinedTableTypes.Add(this);
         }
         public Folder_UserDefinedTableTypes Parent { get; set; }
-
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_tabletype.png");
-            }
-        }
     }
 
-    //[ContentProperty("Columns")]
     public partial class StoredProcedure : NodeBase
     {
-        public StoredProcedure(Folder_StoredProcedures parent, string caption)
-            : base(caption, StoredProcedure.DefaultIcon)
+        public StoredProcedure(Folder_StoredProcedures parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.StoredProcedures.Add(this);
         }
         public Folder_StoredProcedures Parent { get; set; }
-
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_tabletype.png");
-            }
-        }
     }
 
-    //[ContentProperty("Folders")]
     public partial class Schema : NodeBase
     {
-        public Schema(Folder_Schemas parent, string caption)
-            : base(caption, Schema.DefaultIcon)
+        public Schema(Folder_Schemas parent, string text = "", string tips = "")
+            : base(text, tips)
         {
             this.Parent = parent;
             parent.Schemas.Add(this);
         }
         public Folder_Schemas Parent { get; set; }
-
-        public static Image DefaultIcon
-        {
-            get
-            {
-                return NewImage("sql_schema.png");
-            }
-        }
     }
 }
