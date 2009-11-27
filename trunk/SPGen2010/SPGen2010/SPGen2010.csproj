@@ -74,11 +74,11 @@
     </ApplicationDefinition>
     <Compile Include="Codes\MySmoPrepare.cs" />
     <Compile Include="Codes\MySmoPartial.cs" />
-    <Compile Include="Controls\ImageSourceHelper.cs" />
+    <Compile Include="Controls\Helpers\ImageSourceHelper.cs" />
     <Compile Include="Controls\ObjectExplorer.xaml.cs">
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ObjectExplorerModule.cs" />
+    <Compile Include="Codes\ObjectExplorerModule.cs" />
     <Compile Include="Controls\TreeViewWithIcons.cs" />
     <Compile Include="Codes\DS.Designer.cs">
       <AutoGen>True</AutoGen>
