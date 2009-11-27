@@ -74,6 +74,11 @@
     <Compile Include="Components\Connectors\MsSqlConnector.cs" />
     <Compile Include="Components\Fillers\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MySmoPrepare.cs" />
+    <Compile Include="Components\Modules\DS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Components\Modules\MySmo.cs" />
     <Compile Include="Components\Modules\MySmoPartial.cs" />
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
@@ -108,6 +113,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Components\Modules\DS.xsc">
+      <DependentUpon>DS.xsd</DependentUpon>
+    </None>
+    <None Include="Components\Modules\DS.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Components\Modules\DS.xss">
+      <DependentUpon>DS.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

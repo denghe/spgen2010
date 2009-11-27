@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 // SMO
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
 
-using My = SPGen2010.Codes.MySmo;
-using SmoUtils = SPGen2010.Codes.Helpers.Utils;
-using System.IO;
+using SPGen2010.Components.Modules;
+using My = SPGen2010.Components.Modules.MySmo;
+using SmoUtils = SPGen2010.Components.Utils;
 
 namespace SPGen2010.Codes
 {
