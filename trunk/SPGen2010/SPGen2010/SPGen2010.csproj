@@ -276,9 +276,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Generators\" />
+    <Folder Include="Components\Generators\Database\" />
+    <Folder Include="Components\Generators\Function\" />
+    <Folder Include="Components\Generators\Schema\" />
+    <Folder Include="Components\Generators\Server\" />
+    <Folder Include="Components\Generators\StoredProcedure\" />
+    <Folder Include="Components\Generators\Table\" />
+    <Folder Include="Components\Generators\View\" />
     <Folder Include="Components\Persisters\" />
-    <Folder Include="Controls\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
