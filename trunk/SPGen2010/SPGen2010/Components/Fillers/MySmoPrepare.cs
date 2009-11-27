@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SPGen2010.Codes.MySmo
+using SPGen2010.Components.Modules.MySmo;
+
+namespace SPGen2010.Components.Fillers
 {
     public static class MySmoPrepare
     {

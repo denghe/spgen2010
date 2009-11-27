@@ -7,9 +7,10 @@ using Microsoft.SqlServer.Management.Smo;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
-using SPGen2010.Codes;
 
-namespace SPGen2010.Codes.Helpers
+using SPGen2010.Components.Modules;
+
+namespace SPGen2010.Components
 {
     /// <summary>
     /// 生成器工具类 提供各种生成代码的辅助方法

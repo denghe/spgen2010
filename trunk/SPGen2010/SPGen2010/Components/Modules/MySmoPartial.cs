@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SPGen2010.Codes.MySmo
+namespace SPGen2010.Components.Modules.MySmo
 {
     public interface IExtendedInformation
     {
