@@ -49,7 +49,9 @@ namespace SPGen2010.Components.Connectors
             }
         }
 
-
+        /// <summary>
+        /// 连接并返回服务器对象
+        /// </summary>
         public Server Connect(ref string errMsg)
         {
             Server result = null;
@@ -69,6 +71,14 @@ namespace SPGen2010.Components.Connectors
                 errMsg = ex.Message;
             }
             return result;
+        }
+
+        /// <summary>
+        /// 从用户配置文件中读入最后一次的登录信息（按CreateTime倒排取第一个）
+        /// </summary>
+        public void Load()
+        {
+
         }
     }
 }

@@ -50,9 +50,9 @@ namespace SPGen2010.Components.Modules {
         
         private global::System.Data.DataRelation relationFK_Positions_Escapes;
         
-        private global::System.Data.DataRelation relationFK_TypeNames_SchemesFilters;
-        
         private global::System.Data.DataRelation relationFK_Schemes_SchemesFilters;
+        
+        private global::System.Data.DataRelation relationFK_TypeNames_SchemesFilters;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -444,8 +444,8 @@ namespace SPGen2010.Components.Modules {
             }
             this.relationFK_TypeNames_Filters = this.Relations["FK_TypeNames_Filters"];
             this.relationFK_Positions_Escapes = this.Relations["FK_Positions_Escapes"];
-            this.relationFK_TypeNames_SchemesFilters = this.Relations["FK_TypeNames_SchemesFilters"];
             this.relationFK_Schemes_SchemesFilters = this.Relations["FK_Schemes_SchemesFilters"];
+            this.relationFK_TypeNames_SchemesFilters = this.Relations["FK_TypeNames_SchemesFilters"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -493,16 +493,16 @@ namespace SPGen2010.Components.Modules {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.TypeNameColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.SchemesIDColumn});
             this.tableSchemesFilters.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.SchemesIDColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.TypeNameColumn});
             this.tableSchemesFilters.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -515,14 +515,14 @@ namespace SPGen2010.Components.Modules {
                         this.tablePositions.PositionColumn}, new global::System.Data.DataColumn[] {
                         this.tableEscapes.PositionColumn}, false);
             this.Relations.Add(this.relationFK_Positions_Escapes);
-            this.relationFK_TypeNames_SchemesFilters = new global::System.Data.DataRelation("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.TypeNameColumn}, false);
-            this.Relations.Add(this.relationFK_TypeNames_SchemesFilters);
             this.relationFK_Schemes_SchemesFilters = new global::System.Data.DataRelation("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
                         this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSchemesFilters.SchemesIDColumn}, false);
             this.Relations.Add(this.relationFK_Schemes_SchemesFilters);
+            this.relationFK_TypeNames_SchemesFilters = new global::System.Data.DataRelation("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.TypeNameColumn}, false);
+            this.Relations.Add(this.relationFK_TypeNames_SchemesFilters);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3959,7 +3959,7 @@ namespace SPGen2010.Components.Modules {
             
             private global::System.Data.DataColumn columnServer;
             
-            private global::System.Data.DataColumn columnDatabase;
+            private global::System.Data.DataColumn columnCreateTime;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -4020,9 +4020,9 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DatabaseColumn {
+            public global::System.Data.DataColumn CreateTimeColumn {
                 get {
-                    return this.columnDatabase;
+                    return this.columnCreateTime;
                 }
             }
             
@@ -4063,13 +4063,13 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MsSqlConnInfoRow AddMsSqlConnInfoRow(string Username, string Password, string Server, string Database) {
+            public MsSqlConnInfoRow AddMsSqlConnInfoRow(string Username, string Password, string Server, System.DateTime CreateTime) {
                 MsSqlConnInfoRow rowMsSqlConnInfoRow = ((MsSqlConnInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Username,
                         Password,
                         Server,
-                        Database};
+                        CreateTime};
                 rowMsSqlConnInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMsSqlConnInfoRow);
                 return rowMsSqlConnInfoRow;
@@ -4095,7 +4095,7 @@ namespace SPGen2010.Components.Modules {
                 this.columnUsername = base.Columns["Username"];
                 this.columnPassword = base.Columns["Password"];
                 this.columnServer = base.Columns["Server"];
-                this.columnDatabase = base.Columns["Database"];
+                this.columnCreateTime = base.Columns["CreateTime"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4107,8 +4107,12 @@ namespace SPGen2010.Components.Modules {
                 base.Columns.Add(this.columnPassword);
                 this.columnServer = new global::System.Data.DataColumn("Server", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnServer);
-                this.columnDatabase = new global::System.Data.DataColumn("Database", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDatabase);
+                this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreateTime);
+                this.columnUsername.AllowDBNull = false;
+                this.columnPassword.AllowDBNull = false;
+                this.columnServer.AllowDBNull = false;
+                this.columnCreateTime.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4826,23 +4830,23 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TypeNamesRow TypeNamesRow {
-                get {
-                    return ((TypeNamesRow)(this.GetParentRow(this.Table.ParentRelations["FK_TypeNames_SchemesFilters"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_TypeNames_SchemesFilters"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SchemesRow SchemesRow {
                 get {
                     return ((SchemesRow)(this.GetParentRow(this.Table.ParentRelations["FK_Schemes_SchemesFilters"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Schemes_SchemesFilters"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public TypeNamesRow TypeNamesRow {
+                get {
+                    return ((TypeNamesRow)(this.GetParentRow(this.Table.ParentRelations["FK_TypeNames_SchemesFilters"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_TypeNames_SchemesFilters"]);
                 }
             }
         }
@@ -5233,12 +5237,7 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Username {
                 get {
-                    try {
-                        return ((string)(this[this.tableMsSqlConnInfo.UsernameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Username\' in table \'MsSqlConnInfo\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableMsSqlConnInfo.UsernameColumn]));
                 }
                 set {
                     this[this.tableMsSqlConnInfo.UsernameColumn] = value;
@@ -5249,12 +5248,7 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Password {
                 get {
-                    try {
-                        return ((string)(this[this.tableMsSqlConnInfo.PasswordColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Password\' in table \'MsSqlConnInfo\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableMsSqlConnInfo.PasswordColumn]));
                 }
                 set {
                     this[this.tableMsSqlConnInfo.PasswordColumn] = value;
@@ -5265,12 +5259,7 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Server {
                 get {
-                    try {
-                        return ((string)(this[this.tableMsSqlConnInfo.ServerColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Server\' in table \'MsSqlConnInfo\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableMsSqlConnInfo.ServerColumn]));
                 }
                 set {
                     this[this.tableMsSqlConnInfo.ServerColumn] = value;
@@ -5279,66 +5268,13 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Database {
+            public System.DateTime CreateTime {
                 get {
-                    try {
-                        return ((string)(this[this.tableMsSqlConnInfo.DatabaseColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Database\' in table \'MsSqlConnInfo\' is DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableMsSqlConnInfo.CreateTimeColumn]));
                 }
                 set {
-                    this[this.tableMsSqlConnInfo.DatabaseColumn] = value;
+                    this[this.tableMsSqlConnInfo.CreateTimeColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsUsernameNull() {
-                return this.IsNull(this.tableMsSqlConnInfo.UsernameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetUsernameNull() {
-                this[this.tableMsSqlConnInfo.UsernameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPasswordNull() {
-                return this.IsNull(this.tableMsSqlConnInfo.PasswordColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPasswordNull() {
-                this[this.tableMsSqlConnInfo.PasswordColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsServerNull() {
-                return this.IsNull(this.tableMsSqlConnInfo.ServerColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetServerNull() {
-                this[this.tableMsSqlConnInfo.ServerColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDatabaseNull() {
-                return this.IsNull(this.tableMsSqlConnInfo.DatabaseColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDatabaseNull() {
-                this[this.tableMsSqlConnInfo.DatabaseColumn] = global::System.Convert.DBNull;
             }
         }
         
