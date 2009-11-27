@@ -209,7 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Generators\" />
-    <Folder Include="Components\Keepers\" />
+    <Folder Include="Components\Persisters\" />
     <Folder Include="Controls\Helpers\" />
   </ItemGroup>
   <ItemGroup>
