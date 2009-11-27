@@ -13,7 +13,7 @@ using SPGen2010.Components.Modules;
 using My = SPGen2010.Components.Modules.MySmo;
 using SmoUtils = SPGen2010.Components.Utils;
 
-namespace SPGen2010.Codes
+namespace SPGen2010.Components.Fillers
 {
     public static class MySmoFiller
     {
