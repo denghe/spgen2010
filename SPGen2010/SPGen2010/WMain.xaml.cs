@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-// SMO
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
-using Microsoft.SqlServer;
 using System.IO;
+
+//// SMO
+//using Microsoft.SqlServer.Management.Common;
+//using Microsoft.SqlServer.Management.Smo;
+//using Microsoft.SqlServer;
 
 #endregion
 
