@@ -12,9 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Controls.ObjectExplorerModule;
+using SPGen2010.Components.Modules;
+using SPGen2010.Components.Modules.ObjectExplorer;
 
-namespace SPGen2010.Controls
+namespace SPGen2010.Components.Controls
 {
     /// <summary>
     /// Interaction logic for ObjectExplorer.xaml
