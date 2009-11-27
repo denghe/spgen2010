@@ -26,7 +26,12 @@ namespace SPGen2010.Controls
             InitializeComponent();
 
             var server = new Server("xxx");
-            server.Databases.Add(new Database(server, "db1"));
+            var database1 = new Database(server, "db1");
+            var database2 = new Database(server, "db2");
+            var folder_tables1 = new Folder_Tables(database1);
+            var folder_views = new Folder_Views(database1);
+
+            this._TreeView.ItemsSource = new Server[] { server };
         }
     }
 }

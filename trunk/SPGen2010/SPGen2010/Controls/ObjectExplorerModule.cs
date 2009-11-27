@@ -8,44 +8,33 @@ using System.Windows.Media.Imaging;
 
 namespace SPGen2010.Controls.ObjectExplorerModule
 {
-    // todo: 补齐类的默认构造
-
-    public partial class NodeBase
+    public abstract partial class NodeBase
     {
         public string Caption { get; set; }
-        public BitmapImage Icon { get; private set; }
-        public NodeBase(BitmapImage icon)
-        {
-            this.Icon = icon;
-        }
-        public NodeBase(string caption, BitmapImage icon)
+        public Image Icon { get; set; }
+        public NodeBase(string caption, Image icon)
         {
             this.Caption = caption; this.Icon = icon;
         }
-        public static BitmapImage NewImageSource(string fn)
+        public static Image NewImage(string fn)
         {
-            return ImageSourceHelper.NewImageSource(fn);
+            return new Image { Source = ImageSourceHelper.NewImageSource(fn) };
         }
     }
 
     [ContentProperty("Databases")]
     public partial class Server : NodeBase
     {
-        public Server()
-            : base("Server", Server.DefaultIcon)
-        {
-            this.Databases = new Databases(this);
-        }
         public Server(string caption)
             : base(caption, Server.DefaultIcon)
         {
             this.Databases = new Databases(this);
         }
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_server.png");
+                return NewImage("sql_server.png");
             }
         }
         public Databases Databases { get; private set; }
@@ -69,27 +58,19 @@ namespace SPGen2010.Controls.ObjectExplorerModule
     [ContentProperty("Folders")]
     public partial class Database : NodeBase
     {
-        public Database()
-            : base("Database", Database.DefaultIcon)
-        {
-            this.Folders = new Folders(this);
-        }
-        public Database(string caption)
+        public Database(Server parent, string caption)
             : base(caption, Database.DefaultIcon)
         {
             this.Folders = new Folders(this);
-        }
-        public Database(Server parent, string caption)
-            : this(caption)
-        {
             this.Parent = parent;
+            parent.Databases.Add(this);
         }
         public Server Parent { get; set; }
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_database.png");
+                return NewImage("sql_database.png");
             }
         }
         public Folders Folders { get; private set; }
@@ -110,20 +91,20 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         }
     }
 
-
-    public partial class FolderBase : NodeBase
+    public abstract partial class FolderBase : NodeBase
     {
         public FolderBase(Database parent, string caption)
             : base(caption, FolderBase.DefaultIcon)
         {
             this.Parent = parent;
+            parent.Folders.Add(this);
         }
         public Database Parent { get; set; }
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_folder.png");
+                return NewImage("sql_folder.png");
             }
         }
     }
@@ -283,14 +264,15 @@ namespace SPGen2010.Controls.ObjectExplorerModule
             : base(caption, Table.DefaultIcon)
         {
             this.Parent = parent;
+            parent.Tables.Add(this);
         }
         public Folder_Tables Parent { get; set; }
 
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_table.png");
+                return NewImage("sql_table.png");
             }
         }
     }
@@ -302,24 +284,26 @@ namespace SPGen2010.Controls.ObjectExplorerModule
             : base(caption, View.DefaultIcon)
         {
             this.Parent = parent;
+            parent.Views.Add(this);
         }
         public Folder_Views Parent { get; set; }
 
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_view.png");
+                return NewImage("sql_view.png");
             }
         }
     }
 
     public partial class UserDefinedFunctionBase : NodeBase
     {
-        public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string caption, BitmapImage icon)
+        public UserDefinedFunctionBase(Folder_UserDefinedFunctions parent, string caption, Image icon)
             : base(caption, icon)
         {
             this.Parent = parent;
+            parent.UserDefinedFunctions.Add(this);
         }
         public Folder_UserDefinedFunctions Parent { get; set; }
     }
@@ -329,13 +313,12 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedFunction_Scale(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Scale.DefaultIcon)
         {
-            this.Parent = parent;
         }
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_function_scale.png");
+                return NewImage("sql_function_scale.png");
             }
         }
     }
@@ -345,13 +328,12 @@ namespace SPGen2010.Controls.ObjectExplorerModule
         public UserDefinedFunction_Table(Folder_UserDefinedFunctions parent, string caption)
             : base(parent, caption, UserDefinedFunction_Table.DefaultIcon)
         {
-            this.Parent = parent;
         }
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_function_table.png");
+                return NewImage("sql_function_table.png");
             }
         }
     }
@@ -363,14 +345,15 @@ namespace SPGen2010.Controls.ObjectExplorerModule
             : base(caption, UserDefinedTableType.DefaultIcon)
         {
             this.Parent = parent;
+            parent.UserDefinedTableTypes.Add(this);
         }
         public Folder_UserDefinedTableTypes Parent { get; set; }
 
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_tabletype.png");
+                return NewImage("sql_tabletype.png");
             }
         }
     }
@@ -382,14 +365,15 @@ namespace SPGen2010.Controls.ObjectExplorerModule
             : base(caption, StoredProcedure.DefaultIcon)
         {
             this.Parent = parent;
+            parent.StoredProcedures.Add(this);
         }
         public Folder_StoredProcedures Parent { get; set; }
 
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_tabletype.png");
+                return NewImage("sql_tabletype.png");
             }
         }
     }
@@ -401,14 +385,15 @@ namespace SPGen2010.Controls.ObjectExplorerModule
             : base(caption, Schema.DefaultIcon)
         {
             this.Parent = parent;
+            parent.Schemas.Add(this);
         }
         public Folder_Schemas Parent { get; set; }
 
-        public static BitmapImage DefaultIcon
+        public static Image DefaultIcon
         {
             get
             {
-                return NewImageSource("sql_schema.png");
+                return NewImage("sql_schema.png");
             }
         }
     }
