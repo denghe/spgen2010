@@ -68,52 +68,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Codes\MySmoPrepare.cs" />
-    <Compile Include="Codes\MySmoPartial.cs" />
-    <Compile Include="Controls\Helpers\ImageSourceHelper.cs" />
-    <Compile Include="Controls\ObjectExplorer.xaml.cs">
-      <DependentUpon>ObjectExplorer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Codes\ObjectExplorerModule.cs" />
-    <Compile Include="Controls\TreeViewWithIcons.cs" />
-    <Compile Include="Codes\DS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DS.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Codes\MySmo.cs" />
-    <Compile Include="Codes\MySmoFiller.cs" />
-    <Compile Include="Codes\SQLHelper.cs" />
-    <Compile Include="Codes\Utils.cs" />
-    <Compile Include="WConnector.xaml.cs">
-      <DependentUpon>WConnector.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Controls\ObjectExplorer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WMain.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="WMain.xaml.cs">
-      <DependentUpon>WMain.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="WConnector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,84 +85,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="Codes\DS.xsc">
-      <DependentUpon>DS.xsd</DependentUpon>
-    </None>
-    <None Include="Codes\DS.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DS.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Codes\DS.xss">
-      <DependentUpon>DS.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\login_title.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\b_refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\deletehs.png" />
-    <Resource Include="Images\down.png" />
-    <Resource Include="Images\Filter2HS.png" />
-    <Resource Include="Images\findhs.png" />
-    <Resource Include="Images\findnexths.png" />
-    <Resource Include="Images\FormRunHS.png" />
-    <Resource Include="Images\gotonexths.png" />
-    <Resource Include="Images\highlighths.png" />
-    <Resource Include="Images\left.png" />
-    <Resource Include="Images\line.png" />
-    <Resource Include="Images\newdocumenths.png" />
-    <Resource Include="Images\refreshdocviewhs.png" />
-    <Resource Include="Images\right.png" />
-    <Resource Include="Images\sql_column.png" />
-    <Resource Include="Images\sql_constrain.png" />
-    <Resource Include="Images\sql_datatype.png" />
-    <Resource Include="Images\sql_diagram.png" />
-    <Resource Include="Images\sql_empty.png" />
-    <Resource Include="Images\sql_folder.png" />
-    <Resource Include="Images\sql_foreignkey.png" />
-    <Resource Include="Images\sql_function_scale.png" />
-    <Resource Include="Images\sql_function_table.png" />
-    <Resource Include="Images\sql_key.png" />
-    <Resource Include="Images\sql_schema.png" />
-    <Resource Include="Images\sql_server.png" />
-    <Resource Include="Images\sql_storedprocedure.png" />
-    <Resource Include="Images\sql_table.png" />
-    <Resource Include="Images\sql_trigger.png" />
-    <Resource Include="Images\up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\addnode.png" />
-    <Resource Include="Images\addnode2.png" />
-    <Resource Include="Images\addroot.png" />
-    <Resource Include="Images\sql_database.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Components\todo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Components\todo2.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Components\todo3.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\new singleton sample.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\sql_view.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\sql_tabletype.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
