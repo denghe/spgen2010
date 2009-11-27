@@ -168,11 +168,11 @@
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
     <Compile Include="Components\Utils\SQLHelper.cs" />
     <Compile Include="Components\Utils\Utils.cs" />
-    <Compile Include="Controls\ImageSourceHelper.cs" />
-    <Compile Include="Controls\ObjectExplorer.xaml.cs">
+    <Compile Include="Components\Controls\ImageSourceHelper.cs" />
+    <Compile Include="Components\Controls\ObjectExplorer.xaml.cs">
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TreeViewWithIcons.cs" />
+    <Compile Include="Components\Controls\TreeViewWithIcons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -262,7 +262,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ObjectExplorer.xaml">
+    <Page Include="Components\Controls\ObjectExplorer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
