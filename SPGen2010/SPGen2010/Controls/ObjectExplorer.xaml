@@ -8,26 +8,28 @@
     <Grid>
         <Grid.Resources>
             <!-- HierarchicalDataTemplates -->
-            <HierarchicalDataTemplate x:Key="ServerEntry" ItemsSource="{Binding Path=Albums}" ItemTemplate="{StaticResource DatabaseEntry}">
+
+            <HierarchicalDataTemplate x:Key="FolderEntry">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
-                    <TextBlock FontWeight="Bold" Text="{Binding Path=Caption}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
+                    <TextBlock FontStyle="Italic" Text="{Binding Path=Caption}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate x:Key="DatabaseEntry" ItemsSource="{Binding Path=Songs}" ItemTemplate="{StaticResource FolderEntry}">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
                     <TextBlock Text="{Binding Path=Caption}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate x:Key="FolderEntry">
+            <HierarchicalDataTemplate x:Key="ServerEntry" ItemsSource="{Binding Path=Albums}" ItemTemplate="{StaticResource DatabaseEntry}">
                 <StackPanel Orientation="Horizontal">
-                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Path=Icon}" />
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Caption}" />
+                    <ContentPresenter Margin="0 0 4 0" Content="{Binding Icon}" />
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=Caption}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
+
         </Grid.Resources>
         
         <Grid.RowDefinitions>
