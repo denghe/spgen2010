@@ -12,5 +12,16 @@ namespace SPGen2010
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Application Entry Point.
+        /// </summary>
+        [System.STAThreadAttribute()]
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public static void Main()
+        {
+            SPGen2010.App app = new SPGen2010.App();
+            app.InitializeComponent();
+            app.Run();
+        }
     }
 }
