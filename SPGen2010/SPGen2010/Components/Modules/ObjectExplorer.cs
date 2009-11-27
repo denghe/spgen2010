@@ -6,7 +6,9 @@ using System.Windows.Markup;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace SPGen2010.Controls.ObjectExplorerModule
+using SPGen2010.Components.Controls;
+
+namespace SPGen2010.Components.Modules.ObjectExplorer
 {
     public abstract partial class NodeBase
     {

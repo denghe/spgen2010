@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace SPGen2010
+namespace SPGen2010.Components.Controls
 {
     /// <summary>
     /// This Class Provides the TreeView with extended functionalities like,
