@@ -284,6 +284,7 @@
     <Folder Include="Components\Generators\Table\" />
     <Folder Include="Components\Generators\View\" />
     <Folder Include="Components\Persisters\" />
+    <Folder Include="Components\Windows\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
