@@ -28,12 +28,6 @@ namespace SPGen2010
     /// </summary>
     public partial class WMain : Window
     {
-        #region fields
-
-        public Server ServerInstance = null;
-
-        #endregion
-
         #region load methods
 
         public WMain()
@@ -43,37 +37,12 @@ namespace SPGen2010
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (PopupWindow_Connector()) Refresh();
-            try
-            {
-                var databases = from Database db in this.ServerInstance.Databases
-                                where !db.IsSystemObject && db.IsAccessible
-                                select db;
-                foreach (var db in databases)
-                {
-                    _TreeView.Items.Add(new TreeViewWithIcons
-                    {
-                        HeaderText = db.Name,
-                        Tag = db,
-                        Icon = "SQL_Database.png".NewImageSource()
-                    });
-                }
-                //_TreeView.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //if (PopupWindow_Connector()) Refresh();
         }
 
         #endregion
 
         #region menu click handlers
-
-        private void _Connect_menuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (PopupWindow_Connector()) Refresh();
-        }
 
         private void _Quit_menuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -84,27 +53,19 @@ namespace SPGen2010
 
         #region popup window methods
 
-        private bool PopupWindow_Connector()
-        {
-            var c = new WConnector();
-            c.ShowDialog();
-            if (c.DialogResult.HasValue && c.DialogResult.Value == true)
-            {
-                ServerInstance = c.ServerInstance;
-                return true;
-            }
-            return false;
-        }
+        //private bool PopupWindow_Connector()
+        //{
+        //    var c = new WConnector();
+        //    c.ShowDialog();
+        //    if (c.DialogResult.HasValue && c.DialogResult.Value == true)
+        //    {
+                
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         #endregion
 
-        #region refresh display
-
-        private void Refresh()
-        {
-
-        }
-
-        #endregion
     }
 }
