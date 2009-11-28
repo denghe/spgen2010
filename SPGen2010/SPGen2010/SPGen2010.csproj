@@ -186,7 +186,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Components\Windows\WMsSqlConnector.xaml.cs">
+    <Compile Include="Components\Connectors\WMsSqlConnector.xaml.cs">
       <DependentUpon>WMsSqlConnector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Windows\WMain.xaml.cs">
@@ -265,7 +265,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Components\Windows\WMsSqlConnector.xaml">
+    <Page Include="Components\Connectors\WMsSqlConnector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
