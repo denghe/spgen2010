@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         Loaded="Window_Loaded"
-        Title="Database Instance Connector Browser" Height="400" Width="640" ContentRendered="Window_ContentRendered">
-    <Grid>
+        Title="Database Instance Connector Browser" SizeToContent="WidthAndHeight" ContentRendered="Window_ContentRendered">
+    <Grid Height="400" Width="640">
         <StackPanel Name="_StackPanel">
             <StackPanel.Resources>
                 <Style TargetType="Button">
