@@ -25,6 +25,16 @@ namespace SPGen2010.Components.Connectors
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+
+        }
+
         private void _MsSql_Instance_UP_Connect_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -57,5 +67,7 @@ namespace SPGen2010.Components.Connectors
         {
 
         }
+
+
     }
 }
