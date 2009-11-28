@@ -159,8 +159,8 @@
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Fillers\MySmoFiller_MsSql.cs" />
-    <Compile Include="Components\Fillers\MySmoPrepare_MsSql.cs" />
+    <Compile Include="Components\Fillers\MsSql\MySmoFiller_MsSql.cs" />
+    <Compile Include="Components\Fillers\MsSql\MySmoPrepare_MsSql.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -285,6 +285,9 @@
     <Folder Include="Components\Connectors\MySql\" />
     <Folder Include="Components\Connectors\Oracle\" />
     <Folder Include="Components\Connectors\SqLite\" />
+    <Folder Include="Components\Fillers\MySql\" />
+    <Folder Include="Components\Fillers\Oracle\" />
+    <Folder Include="Components\Fillers\SqLite\" />
     <Folder Include="Components\Generators\Database\" />
     <Folder Include="Components\Generators\Function\" />
     <Folder Include="Components\Generators\Schema\" />
