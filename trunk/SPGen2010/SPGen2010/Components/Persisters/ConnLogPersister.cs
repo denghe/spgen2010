@@ -8,9 +8,18 @@ namespace SPGen2010.Components.Persisters
 {
     public static class ConnLogPersister
     {
-        public static void Persist(this DS.ConnLogDataTable cl)
+        /// <summary>
+        /// save connect log to disk
+        /// </summary>
+        public static DS.ConnLogDataTable Persist(this DS.ConnLogDataTable cl)
         {
-            cl.WriteXml("");
+            var fn = System.IO.Path.Combine(Environment.CurrentDirectory, "ConnLog.xml");   // same as Persister
+            try
+            {
+                cl.WriteXml(fn);
+            }
+            catch { }
+            return cl;
         }
     }
 }
