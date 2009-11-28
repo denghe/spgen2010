@@ -7,8 +7,6 @@ using System.Windows;
 using System.IO;
 
 using SPGen2010.Components.Modules;
-using SPGen2010.Components.Fillers;
-using SPGen2010.Components.Persisters;
 
 namespace SPGen2010
 {
@@ -30,19 +28,23 @@ namespace SPGen2010
         }
         private static string _connLog_filename = System.IO.Path.Combine(Environment.CurrentDirectory, "ConnLog.xml");
         private static DS.ConnLogDataTable _connLog = null;
+        private static object _connLog_sync = new object();
         /// <summary>
         /// return user's connect Log
         /// </summary>
         public static Func<DS.ConnLogDataTable> LoadConnLog = () =>
         {
-            App.LoadConnLog = () => { return App._connLog; };
-            App.SaveConnLog = () => { App._connLog.WriteXml(App._connLog_filename); };
-            App._connLog = new DS.ConnLogDataTable();
-            try
+            lock (_connLog_sync)
             {
-                App._connLog.ReadXml(_connLog_filename);
+                App._connLog = new DS.ConnLogDataTable();
+                try
+                {
+                    App._connLog.ReadXml(_connLog_filename);
+                }
+                catch { }
+                App.LoadConnLog = () => { return App._connLog; };
+                App.SaveConnLog = () => { App._connLog.WriteXml(App._connLog_filename); };
             }
-            catch { }
             return App._connLog;
         };
 
