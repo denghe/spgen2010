@@ -22,17 +22,5 @@ namespace SPGen2010.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ConnectLog {
-            get {
-                return ((string)(this["ConnectLog"]));
-            }
-            set {
-                this["ConnectLog"] = value;
-            }
-        }
     }
 }
