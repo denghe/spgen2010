@@ -1,9 +1,9 @@
 ﻿<Window x:Class="SPGen2010.Components.Connectors.WMsSqlConnector"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         Title="Connect To MSSQL Server Instance" Height="247" Width="410"
-        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
-        ResizeMode="NoResize" Loaded="Window_Loaded">
+        Loaded="Window_Loaded">
     <Canvas Name="LayoutRoot">
         <Image Source="/SPGen2010;component/Images/login_title.png"></Image>
         <Label Canvas.Left="40" Canvas.Top="81" Name="label3" TabIndex="0" Target="{Binding ElementName=_Server_textBox}" AutomationProperties.AccessKey="s">_Server:</Label>
