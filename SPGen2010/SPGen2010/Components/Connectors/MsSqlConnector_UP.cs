@@ -10,7 +10,7 @@ using Microsoft.SqlServer;
 
 namespace SPGen2010.Components.Connectors
 {
-    public class MsSqlConnector
+    public class MsSqlConnector_UP
     {
         private string _server = ".";
         public string Server
@@ -89,7 +89,7 @@ namespace SPGen2010.Components.Connectors
             //todo
         }
 
-        public MsSqlConnector()
+        public MsSqlConnector_UP()
         {
             Load();
         }
