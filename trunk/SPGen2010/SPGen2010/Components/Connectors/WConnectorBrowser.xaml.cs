@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using SPGen2010.Components.Connectors.MsSql;
+
 namespace SPGen2010.Components.Connectors
 {
     /// <summary>
@@ -26,7 +28,7 @@ namespace SPGen2010.Components.Connectors
         private void _MsSql_Instance_UP_Connect_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            var w = new WMsSqlConnector();
+            var w = new WMsSqlConnector_UP();
             w.ShowDialog();
             // ...
         }

@@ -8,7 +8,7 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
 
-namespace SPGen2010.Components.Connectors
+namespace SPGen2010.Components.Connectors.MsSql
 {
     public class MsSqlConnector_UP
     {
