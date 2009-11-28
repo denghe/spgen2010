@@ -1,10 +1,10 @@
 ﻿<Window x:Class="SPGen2010.Components.Connectors.MsSql.WConnector_UP"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
-        Title="Connect To MSSQL Server Instance" Height="247" Width="410"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Title="Connect To MSSQL Server Instance" 
         Loaded="Window_Loaded">
-    <Canvas Name="LayoutRoot">
+    <Canvas Name="LayoutRoot" Height="247" Width="410">
         <Image Source="/SPGen2010;component/Images/login_title.png"></Image>
         <Label Canvas.Left="40" Canvas.Top="81" Name="label3" TabIndex="0" Target="{Binding ElementName=_Server_textBox}" AutomationProperties.AccessKey="s">_Server:</Label>
         <TextBox Canvas.Left="140" Canvas.Top="84" Width="220" Name="_Server_TextBox" TabIndex="1" Text="{Binding Path=Server, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
