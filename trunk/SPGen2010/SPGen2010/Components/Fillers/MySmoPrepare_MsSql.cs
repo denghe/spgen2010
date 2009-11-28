@@ -7,7 +7,7 @@ using SPGen2010.Components.Modules.MySmo;
 
 namespace SPGen2010.Components.Fillers
 {
-    public static class MySmoPrepare
+    public static class MySmoPrepare_MsSql
     {
         public static void Prepare(this Database db)
         {
