@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 
 using SPGen2010.Components.Modules;
+using SPGen2010.Components.Fillers;
 
 namespace SPGen2010
 {
@@ -29,6 +30,17 @@ namespace SPGen2010
             app.Run();
         }
 
-        public readonly static DS.ConnLogDataTable ConnLog = null;
+        private static DS.ConnLogDataTable _connLogInstance = null;
+        /// <summary>
+        /// return user's connect Log (write into exe's dir)
+        /// </summary>
+        public static Func<DS.ConnLogDataTable> GetConnLogInstance = () =>
+        {
+            _connLogInstance = new DS.ConnLogDataTable();
+            ConnLogFiller.Fill(_connLogInstance);
+            GetConnLogInstance = () => { return _connLogInstance; };
+            return _connLogInstance;
+        };
+
     }
 }
