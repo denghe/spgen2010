@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
+using SPGen2010.Components.Modules;
+
 namespace SPGen2010
 {
     /// <summary>
@@ -19,9 +21,14 @@ namespace SPGen2010
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public static void Main()
         {
+            // todo: init
+            MessageBox.Show(App.Current.StartupUri.ToString());
+
             SPGen2010.App app = new SPGen2010.App();
             app.InitializeComponent();
             app.Run();
         }
+
+        public readonly static DS.ConnLogDataTable ConnLog = null;
     }
 }
