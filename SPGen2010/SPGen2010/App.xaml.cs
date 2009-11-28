@@ -4,9 +4,11 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.IO;
 
 using SPGen2010.Components.Modules;
 using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Persisters;
 
 namespace SPGen2010
 {
@@ -22,23 +24,33 @@ namespace SPGen2010
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public static void Main()
         {
-            // todo: init
-            MessageBox.Show(App.Current.StartupUri.ToString());
-
             SPGen2010.App app = new SPGen2010.App();
             app.InitializeComponent();
             app.Run();
         }
-
-        private static DS.ConnLogDataTable _connLogInstance = null;
+        private static string _connLog_filename = System.IO.Path.Combine(Environment.CurrentDirectory, "ConnLog.xml");
+        private static DS.ConnLogDataTable _connLog = null;
         /// <summary>
-        /// return user's connect Log (write into exe's dir)
+        /// return user's connect Log
         /// </summary>
-        public static Func<DS.ConnLogDataTable> GetConnLogInstance = () =>
+        public static Func<DS.ConnLogDataTable> LoadConnLog = () =>
         {
-            _connLogInstance = new DS.ConnLogDataTable().Fill();
-            GetConnLogInstance = () => { return _connLogInstance; };
-            return _connLogInstance;
+            App.LoadConnLog = () => { return App._connLog; };
+            App.SaveConnLog = () => { App._connLog.WriteXml(App._connLog_filename); };
+            App._connLog = new DS.ConnLogDataTable();
+            try
+            {
+                App._connLog.ReadXml(_connLog_filename);
+            }
+            catch { }
+            return App._connLog;
+        };
+
+        /// <summary>
+        /// save user's connect Log to disk
+        /// </summary>
+        public static Action SaveConnLog = () =>
+        {
         };
 
     }

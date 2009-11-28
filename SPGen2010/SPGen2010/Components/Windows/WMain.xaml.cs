@@ -33,6 +33,8 @@ namespace SPGen2010
         public WMain()
         {
             InitializeComponent();
+
+            var cl = App.GetConnLogInstance();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
