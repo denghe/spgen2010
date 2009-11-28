@@ -25,15 +25,33 @@ namespace SPGen2010.Components.Connectors
 
         private void _MsSql_Instance_UP_Connect_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
+            var w = new WMsSqlConnector();
+            w.ShowDialog();
+            // ...
         }
 
-        private void _MsSql_Instance_TA_Connect_Button_Click(object sender, RoutedEventArgs e)
+        private void _MsSql_Instance_TC_Connect_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void _MsSql_DBFile_Connect_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _SqLite_Connect_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Oracle_Connect_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _MySql_Connect_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }

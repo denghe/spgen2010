@@ -1,5 +1,4 @@
-﻿#region usings
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 
-//// SMO
-//using Microsoft.SqlServer.Management.Common;
-//using Microsoft.SqlServer.Management.Smo;
-//using Microsoft.SqlServer;
-
-#endregion
+using SPGen2010.Components.Connectors;
 
 namespace SPGen2010
 {
@@ -37,12 +31,11 @@ namespace SPGen2010
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //if (PopupWindow_Connector()) Refresh();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            MessageBox.Show("xx");
+            PopupWindow_ConnectorBrowser();
         }
 
         #endregion
@@ -56,20 +49,13 @@ namespace SPGen2010
 
         #endregion
 
-
         #region popup window methods
 
-        //private bool PopupWindow_Connector()
-        //{
-        //    var c = new WConnector();
-        //    c.ShowDialog();
-        //    if (c.DialogResult.HasValue && c.DialogResult.Value == true)
-        //    {
-                
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        private void PopupWindow_ConnectorBrowser()
+        {
+            var c = new WConnectorBrowser();
+            c.ShowDialog();
+        }
 
         #endregion
 
