@@ -40,6 +40,11 @@ namespace SPGen2010
             //if (PopupWindow_Connector()) Refresh();
         }
 
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            MessageBox.Show("xx");
+        }
+
         #endregion
 
         #region menu click handlers
@@ -50,6 +55,7 @@ namespace SPGen2010
         }
 
         #endregion
+
 
         #region popup window methods
 
