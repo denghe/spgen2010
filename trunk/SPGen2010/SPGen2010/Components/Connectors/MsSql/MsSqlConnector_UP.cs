@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
+using SPGen2010.Components.Modules;
 
 namespace SPGen2010.Components.Connectors.MsSql
 {
@@ -78,7 +79,13 @@ namespace SPGen2010.Components.Connectors.MsSql
         /// </summary>
         public void Load()
         {
-            //todo
+            var row = App.LoadConnLog().Where(o => o.InstanceType == "MsSql_UP").OrderBy(o=>o.CreateTime).Last();
+            if (row != null)
+            {
+                _username = row.Username;
+                _password = row.Password;
+                _server = row.InstanceName;
+            }
         }
 
         /// <summary>
@@ -86,7 +93,8 @@ namespace SPGen2010.Components.Connectors.MsSql
         /// </summary>
         public void Save()
         {
-            //todo
+            App.LoadConnLog().AddConnLogRow("MsSql_UP", _server, _username, _password, "", DateTime.Now);
+            App.SaveConnLog();
         }
 
         public MsSqlConnector_UP()
