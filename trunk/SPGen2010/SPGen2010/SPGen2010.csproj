@@ -155,7 +155,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Connectors\MsSql\MsSqlConnector_UP.cs" />
+    <Compile Include="Components\Connectors\MsSql\Connector_UP.cs" />
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
     </Compile>
@@ -189,8 +189,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Components\Connectors\MsSql\WMsSqlConnector_UP.xaml.cs">
-      <DependentUpon>WMsSqlConnector_UP.xaml</DependentUpon>
+    <Compile Include="Components\Connectors\MsSql\WConnector_UP.xaml.cs">
+      <DependentUpon>WConnector_UP.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Windows\WMain.xaml.cs">
       <DependentUpon>WMain.xaml</DependentUpon>
@@ -272,7 +272,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Components\Connectors\MsSql\WMsSqlConnector_UP.xaml">
+    <Page Include="Components\Connectors\MsSql\WConnector_UP.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

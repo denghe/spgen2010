@@ -17,14 +17,14 @@ using Microsoft.SqlServer.Management.Smo;
 namespace SPGen2010.Components.Connectors.MsSql
 {
     /// <summary>
-    /// Interaction logic for WMsSqlConnector_UP.xaml
+    /// Interaction logic for WConnector_UP.xaml
     /// </summary>
-    public partial class WMsSqlConnector_UP : Window
+    public partial class WConnector_UP : Window
     {
         public Server ServerInstance = null;
-        private MsSqlConnector_UP _connector = new MsSqlConnector_UP();
+        private Connector_UP _connector = new Connector_UP();
 
-        public WMsSqlConnector_UP()
+        public WConnector_UP()
         {
             InitializeComponent();
         }
