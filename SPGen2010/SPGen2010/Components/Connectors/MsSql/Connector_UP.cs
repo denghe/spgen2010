@@ -11,7 +11,7 @@ using SPGen2010.Components.Modules;
 
 namespace SPGen2010.Components.Connectors.MsSql
 {
-    public class MsSqlConnector_UP
+    public class Connector_UP
     {
         private string _server = ".";
         public string Server
@@ -97,7 +97,7 @@ namespace SPGen2010.Components.Connectors.MsSql
             App.SaveConnLog();
         }
 
-        public MsSqlConnector_UP()
+        public Connector_UP()
         {
             Load();
         }
