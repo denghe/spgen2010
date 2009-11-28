@@ -1,9 +1,9 @@
 ﻿<Window x:Class="SPGen2010.Components.Connectors.WConnectorBrowser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
-        Loaded="Window_Loaded"
-        Title="Database Instance Connector Browser" SizeToContent="WidthAndHeight" ContentRendered="Window_ContentRendered">
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Title="Database Instance Connector Browser"
+        Loaded="Window_Loaded" ContentRendered="Window_ContentRendered">
     <Grid Height="400" Width="640">
         <StackPanel Name="_StackPanel">
             <StackPanel.Resources>
