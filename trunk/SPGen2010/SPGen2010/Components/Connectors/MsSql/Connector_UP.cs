@@ -79,7 +79,12 @@ namespace SPGen2010.Components.Connectors.MsSql
         /// </summary>
         public void Load()
         {
-            var row = App.LoadConnLog().Where(o => o.InstanceType == "MsSql_UP").OrderBy(o=>o.CreateTime).Last();
+            DS.ConnLogRow row = null;
+            try
+            {
+                row = App.LoadConnLog().Where(o => o.InstanceType == "MsSql_UP").OrderBy(o => o.CreateTime).Last();
+            }
+            catch { }
             if (row != null)
             {
                 _username = row.Username;
