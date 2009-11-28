@@ -36,8 +36,7 @@ namespace SPGen2010
         /// </summary>
         public static Func<DS.ConnLogDataTable> GetConnLogInstance = () =>
         {
-            _connLogInstance = new DS.ConnLogDataTable();
-            ConnLogFiller.Fill(_connLogInstance);
+            _connLogInstance = new DS.ConnLogDataTable().Fill();
             GetConnLogInstance = () => { return _connLogInstance; };
             return _connLogInstance;
         };

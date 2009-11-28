@@ -8,10 +8,10 @@ namespace SPGen2010.Components.Fillers
 {
     public static class ConnLogFiller
     {
-        public static bool Fill(this DS.ConnLogDataTable cl)
+        public static DS.ConnLogDataTable Fill(this DS.ConnLogDataTable cl)
         {
-            // todo: 从配置文件读取数据填充到 cl
-            return true;
+            cl.ReadXml("");
+            return cl;
         }
     }
 }
