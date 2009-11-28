@@ -32,7 +32,7 @@ namespace SPGen2010.Components.Connectors
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-
+            
         }
 
         private void _MsSql_Instance_UP_Connect_Button_Click(object sender, RoutedEventArgs e)

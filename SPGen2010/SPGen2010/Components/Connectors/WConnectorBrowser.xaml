@@ -5,7 +5,7 @@
         Loaded="Window_Loaded"
         Title="Database Instance Connector Browser" Height="400" Width="640" ContentRendered="Window_ContentRendered">
     <Grid>
-        <StackPanel>
+        <StackPanel Name="_StackPanel">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Height" Value="60"></Setter>
