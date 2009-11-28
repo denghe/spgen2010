@@ -11,10 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Connectors;
+using SPGen2010.Components.Connectors.MsSql;
 using Microsoft.SqlServer.Management.Smo;
 
-namespace SPGen2010.Components.Connectors
+namespace SPGen2010.Components.Connectors.MsSql
 {
     /// <summary>
     /// Interaction logic for WMsSqlConnector_UP.xaml
