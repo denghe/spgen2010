@@ -156,6 +156,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Connectors\MsSqlConnector.cs" />
+    <Compile Include="Components\Fillers\ConnLogFiller.cs" />
     <Compile Include="Components\Fillers\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MySmoPrepare.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
@@ -166,6 +167,7 @@
     <Compile Include="Components\Modules\MySmo.cs" />
     <Compile Include="Components\Modules\MySmoPartial.cs" />
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
+    <Compile Include="Components\Persisters\ConnLogPersister.cs" />
     <Compile Include="Components\Utils\SQLHelper.cs" />
     <Compile Include="Components\Utils\Utils.cs" />
     <Compile Include="Components\Utils\ImageSourceHelper.cs" />
@@ -282,7 +284,6 @@
     <Folder Include="Components\Generators\StoredProcedure\" />
     <Folder Include="Components\Generators\Table\" />
     <Folder Include="Components\Generators\View\" />
-    <Folder Include="Components\Persisters\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
