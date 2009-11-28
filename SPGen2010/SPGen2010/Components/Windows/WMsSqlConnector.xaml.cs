@@ -13,17 +13,17 @@ using System.Windows.Shapes;
 
 using SPGen2010.Components.Connectors;
 
-namespace SPGen2010
+namespace SPGen2010.Components.Connectors
 {
     /// <summary>
-    /// Interaction logic for WConnector.xaml
+    /// Interaction logic for WMsSqlConnector.xaml
     /// </summary>
-    public partial class WConnector : Window
+    public partial class WMsSqlConnector : Window
     {
         //public Server ServerInstance = null;
         //private SqlConnector _connector = new SqlConnector();
 
-        public WConnector()
+        public WMsSqlConnector()
         {
             InitializeComponent();
         }
