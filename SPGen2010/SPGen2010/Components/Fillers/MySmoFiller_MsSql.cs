@@ -15,7 +15,7 @@ using SmoUtils = SPGen2010.Components.Utils;
 
 namespace SPGen2010.Components.Fillers
 {
-    public static class MySmoFiller
+    public static class MySmoFiller_MsSql
     {
         /// <summary>
         /// todo: filter fill
