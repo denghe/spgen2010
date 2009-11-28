@@ -4,7 +4,7 @@
         WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         Title="Database Instance Connector Browser"
         Loaded="Window_Loaded" ContentRendered="Window_ContentRendered">
-    <Grid Height="400" Width="640">
+    <Grid Height="360" Width="640">  <!-- height =  60 * 6 -->
         <StackPanel Name="_StackPanel">
             <StackPanel.Resources>
                 <Style TargetType="Button">
