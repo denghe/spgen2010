@@ -156,6 +156,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Connectors\MsSqlConnector.cs" />
+    <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
+      <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Fillers\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MySmoPrepare.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
@@ -260,6 +263,10 @@
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Connectors\WConnectorBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Controls\ObjectExplorer.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -50,9 +50,9 @@ namespace SPGen2010.Components.Connectors
         }
 
         /// <summary>
-        /// 连接并返回服务器对象
+        /// try to connect to server & return Smo.Server instance
         /// </summary>
-        public Server Connect(ref string errMsg)
+        public Server TryConnect(ref string errMsg)
         {
             Server result = null;
             var sc = new ServerConnection();
@@ -74,11 +74,24 @@ namespace SPGen2010.Components.Connectors
         }
 
         /// <summary>
-        /// 从用户配置文件中读入最后一次的登录信息（按CreateTime倒排取第一个）
+        /// get latest mssql's connect log, fill to control
         /// </summary>
         public void Load()
         {
+            //todo
+        }
 
+        /// <summary>
+        /// save current connect information to log
+        /// </summary>
+        public void Save()
+        {
+            //todo
+        }
+
+        public MsSqlConnector()
+        {
+            Load();
         }
     }
 }
