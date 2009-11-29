@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
+    <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
