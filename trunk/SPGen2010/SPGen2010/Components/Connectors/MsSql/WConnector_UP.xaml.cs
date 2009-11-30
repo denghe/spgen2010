@@ -52,9 +52,8 @@ namespace SPGen2010.Components.Connectors.MsSql
                 DialogResult = true;
                 Close();
 
-                var server = new Oe.Server { Text = _connector.Server };
-                server.FillDatabaseNameOnly(ServerInstance);
-                WMain.Instance._ObjectExplorer.BindData(server);
+                WMain.Instance._ObjectExplorer.Filler = new ObjectExplorerFiller { Server = ServerInstance };
+                WMain.Instance._ObjectExplorer.BindData();
             }
             else _Message_Label.Content = errMsg;
         }
