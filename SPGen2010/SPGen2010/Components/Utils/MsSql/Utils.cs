@@ -10,10 +10,10 @@ using System.Diagnostics;
 
 using SPGen2010.Components.Modules;
 
-namespace SPGen2010.Components.SmoHelper
+namespace SPGen2010.Components.Utils.MsSql
 {
     /// <summary>
-    /// 生成器工具类 提供各种生成代码的辅助方法
+    /// 提供各种 Smo 操作封装
     /// </summary>
     public static class Utils
     {
