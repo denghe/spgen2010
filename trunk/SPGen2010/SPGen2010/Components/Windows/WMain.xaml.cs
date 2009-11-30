@@ -25,12 +25,6 @@ namespace SPGen2010
     {
         #region Properties
 
-        public ObjectExplorer ObjectExplorer
-        {
-            get { return _ObjectExplorer; }
-        }
-
-
         private static WMain _WMain = null;
         /// <summary>
         /// refresh to WMain instance
