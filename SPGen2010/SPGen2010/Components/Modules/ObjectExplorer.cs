@@ -44,6 +44,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             base.Add(item);
             return item;
         }
+        public T AddRange<T>(T items) where T : IEnumerable<Database>
+        {
+            foreach(var item in items)item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
+        }
     }
 
     public partial class Database : NodeBase
@@ -71,6 +77,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             item.Parent = this.Parent;
             base.Add(item);
             return item;
+        }
+        public T AddRange<T>(T items) where T : IEnumerable<FolderBase>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
         }
     }
 
@@ -107,6 +119,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             base.Add(item);
             return item;
         }
+        public T AddRange<T>(T items) where T : IEnumerable<Table>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
+        }
     }
     public partial class Folder_Views : FolderBase
     {
@@ -129,6 +147,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             item.Parent = this.Parent;
             base.Add(item);
             return item;
+        }
+        public T AddRange<T>(T items) where T : IEnumerable<View>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
         }
     }
 
@@ -154,6 +178,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             base.Add(item);
             return item;
         }
+        public T AddRange<T>(T items) where T : IEnumerable<UserDefinedFunctionBase>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
+        }
     }
 
     public partial class Folder_UserDefinedTableTypes : FolderBase
@@ -177,6 +207,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             item.Parent = this.Parent;
             base.Add(item);
             return item;
+        }
+        public T AddRange<T>(T items) where T : IEnumerable<UserDefinedTableType>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
         }
     }
 
@@ -202,6 +238,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             base.Add(item);
             return item;
         }
+        public T AddRange<T>(T items) where T : IEnumerable<StoredProcedure>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
+        }
     }
     public partial class Folder_Schemas : FolderBase
     {
@@ -224,6 +266,12 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             item.Parent = this.Parent;
             base.Add(item);
             return item;
+        }
+        public T AddRange<T>(T items) where T : IEnumerable<Schema>
+        {
+            foreach (var item in items) item.Parent = this.Parent;
+            base.AddRange(items);
+            return items;
         }
     }
 

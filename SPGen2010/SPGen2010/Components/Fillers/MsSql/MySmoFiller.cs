@@ -4,18 +4,14 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-
 using SPGen2010.Components.Modules;
 using My = SPGen2010.Components.Modules.MySmo;
 using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
-
 
 // SMO
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
-
-
 
 namespace SPGen2010.Components.Fillers.MsSql
 {
@@ -24,8 +20,14 @@ namespace SPGen2010.Components.Fillers.MsSql
         /// <summary>
         /// todo: filter fill
         /// </summary>
-        public static void Fill(this My.Database mydb, Database db)
+        public static My.Database Fill(this My.Database mydb, Database db)
         {
+            mydb.Schemas = new List<My.Schema>(
+                from Schema o in db.Schemas
+                where o.IsSystemObject == false
+                select NewSchema(mydb, o)
+            );
+
             mydb.Tables = new List<My.Table>(
                 from Table o in db.Tables
                 where o.IsSystemObject == false
@@ -56,8 +58,9 @@ namespace SPGen2010.Components.Fillers.MsSql
             );
 
             mydb.ExtendedProperties = NewExtendProperties(mydb, db.ExtendedProperties);
-
             mydb.Prepare();
+
+            return mydb;
         }
 
 
@@ -68,13 +71,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             return new My.StoredProcedure
             {
                 Name = o.Name,
-                Schema = o.Schema
+                Schema = mydb.Schemas.Find(a => a.Name == o.Schema)
             };
         }
 
         public static My.UserDefinedFunction NewUserDefinedFunction(My.Database mydb, UserDefinedFunction o)
         {
             var myf = new My.UserDefinedFunction();
+            myf.Name = o.Name;
+            myf.Schema = mydb.Schemas.Find(a => a.Name == o.Schema);
+            myf.UserDefinedFunctionType = (My.UserDefinedFunctionType)(int)o.FunctionType;
             myf.ParentDatabase = mydb;
             myf.Columns = new List<My.Column>(
                 from Column c in o.Columns
@@ -85,7 +91,22 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public static My.UserDefinedTableType NewUserDefinedTableType(My.Database mydb, UserDefinedTableType o)
         {
-            var myt = new My.UserDefinedTableType();
+            var mytt = new My.UserDefinedTableType();
+            mytt.Name = o.Name;
+            mytt.Schema = mydb.Schemas.Find(a => a.Name == o.Schema);
+            mytt.ParentDatabase = mydb;
+            mytt.Columns = new List<My.Column>(
+                from Column c in o.Columns
+                select NewColumn(mydb, mytt, c)
+            );
+            return mytt;
+        }
+
+        public static My.Table NewTable(My.Database mydb, Table o)
+        {
+            var myt = new My.Table();
+            myt.Name = o.Name;
+            myt.Schema = mydb.Schemas.Find(a => a.Name == o.Schema);
             myt.ParentDatabase = mydb;
             myt.Columns = new List<My.Column>(
                 from Column c in o.Columns
@@ -94,60 +115,61 @@ namespace SPGen2010.Components.Fillers.MsSql
             return myt;
         }
 
-        public static My.Table NewTable(My.Database mydb, Table t)
-        {
-            var myt = new My.Table();
-            myt.ParentDatabase = mydb;
-            myt.Columns = new List<My.Column>(
-                from Column c in t.Columns
-                select NewColumn(mydb, myt, c)
-            );
-            return myt;
-        }
-
-        public static My.View NewView(My.Database mydb, View v)
+        public static My.View NewView(My.Database mydb, View o)
         {
             var myv = new My.View();
+            myv.Name = o.Name;
+            myv.Schema = mydb.Schemas.Find(a => a.Name == o.Schema);
             myv.ParentDatabase = mydb;
             myv.Columns = new List<My.Column>(
-                from Column c in v.Columns
+                from Column c in o.Columns
                 select NewColumn(mydb, myv, c)
             );
             return myv;
         }
 
-        public static My.Column NewColumn(My.Database mydb, My.ITableBase myt, Column c)
+        public static My.Column NewColumn(My.Database mydb, My.ITableBase myt, Column o)
         {
             return new My.Column
             {
                 ParentDatabase = mydb,
                 ParentTableBase = myt,
-                Name = c.Name,
-                DataType = NewDataType(c.DataType),
+                Name = o.Name,
+                DataType = NewDataType(o.DataType),
 
-                Computed = c.Computed,
-                ComputedText = c.ComputedText,
-                Default = c.Default,
-                Identity = c.Identity,
-                IdentityIncrement = c.IdentityIncrement,
-                IdentitySeed = c.IdentitySeed,
-                InPrimaryKey = c.InPrimaryKey,
-                IsForeignKey = c.IsForeignKey,
-                Nullable = c.Nullable,
-                RowGuidCol = c.RowGuidCol
+                Computed = o.Computed,
+                ComputedText = o.ComputedText,
+                Default = o.Default,
+                Identity = o.Identity,
+                IdentityIncrement = o.IdentityIncrement,
+                IdentitySeed = o.IdentitySeed,
+                InPrimaryKey = o.InPrimaryKey,
+                IsForeignKey = o.IsForeignKey,
+                Nullable = o.Nullable,
+                RowGuidCol = o.RowGuidCol
             };
         }
 
-        public static My.DataType NewDataType(DataType dt)
+        public static My.DataType NewDataType(DataType o)
         {
             return new My.DataType
             {
-                Name = dt.Name,
-                MaximumLength = dt.MaximumLength,
-                NumericPrecision = dt.NumericPrecision,
-                NumericScale = dt.NumericScale
+                Name = o.Name,
+                MaximumLength = o.MaximumLength,
+                NumericPrecision = o.NumericPrecision,
+                NumericScale = o.NumericScale
             };
         }
+
+        public static My.Schema NewSchema(My.Database mydb, Schema o)
+        {
+            return new My.Schema
+            {
+                ParentDatabase = mydb,
+                Name = o.Name
+            };
+        }
+
 
         public static My.ExtendedProperties NewExtendProperties(My.IExtendPropertiesBase parent, ExtendedPropertyCollection epc)
         {
@@ -163,7 +185,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 if (o.Key.Contains(mark_part)) continue;      // 分页项就不处理了　直接跳过
                 var s = o.Value;
                 // 根据　页码　部分　从小到大 排序取当前对象
-                var parts = from ep in eps 
+                var parts = from ep in eps
                             where ep.Key.Contains(mark_part)
                             orderby int.Parse(ep.Key.Substring(ep.Key.LastIndexOf(mark_part) + 8))
                             select ep;
@@ -192,7 +214,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                         var row = dt.FindByName(column.Name);
                         if (row != null)
                         {
-                            foreach(System.Data.DataColumn dc in dt.Columns)
+                            foreach (System.Data.DataColumn dc in dt.Columns)
                             {
                                 if (dc.Unique) continue;
                                 var ceps = column.ExtendedProperties;
