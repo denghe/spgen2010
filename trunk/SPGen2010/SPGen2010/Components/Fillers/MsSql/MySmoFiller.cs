@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+
+using SPGen2010.Components.Modules;
+using My = SPGen2010.Components.Modules.MySmo;
+using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
+
+
 // SMO
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
 
-using SPGen2010.Components.Modules;
-using My = SPGen2010.Components.Modules.MySmo;
-using SmoUtils = SPGen2010.Components.Utils;
+
 
 namespace SPGen2010.Components.Fillers.MsSql
 {
@@ -20,7 +24,7 @@ namespace SPGen2010.Components.Fillers.MsSql
         /// <summary>
         /// todo: filter fill
         /// </summary>
-        public static void FillData(this My.Database mydb, Database db)
+        public static void Fill(this My.Database mydb, Database db)
         {
             mydb.Tables = new List<My.Table>(
                 from Table o in db.Tables
@@ -52,6 +56,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             );
 
             mydb.ExtendedProperties = NewExtendProperties(mydb, db.ExtendedProperties);
+
+            mydb.Prepare();
         }
 
 
