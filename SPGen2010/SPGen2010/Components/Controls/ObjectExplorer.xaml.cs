@@ -22,14 +22,21 @@ namespace SPGen2010.Components.Controls
     /// </summary>
     public partial class ObjectExplorer : UserControl
     {
+
         public ObjectExplorer()
         {
             InitializeComponent();
         }
 
-        public void Fill(Server server)
+        public Server[] DataSource = null;
+        public void BindData(Server server)
         {
-            this._TreeView.ItemsSource = new Server[] { server };
+            this._TreeView.ItemsSource = DataSource = new Server[] { server };
         }
+        public void BindData()
+        {
+            this._TreeView.ItemsSource = DataSource;
+        }
+
     }
 }
