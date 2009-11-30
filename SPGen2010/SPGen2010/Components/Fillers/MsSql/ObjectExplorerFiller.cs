@@ -16,7 +16,6 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
 
-
 namespace SPGen2010.Components.Fillers.MsSql
 {
     public static partial class ObjectExplorerFiller

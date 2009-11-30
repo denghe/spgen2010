@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using SPGen2010.Components.Connectors.MsSql;
+using SPGen2010.Components.Fillers.MsSql;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+
 using Microsoft.SqlServer.Management.Smo;
 
 namespace SPGen2010.Components.Connectors.MsSql
@@ -21,7 +24,7 @@ namespace SPGen2010.Components.Connectors.MsSql
     /// </summary>
     public partial class WConnector_UP : Window
     {
-        public Server ServerInstance = null;
+        public Microsoft.SqlServer.Management.Smo.Server ServerInstance = null;
         private Connector_UP _connector = new Connector_UP();
 
         public WConnector_UP()
@@ -48,6 +51,10 @@ namespace SPGen2010.Components.Connectors.MsSql
                 _connector.Save();
                 DialogResult = true;
                 Close();
+
+                var server = new Oe.Server(_connector.Server);
+                server.Fill(ServerInstance);
+                WMain.Instance._ObjectExplorer.Fill(server);
             }
             else _Message_Label.Content = errMsg;
         }

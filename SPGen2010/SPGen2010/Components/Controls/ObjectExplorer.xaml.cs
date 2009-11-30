@@ -37,6 +37,11 @@ namespace SPGen2010.Components.Controls
             var views1_1 = new View(folder_views1, "v1");
             var views1_2 = new View(folder_views1, "v2");
 
+            Fill(server);
+        }
+
+        public void Fill(Server server)
+        {
             this._TreeView.ItemsSource = new Server[] { server };
         }
     }

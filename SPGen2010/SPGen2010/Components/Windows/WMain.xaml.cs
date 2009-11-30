@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 
 using SPGen2010.Components.Connectors;
+using SPGen2010.Components.Controls;
 
 namespace SPGen2010
 {
@@ -22,10 +23,31 @@ namespace SPGen2010
     /// </summary>
     public partial class WMain : Window
     {
+        #region Properties
+
+        public ObjectExplorer ObjectExplorer
+        {
+            get { return _ObjectExplorer; }
+        }
+
+
+        private static WMain _WMain = null;
+        /// <summary>
+        /// refresh to WMain instance
+        /// </summary>
+        public static WMain Instance 
+        {
+            get { return _WMain; }
+        }
+
+        #endregion
+
         #region load methods
 
         public WMain()
         {
+            _WMain = this;
+
             InitializeComponent();
         }
 
