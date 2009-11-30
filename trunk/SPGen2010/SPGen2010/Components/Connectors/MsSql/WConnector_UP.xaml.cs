@@ -53,7 +53,10 @@ namespace SPGen2010.Components.Connectors.MsSql
                 Close();
 
                 var server = new Oe.Server(_connector.Server);
-                server.Fill(ServerInstance);
+                server.Databases.Add(
+                    new Oe.Database(server, ServerInstance.Databases[0].Name)
+                    .Fill(ServerInstance.Databases[0])
+                );
                 WMain.Instance._ObjectExplorer.Fill(server);
             }
             else _Message_Label.Content = errMsg;
