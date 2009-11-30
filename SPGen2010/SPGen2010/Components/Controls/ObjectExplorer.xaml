@@ -9,109 +9,109 @@
     <Grid>
         <Grid.Resources>
             <!-- HierarchicalDataTemplates -->
-
+            
             <HierarchicalDataTemplate DataType="{x:Type oe:Server}" ItemsSource="{Binding Path=Databases}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_server.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Database}" ItemsSource="{Binding Path=Folders}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_database.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Tables}" ItemsSource="{Binding Path=Tables}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Views}" ItemsSource="{Binding Path=Views}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_UserDefinedFunctions}" ItemsSource="{Binding Path=UserDefinedFunctions}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_UserDefinedTableTypes}" ItemsSource="{Binding Path=UserDefinedTableTypes}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_StoredProcedures}" ItemsSource="{Binding Path=StoredProcedures}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Schemas}" ItemsSource="{Binding Path=Schemas}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Table}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_table.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:View}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_view.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedFunction_Scale}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_function_scale.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedFunction_Table}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_function_table.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedTableType}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_tabletype.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:StoredProcedure}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_storedprocedure.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Schema}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_schema.png"/>
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
+                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
         </Grid.Resources>
