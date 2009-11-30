@@ -15,6 +15,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public string Text { get; set; }
         public string Tips { get; set; }
+        public object Tag { get; set; }
     }
     public partial class Server : NodeBase
     {

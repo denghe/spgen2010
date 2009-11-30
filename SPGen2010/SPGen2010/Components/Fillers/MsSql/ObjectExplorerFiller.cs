@@ -18,30 +18,31 @@ using Microsoft.SqlServer;
 
 namespace SPGen2010.Components.Fillers.MsSql
 {
-    public static partial class ObjectExplorerFiller
+    public partial class ObjectExplorerFiller : IObjectExplorerFiller
     {
-        public static Oe.Server Fill(this Oe.Server oeserver, Server server)
+        public Server Server { get; set; }
+
+        public string GetInstanceName()
         {
+            return Server.InstanceName;
+        }
+
+        public Oe.Server Fill(Oe.Server oeserver, bool is_fill_db_name_only = true)
+        {
+            var server = this.Server;
             oeserver.Databases = new Oe.Databases { Parent = oeserver };
             foreach (Database db in server.Databases)
             {
-                oeserver.Databases.Add(new Oe.Database { Parent = oeserver, Text = db.Name }.Fill(db));
+                var oedb = new Oe.Database { Parent = oeserver, Text = db.Name };
+                if (!is_fill_db_name_only) this.Fill(oedb);
+                oeserver.Databases.Add(oedb);
             }
             return oeserver;
         }
 
-        public static Oe.Server FillDatabaseNameOnly(this Oe.Server oeserver, Server server)
+        public Oe.Database Fill(Oe.Database oedb)
         {
-            oeserver.Databases = new Oe.Databases { Parent = oeserver };
-            foreach (Database db in server.Databases)
-            {
-                oeserver.Databases.Add(new Oe.Database { Parent = oeserver, Text = db.Name });
-            }
-            return oeserver;
-        }
-
-        public static Oe.Database Fill(this Oe.Database oedb, Database db)
-        {
+            var db = this.Server.Databases[oedb.Text];
             oedb.Folders = new Oe.Folders { Parent = oedb };
 
             var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas" };

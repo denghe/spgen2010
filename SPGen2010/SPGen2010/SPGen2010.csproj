@@ -159,6 +159,7 @@
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
     <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
