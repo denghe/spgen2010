@@ -22,9 +22,20 @@ namespace SPGen2010.Components.Fillers.MsSql
     {
         public static Oe.Server Fill(this Oe.Server oeserver, Server server)
         {
+            oeserver.Databases = new Oe.Databases { Parent = oeserver };
             foreach (Database db in server.Databases)
             {
                 oeserver.Databases.Add(new Oe.Database { Parent = oeserver, Text = db.Name }.Fill(db));
+            }
+            return oeserver;
+        }
+
+        public static Oe.Server FillDatabaseNameOnly(this Oe.Server oeserver, Server server)
+        {
+            oeserver.Databases = new Oe.Databases { Parent = oeserver };
+            foreach (Database db in server.Databases)
+            {
+                oeserver.Databases.Add(new Oe.Database { Parent = oeserver, Text = db.Name });
             }
             return oeserver;
         }
