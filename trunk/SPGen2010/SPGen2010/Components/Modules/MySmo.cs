@@ -36,7 +36,7 @@ namespace SPGen2010.Components.Modules.MySmo
     }
     public interface ISchemaBase
     {
-        string Schema { get; set; }
+        Schema Schema { get; set; }
     }
     public interface IExtendPropertiesBase
     {
@@ -54,6 +54,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public List<StoredProcedure> StoredProcedures { get; set; }
         public List<UserDefinedFunction> UserDefinedFunctions { get; set; }
         public List<UserDefinedTableType> UserDefinedTableTypes { get; set; }
+        public List<Schema> Schemas { get; set; }
         public string Name { get; set; }
     }
 
@@ -63,7 +64,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
     }
 
     public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
@@ -72,7 +73,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
     }
 
     public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameBase, ISchemaBase, IExtendPropertiesBase
@@ -81,7 +82,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
     }
 
     public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
@@ -91,7 +92,9 @@ namespace SPGen2010.Components.Modules.MySmo
         public List<Column> Columns { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
+        public UserDefinedFunctionType UserDefinedFunctionType { get; set; }
+
     }
 
     public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameBase, ISchemaBase, IExtendPropertiesBase
@@ -100,7 +103,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
     }
 
     public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase
@@ -130,7 +133,6 @@ namespace SPGen2010.Components.Modules.MySmo
         public ExtendedProperties ExtendedProperties { get; set; }
         public DataType DataType { get; set; }
         public string Name { get; set; }
-        public string Schema { get; set; }
     }
 
     public partial class DataType : IMySmoObject, INameBase
@@ -142,9 +144,23 @@ namespace SPGen2010.Components.Modules.MySmo
         public int NumericScale { get; set; }
     }
 
+    public partial class Schema : IMySmoObject, INameBase, IParentDatabase
+    {
+        public Database ParentDatabase { get; set; }
+        public string Name { get; set; }
+    }
+
     public partial class ExtendedProperties : Dictionary<string, string>, IMySmoObject
     {
         public IExtendPropertiesBase ParentExtendPropertiesBase { get; set; }
+    }
+
+    public enum UserDefinedFunctionType
+    {
+        Unknown = 0,
+        Scalar = 1,
+        Table = 2,
+        Inline = 3,
     }
 
     public enum SqlDataType
