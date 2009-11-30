@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
-            <my:ObjectExplorer Grid.Column="0"></my:ObjectExplorer>
+            <my:ObjectExplorer x:Name="_ObjectExplorer" Grid.Column="0"></my:ObjectExplorer>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Background="Blue" Width="10"></GridSplitter>
             <StackPanel Grid.Column="1" Background="Green" Margin="10,0,10,0">
             </StackPanel>
