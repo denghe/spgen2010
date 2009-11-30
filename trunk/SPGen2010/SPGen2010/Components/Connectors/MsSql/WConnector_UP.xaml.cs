@@ -52,9 +52,10 @@ namespace SPGen2010.Components.Connectors.MsSql
                 DialogResult = true;
                 Close();
 
-                var server = new Oe.Server(_connector.Server);
+                var server = new Oe.Server { Text = _connector.Server };
+                server.Databases = new Oe.Databases { Parent = server };
                 server.Databases.Add(
-                    new Oe.Database(server, ServerInstance.Databases[0].Name)
+                    new Oe.Database { Parent = server, Text = ServerInstance.Databases[0].Name }
                     .Fill(ServerInstance.Databases[0])
                 );
                 WMain.Instance._ObjectExplorer.Fill(server);

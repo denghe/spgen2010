@@ -24,13 +24,6 @@
                 </StackPanel>
             </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type oe:Schema}" ItemsSource="{Binding Path=Schemas}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/SPGen2010;component/Images/sql_schema.png"/>
-                    <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
-                </StackPanel>
-            </HierarchicalDataTemplate>
-
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Tables}" ItemsSource="{Binding Path=Tables}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
