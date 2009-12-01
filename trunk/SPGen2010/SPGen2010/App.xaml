@@ -6,6 +6,7 @@
         <!-- 通用的改字体为 SimSun 解决字体模糊问题 -->
         <Style x:Key="Font">
             <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
         </Style>
         
         <Style BasedOn="{StaticResource Font}" TargetType="Button">
