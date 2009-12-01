@@ -31,13 +31,13 @@ namespace SPGen2010.Components.Controls
 
         public Server DataSource = null;
         public IObjectExplorerFiller Filler { get; set; }
+
         public void BindData()
         {
             this.DataSource = new Server { Text = this.Filler.GetInstanceName() };
             this.Filler.Fill(this.DataSource, true);
             this._TreeView.ItemsSource = new Server[] { this.DataSource };
         }
-
 
         private void _Server_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -47,10 +47,7 @@ namespace SPGen2010.Components.Controls
         {
             var c = (StackPanel)sender;
             var db = c.Tag as Database;
-            //Filler.Fill(db);
-            //MessageBox.Show(_TreeView.SelectedItem.ToString());
-            //((TreeViewItem)c.Parent).ItemsSource = new Database[] { db };
-            //this._TreeView.ItemsSource = new Server[] { this.DataSource };
+            Filler.Fill(db);
         }
 
         private void _Tables_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -116,18 +113,6 @@ namespace SPGen2010.Components.Controls
         private void _Schema_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-        }
-
-        private void _TreeView_Selected(object sender, RoutedEventArgs e)
-        {
-            var o = _TreeView.SelectedItem;
-            if (o == null) return;
-            if (o.GetType() == typeof(Database))
-            {
-                var tvi = (TreeViewItem)e.Source;
-                //tvi.SetBinding(
-                //tvi.ItemsSource = new Database[] { (Database)_TreeView.SelectedItem };
-            }
         }
 
     }

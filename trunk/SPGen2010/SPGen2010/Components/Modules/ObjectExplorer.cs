@@ -8,29 +8,61 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
 using SPGen2010.Components.Utils;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace SPGen2010.Components.Modules.ObjectExplorer
 {
-    public abstract partial class NodeBase
+    public abstract partial class NodeBase : INotifyPropertyChanged
     {
-        public string Text { get; set; }
-        public string Tips { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private string _text;
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                if (this.PropertyChanged != null)
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Text"));
+            }
+        }
+        private string _tips;
+        public string Tips
+        {
+            get { return _tips; }
+            set { _tips = value;
+            if (this.PropertyChanged != null)
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tips"));
+            }
+        }
         public object Tag { get; set; }
     }
     public partial class Server : NodeBase
     {
         public Databases Databases { get; set; }
     }
-    public partial class Databases : List<Database>
+    public partial class Databases : ObservableCollection<Database>
     {
         public Server Parent { get; set; }
     }
-    public partial class Database : NodeBase
+    public partial class Database : NodeBase, INotifyPropertyChanged
     {
+        public new event PropertyChangedEventHandler PropertyChanged;
         public Server Parent { get; set; }
-        public Folders Folders { get; set; }
+        private Folders _folders;
+        public Folders Folders
+        {
+            get { return _folders; }
+            set
+            {
+                _folders = value;
+                if (this.PropertyChanged != null)
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Folders"));
+            }
+        }
     }
-    public partial class Folders : List<FolderBase>
+    public partial class Folders : ObservableCollection<FolderBase>
     {
         public Database Parent { get; set; }
     }
@@ -42,7 +74,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public Tables Tables { get; set; }
     }
-    public partial class Tables : List<Table>
+    public partial class Tables : ObservableCollection<Table>
     {
         public Folder_Tables Parent { get; set; }
     }
@@ -50,7 +82,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public Views Views { get; set; }
     }
-    public partial class Views : List<View>
+    public partial class Views : ObservableCollection<View>
     {
         public Folder_Views Parent { get; set; }
     }
@@ -58,7 +90,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public UserDefinedFunctions UserDefinedFunctions { get; set; }
     }
-    public partial class UserDefinedFunctions : List<UserDefinedFunctionBase>
+    public partial class UserDefinedFunctions : ObservableCollection<UserDefinedFunctionBase>
     {
         public Folder_UserDefinedFunctions Parent { get; set; }
     }
@@ -66,7 +98,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public UserDefinedTableTypes UserDefinedTableTypes { get; set; }
     }
-    public partial class UserDefinedTableTypes : List<UserDefinedTableType>
+    public partial class UserDefinedTableTypes : ObservableCollection<UserDefinedTableType>
     {
         public Folder_UserDefinedTableTypes Parent { get; set; }
     }
@@ -74,7 +106,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public StoredProcedures StoredProcedures { get; set; }
     }
-    public partial class StoredProcedures : List<StoredProcedure>
+    public partial class StoredProcedures : ObservableCollection<StoredProcedure>
     {
         public Folder_StoredProcedures Parent { get; set; }
     }
@@ -82,7 +114,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     {
         public Schemas Schemas { get; set; }
     }
-    public partial class Schemas : List<Schema>
+    public partial class Schemas : ObservableCollection<Schema>
     {
         public Folder_Schemas Parent { get; set; }
     }
