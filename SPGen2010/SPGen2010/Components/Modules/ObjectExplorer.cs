@@ -16,6 +16,11 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     public abstract partial class NodeBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChange(string pn)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(pn));
+        }
         private string _text;
         public string Text
         {
@@ -23,48 +28,58 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             set
             {
                 _text = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Text"));
+                NotifyPropertyChange("Text");
             }
         }
         private string _tips;
         public string Tips
         {
             get { return _tips; }
-            set { _tips = value;
-            if (this.PropertyChanged != null)
-                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tips"));
+            set
+            {
+                _tips = value;
+                NotifyPropertyChange("Tips");
             }
         }
         public object Tag { get; set; }
     }
     public partial class Server : NodeBase
     {
-        public Databases Databases { get; set; }
+        public Server() { this.Databases = new Databases { Parent = this }; }
+        public Databases Databases { get; private set; }
     }
     public partial class Databases : ObservableCollection<Database>
     {
         public Server Parent { get; set; }
+        public IEnumerable<T> AddRange<T>(IEnumerable<T> items) where T : Database
+        {
+            foreach (var item in items) this.Add(item);
+            return items;
+        }
     }
-    public partial class Database : NodeBase, INotifyPropertyChanged
+    public partial class Database : NodeBase
     {
-        public new event PropertyChangedEventHandler PropertyChanged;
+        public Database() { this.Folders = new Folders { Parent = this }; }
         public Server Parent { get; set; }
         private Folders _folders;
         public Folders Folders
         {
             get { return _folders; }
-            set
+            private set
             {
                 _folders = value;
-                if (this.PropertyChanged != null)
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Folders"));
+                NotifyPropertyChange("Folders");
             }
         }
     }
     public partial class Folders : ObservableCollection<FolderBase>
     {
         public Database Parent { get; set; }
+        public Folders AddRange<T>(IEnumerable<T> items) where T : FolderBase
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public abstract partial class FolderBase : NodeBase
     {
@@ -72,51 +87,87 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     }
     public partial class Folder_Tables : FolderBase
     {
-        public Tables Tables { get; set; }
+        public Folder_Tables() { this.Tables = new Tables { Parent = this }; }
+        public Tables Tables { get; private set; }
     }
     public partial class Tables : ObservableCollection<Table>
     {
         public Folder_Tables Parent { get; set; }
+        public Tables AddRange<T>(IEnumerable<T> items) where T : Table
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Folder_Views : FolderBase
     {
-        public Views Views { get; set; }
+        public Folder_Views() { this.Views = new Views { Parent = this }; }
+        public Views Views { get; private set; }
     }
     public partial class Views : ObservableCollection<View>
     {
         public Folder_Views Parent { get; set; }
+        public Views AddRange<T>(IEnumerable<T> items) where T : View
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Folder_UserDefinedFunctions : FolderBase
     {
-        public UserDefinedFunctions UserDefinedFunctions { get; set; }
+        public Folder_UserDefinedFunctions() { this.UserDefinedFunctions = new UserDefinedFunctions { Parent = this }; }
+        public UserDefinedFunctions UserDefinedFunctions { get; private set; }
     }
     public partial class UserDefinedFunctions : ObservableCollection<UserDefinedFunctionBase>
     {
         public Folder_UserDefinedFunctions Parent { get; set; }
+        public UserDefinedFunctions AddRange<T>(IEnumerable<T> items) where T : UserDefinedFunctionBase
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Folder_UserDefinedTableTypes : FolderBase
     {
-        public UserDefinedTableTypes UserDefinedTableTypes { get; set; }
+        public Folder_UserDefinedTableTypes() { this.UserDefinedTableTypes = new UserDefinedTableTypes { Parent = this }; }
+        public UserDefinedTableTypes UserDefinedTableTypes { get; private set; }
     }
     public partial class UserDefinedTableTypes : ObservableCollection<UserDefinedTableType>
     {
         public Folder_UserDefinedTableTypes Parent { get; set; }
+        public UserDefinedTableTypes AddRange<T>(IEnumerable<T> items) where T : UserDefinedTableType
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Folder_StoredProcedures : FolderBase
     {
-        public StoredProcedures StoredProcedures { get; set; }
+        public Folder_StoredProcedures() { this.StoredProcedures = new StoredProcedures { Parent = this }; }
+        public StoredProcedures StoredProcedures { get; private set; }
     }
     public partial class StoredProcedures : ObservableCollection<StoredProcedure>
     {
         public Folder_StoredProcedures Parent { get; set; }
+        public StoredProcedures AddRange<T>(IEnumerable<T> items) where T : StoredProcedure
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Folder_Schemas : FolderBase
     {
-        public Schemas Schemas { get; set; }
+        public Folder_Schemas() { this.Schemas = new Schemas { Parent = this }; }
+        public Schemas Schemas { get; private set; }
     }
     public partial class Schemas : ObservableCollection<Schema>
     {
         public Folder_Schemas Parent { get; set; }
+        public Schemas AddRange<T>(IEnumerable<T> items) where T : Schema
+        {
+            foreach (var item in items) this.Add(item);
+            return this;
+        }
     }
     public partial class Table : NodeBase
     {
