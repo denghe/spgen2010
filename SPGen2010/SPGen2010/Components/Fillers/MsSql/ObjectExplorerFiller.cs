@@ -31,22 +31,22 @@ namespace SPGen2010.Components.Fillers.MsSql
             return Server.InstanceName;
         }
 
-        public Oe.Server Fill(Oe.Server oeserver, bool is_fill_db_name_only = true)
+        public Oe.Server Fill(Oe.Server oeserver)
         {
             oeserver.Databases.Clear();
-            var server = this.Server;
-            foreach (Database db in server.Databases)
-            {
-                var oedb = new Oe.Database { Parent = oeserver, Text = db.Name };
-                if (!is_fill_db_name_only) this.Fill(oedb);
-                oeserver.Databases.Add(oedb);
-            }
+            oeserver.Databases.AddRange(
+                from Database db in this.Server.Databases
+                where db.IsSystemObject == false
+                select new Oe.Database { Parent = oeserver, Text = db.Name });
             return oeserver;
         }
 
-        public Oe.Database Fill(Oe.Database oedb)
+        public Oe.Database Fill(Oe.Database oedb, Action<double> progressNotify)
         {
+            double progress = 0;
             var db = this.Server.Databases[oedb.Text];  // todo: check exists
+
+            progressNotify(progress++);
 
             var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas" };
             sf.Schemas.AddRange(
@@ -55,6 +55,8 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.Schema { Parent = sf, Text = o.Name });
             oedb.Folders.Add(sf);
 
+            progressNotify(progress++);
+
             var tf = new Oe.Folder_Tables { Parent = oedb, Text = "Tables" };
             tf.Tables.AddRange(
                 from Table o in db.Tables
@@ -62,12 +64,16 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.Table { Parent = tf, Text = o.Name });
             oedb.Folders.Add(tf);
 
+            progressNotify(progress++);
+
             var vf = new Oe.Folder_Views { Parent = oedb, Text = "Views" };
             vf.Views.AddRange(
                 from View o in db.Views
                 where o.IsSystemObject == false
                 select new Oe.View { Parent = vf, Text = o.Name });
             oedb.Folders.Add(vf);
+
+            progressNotify(progress++);
 
             var ff = new Oe.Folder_UserDefinedFunctions { Parent = oedb, Text = "UserDefinedFunctions" };
             ff.UserDefinedFunctions.AddRange(
@@ -78,6 +84,8 @@ namespace SPGen2010.Components.Fillers.MsSql
                     (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale { Parent = ff, Text = o.Name });
             oedb.Folders.Add(ff);
 
+            progressNotify(progress++);
+
             var spf = new Oe.Folder_StoredProcedures { Parent = oedb, Text = "StoredProcedures" };
             spf.StoredProcedures.AddRange(
                 from StoredProcedure o in db.StoredProcedures
@@ -85,11 +93,15 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.StoredProcedure { Parent = spf, Text = o.Name });
             oedb.Folders.Add(spf);
 
+            progressNotify(progress++);
+
             var ttf = new Oe.Folder_UserDefinedTableTypes { Parent = oedb, Text = "UserDefinedTableTypes" };
             ttf.UserDefinedTableTypes.AddRange(
                 from UserDefinedTableType o in db.UserDefinedTableTypes
                 select new Oe.UserDefinedTableType { Parent = ttf, Text = o.Name });
             oedb.Folders.Add(ttf);
+
+            progressNotify(progress++);
 
             return oedb;
         }

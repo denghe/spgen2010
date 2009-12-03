@@ -4,8 +4,8 @@ namespace SPGen2010.Components.Fillers.MsSql
 {
     public interface IObjectExplorerFiller
     {
-        Database Fill(Database db);
-        Server Fill(Server server, bool is_fill_db_name_only);
+        Database Fill(Database db, Action<double> progressNotify);
+        Server Fill(Server server);
         string GetInstanceName();
     }
 }
