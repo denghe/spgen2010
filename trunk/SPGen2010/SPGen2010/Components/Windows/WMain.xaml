@@ -1,9 +1,10 @@
 ﻿<Window xmlns:my="clr-namespace:SPGen2010.Components.Controls"  x:Class="SPGen2010.WMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SPGen2010" Height="350" Width="780" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        Title="SPGen2010"
         Loaded="Window_Loaded" ContentRendered="Window_ContentRendered">
-    <Grid>
+    <Grid Height="350" Width="780">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />

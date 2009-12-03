@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using SPGen2010.Components.Windows;
 using SPGen2010.Components.Modules;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Fillers.MsSql;
@@ -35,7 +36,7 @@ namespace SPGen2010.Components.Controls
         public void BindData()
         {
             this.DataSource = new Server { Text = this.Filler.GetInstanceName() };
-            this.Filler.Fill(this.DataSource, true);
+            this.Filler.Fill(this.DataSource);
             this._TreeView.ItemsSource = new Server[] { this.DataSource };
         }
 
@@ -45,9 +46,12 @@ namespace SPGen2010.Components.Controls
 
         private void _Database_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            var wp = new WProgress();
+            wp.ShowDialog();
             var c = (StackPanel)sender;
             var db = c.Tag as Database;
-            Filler.Fill(db);
+            Filler.Fill(db, o => { wp.Value = o; });
+            wp.Close();
         }
 
         private void _Tables_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
