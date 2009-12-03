@@ -16,7 +16,7 @@ using System.IO;
 using SPGen2010.Components.Connectors;
 using SPGen2010.Components.Controls;
 
-namespace SPGen2010
+namespace SPGen2010.Components.Windows
 {
     /// <summary>
     /// Interaction logic for WMain.xaml

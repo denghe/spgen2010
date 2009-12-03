@@ -155,7 +155,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Connectors\MsSql\Connector_UP.cs" />
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
     </Compile>
@@ -178,9 +177,6 @@
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Controls\TreeViewWithIcons.cs" />
-    <Compile Include="Components\Windows\WProgress.xaml.cs">
-      <DependentUpon>WProgress.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -284,10 +280,6 @@
     <Page Include="Components\Windows\WMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Components\Windows\WProgress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
