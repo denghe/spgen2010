@@ -26,6 +26,35 @@ namespace SPGen2010.Components.Fillers.MsSql
 
     public partial class ObjectExplorerFiller : IObjectExplorerFiller
     {
+        public ObjectExplorerFiller(Server server)
+        {
+            this.Server = server;
+
+            #region Set SMO SQL Struct Data Limit
+
+            this.Server.SetDefaultInitFields(typeof(Database),
+                new String[] { "Name" });
+
+            this.Server.SetDefaultInitFields(typeof(Table),
+                new String[] { "Name", "Schema", "IsSystemObject" });
+
+            this.Server.SetDefaultInitFields(typeof(View),
+                new String[] { "Name", "Schema", "IsSystemObject" });
+
+            this.Server.SetDefaultInitFields(typeof(StoredProcedure),
+                new String[] { "Name", "Schema", "IsSystemObject" });
+
+            this.Server.SetDefaultInitFields(typeof(UserDefinedFunction),
+                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject" });
+
+            if (this.Server.VersionMajor >= 10)
+            {
+                this.Server.SetDefaultInitFields(typeof(UserDefinedTableType),
+                    new String[] { "Name", "Schema" });
+            }
+
+            #endregion
+        }
         public Server Server { get; set; }
 
         public string GetInstanceName()
@@ -45,6 +74,8 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public Oe.Database Fill(Oe.Database oedb)
         {
+
+
             var db = this.Server.Databases[oedb.Text];  // todo: check exists
             oedb.Folders.Clear();
 
