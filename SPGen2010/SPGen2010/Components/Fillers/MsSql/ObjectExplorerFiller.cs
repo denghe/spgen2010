@@ -30,7 +30,7 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public string GetInstanceName()
         {
-            return Server.InstanceName;
+            return Server.ToString();
         }
 
         public Oe.Server Fill(Oe.Server oeserver)
