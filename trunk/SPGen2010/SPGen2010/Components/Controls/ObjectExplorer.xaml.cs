@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Windows;
 using SPGen2010.Components.Modules;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Fillers.MsSql;
@@ -46,12 +45,21 @@ namespace SPGen2010.Components.Controls
 
         private void _Database_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var wp = new WProgress();
-            wp.ShowDialog();
+            Cursor cc = Cursor;
+            Cursor = Cursors.Wait;
+
             var c = (StackPanel)sender;
             var db = c.Tag as Database;
-            Filler.Fill(db, o => { wp.Value = o; });
-            wp.Close();
+            if (db.Folders.Count == 0)
+            {
+                try
+                {
+                    Filler.Fill(db);
+                }
+                catch { }   // todo
+            }
+
+            Cursor = cc;
         }
 
         private void _Tables_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

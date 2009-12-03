@@ -1,9 +1,0 @@
-﻿<Window x:Class="SPGen2010.Components.Windows.WProgress"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
-        Title="WProgress" WindowStyle="None">
-    <Grid Height="100" Width="300">
-        <ProgressBar Name="_ProgressBar" Height="30" Margin="10"></ProgressBar>
-    </Grid>
-</Window>

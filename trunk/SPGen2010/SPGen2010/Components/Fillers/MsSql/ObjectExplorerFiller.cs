@@ -6,6 +6,7 @@ using System.Windows.Markup;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.ComponentModel;
 
 using SPGen2010.Components.Modules;
 using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
@@ -15,6 +16,7 @@ using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
+
 
 namespace SPGen2010.Components.Fillers.MsSql
 {
@@ -41,12 +43,12 @@ namespace SPGen2010.Components.Fillers.MsSql
             return oeserver;
         }
 
-        public Oe.Database Fill(Oe.Database oedb, Action<double> progressNotify)
+        public Oe.Database Fill(Oe.Database oedb)
         {
-            double progress = 0;
             var db = this.Server.Databases[oedb.Text];  // todo: check exists
+            oedb.Folders.Clear();
 
-            progressNotify(progress++);
+            
 
             var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas" };
             sf.Schemas.AddRange(
@@ -55,7 +57,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.Schema { Parent = sf, Text = o.Name });
             oedb.Folders.Add(sf);
 
-            progressNotify(progress++);
+            
 
             var tf = new Oe.Folder_Tables { Parent = oedb, Text = "Tables" };
             tf.Tables.AddRange(
@@ -64,7 +66,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.Table { Parent = tf, Text = o.Name });
             oedb.Folders.Add(tf);
 
-            progressNotify(progress++);
+            
 
             var vf = new Oe.Folder_Views { Parent = oedb, Text = "Views" };
             vf.Views.AddRange(
@@ -73,7 +75,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.View { Parent = vf, Text = o.Name });
             oedb.Folders.Add(vf);
 
-            progressNotify(progress++);
+            
 
             var ff = new Oe.Folder_UserDefinedFunctions { Parent = oedb, Text = "UserDefinedFunctions" };
             ff.UserDefinedFunctions.AddRange(
@@ -84,7 +86,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                     (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale { Parent = ff, Text = o.Name });
             oedb.Folders.Add(ff);
 
-            progressNotify(progress++);
+            
 
             var spf = new Oe.Folder_StoredProcedures { Parent = oedb, Text = "StoredProcedures" };
             spf.StoredProcedures.AddRange(
@@ -93,7 +95,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.StoredProcedure { Parent = spf, Text = o.Name });
             oedb.Folders.Add(spf);
 
-            progressNotify(progress++);
+            
 
             var ttf = new Oe.Folder_UserDefinedTableTypes { Parent = oedb, Text = "UserDefinedTableTypes" };
             ttf.UserDefinedTableTypes.AddRange(
@@ -101,7 +103,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                 select new Oe.UserDefinedTableType { Parent = ttf, Text = o.Name });
             oedb.Folders.Add(ttf);
 
-            progressNotify(progress++);
+            
 
             return oedb;
         }
