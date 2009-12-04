@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using SPGen2010.Components.Modules.ObjectExplorer;
+
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
@@ -23,5 +25,14 @@ namespace SPGen2010.Components.Controls
         {
             InitializeComponent();
         }
+
+        public Actions_Server(Server server)
+            : this()
+        {
+            this.Server = server;
+            
+        }
+
+        public Server Server { get; set; }
     }
 }
