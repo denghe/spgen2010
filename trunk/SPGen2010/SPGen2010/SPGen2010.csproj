@@ -158,6 +158,12 @@
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Controls\Actions_Server.xaml.cs">
+      <DependentUpon>Actions_Server.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Details_Server.xaml.cs">
+      <DependentUpon>Details_Server.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
@@ -268,6 +274,14 @@
     <Page Include="Components\Connectors\WConnectorBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Controls\Actions_Server.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Details_Server.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\Controls\ObjectExplorer.xaml">
       <Generator>MSBuild:Compile</Generator>
