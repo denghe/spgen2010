@@ -11,105 +11,105 @@
             <!-- HierarchicalDataTemplates -->
             
             <HierarchicalDataTemplate DataType="{x:Type oe:Server}" ItemsSource="{Binding Path=Databases}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Server_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_server.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Database}" ItemsSource="{Binding Path=Folders}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Database_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_database.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Tables}" ItemsSource="{Binding Path=Tables}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Tables_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Views}" ItemsSource="{Binding Path=Views}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Views_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_UserDefinedFunctions}" ItemsSource="{Binding Path=UserDefinedFunctions}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_UserDefinedFunctions_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_UserDefinedTableTypes}" ItemsSource="{Binding Path=UserDefinedTableTypes}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_UserDefinedTableTypes_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_StoredProcedures}" ItemsSource="{Binding Path=StoredProcedures}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_StoredProcedures_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Folder_Schemas}" ItemsSource="{Binding Path=Schemas}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Schemas_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_folder.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Table}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Table_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_table.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:View}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_View_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_view.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedFunction_Scale}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_UserDefinedFunction_Scale_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_function_scale.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedFunction_Table}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_UserDefinedFunction_Table_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_function_table.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:UserDefinedTableType}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_UserDefinedTableType_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_tabletype.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:StoredProcedure}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_StoredProcedure_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_storedprocedure.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
             </HierarchicalDataTemplate>
 
             <HierarchicalDataTemplate DataType="{x:Type oe:Schema}">
-                <StackPanel Orientation="Horizontal" Tag="{Binding}" MouseLeftButtonDown="_Schema_StackPanel_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" Tag="{Binding}">
                     <Image Source="/SPGen2010;component/Images/sql_schema.png"/>
                     <TextBlock Text="{Binding Path=Text}" ToolTip="{Binding Path=Tips}" />
                 </StackPanel>
@@ -121,7 +121,9 @@
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer</Label>
+        
         <ToolBarTray Grid.Row="1" Background="#bcc7d8">
             <ToolBar Band="1" BandIndex="1">
                 <Button Name="_Connect_Button" Content="Connect" ToolTip="Connect a mssql server instance"/>
@@ -131,6 +133,7 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
+        
         <TreeView Grid.Row="2" Name="_TreeView" TreeViewItem.Selected="_TreeView_Selected"></TreeView>
     </Grid>
 </UserControl>
