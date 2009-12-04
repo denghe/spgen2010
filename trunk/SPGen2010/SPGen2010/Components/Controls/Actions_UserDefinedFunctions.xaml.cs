@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_UserDefinedFunctions(UserDefinedFunctions o)
+        public Actions_UserDefinedFunctions(Folder_UserDefinedFunctions o)
             : this()
         {
             this.UserDefinedFunctions = o;
             
         }
 
-        public UserDefinedFunctions UserDefinedFunctions { get; set; }
+        public Folder_UserDefinedFunctions UserDefinedFunctions { get; set; }
     }
 }

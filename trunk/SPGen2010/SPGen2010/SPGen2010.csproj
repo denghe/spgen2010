@@ -167,6 +167,12 @@
     <Compile Include="Components\Controls\Actions_StoredProcedures.xaml.cs">
       <DependentUpon>Actions_StoredProcedures.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Controls\Actions_UserDefinedTableTypes.xaml.cs">
+      <DependentUpon>Actions_UserDefinedTableTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Details_UserDefinedTableTypes.xaml.cs">
+      <DependentUpon>Details_UserDefinedTableTypes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Controls\Details_Schemas.xaml.cs">
       <DependentUpon>Details_Schemas.xaml</DependentUpon>
     </Compile>
@@ -362,6 +368,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\Controls\Actions_StoredProcedures.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Actions_UserDefinedTableTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Details_UserDefinedTableTypes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

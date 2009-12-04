@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_UserDefinedFunctions(UserDefinedFunctions o)
+        public Details_UserDefinedFunctions(Folder_UserDefinedFunctions o)
             : this()
         {
             this.UserDefinedFunctions = o;
-            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\UserDefinedFunctions";
+            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedFunctions";
         }
 
-        public UserDefinedFunctions UserDefinedFunctions { get; set; }
+        public Folder_UserDefinedFunctions UserDefinedFunctions { get; set; }
     }
 }

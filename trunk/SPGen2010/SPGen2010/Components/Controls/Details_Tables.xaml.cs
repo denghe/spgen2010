@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_Tables(Tables o)
+        public Details_Tables(Folder_Tables o)
             : this()
         {
             this.Tables = o;
-            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables";
+            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Tables";
         }
 
-        public Tables Tables { get; set; }
+        public Folder_Tables Tables { get; set; }
     }
 }

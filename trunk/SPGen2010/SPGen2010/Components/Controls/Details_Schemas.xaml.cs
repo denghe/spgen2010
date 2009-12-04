@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_Schemas(Schemas o)
+        public Details_Schemas(Folder_Schemas o)
             : this()
         {
             this.Schemas = o;
-            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Schemas";
+            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Schemas";
         }
 
-        public Schemas Schemas { get; set; }
+        public Folder_Schemas Schemas { get; set; }
     }
 }

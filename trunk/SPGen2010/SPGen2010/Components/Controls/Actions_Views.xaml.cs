@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_Views(Views o)
+        public Actions_Views(Folder_Views o)
             : this()
         {
             this.Views = o;
             
         }
 
-        public Views Views { get; set; }
+        public Folder_Views Views { get; set; }
     }
 }
