@@ -11,26 +11,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Details_Server.xaml
+    /// Interaction logic for Details_StoredProcedure.xaml
     /// </summary>
-    public partial class Details_Server : UserControl
+    public partial class Details_StoredProcedure : UserControl
     {
-        public Details_Server()
+        public Details_StoredProcedure()
         {
             InitializeComponent();
         }
-        public Details_Server(Server server)
+
+        public Details_StoredProcedure(StoredProcedure o)
             : this()
         {
-            this.Server = server;
-            _Path_Label.Content = server.Text + @"\Databases";
+            this.StoredProcedure = o;
+            _Path_Label.Content = o.Text + @"\Databases";
         }
 
-        public Server Server { get; set; }
+        public StoredProcedure StoredProcedure { get; set; }
     }
 }

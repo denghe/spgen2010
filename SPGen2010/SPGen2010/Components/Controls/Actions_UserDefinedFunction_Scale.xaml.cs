@@ -17,22 +17,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Server.xaml
+    /// Interaction logic for Actions_UserDefinedFunction_Scale.xaml
     /// </summary>
-    public partial class Actions_Server : UserControl
+    public partial class Actions_UserDefinedFunction_Scale : UserControl
     {
-        public Actions_Server()
+        public Actions_UserDefinedFunction_Scale()
         {
             InitializeComponent();
         }
 
-        public Actions_Server(Server server)
+        public Actions_UserDefinedFunction_Scale(UserDefinedFunction_Scale o)
             : this()
         {
-            this.Server = server;
+            this.UserDefinedFunction_Scale = o;
             
         }
 
-        public Server Server { get; set; }
+        public UserDefinedFunction_Scale UserDefinedFunction_Scale { get; set; }
     }
 }
