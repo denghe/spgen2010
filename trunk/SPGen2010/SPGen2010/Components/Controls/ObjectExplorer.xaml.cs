@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 using SPGen2010.Components.Modules;
 using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Fillers.MsSql;
 
 namespace SPGen2010.Components.Controls
@@ -39,92 +40,77 @@ namespace SPGen2010.Components.Controls
             this._TreeView.ItemsSource = new Server[] { this.DataSource };
         }
 
-        private void _Server_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void _TreeView_Selected(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void _Database_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+            // backup cursor
             Cursor cc = Cursor;
             Cursor = Cursors.Wait;
 
-            var c = (StackPanel)sender;
-            var db = c.Tag as Database;
-            if (db.Folders.Count == 0)
+            // get current item
+            var o = _TreeView.SelectedItem;
+            var ot = o.GetType();
+
+
+            if (typeof(Server) == ot)
             {
-                try
+            }
+            else if (typeof(Databases) == ot)
+            {
+            }
+            else if (typeof(Database) == ot)
+            {
+                var db = (Database)o;
+                if (db.Folders.Count == 0)
                 {
-                    Filler.Fill(db);
+                    try
+                    {
+                        Filler.Fill(db);
+                    }
+                    catch { }   // todo
                 }
-                catch { }   // todo
+            }
+            else if (typeof(Folder_Tables) == ot)
+            {
+            }
+            else if (typeof(Oe.Table) == ot)
+            {
+            }
+            else if (typeof(Folder_Views) == ot)
+            {
+            }
+            else if (typeof(View) == ot)
+            {
+            }
+            else if (typeof(Folder_UserDefinedFunctions) == ot)
+            {
+            }
+            else if (typeof(UserDefinedFunction_Scale) == ot)
+            {
+            }
+            else if (typeof(UserDefinedFunction_Table) == ot)
+            {
+            }
+            else if (typeof(Folder_UserDefinedTableTypes) == ot)
+            {
+            }
+            else if (typeof(UserDefinedTableType) == ot)
+            {
+            }
+            else if (typeof(Folder_StoredProcedures) == ot)
+            {
+            }
+            else if (typeof(StoredProcedure) == ot)
+            {
+            }
+            else if (typeof(Folder_Schemas) == ot)
+            {
+            }
+            else if (typeof(Schema) == ot)
+            {
             }
 
+            // restore cursor
             Cursor = cc;
-        }
-
-        private void _Tables_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _Views_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _UserDefinedFunctions_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _UserDefinedTableTypes_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _StoredProcedures_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _Schemas_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _Table_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _View_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _UserDefinedFunction_Scale_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _UserDefinedFunction_Table_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _UserDefinedTableType_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _StoredProcedure_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _Schema_StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
         }
 
     }
