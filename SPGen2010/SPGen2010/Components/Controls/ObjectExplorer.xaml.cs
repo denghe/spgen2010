@@ -63,14 +63,15 @@ namespace SPGen2010.Components.Controls
             if (typeof(Server) == ot)
             {
                 var server = (Server)o;
-                SetControl(new Details_Server(server), new Actions_Server());
+                SetControl(new Details_Server(server), new Actions_Server(server));
             }
             #endregion
 
             #region Databases
             else if (typeof(Databases) == ot)
             {
-                //SetControl(new Details_Databases(), new Actions_Databases());
+                //var dbs = (Databases)o;
+                //SetControl(new Details_Databases(dbs), new Actions_Databases(dbs));
             }
             #endregion
 
@@ -86,98 +87,111 @@ namespace SPGen2010.Components.Controls
                     }
                     catch { }   // todo
                 }
-                //SetControl(new Details_Database(), new Actions_Database());
+                //SetControl(new Details_Database(db), new Actions_Database(db));
             }
             #endregion
 
             #region Folder_Tables
             else if (typeof(Folder_Tables) == ot)
             {
-                //SetControl(new Details_Tables(), new Actions_Tables());
+                //var ts = (Folder_Tables)o;
+                //SetControl(new Details_Tables(ts), new Actions_Tables(ts));
             }
             #endregion
 
             #region Table
             else if (typeof(Oe.Table) == ot)
             {
-                //SetControl(new Details_Table(), new Actions_Table());
+                //var t = (Oe.Table)o;
+                //SetControl(new Details_Table(t), new Actions_Table(t));
             }
             #endregion
 
             #region Views
             else if (typeof(Folder_Views) == ot)
             {
-                //SetControl(new Details_Views(), new Actions_Views());
+                //var vs = (Folder_Views)o;
+                //SetControl(new Details_Views(vs), new Actions_Views(vs));
             }
             #endregion
 
             #region View
             else if (typeof(View) == ot)
             {
-                //SetControl(new Details_View(), new Actions_View());
+                //var v = (View)o;
+                //SetControl(new Details_View(v), new Actions_View(v));
             }
             #endregion
 
             #region UserDefinedFunctions
             else if (typeof(Folder_UserDefinedFunctions) == ot)
             {
-                //SetControl(new Details_UserDefinedFunctions(), new Actions_UserDefinedFunctions());
+                //var ufs = (Folder_UserDefinedFunctions)o;
+                //SetControl(new Details_UserDefinedFunctions(ufs), new Actions_UserDefinedFunctions(ufs));
             }
             #endregion
 
             #region UserDefinedFunction_Scale
             else if (typeof(UserDefinedFunction_Scale) == ot)
             {
-                //SetControl(new Details_UserDefinedFunction_Scale(), new Actions_UserDefinedFunction_Scale());
+                //var suf = (UserDefinedFunction_Scale)o;
+                //SetControl(new Details_UserDefinedFunction_Scale(suf), new Actions_UserDefinedFunction_Scale(suf));
             }
             #endregion
 
             #region UserDefinedFunction_Table
             else if (typeof(UserDefinedFunction_Table) == ot)
             {
-                //SetControl(new Details_UserDefinedFunction_Table(), new Actions_UserDefinedFunction_Table());
+                //var tuf = (UserDefinedFunction_Table)o;
+                //SetControl(new Details_UserDefinedFunction_Table(tuf), new Actions_UserDefinedFunction_Table(tuf));
             }
             #endregion
 
             #region UserDefinedTableTypes
             else if (typeof(Folder_UserDefinedTableTypes) == ot)
             {
-                //SetControl(new Details_UserDefinedTableTypes(), new Actions_UserDefinedTableTypes());
+                //var tts = (Folder_UserDefinedTableTypes)o;
+                //SetControl(new Details_UserDefinedTableTypes(tts), new Actions_UserDefinedTableTypes(tts));
             }
             #endregion
 
             #region UserDefinedTableType
             else if (typeof(UserDefinedTableType) == ot)
             {
-                //SetControl(new Details_UserDefinedTableType(), new Actions_UserDefinedTableType());
+                //var tt(UserDefinedTableType)o;
+                //SetControl(new Details_UserDefinedTableType(tt), new Actions_UserDefinedTableType(tt));
             }
             #endregion
 
             #region StoredProcedures
             else if (typeof(Folder_StoredProcedures) == ot)
             {
-                //SetControl(new Details_StoredProcedures(), new Actions_StoredProcedures());
+                //var sps(Folder_StoredProcedures)o;
+                //SetControl(new Details_StoredProcedures(sps), new Actions_StoredProcedures(sps));
             }
             #endregion
 
             #region StoredProcedure
             else if (typeof(StoredProcedure) == ot)
             {
-                //SetControl(new Details_StoredProcedure(), new Actions_StoredProcedure());
+                //var sp(StoredProcedure)o;
+                //SetControl(new Details_StoredProcedure(sp), new Actions_StoredProcedure(sp));
             }
             #endregion
 
             #region Schemas
             else if (typeof(Folder_Schemas) == ot)
             {
-                //SetControl(new Details_Schemas(), new Actions_Schemas());
+                //var ss(Folder_Schemas)o;
+                //SetControl(new Details_Schemas(ss), new Actions_Schemas(ss));
             }
             #endregion
 
             #region Schema
             else if (typeof(Schema) == ot)
             {
-                //SetControl(new Details_Schema(), new Actions_Schema());
+                //var s(Schema)o;
+                //SetControl(new Details_Schema(s), new Actions_Schema(s));
             }
             #endregion
 
