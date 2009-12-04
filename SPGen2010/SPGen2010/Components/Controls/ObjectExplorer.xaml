@@ -131,6 +131,6 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <TreeView Grid.Row="2" Name="_TreeView"></TreeView>
+        <TreeView Grid.Row="2" Name="_TreeView" TreeViewItem.Selected="_TreeView_Selected"></TreeView>
     </Grid>
 </UserControl>
