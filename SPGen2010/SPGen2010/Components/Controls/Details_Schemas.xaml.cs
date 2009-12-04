@@ -26,11 +26,11 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_Schemas(Schemas server)
+        public Details_Schemas(Schemas o)
             : this()
         {
-            this.Schemas = server;
-            _Path_Label.Content = server.Text + @"\Databases";
+            this.Schemas = o;
+            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Schemas";
         }
 
         public Schemas Schemas { get; set; }
