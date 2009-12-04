@@ -62,7 +62,8 @@ namespace SPGen2010.Components.Controls
             #region Server
             if (typeof(Server) == ot)
             {
-                SetControl(new Details_Server(), new Actions_Server());
+                var server = (Server)o;
+                SetControl(new Details_Server(server), new Actions_Server());
             }
             #endregion
 
