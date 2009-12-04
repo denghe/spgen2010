@@ -29,7 +29,7 @@ namespace SPGen2010.Components.Controls
         public Details_Server(Server o)
             : this()
         {
-            this.Server = server;
+            this.Server = o;
             _Path_Label.Content = o.Text + @"\Databases";
         }
 
