@@ -14,7 +14,18 @@
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Actions</Label>
         
         <StackPanel Grid.Row="1" Background="White">
-            
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="TextElement.FontFamily" Value="SimSun" />
+                    <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                    <Setter Property="Margin" Value="5,0,5,0"></Setter>
+                    <Setter Property="Foreground" Value="Blue"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <Label>工了以在有</Label>
+            <Label>工了以在有</Label>
+            <Label>工了以在有</Label>
         </StackPanel>
     </Grid>
 </UserControl>
