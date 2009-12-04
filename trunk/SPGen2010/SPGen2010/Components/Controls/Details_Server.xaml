@@ -12,6 +12,8 @@
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
 
         <ToolBarTray Grid.Row="1" Background="#bcc7d8">
             <ToolBar Band="1" BandIndex="1">
@@ -19,7 +21,7 @@
                     <Image Source="/SPGen2010;component/Images/b_refresh.png"></Image>
                 </Button>
                 <Separator/>
-                <Button Name="_Up_Button" ToolTip="Up to parent node">
+                <Button Name="_Up_Button" ToolTip="Up to parent node" Height="20">
                     <Image Source="/SPGen2010;component/Images/up.png"></Image>
                 </Button>
             </ToolBar>
