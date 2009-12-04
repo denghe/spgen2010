@@ -17,22 +17,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Server.xaml
+    /// Interaction logic for Actions_UserDefinedFunctions.xaml
     /// </summary>
-    public partial class Actions_Server : UserControl
+    public partial class Actions_UserDefinedFunctions : UserControl
     {
-        public Actions_Server()
+        public Actions_UserDefinedFunctions()
         {
             InitializeComponent();
         }
 
-        public Actions_Server(Server server)
+        public Actions_UserDefinedFunctions(UserDefinedFunctions o)
             : this()
         {
-            this.Server = server;
+            this.UserDefinedFunctions = o;
             
         }
 
-        public Server Server { get; set; }
+        public UserDefinedFunctions UserDefinedFunctions { get; set; }
     }
 }

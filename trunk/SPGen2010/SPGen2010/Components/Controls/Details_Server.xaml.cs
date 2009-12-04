@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Controls
@@ -24,11 +25,12 @@ namespace SPGen2010.Components.Controls
         {
             InitializeComponent();
         }
-        public Details_Server(Server server)
+
+        public Details_Server(Server o)
             : this()
         {
             this.Server = server;
-            _Path_Label.Content = server.Text + @"\Databases";
+            _Path_Label.Content = o.Text + @"\Databases";
         }
 
         public Server Server { get; set; }

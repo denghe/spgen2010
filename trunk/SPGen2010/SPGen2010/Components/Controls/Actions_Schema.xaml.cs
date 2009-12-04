@@ -17,22 +17,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Server.xaml
+    /// Interaction logic for Actions_Schema.xaml
     /// </summary>
-    public partial class Actions_Server : UserControl
+    public partial class Actions_Schema : UserControl
     {
-        public Actions_Server()
+        public Actions_Schema()
         {
             InitializeComponent();
         }
 
-        public Actions_Server(Server server)
+        public Actions_Schema(Schema o)
             : this()
         {
-            this.Server = server;
+            this.Schema = o;
             
         }
 
-        public Server Server { get; set; }
+        public Schema Schema { get; set; }
     }
 }

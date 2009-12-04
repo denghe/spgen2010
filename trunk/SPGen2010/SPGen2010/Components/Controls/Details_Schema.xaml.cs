@@ -16,21 +16,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Details_Server.xaml
+    /// Interaction logic for Details_Schema.xaml
     /// </summary>
-    public partial class Details_Server : UserControl
+    public partial class Details_Schema : UserControl
     {
-        public Details_Server()
+        public Details_Schema()
         {
             InitializeComponent();
         }
-        public Details_Server(Server server)
+
+        public Details_Schema(Schema o)
             : this()
         {
-            this.Server = server;
-            _Path_Label.Content = server.Text + @"\Databases";
+            this.Schema = o;
+            _Path_Label.Content = o.Text + @"\Databases";
         }
 
-        public Server Server { get; set; }
+        public Schema Schema { get; set; }
     }
 }

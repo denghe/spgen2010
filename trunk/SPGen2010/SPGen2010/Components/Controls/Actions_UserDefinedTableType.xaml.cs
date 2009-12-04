@@ -17,22 +17,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Server.xaml
+    /// Interaction logic for Actions_UserDefinedTableType.xaml
     /// </summary>
-    public partial class Actions_Server : UserControl
+    public partial class Actions_UserDefinedTableType : UserControl
     {
-        public Actions_Server()
+        public Actions_UserDefinedTableType()
         {
             InitializeComponent();
         }
 
-        public Actions_Server(Server server)
+        public Actions_UserDefinedTableType(UserDefinedTableType o)
             : this()
         {
-            this.Server = server;
+            this.UserDefinedTableType = o;
             
         }
 
-        public Server Server { get; set; }
+        public UserDefinedTableType UserDefinedTableType { get; set; }
     }
 }

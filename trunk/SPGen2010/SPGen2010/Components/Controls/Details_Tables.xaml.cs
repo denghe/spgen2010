@@ -11,26 +11,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Details_Server.xaml
+    /// Interaction logic for Details_Tables.xaml
     /// </summary>
-    public partial class Details_Server : UserControl
+    public partial class Details_Tables : UserControl
     {
-        public Details_Server()
+        public Details_Tables()
         {
             InitializeComponent();
         }
-        public Details_Server(Server server)
+
+        public Details_Tables(Tables o)
             : this()
         {
-            this.Server = server;
-            _Path_Label.Content = server.Text + @"\Databases";
+            this.Tables = o;
+            _Path_Label.Content = o.Text + @"\Databases";
         }
 
-        public Server Server { get; set; }
+        public Tables Tables { get; set; }
     }
 }

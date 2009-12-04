@@ -26,10 +26,10 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_Database(Database server)
+        public Actions_Database(Database o)
             : this()
         {
-            this.Database = server;
+            this.Database = o;
             
         }
 
