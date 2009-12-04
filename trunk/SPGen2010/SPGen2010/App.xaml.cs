@@ -26,9 +26,11 @@ namespace SPGen2010
             app.InitializeComponent();
             app.Run();
         }
+
         private static string _connLog_filename = System.IO.Path.Combine(Environment.CurrentDirectory, "ConnLog.xml");
         private static DS.ConnLogDataTable _connLog = null;
         private static object _connLog_sync = new object();
+
         /// <summary>
         /// return user's connect Log
         /// </summary>
