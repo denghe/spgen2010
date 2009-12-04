@@ -50,13 +50,19 @@ namespace SPGen2010.Components.Controls
             var o = _TreeView.SelectedItem;
             var ot = o.GetType();
 
-
+            #region Server
             if (typeof(Server) == ot)
             {
             }
+            #endregion
+
+            #region Databases
             else if (typeof(Databases) == ot)
             {
             }
+            #endregion
+
+            #region Database
             else if (typeof(Database) == ot)
             {
                 var db = (Database)o;
@@ -69,45 +75,85 @@ namespace SPGen2010.Components.Controls
                     catch { }   // todo
                 }
             }
+            #endregion
+
+            #region Folder_Tables
             else if (typeof(Folder_Tables) == ot)
             {
             }
+            #endregion
+
+            #region Table
             else if (typeof(Oe.Table) == ot)
             {
             }
+            #endregion
+
+            #region Views
             else if (typeof(Folder_Views) == ot)
             {
             }
+            #endregion
+
+            #region View
             else if (typeof(View) == ot)
             {
             }
+            #endregion
+
+            #region UserDefinedFunctions
             else if (typeof(Folder_UserDefinedFunctions) == ot)
             {
             }
+            #endregion
+
+            #region UserDefinedFunction_Scale
             else if (typeof(UserDefinedFunction_Scale) == ot)
             {
             }
+            #endregion
+
+            #region UserDefinedFunction_Table
             else if (typeof(UserDefinedFunction_Table) == ot)
             {
             }
+            #endregion
+
+            #region UserDefinedTableTypes
             else if (typeof(Folder_UserDefinedTableTypes) == ot)
             {
             }
+            #endregion
+
+            #region UserDefinedTableType
             else if (typeof(UserDefinedTableType) == ot)
             {
             }
+            #endregion
+
+            #region StoredProcedures
             else if (typeof(Folder_StoredProcedures) == ot)
             {
             }
+            #endregion
+
+            #region StoredProcedure
             else if (typeof(StoredProcedure) == ot)
             {
             }
+            #endregion
+
+            #region Schemas
             else if (typeof(Folder_Schemas) == ot)
             {
             }
+            #endregion
+
+            #region Schema
             else if (typeof(Schema) == ot)
             {
             }
+            #endregion
 
             // restore cursor
             Cursor = cc;
