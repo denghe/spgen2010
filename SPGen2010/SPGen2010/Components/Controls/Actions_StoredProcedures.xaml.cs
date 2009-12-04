@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_StoredProcedures(StoredProcedures o)
+        public Actions_StoredProcedures(Folder_StoredProcedures o)
             : this()
         {
             this.StoredProcedures = o;
             
         }
 
-        public StoredProcedures StoredProcedures { get; set; }
+        public Folder_StoredProcedures StoredProcedures { get; set; }
     }
 }

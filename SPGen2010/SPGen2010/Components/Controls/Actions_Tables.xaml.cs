@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_Tables(Tables o)
+        public Actions_Tables(Folder_Tables o)
             : this()
         {
             this.Tables = o;
             
         }
 
-        public Tables Tables { get; set; }
+        public Folder_Tables Tables { get; set; }
     }
 }

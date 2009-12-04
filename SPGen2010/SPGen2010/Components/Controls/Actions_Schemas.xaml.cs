@@ -26,13 +26,13 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_Schemas(Schemas server)
+        public Actions_Schemas(Folder_Schemas server)
             : this()
         {
             this.Schemas = server;
             
         }
 
-        public Schemas Schemas { get; set; }
+        public Folder_Schemas Schemas { get; set; }
     }
 }

@@ -17,22 +17,22 @@ using SPGen2010.Components.Modules.ObjectExplorer;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Details_StoredProcedures.xaml
+    /// Interaction logic for Actions_UserDefinedTableTypes.xaml
     /// </summary>
-    public partial class Details_StoredProcedures : UserControl
+    public partial class Actions_UserDefinedTableTypes : UserControl
     {
-        public Details_StoredProcedures()
+        public Actions_UserDefinedTableTypes()
         {
             InitializeComponent();
         }
 
-        public Details_StoredProcedures(Folder_StoredProcedures o)
+        public Actions_UserDefinedTableTypes(Folder_UserDefinedTableTypes o)
             : this()
         {
-            this.StoredProcedures = o;
-            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\StoredProcedures";
+            this.UserDefinedTableTypes = o;
+            
         }
 
-        public Folder_StoredProcedures StoredProcedures { get; set; }
+        public Folder_UserDefinedTableTypes UserDefinedTableTypes { get; set; }
     }
 }
