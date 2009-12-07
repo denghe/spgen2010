@@ -1,6 +1,7 @@
 ﻿<Window x:Class="SPGen2010.Components.Connectors.MsSql.WConnector_UP"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctrls="clr-namespace:SPGen2010.Components.Controls"
         WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         Title="Connect To MSSQL Server Instance" 
         Loaded="Window_Loaded">
@@ -11,7 +12,7 @@
         <Label Canvas.Left="40" Canvas.Top="108" Name="label1" TabIndex="4" Target="{Binding ElementName=_Username_textBox}" AutomationProperties.AccessKey="u">_Username:</Label>
         <TextBox Canvas.Left="140" Canvas.Top="111" Width="220" Name="_Username_TextBox" TabIndex="5" Text="{Binding Path=Username, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Canvas.Left="40" Canvas.Top="138" Name="label2" TabIndex="6" Target="{Binding ElementName=_Password_textBox}" AutomationProperties.AccessKey="p">_Password:</Label>
-        <PasswordBox Canvas.Left="140" Canvas.Top="141" Width="220" Name="_Password_PasswordBox" TabIndex="7" Text="{Binding Path=Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox Canvas.Left="140" Canvas.Top="141" Width="220" Name="_Password_PasswordBox" TabIndex="7" ctrls:PasswordBoxHelper.BindPassword="true"  ctrls:PasswordBoxHelper.BoundPassword="{Binding Path=Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Canvas.Left="232" Canvas.Top="179" Width="65" Name="_Submit_Button" TabIndex="8" IsDefault="True" AutomationProperties.AccessKey="o" Click="_Submit_Button_Click">_Connect</Button>
         <Button Canvas.Left="311" Canvas.Top="179" Width="65" Name="_Cancel_Button" TabIndex="9" IsCancel="True" AutomationProperties.AccessKey="c" Click="_Cancel_Button_Click">Canc_el</Button>
         <Label Canvas.Left="12" Canvas.Top="176" Name="_Message_Label" Foreground="Red">xxx</Label>

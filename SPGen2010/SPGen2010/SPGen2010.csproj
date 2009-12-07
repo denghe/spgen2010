@@ -248,6 +248,7 @@
     <Compile Include="Components\Controls\Details_Server.xaml.cs">
       <DependentUpon>Details_Server.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Controls\PasswordBoxHelper.cs" />
     <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
