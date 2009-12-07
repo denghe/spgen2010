@@ -34,12 +34,11 @@ namespace SPGen2010.Components.Connectors.MsSql
         public WConnector_UP()
         {
             InitializeComponent();
-
-            Load();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Load();
             _Message_Label.Content = "";
             LayoutRoot.DataContext = this;
         }
