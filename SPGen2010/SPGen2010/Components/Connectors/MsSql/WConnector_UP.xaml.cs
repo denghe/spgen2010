@@ -144,7 +144,7 @@ namespace SPGen2010.Components.Connectors.MsSql
             DS.ConnLogRow row = null;
             try
             {
-                row = App.LoadConnLog().Where(o => o.InstanceType == "MsSql_UP").OrderBy(o => o.CreateTime).Last();
+                row = ConfigHandler.LoadConnLog().Where(o => o.InstanceType == "MsSql_UP").OrderBy(o => o.CreateTime).Last();
             }
             catch { }
             if (row != null)
@@ -160,8 +160,8 @@ namespace SPGen2010.Components.Connectors.MsSql
         /// </summary>
         public void Save()
         {
-            App.LoadConnLog().AddConnLogRow("MsSql_UP", _server, _username, _password, "", DateTime.Now);
-            App.SaveConnLog();
+            ConfigHandler.LoadConnLog().AddConnLogRow("MsSql_UP", _server, _username, _password, "", DateTime.Now);
+            ConfigHandler.SaveConnLog();
         }
 
     }
