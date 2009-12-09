@@ -267,8 +267,8 @@
     <Compile Include="Components\Modules\MySmo.cs" />
     <Compile Include="Components\Modules\MySmoPartial.cs" />
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
-    <Compile Include="Components\Utils\MsSql\SQLHelper.cs" />
-    <Compile Include="Components\Utils\MsSql\Utils.cs" />
+    <Compile Include="Todo\SQLHelper.cs" />
+    <Compile Include="Components\Helpers\MsSql\Utils.cs" />
     <Compile Include="Components\Controls\ImageSourceHelper.cs" />
     <Compile Include="Components\Controls\ObjectExplorer.xaml.cs">
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
@@ -516,13 +516,13 @@
     <Folder Include="Components\Generators\MySql\" />
     <Folder Include="Components\Generators\Oracle\" />
     <Folder Include="Components\Generators\SqLite\" />
+    <Folder Include="Components\Helpers\MySql\" />
+    <Folder Include="Components\Helpers\Oracle\" />
+    <Folder Include="Components\Helpers\SqLite\" />
     <Folder Include="Components\Persisters\MsSql\" />
     <Folder Include="Components\Persisters\MySql\" />
     <Folder Include="Components\Persisters\Oracle\" />
     <Folder Include="Components\Persisters\SqLite\" />
-    <Folder Include="Components\Utils\MySql\" />
-    <Folder Include="Components\Utils\Oracle\" />
-    <Folder Include="Components\Utils\SqLite\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
