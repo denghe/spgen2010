@@ -30,6 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.StoredProcedures = o;
+            _Details_DataGrid.ItemsSource = o.StoredProcedures;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\StoredProcedures";
             _Count_Label.Content = o.StoredProcedures.Count.ToString();
         }

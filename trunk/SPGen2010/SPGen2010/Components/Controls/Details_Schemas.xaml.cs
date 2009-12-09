@@ -30,6 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Schemas = o;
+            _Details_DataGrid.ItemsSource = o.Schemas;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Schemas";
             _Count_Label.Content = o.Schemas.Count.ToString();
         }
