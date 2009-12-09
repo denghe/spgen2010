@@ -19,6 +19,7 @@ using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
+
 using SPGen2010.Components.Modules;
 using SPGen2010.Components.Windows;
 
@@ -57,8 +58,9 @@ namespace SPGen2010.Components.Connectors.MsSql
                 DialogResult = true;
                 Close();
 
-                // set filler
+                // set fillers
                 WMain.Instance.ObjectExplorerFiller = new ObjectExplorerFiller(ServerInstance);
+                WMain.Instance.MySmoFiller = new MySmoFiller(ServerInstance);
             }
             else _Message_Label.Content = errMsg;
         }
@@ -67,6 +69,16 @@ namespace SPGen2010.Components.Connectors.MsSql
         {
             DialogResult = false;
         }
+
+
+
+
+
+
+
+
+
+
 
 
 
