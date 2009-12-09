@@ -255,7 +255,7 @@
     <Compile Include="Components\Fillers\MsSql\MySmoFiller_Extensions.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
     <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
-    <Compile Include="Components\Generators\IGenComponent.cs" />
+    <Compile Include="Components\Generators\IGenerator.cs" />
     <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
