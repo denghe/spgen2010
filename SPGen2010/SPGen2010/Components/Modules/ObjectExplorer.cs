@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-using SPGen2010.Components.Utils;
+using SPGen2010.Components.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
