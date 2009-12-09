@@ -10,18 +10,17 @@ using System.Windows;
 
 namespace SPGen2010.Components.Generators
 {
-    public partial class Loader
+    public partial class GeneratorLoader
     {
         /// <summary>
 		/// generators collection
 		/// </summary>
-		public static List<IGenerator> Generators = new List<IGenerator>();
-
+		public List<IGenerator> Generators = new List<IGenerator>();
 
         /// <summary>
         /// load & init generators
 		/// </summary>
-		private void InitComponents()
+        public void InitComponents()
 		{
             // load generators from current assembly
 			InitComponents(Assembly.GetExecutingAssembly());
@@ -110,7 +109,7 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// load generators from assembly
         /// </summary>
-		private void InitComponents(Assembly a)
+        public void InitComponents(Assembly a)
 		{
 			string interfacename = typeof(IGenerator).FullName;
 			Type[] types = a.GetTypes();
@@ -120,7 +119,7 @@ namespace SPGen2010.Components.Generators
 				if (interfaces.Exists(delegate(Type type) { return type.FullName == interfacename; }))
 				{
 					IGenerator igc = (IGenerator)a.CreateInstance(t.FullName);
-					if (igc.Properties.ContainsKey(GenProperties.IsEnabled) && igc.Properties[GenProperties.IsEnabled] == "False") continue;
+					if (igc.Properties.ContainsKey(GenProperties.IsEnabled) && (bool)igc.Properties[GenProperties.IsEnabled] == false) continue;
 					Generators.Add(igc);
 				}
 			}
