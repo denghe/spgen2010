@@ -15,7 +15,7 @@ using Microsoft.SqlServer;
 
 namespace SPGen2010.Components.Fillers.MsSql
 {
-    public static class MySmoFiller
+    public static class MySmoFiller_Extensions
     {
         /// <summary>
         /// todo: filter fill

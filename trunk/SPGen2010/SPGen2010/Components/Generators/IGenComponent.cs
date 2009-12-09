@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
-using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Fillers;
 
 namespace SPGen2010.Components.Generators
@@ -27,7 +27,7 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// 用于设置 Gen 方法中可能会用到的数据库结构描述对象
         /// </summary>
-        MySmo.Database Database { set; }
+        Database Database { set; }
 
         /// <summary>
         /// 生成代码. 参数类型及其个数应该和 TargetSqlElementType 指示的值相一致
