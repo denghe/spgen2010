@@ -36,7 +36,7 @@ namespace SPGen2010.Components.Controls
 
         public Folder_Views Views { get; set; }
 
-        private void _Details_ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void _Details_DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
         }
