@@ -37,7 +37,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/SPGen2010;component/Images/sql_database.png"></Image>
+                                <Image Source="/SPGen2010;component/Images/sql_tabletype.png"></Image>
                                 <Label Content="{Binding Path=Text}"></Label>
                             </StackPanel>
                         </DataTemplate>
