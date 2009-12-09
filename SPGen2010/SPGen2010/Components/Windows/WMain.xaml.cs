@@ -17,6 +17,7 @@ using SPGen2010.Components.Connectors;
 using SPGen2010.Components.Controls;
 using SPGen2010.Components.Fillers;
 using SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Windows
 {
@@ -37,7 +38,7 @@ namespace SPGen2010.Components.Windows
         }
 
         /// <summary>
-        /// set value after connected to database
+        /// tips: set value after connected to database
         /// </summary>
         public IObjectExplorerFiller ObjectExplorerFiller
         {
@@ -49,9 +50,14 @@ namespace SPGen2010.Components.Windows
         }
 
         /// <summary>
-        /// set value after connected to database
+        /// tips: set value after connected to database
         /// </summary>
         public IMySmoFiller MySmoFiller { get; set; }
+
+        /// <summary>
+        /// tips: set value before connect to database
+        /// </summary>
+        public GeneratorLoader GeneratorLoader { get; set; }
 
         #endregion
 
@@ -70,6 +76,9 @@ namespace SPGen2010.Components.Windows
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            GeneratorLoader = new GeneratorLoader();
+            GeneratorLoader.InitComponents();
+
             PopupWindow_ConnectorBrowser();
         }
 
