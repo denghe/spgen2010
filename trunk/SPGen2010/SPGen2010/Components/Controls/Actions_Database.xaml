@@ -13,7 +13,7 @@
 
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Actions</Label>
         
-        <StackPanel Grid.Row="1" Background="White">
+        <StackPanel Grid.Row="1" Background="White" Name="_Actions_StackPanel">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="TextElement.FontFamily" Value="SimSun" />
@@ -23,9 +23,6 @@
                     <Setter Property="Foreground" Value="Blue"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Label>工了以在有</Label>
-            <Label>工了以在有</Label>
-            <Label>工了以在有</Label>
         </StackPanel>
     </Grid>
 </UserControl>

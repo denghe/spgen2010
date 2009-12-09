@@ -162,7 +162,8 @@ namespace SPGen2010.Components.Generators
         StoredProcedure = 64,
         StoredProcedures = 128,
 
-        UserDefinedFunction = 256,
+        UserDefinedFunction_Scale = 256,
+        UserDefinedFunction_Table = 512,
         UserDefinedFunctions = 1024,
 
         UserDefinedTableType = 2048,

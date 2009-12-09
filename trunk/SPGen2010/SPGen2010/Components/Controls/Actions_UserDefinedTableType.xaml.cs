@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Windows;
+using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,27 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_UserDefinedTableType(UserDefinedTableType o)
+        public Actions_UserDefinedTableType(Oe.UserDefinedTableType o)
             : this()
         {
             this.UserDefinedTableType = o;
-            
+
+            var gens = WMain.Instance.Generators.FindAll(a =>
+            {
+                return (int)(a.TargetSqlElementType & SqlElementTypes.UserDefinedTableType) > 0 && a.Validate(o);
+            });
+
+            foreach (var gen in gens)
+            {
+                _Actions_StackPanel.Children.Add(new Label
+                {
+                    Content = (string)gen.Properties[GenProperties.Caption]
+                    ,
+                    ToolTip = (string)gen.Properties[GenProperties.Tips]
+                });
+            }
         }
 
-        public UserDefinedTableType UserDefinedTableType { get; set; }
+        public Oe.UserDefinedTableType UserDefinedTableType { get; set; }
     }
 }
