@@ -57,7 +57,7 @@ namespace SPGen2010.Components.Windows
         /// <summary>
         /// tips: set value before connect to database
         /// </summary>
-        public GeneratorLoader GeneratorLoader { get; set; }
+        public List<IGenerator> Generators { get; set; }
 
         #endregion
 
@@ -76,8 +76,9 @@ namespace SPGen2010.Components.Windows
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            GeneratorLoader = new GeneratorLoader();
-            GeneratorLoader.InitComponents();
+            var gens = new List<IGenerator>();
+            GeneratorLoader.InitComponents(ref gens);
+            Generators = gens;
 
             PopupWindow_ConnectorBrowser();
         }

@@ -10,20 +10,15 @@ using System.Windows;
 
 namespace SPGen2010.Components.Generators
 {
-    public partial class GeneratorLoader
+    public static partial class GeneratorLoader
     {
-        /// <summary>
-		/// generators collection
-		/// </summary>
-		public List<IGenerator> Generators = new List<IGenerator>();
-
         /// <summary>
         /// load & init generators
 		/// </summary>
-        public void InitComponents()
+        public static void InitComponents(ref List<IGenerator> gens)
 		{
             // load generators from current assembly
-			InitComponents(Assembly.GetExecutingAssembly());
+			InitComponents(Assembly.GetExecutingAssembly(), ref gens);
 
 			// load Components\*.cs
 			string[] files = null;
@@ -96,9 +91,9 @@ namespace SPGen2010.Components.Generators
                     //    App.Exit();
                     //}
 				}
-				InitComponents(result.CompiledAssembly);
+				InitComponents(result.CompiledAssembly, ref gens);
 
-				Generators.Sort(new Comparison<IGenerator>((a, b) => { return string.Compare(string.Concat(a.Properties[GenProperties.Group], a.Properties[GenProperties.Caption]), string.Concat(b.Properties[GenProperties.Group], b.Properties[GenProperties.Caption])); }));
+                gens.Sort(new Comparison<IGenerator>((a, b) => { return string.Compare(string.Concat(a.Properties[GenProperties.Group], a.Properties[GenProperties.Caption]), string.Concat(b.Properties[GenProperties.Group], b.Properties[GenProperties.Caption])); }));
 			}
 			catch (Exception ex)
 			{
@@ -109,7 +104,7 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// load generators from assembly
         /// </summary>
-        public void InitComponents(Assembly a)
+        public static void InitComponents(Assembly a, ref List<IGenerator> gens)
 		{
 			string interfacename = typeof(IGenerator).FullName;
 			Type[] types = a.GetTypes();
@@ -120,7 +115,7 @@ namespace SPGen2010.Components.Generators
 				{
 					IGenerator igc = (IGenerator)a.CreateInstance(t.FullName);
 					if (igc.Properties.ContainsKey(GenProperties.IsEnabled) && (bool)igc.Properties[GenProperties.IsEnabled] == false) continue;
-					Generators.Add(igc);
+					gens.Add(igc);
 				}
 			}
 		}
