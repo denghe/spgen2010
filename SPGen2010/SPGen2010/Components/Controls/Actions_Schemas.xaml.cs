@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Windows;
+using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,27 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Actions_Schemas(Folder_Schemas server)
+        public Actions_Schemas(Oe.Folder_Schemas o)
             : this()
         {
-            this.Schemas = server;
-            
+            this.Schemas = o;
+
+            var gens = WMain.Instance.Generators.FindAll(a =>
+            {
+                return (int)(a.TargetSqlElementType & SqlElementTypes.Schemas) > 0 && a.Validate(o);
+            });
+
+            foreach (var gen in gens)
+            {
+                _Actions_StackPanel.Children.Add(new Label
+                {
+                    Content = (string)gen.Properties[GenProperties.Caption]
+                    ,
+                    ToolTip = (string)gen.Properties[GenProperties.Tips]
+                });
+            }
         }
 
-        public Folder_Schemas Schemas { get; set; }
+        public Oe.Folder_Schemas Schemas { get; set; }
     }
 }

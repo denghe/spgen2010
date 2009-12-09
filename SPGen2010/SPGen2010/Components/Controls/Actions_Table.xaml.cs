@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Generators;
 using SPGen2010.Components.Windows;
@@ -41,7 +40,12 @@ namespace SPGen2010.Components.Controls
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label { Content = gen.Properties[GenProperties.Caption].ToString() });
+                _Actions_StackPanel.Children.Add(new Label
+                {
+                    Content = (string)gen.Properties[GenProperties.Caption]
+                    ,
+                    ToolTip = (string)gen.Properties[GenProperties.Tips]
+                });
             }
         }
 
