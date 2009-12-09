@@ -38,7 +38,7 @@ namespace SPGen2010.Components.Modules.MySmo
     {
         string Name { get; set; }
     }
-    public interface ISchemaBase
+    public interface INameSchemaBase
     {
         string Name { get; set; }
         Schema Schema { get; set; }
@@ -69,7 +69,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Name { get; set; }
     }
 
-    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, ISchemaBase, IExtendPropertiesBase
+    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -78,7 +78,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public Schema Schema { get; set; }
     }
 
-    public partial class View : IMySmoObject, IParentDatabase, ITableBase, ISchemaBase, IExtendPropertiesBase
+    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -87,7 +87,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public Schema Schema { get; set; }
     }
 
-    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, ISchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -96,7 +96,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public Schema Schema { get; set; }
     }
 
-    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, ISchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameSchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -108,7 +108,7 @@ namespace SPGen2010.Components.Modules.MySmo
 
     }
 
-    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, ISchemaBase, IExtendPropertiesBase
+    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameSchemaBase, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }

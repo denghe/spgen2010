@@ -17,11 +17,11 @@ namespace SPGen2010.Components.Fillers.MsSql
 {
     public partial class MySmoFiller : IMySmoFiller
     {
+        private Smo.Server _smo_server;
         public MySmoFiller(Smo.Server smo_server)
         {
-
+            _smo_server = smo_server;
         }
-
 
         #region IMySmoFiller Members
 
@@ -30,17 +30,17 @@ namespace SPGen2010.Components.Fillers.MsSql
             throw new NotImplementedException();
         }
 
-        public bool Fill<T>(ref T t, string name) where T : MySmo.INameBase
+        public bool Fill<T>(ref T item, string name) where T : MySmo.INameBase
         {
             throw new NotImplementedException();
         }
 
-        public bool Fill<T>(ref T t, string name, string schema) where T : MySmo.ISchemaBase
+        public bool Fill<T>(ref T item, string name, string schema) where T : MySmo.INameSchemaBase
         {
             throw new NotImplementedException();
         }
 
-        public bool Fill<T>(ref MySmo.ExtendedProperties extendproerties) where T : MySmo.IExtendPropertiesBase
+        public bool Fill<T>(ref MySmo.ExtendedProperties extendproerties,T item) where T : MySmo.IExtendPropertiesBase
         {
             throw new NotImplementedException();
         }
