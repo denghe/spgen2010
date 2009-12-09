@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.UserDefinedTableTypes = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedTableTypes";
+            _Count_Label.Content = o.UserDefinedTableTypes.Count.ToString();
         }
 
         public Folder_UserDefinedTableTypes UserDefinedTableTypes { get; set; }
