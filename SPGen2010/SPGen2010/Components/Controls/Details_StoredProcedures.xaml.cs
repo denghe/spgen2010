@@ -35,5 +35,10 @@ namespace SPGen2010.Components.Controls
         }
 
         public Folder_StoredProcedures StoredProcedures { get; set; }
+
+        private void _Details_ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
