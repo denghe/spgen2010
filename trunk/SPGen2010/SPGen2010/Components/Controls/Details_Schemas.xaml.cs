@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.Schemas = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Schemas";
+            _Count_Label.Content = o.Schemas.Count.ToString();
         }
 
         public Folder_Schemas Schemas { get; set; }

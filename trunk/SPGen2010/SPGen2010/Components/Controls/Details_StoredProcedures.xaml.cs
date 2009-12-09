@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.StoredProcedures = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\StoredProcedures";
+            _Count_Label.Content = o.StoredProcedures.Count.ToString();
         }
 
         public Folder_StoredProcedures StoredProcedures { get; set; }

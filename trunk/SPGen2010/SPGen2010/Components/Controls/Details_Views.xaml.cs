@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.Views = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Views";
+            _Count_Label.Content = o.Views.Count.ToString();
         }
 
         public Folder_Views Views { get; set; }

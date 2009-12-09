@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.UserDefinedFunctions = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedFunctions";
+            _Count_Label.Content = o.UserDefinedFunctions.Count.ToString();
         }
 
         public Folder_UserDefinedFunctions UserDefinedFunctions { get; set; }
