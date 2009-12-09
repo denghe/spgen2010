@@ -10,6 +10,10 @@ namespace SPGen2010.Components.Modules.MySmo
     public interface IMySmoObject
     {
     }
+    public interface IParentServer
+    {
+        Server ParentServer { get; set; }
+    }
     public interface IParentDatabase
     {
         Database ParentDatabase { get; set; }
@@ -45,9 +49,15 @@ namespace SPGen2010.Components.Modules.MySmo
 
     #endregion
 
-
-    public partial class Database : IMySmoObject, INameBase, IExtendPropertiesBase
+    public partial class Server : IMySmoObject, INameBase
     {
+        public List<Database> Databases { get; set; }
+        public string Name { get; set; }
+    }
+
+    public partial class Database : IMySmoObject, IParentServer, INameBase, IExtendPropertiesBase
+    {
+        public Server ParentServer { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Table> Tables { get; set; }
         public List<View> Views { get; set; }

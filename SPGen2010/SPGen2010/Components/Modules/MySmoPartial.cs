@@ -13,6 +13,14 @@ namespace SPGen2010.Components.Modules.MySmo
     }
 
 
+    partial class Server : IExtendedInformation
+    {
+        public string Description { get; set; }
+        public string Caption { get; set; }
+        public string Summary { get; set; }
+    }
+
+
     partial class Database : IExtendedInformation
     {
         public string Description { get; set; }

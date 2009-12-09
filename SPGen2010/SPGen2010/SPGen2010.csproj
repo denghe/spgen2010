@@ -250,11 +250,13 @@
     </Compile>
     <Compile Include="Components\Controls\PasswordBoxHelper.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
+    <Compile Include="Components\Fillers\IMySmoFiller.cs" />
     <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
-    <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
+    <Compile Include="Components\Fillers\MsSql\MySmoFiller_Extensions.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
     <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
     <Compile Include="Components\Generators\IGenComponent.cs" />
+    <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -508,7 +510,6 @@
     <Folder Include="Components\Generators\MsSql\Server\" />
     <Folder Include="Components\Generators\MsSql\StoredProcedure\" />
     <Folder Include="Components\Generators\MsSql\TableType\" />
-    <Folder Include="Components\Generators\MsSql\Table\" />
     <Folder Include="Components\Generators\MsSql\View\" />
     <Folder Include="Components\Generators\MySql\" />
     <Folder Include="Components\Generators\Oracle\" />
