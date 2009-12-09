@@ -518,6 +518,7 @@
     <Folder Include="Components\Utils\MySql\" />
     <Folder Include="Components\Utils\Oracle\" />
     <Folder Include="Components\Utils\SqLite\" />
+    <Folder Include="Windows\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
