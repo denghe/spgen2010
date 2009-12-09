@@ -4,72 +4,62 @@ using System.Text;
 using System.ComponentModel;
 using SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Generators
 {
     /// <summary>
-    /// 生成器类须实现这个接口以配合框架调用
+    /// Generator's interface
     /// </summary>
     public interface IGenerator
     {
         Dictionary<GenProperties, object> Properties { get; }
 
         /// <summary>
-        /// 本类所针对的目标数据库对象的类型（可以是多种）
+        /// refresh to target sql element type
         /// </summary>
         SqlElementTypes TargetSqlElementType { get; }
 
         /// <summary>
-        /// 用于设置 Gen 方法中可能会用到的服务器填充对象
+        /// check sql element before gen
         /// </summary>
-        IMySmoFiller Filler { set; }
+        bool Validate<T>(params T[] targetElements) where T : NodeBase;
 
         /// <summary>
-        /// 生成代码. 参数类型及其个数应该和 TargetSqlElementType 指示的值相一致
+        /// generate
         /// </summary>
-        /// <returns>返回 类型:数据 这样的结构</returns>E
-        GenResult Gen(params object[] sqlElements);
-
-        /// <summary>
-        /// 返回当前针对的数据库对象是否具备执行 Gen 的资格. 参数类型及其个数应该和 TargetSqlElementType 指示的值相一致
-        /// </summary>
-        bool Validate(params object[] sqlElements);
-
-        /// <summary>
-        /// 中断生成操作用的委托
-        /// </summary>
-        event CancelEventHandler OnProcessing;
+        GenResult Generate<T>(params T[] targetElements) where T : NodeBase;
     }
 
     /// <summary>
-    /// 生成器的参数列表
+    /// Generator's proerties
     /// </summary>
     public enum GenProperties
     {
         /// <summary>
-        /// string : 名称标识
+        /// string : unique key
         /// </summary>
         Name,
         /// <summary>
-        /// string : 菜单显示名
+        /// string : title text
         /// </summary>
         Caption,
         /// <summary>
-        /// string : 所属菜单组
+        /// string : group category
         /// </summary>
         Group,
         /// <summary>
-        /// string : 文本提示信息
+        /// string : tool tip text
         /// </summary>
         Tips,
         /// <summary>
-        /// bool (True/False) : 是否启用当前插件. 默认认为 True
+        /// bool (default: True)
         /// </summary>
         IsEnabled
     }
 
     /// <summary>
-    /// 生成物. 须根据 GenResultType 来填充 同名属性 的值
+    /// Generator's return type struct.
     /// </summary>
     public class GenResult
     {
@@ -80,7 +70,7 @@ namespace SPGen2010.Components.Generators
 
         protected string _message;
         /// <summary>
-        /// 获取或设置文本信息
+        /// get or set output message
         /// </summary>
         public string Message
         {
@@ -90,7 +80,7 @@ namespace SPGen2010.Components.Generators
         protected KeyValuePair<string, string> _codeSegment;
 
         /// <summary>
-        /// 获取或设置 title + code 
+        /// get or set (title, code)
         /// </summary>
         public KeyValuePair<string, string> CodeSegment
         {
@@ -99,7 +89,7 @@ namespace SPGen2010.Components.Generators
         }
         protected List<KeyValuePair<string, string>> _codeSegments;
         /// <summary>
-        /// 获取或设置 多组 title + code 
+        /// get or set (title, code)[]
         /// </summary>
         public List<KeyValuePair<string, string>> CodeSegments
         {
@@ -108,7 +98,7 @@ namespace SPGen2010.Components.Generators
         }
         protected KeyValuePair<string, byte[]> _file;
         /// <summary>
-        /// 获取或设置 filename + data
+        /// get or set (filename, data)
         /// </summary>
         public KeyValuePair<string, byte[]> File
         {
@@ -118,7 +108,7 @@ namespace SPGen2010.Components.Generators
         protected List<KeyValuePair<string, byte[]>> _files;
 
         /// <summary>
-        /// 获取或设置 多组 filename + data
+        /// get or set (filename, data)[]
         /// </summary>
         public List<KeyValuePair<string, byte[]>> Files
         {
@@ -128,110 +118,62 @@ namespace SPGen2010.Components.Generators
     }
 
     /// <summary>
-    /// 生成物类型, 这将会影响框架处理返回值的行为
+    /// Generator's return result types
     /// </summary>
     public enum GenResultTypes
     {
         /// <summary>
-        /// 代码段: 对应一个 string
+        /// string name, string content
         /// </summary>
         CodeSegment,
         /// <summary>
-        /// 多个代码段: 对应多组 KeyValuePair＜string 名称, string 内容＞[] 
+        /// KeyValuePair＜string name, string content＞[] 
         /// </summary>
         CodeSegments,
         /// <summary>
-        /// 文件: 对应一个相对 Output 目录的路径 string, 以及文件内容 byte[]
+        /// string filename, byte[] content
         /// </summary>
         File,
         /// <summary>
-        /// 多个文件: 对应多组 KeyValuePair＜string 文件路径, byte[] 文件内容＞[] 
+        /// KeyValuePair＜string filename, byte[] content＞[] 
         /// </summary>
         Files,
         /// <summary>
-        /// 对应生成过程中被中断或生成错误的情况: string
+        /// string output messages
         /// </summary>
         Message
     }
 
     /// <summary>
-    /// 生成操作可以针对的 SQL 对象枚举
+    /// sql element types
     /// </summary>
     [Flags]
     public enum SqlElementTypes : int
     {
-        /// <summary>
-        /// 单个库. 参数为 Database
-        /// </summary>
         Database = 1,
-        /// <summary>
-        /// 多个库. 参数为 Databases
-        /// </summary>
         Databases = 2,
 
-        /// <summary>
-        /// 单个表. 参数为 Table
-        /// </summary>
         Table = 4,
-        /// <summary>
-        /// 多个表. 参数为 Tables
-        /// </summary>
         Tables = 8,
 
-        /// <summary>
-        /// 单个视图. 参数为 View
-        /// </summary>
         View = 16,
-        /// <summary>
-        /// 多个视图. 参数为 Views
-        /// </summary>
         Views = 32,
 
-        /// <summary>
-        /// 单个存储过程. 参数为 StoredProcedure
-        /// </summary>
         StoredProcedure = 64,
-        /// <summary>
-        /// 多个存储过程. 参数为 StoredProcedures
-        /// </summary>
         StoredProcedures = 128,
 
-        /// <summary>
-        /// 单个函数. 参数为 UserDefinedFunction
-        /// </summary>
         UserDefinedFunction = 256,
-        /// <summary>
-        /// 多个函数. 参数为 UserDefinedFunctions
-        /// </summary>
         UserDefinedFunctions = 1024,
 
-        /// <summary>
-        /// 单个自定义表类型. 参数为 UserDefinedTableType
-        /// </summary>
         UserDefinedTableType = 2048,
-        /// <summary>
-        /// 多个自定义表类型. 参数为 UserDefinedTableTypes
-        /// </summary>
         UserDefinedTableTypes = 4096,
 
-        /// <summary>
-        /// 字段. 参数为 Column
-        /// </summary>
         Column = 8192,
 
-        /// <summary>
-        /// 扩展属性. 参数为 ExtendProperty
-        /// </summary>
         ExtendedProperty = 16384,
 
-        /// <summary>
-        /// 单个架构. 参数为 
-        /// </summary>
         Schema = 32768,
-
-        /// <summary>
-        /// 多个架构. 
-        /// </summary>
         Schemas = 65536,
     }
+
 }
