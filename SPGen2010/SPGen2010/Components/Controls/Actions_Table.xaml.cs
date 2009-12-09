@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 
 using SPGen2010.Components.Modules.ObjectExplorer;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Generators;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -31,7 +33,16 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Table = o;
-            
+
+            var gens = WMain.Instance.GeneratorLoader.Generators.FindAll(a =>
+            {
+                return (int)(a.TargetSqlElementType & SqlElementTypes.Table) > 0;
+            });
+
+            foreach (var gen in gens)
+            {
+                _Actions_StackPanel.Children.Add(new Label { Content = gen.Properties[GenProperties.Caption].ToString() });
+            }
         }
 
         public Oe.Table Table { get; set; }
