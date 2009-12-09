@@ -8,9 +8,9 @@ namespace SPGen2010.Components.Fillers
     {
         bool Fill<T>(ref List<T> items) where T : IMySmoObject;
 
-        bool Fill<T>(ref T t, string name) where T : INameBase;
-        bool Fill<T>(ref T t, string name, string schema) where T : ISchemaBase;
+        bool Fill<T>(ref T item, string name) where T : INameBase;
+        bool Fill<T>(ref T item, string name, string schema) where T : INameSchemaBase;
 
-        bool Fill<T>(ref ExtendedProperties extendproerties) where T : IExtendPropertiesBase;
+        bool Fill<T>(ref ExtendedProperties extendproerties, T item) where T : IExtendPropertiesBase;
     }
 }
