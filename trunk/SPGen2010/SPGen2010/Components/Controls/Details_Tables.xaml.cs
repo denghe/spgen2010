@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Controls
         {
             this.Tables = o;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Tables";
+            _Details_DataGrid.ItemsSource = o.Tables;
         }
 
         public Folder_Tables Tables { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using System.ComponentModel;
-namespace SPGen2010.Components.Fillers.MsSql
+namespace SPGen2010.Components.Fillers
 {
     public interface IObjectExplorerFiller
     {

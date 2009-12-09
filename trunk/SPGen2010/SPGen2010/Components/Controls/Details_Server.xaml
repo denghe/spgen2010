@@ -11,6 +11,7 @@
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition />
+            <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
         </Grid.RowDefinitions>
         
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
@@ -29,7 +30,23 @@
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
         
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White">
+        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn ClipboardContentBinding="{Binding Path=Text}" Header="Database">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/SPGen2010;component/Images/sql_database.png"></Image>
+                                <Label Content="{Binding Path=Text}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Tips}" ClipboardContentBinding="{Binding Path=Tips}" Header="Tips" />
+            </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Grid.Row="4" Name="_Stat_StackPanel" Orientation="Horizontal"></StackPanel>
     </Grid>
 </UserControl>

@@ -31,8 +31,20 @@ namespace SPGen2010.Components.Controls
         {
             this.Server = o;
             _Path_Label.Content = o.Text + @"\Databases";
+            _Details_DataGrid.ItemsSource = this.Server.Databases;
         }
 
         public Server Server { get; set; }
+
+        private void _Details_DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+            var row = UIHelpers.TryFindParent<DataGridRow>(source);
+            if (row == null) return;
+            e.Handled = true;
+
+            // todo: WMain Tree 定位，控件刷新
+            // row.Item as Database;
+        }
     }
 }

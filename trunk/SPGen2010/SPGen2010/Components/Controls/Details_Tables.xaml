@@ -28,8 +28,21 @@
         </ToolBarTray>
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
-        
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White">
+
+        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn ClipboardContentBinding="{Binding Path=Text}" Header="Table">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/SPGen2010;component/Images/sql_table.png"></Image>
+                                <Label Content="{Binding Path=Text}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Tips}" ClipboardContentBinding="{Binding Path=Tips}" Header="Tips" />
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>
