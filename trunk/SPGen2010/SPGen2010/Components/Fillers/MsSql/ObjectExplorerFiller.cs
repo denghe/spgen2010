@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.ComponentModel;
 
 using SPGen2010.Components.Modules;
-using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
+using SmoUtils = SPGen2010.Components.Helpers.MsSql.Utils;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 
 // SMO
