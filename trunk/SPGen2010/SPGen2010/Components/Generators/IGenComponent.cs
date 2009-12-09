@@ -25,14 +25,14 @@ namespace SPGen2010.Components.Generators
         IObjectExplorerFiller Filler { set; }
 
         /// <summary>
-        /// 用于设置 Gen 方法中可能会用到的数据库对象
+        /// 用于设置 Gen 方法中可能会用到的数据库结构描述对象
         /// </summary>
         MySmo.Database Database { set; }
 
         /// <summary>
         /// 生成代码. 参数类型及其个数应该和 TargetSqlElementType 指示的值相一致
         /// </summary>
-        /// <returns>返回 类型:数据 这样的结构</returns>
+        /// <returns>返回 类型:数据 这样的结构</returns>E
         GenResult Gen(params object[] sqlElements);
 
         /// <summary>
