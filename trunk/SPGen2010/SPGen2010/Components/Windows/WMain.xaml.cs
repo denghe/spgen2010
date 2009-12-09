@@ -15,6 +15,8 @@ using System.IO;
 
 using SPGen2010.Components.Connectors;
 using SPGen2010.Components.Controls;
+using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Windows
 {
@@ -29,10 +31,21 @@ namespace SPGen2010.Components.Windows
         /// <summary>
         /// refresh to WMain instance
         /// </summary>
-        public static WMain Instance 
+        public static WMain Instance
         {
             get { return _WMain; }
         }
+
+        public IObjectExplorerFiller ObjectExplorerFiller
+        {
+            set
+            {
+                _ObjectExplorer.Filler = value;
+                _ObjectExplorer.BindData();
+            }
+        }
+
+        public IMySmoFiller MySmoFiller { get; set; }
 
         #endregion
 

@@ -22,12 +22,7 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// 用于设置 Gen 方法中可能会用到的服务器填充对象
         /// </summary>
-        IObjectExplorerFiller Filler { set; }
-
-        /// <summary>
-        /// 用于设置 Gen 方法中可能会用到的数据库结构描述对象
-        /// </summary>
-        Database Database { set; }
+        IMySmoFiller Filler { set; }
 
         /// <summary>
         /// 生成代码. 参数类型及其个数应该和 TargetSqlElementType 指示的值相一致
