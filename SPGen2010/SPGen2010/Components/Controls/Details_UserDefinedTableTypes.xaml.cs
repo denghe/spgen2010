@@ -30,6 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.UserDefinedTableTypes = o;
+            _Details_DataGrid.ItemsSource = o.UserDefinedTableTypes;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedTableTypes";
             _Count_Label.Content = o.UserDefinedTableTypes.Count.ToString();
         }

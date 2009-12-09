@@ -30,6 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Views = o;
+            _Details_DataGrid.ItemsSource = o.Views;
             _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\Views";
             _Count_Label.Content = o.Views.Count.ToString();
         }
