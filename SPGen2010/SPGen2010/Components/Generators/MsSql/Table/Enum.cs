@@ -6,7 +6,7 @@ using System.Data;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
 using Smo = Microsoft.SqlServer.Management.Smo;
-using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
+using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
 
 namespace SPGen2010.Components.Generators.MsSql.Table
 {
@@ -46,8 +46,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
         public bool Validate<T>(params T[] targetElements) where T : Oe.NodeBase
         {
             var t = (Smo.Table)targetElements[0].Tag;
-            var pks = SmoUtils.GetPrimaryKeyColumns(t);
-            return pks.Count == 1 && SmoUtils.CheckIsNumericType(pks[0]);
+            var pks = Utils.GetPrimaryKeyColumns(t);
+            return pks.Count == 1 && Utils.CheckIsNumericType(pks[0]);
         }
 
         #endregion
@@ -60,7 +60,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             var t = (Smo.Table)targetElements[0].Tag;
             var db = t.Parent;
 
-            var pks = SmoUtils.GetPrimaryKeyColumns(t);
+            var pks = Utils.GetPrimaryKeyColumns(t);
 
             if (pks.Count == 0)
             {
@@ -74,7 +74,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
                 gr.Message = "无法为多主键字段的表生成该代码！";
                 return gr;
             }
-            else if (!SmoUtils.CheckIsNumericType(pks[0]))
+            else if (!Utils.CheckIsNumericType(pks[0]))
             {
                 gr = new GenResult(GenResultTypes.Message);
                 gr.Message = "无法为非数字型主键字段的表生成该代码！";
@@ -83,7 +83,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
             Smo.Column vc = pks[0],nc = null;
 
-            var sacs = SmoUtils.GetSearchableColumns(t);
+            var sacs = Utils.GetSearchableColumns(t);
             if (sacs.Count == 0)
             {
                 nc = vc;
@@ -99,14 +99,14 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
             #region Gen
 
-            var tbn = SmoUtils.GetEscapeSqlObjectName(t.Name);
+            var tbn = Utils.GetEscapeSqlObjectName(t.Name);
 
             sb.Append(@"/// <summary>
-            /// " + SmoUtils.GetDescription(t) + @"
+            /// " + Utils.GetDescription(t) + @"
             /// </summary>
             public enum " + tbn + @"
             {");
-            var ds = db.ExecuteWithResults("SELECT [" + SmoUtils.GetEscapeSqlObjectName(vc.Name) + "], [" + SmoUtils.GetEscapeSqlObjectName(nc.Name) + "] FROM [" + SmoUtils.GetEscapeSqlObjectName(t.Schema) + "].[" + SmoUtils.GetEscapeSqlObjectName(t.Name) + @"] ORDER BY [" + SmoUtils.GetEscapeSqlObjectName(nc.Name) + "]");
+            var ds = db.ExecuteWithResults("SELECT [" + Utils.GetEscapeSqlObjectName(vc.Name) + "], [" + Utils.GetEscapeSqlObjectName(nc.Name) + "] FROM [" + Utils.GetEscapeSqlObjectName(t.Schema) + "].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] ORDER BY [" + Utils.GetEscapeSqlObjectName(nc.Name) + "]");
             if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
                 gr = new GenResult(GenResultTypes.Message);
@@ -117,7 +117,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             foreach (DataRow c in ds.Tables[0].Rows)
             {
                 sb.Append(@"
-            	" + SmoUtils.GetEscapeName(c[nc.Name].ToString()) + @" = " + c[vc.Name].ToString() + @",");
+            	" + Utils.GetEscapeName(c[nc.Name].ToString()) + @" = " + c[vc.Name].ToString() + @",");
             }
             sb.Append(@"
             }

@@ -6,7 +6,7 @@ using System.IO;
 
 using SPGen2010.Components.Modules;
 using MySmo = SPGen2010.Components.Modules.MySmo;
-using SmoUtils = SPGen2010.Components.Utils.MsSql.Utils;
+using SmoUtils = SPGen2010.Components.Helpers.MsSql.Utils;
 
 // SMO
 using Microsoft.SqlServer.Management.Common;
