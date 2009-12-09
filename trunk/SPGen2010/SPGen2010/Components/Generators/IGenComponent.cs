@@ -10,7 +10,7 @@ namespace SPGen2010.Components.Generators
     /// <summary>
     /// 生成器类须实现这个接口以配合框架调用
     /// </summary>
-    public interface IGenComponent
+    public interface IGenerator
     {
         Dictionary<GenProperties, object> Properties { get; }
 
