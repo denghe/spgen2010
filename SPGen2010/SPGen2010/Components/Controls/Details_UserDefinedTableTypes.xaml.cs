@@ -30,7 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.UserDefinedTableTypes = o;
-            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedFunctions";
+            _Path_Label.Content = o.Parent.Parent.Text + @"\" + o.Parent.Text + @"\UserDefinedTableTypes";
         }
 
         public Folder_UserDefinedTableTypes UserDefinedTableTypes { get; set; }

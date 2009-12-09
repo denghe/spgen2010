@@ -30,7 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.UserDefinedFunction_Scale = o;
-            _Path_Label.Content = o.Text + @"\Databases";
+            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\UserDefinedFunctions\" + o.Text;
         }
 
         public UserDefinedFunction_Scale UserDefinedFunction_Scale { get; set; }
