@@ -36,6 +36,9 @@ namespace SPGen2010.Components.Windows
             get { return _WMain; }
         }
 
+        /// <summary>
+        /// set value after connected to database
+        /// </summary>
         public IObjectExplorerFiller ObjectExplorerFiller
         {
             set
@@ -45,6 +48,9 @@ namespace SPGen2010.Components.Windows
             }
         }
 
+        /// <summary>
+        /// set value after connected to database
+        /// </summary>
         public IMySmoFiller MySmoFiller { get; set; }
 
         #endregion
