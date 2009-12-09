@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace SPGen2010.Components.Utils
+namespace SPGen2010.Components.Helpers
 {
     public static class ImageSourceHelper
     {
