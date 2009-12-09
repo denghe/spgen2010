@@ -30,7 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Database = o;
-            _Path_Label.Content = o.Text + @"\Database";
+            _Path_Label.Content = o.Parent.Text + @"\Databases\" + o.Text;
         }
 
         public Database Database { get; set; }

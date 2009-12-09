@@ -31,7 +31,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Table = o;
-            _Path_Label.Content = o.Text + @"\Databases";
+            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables\" + o.Text;
         }
 
         public Oe.Table Table { get; set; }

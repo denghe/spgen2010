@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Controls
@@ -29,7 +30,7 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Schema = o;
-            _Path_Label.Content = o.Text + @"\Databases";
+            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Schemas\" + o.Text;
         }
 
         public Schema Schema { get; set; }
