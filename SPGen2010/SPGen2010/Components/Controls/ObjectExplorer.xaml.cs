@@ -43,10 +43,10 @@ namespace SPGen2010.Components.Controls
 
         public void SetControl(UserControl details, UserControl actions)
         {
-            WMain.Instance._Details_StackPanel.Children.Clear();
-            WMain.Instance._Details_StackPanel.Children.Add(details);
-            WMain.Instance._Actions_StackPanel.Children.Clear();
-            WMain.Instance._Actions_StackPanel.Children.Add(actions);
+            WMain.Instance._Details_Grid.Children.Clear();
+            WMain.Instance._Details_Grid.Children.Add(details);
+            WMain.Instance._Actions_Grid.Children.Clear();
+            WMain.Instance._Actions_Grid.Children.Add(actions);
         }
 
         private void _TreeView_Selected(object sender, RoutedEventArgs e)

@@ -31,7 +31,9 @@ namespace SPGen2010.Components.Controls
         {
             this.Server = o;
             _Path_Label.Content = o.Text + @"\Databases";
+
             _Details_DataGrid.ItemsSource = this.Server.Databases;
+            _Count_Label.Content = o.Databases.Count.ToString();
         }
 
         public Server Server { get; set; }
@@ -45,6 +47,11 @@ namespace SPGen2010.Components.Controls
 
             // todo: WMain Tree 定位，控件刷新
             // row.Item as Database;
+        }
+
+        private void _Details_ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
