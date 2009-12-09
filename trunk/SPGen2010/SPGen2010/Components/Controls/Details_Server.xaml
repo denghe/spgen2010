@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="263" d:DesignWidth="396">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
@@ -13,7 +13,7 @@
             <RowDefinition />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
 
         <ToolBarTray Grid.Row="1" Background="#bcc7d8">
@@ -29,11 +29,12 @@
         </ToolBarTray>
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
-        
+
+
         <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
                   MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn ClipboardContentBinding="{Binding Path=Text}" Header="Database">
+                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding Path=Text}" Header="Database">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -43,10 +44,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" Binding="{Binding Path=Tips}" ClipboardContentBinding="{Binding Path=Tips}" Header="Tips" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Tips}" Binding="{Binding Path=Tips}" Header="Tips" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="4" Name="_Stat_StackPanel" Orientation="Horizontal"></StackPanel>
+        <StackPanel Grid.Row="4" Name="_Stat_StackPanel" Orientation="Horizontal">
+            <Label Content="Total: "></Label><Label Name="_Count_Label"></Label>
+        </StackPanel>
     </Grid>
 </UserControl>
