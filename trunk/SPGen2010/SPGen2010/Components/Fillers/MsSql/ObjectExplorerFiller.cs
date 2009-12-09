@@ -62,79 +62,79 @@ namespace SPGen2010.Components.Fillers.MsSql
             return Server.ToString();
         }
 
+
         public Oe.Server Fill(Oe.Server oeserver)
         {
             oeserver.Databases.Clear();
             oeserver.Databases.AddRange(
                 from Database db in this.Server.Databases
                 where db.IsSystemObject == false
-                select new Oe.Database { Parent = oeserver, Text = db.Name });
+                select new Oe.Database { Parent = oeserver, Text = db.Name, Tag = db });
             return oeserver;
         }
 
+
         public Oe.Database Fill(Oe.Database oedb)
         {
-
-
             var db = this.Server.Databases[oedb.Text];  // todo: check exists
             oedb.Folders.Clear();
 
-            
 
-            var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas" };
+
+            var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas", Tag = db.Schemas };
             sf.Schemas.AddRange(
                 from Schema o in db.Schemas
                 where o.IsSystemObject == false || o.Name == "dbo"
-                select new Oe.Schema { Parent = sf, Text = o.Name });
+                select new Oe.Schema { Parent = sf, Text = o.Name, Tag = o });
             oedb.Folders.Add(sf);
 
-            
 
-            var tf = new Oe.Folder_Tables { Parent = oedb, Text = "Tables" };
+
+            var tf = new Oe.Folder_Tables { Parent = oedb, Text = "Tables", Tag = db.Tables };
             tf.Tables.AddRange(
                 from Table o in db.Tables
                 where o.IsSystemObject == false
-                select new Oe.Table { Parent = tf, Text = o.Name });
+                select new Oe.Table { Parent = tf, Text = o.Name, Tag = o });
             oedb.Folders.Add(tf);
 
-            
 
-            var vf = new Oe.Folder_Views { Parent = oedb, Text = "Views" };
+
+            var vf = new Oe.Folder_Views { Parent = oedb, Text = "Views", Tag = db.Views };
             vf.Views.AddRange(
                 from View o in db.Views
                 where o.IsSystemObject == false
-                select new Oe.View { Parent = vf, Text = o.Name });
+                select new Oe.View { Parent = vf, Text = o.Name, Tag = o });
             oedb.Folders.Add(vf);
 
-            
 
-            var ff = new Oe.Folder_UserDefinedFunctions { Parent = oedb, Text = "UserDefinedFunctions" };
+
+            var ff = new Oe.Folder_UserDefinedFunctions { Parent = oedb, Text = "UserDefinedFunctions", Tag = db.UserDefinedFunctions };
             ff.UserDefinedFunctions.AddRange(
                 from UserDefinedFunction o in db.UserDefinedFunctions
                 where o.IsSystemObject == false
                 select o.FunctionType == UserDefinedFunctionType.Table ?
-                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Table { Parent = ff, Text = o.Name } :
-                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale { Parent = ff, Text = o.Name });
+                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Table { Parent = ff, Text = o.Name, Tag = o } :
+                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale { Parent = ff, Text = o.Name, Tag = o });
             oedb.Folders.Add(ff);
 
-            
 
-            var spf = new Oe.Folder_StoredProcedures { Parent = oedb, Text = "StoredProcedures" };
+
+            var spf = new Oe.Folder_StoredProcedures { Parent = oedb, Text = "StoredProcedures", Tag = db.StoredProcedures };
             spf.StoredProcedures.AddRange(
                 from StoredProcedure o in db.StoredProcedures
                 where o.IsSystemObject == false
-                select new Oe.StoredProcedure { Parent = spf, Text = o.Name });
+                select new Oe.StoredProcedure { Parent = spf, Text = o.Name, Tag = o });
             oedb.Folders.Add(spf);
 
-            
 
-            var ttf = new Oe.Folder_UserDefinedTableTypes { Parent = oedb, Text = "UserDefinedTableTypes" };
+
+            var ttf = new Oe.Folder_UserDefinedTableTypes { Parent = oedb, Text = "UserDefinedTableTypes", Tag = db.UserDefinedTableTypes };
             ttf.UserDefinedTableTypes.AddRange(
                 from UserDefinedTableType o in db.UserDefinedTableTypes
-                select new Oe.UserDefinedTableType { Parent = ttf, Text = o.Name });
+                select new Oe.UserDefinedTableType { Parent = ttf, Text = o.Name, Tag = o });
             oedb.Folders.Add(ttf);
 
-            
+
 
             return oedb;
         }
