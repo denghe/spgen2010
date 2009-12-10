@@ -261,6 +261,7 @@
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
     <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
+    <Compile Include="Components\Helpers\MsSql\SQLHelper.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
