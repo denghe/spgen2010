@@ -28,7 +28,7 @@
             <RowDefinition />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
 
         <ToolBarTray Grid.Row="1" Background="#bcc7d8">
@@ -44,24 +44,21 @@
         </ToolBarTray>
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
-        
+
         <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
                   ItemsSource="{Binding Source={StaticResource FolderData}, XPath=Folder}" MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding XPath=@Text}" Header="Name">
+                <DataGridTemplateColumn Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/SPGen2010;component/Images/sql_folder.png"></Image>
-                                <Label Content="{Binding XPath=@Text}"></Label>
-                            </StackPanel>
+                            <Image Source="/SPGen2010;component/Images/sql_folder.png" Width="16" Height="16"></Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding XPath=@Tips}" Binding="{Binding XPath=@Tips}" Header="Tips" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding XPath=@Text}" Binding="{Binding XPath=@Text}" Header="Text" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <StackPanel Grid.Row="4" Name="_Stat_StackPanel" Orientation="Horizontal"></StackPanel>
     </Grid>
 </UserControl>
