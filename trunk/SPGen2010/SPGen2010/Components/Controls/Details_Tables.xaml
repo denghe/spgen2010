@@ -32,17 +32,17 @@
 
         <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding Path=Text}" Header="Name">
+                <DataGridTemplateColumn Width="Auto" Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/SPGen2010;component/Images/sql_table.png"></Image>
-                                <Label Content="{Binding Path=Text}"></Label>
-                            </StackPanel>
+                            <Image Source="/SPGen2010;component/Images/sql_table.png" Width="16" Height="16"></Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" Binding="{Binding Path=Tips}" ClipboardContentBinding="{Binding Path=Tips}" Header="Tips" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name}" Header="Name" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Schema}" Binding="{Binding Path=Schema}" Header="Schema" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Owner}" Binding="{Binding Path=Owner}" Header="Owner" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=CreateDate}" Binding="{Binding Path=CreateDate}" Header="CreateDate" />
             </DataGrid.Columns>
         </DataGrid>
         
