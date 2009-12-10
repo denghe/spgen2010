@@ -171,6 +171,7 @@
     <Compile Include="Components\Controls\Actions_UserDefinedTableTypes.xaml.cs">
       <DependentUpon>Actions_UserDefinedTableTypes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Controls\Converters.cs" />
     <Compile Include="Components\Controls\Details_UserDefinedTableTypes.xaml.cs">
       <DependentUpon>Details_UserDefinedTableTypes.xaml</DependentUpon>
     </Compile>
