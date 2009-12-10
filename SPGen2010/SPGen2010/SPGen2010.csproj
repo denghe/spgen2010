@@ -261,7 +261,6 @@
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
     <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
-    <Compile Include="Components\Helpers\MsSql\SQLHelper.cs" />
     <Compile Include="Components\Modules\DS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -270,7 +269,7 @@
     <Compile Include="Components\Modules\MySmo.cs" />
     <Compile Include="Components\Modules\MySmoPartial.cs" />
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
-    <Compile Include="Todo\SQLHelper.cs" />
+    <None Include="Todo\SQLHelper.cs" />
     <Compile Include="Components\Helpers\MsSql\Utils.cs" />
     <Compile Include="Components\Controls\ImageSourceHelper.cs" />
     <Compile Include="Components\Controls\ObjectExplorer.xaml.cs">
