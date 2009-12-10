@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:SPGen2010.Components.Controls.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="237" d:DesignWidth="684">
+    <UserControl.Resources>
+        <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
@@ -21,7 +25,7 @@
             <ColumnDefinition Width="80" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Label Grid.Row="0" Grid.ColumnSpan="4" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
 
         <ToolBarTray Grid.Row="1" Grid.ColumnSpan="4" Background="#bcc7d8">
@@ -37,11 +41,11 @@
         </ToolBarTray>
 
         <Label Grid.Row="2" Grid.ColumnSpan="4" Name="_Path_Label" Background="#ffffe1"></Label>
-        
+
         <Label Grid.Row="3" Grid.Column="0" Content="Name:" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="3" Grid.Column="1" Content="{Binding Path=Name}"></Label>
         <Label Grid.Row="3" Grid.Column="2" Content="Schema:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="3" Grid.Column="3" Content="{Binding Path=Schema}"></Label>
+        <Label Grid.Row="3" Grid.Column="3" Content="{Binding Path=Schema.Name}"></Label>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Owner:" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="4" Grid.Column="1" Content="{Binding Path=Owner}"></Label>
@@ -49,18 +53,32 @@
         <Label Grid.Row="4" Grid.Column="3" Content="{Binding Path=CreateTime}"></Label>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
-        <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Description}"></TextBlock>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Description}"></TextBox>
 
         <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
-                  ItemsSource="{Binding Path=Columns}">
-            <DataGridTemplateColumn Width="Auto" Header="">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Image Source="/SPGen2010;component/Images/sql_key.png" Width="16" Height="16"></Image>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name}" Header="Name" />
+                  CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+                  ItemsSource="{Binding Path=Columns}" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/SPGen2010;component/Images/sql_key.png" Width="16" Height="16" 
+                                   Visibility="{Binding Path=InPrimaryKey, Converter={StaticResource BooleanToHiddenVisibility}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/SPGen2010;component/Images/sql_foreignkey.png" Width="16" Height="16" 
+                                   Visibility="{Binding Path=IsForeignKey, Converter={StaticResource BooleanToHiddenVisibility}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name}" Header="Name" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType}" Header="DataType" />
+                <DataGridCheckBoxColumn Width="32" Binding="{Binding Path=Nullable}" Header="Null"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>

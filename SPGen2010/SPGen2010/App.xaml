@@ -35,10 +35,12 @@
 
         <!-- DataGrid -->
         <SolidColorBrush x:Key="WhiteGridLine" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="SmokeGridLine" Color="#FFF0F0F0" />
+        
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="White" />
             <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WhiteGridLine}" />
-            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WhiteGridLine}" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource SmokeGridLine}" />
         </Style>
 
 

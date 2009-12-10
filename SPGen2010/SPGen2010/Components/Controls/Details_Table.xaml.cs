@@ -12,8 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -30,15 +31,15 @@ namespace SPGen2010.Components.Controls
         public Details_Table(Oe.Table o)
             : this()
         {
-            this.Table = o;
-
-            // todo: get mysmo object
-
-
-            this.DataContext = o;
+            this.OeTable = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables\" + o.Text;
+
+            var t = WMain.Instance.MySmoFiller.GetTable(o);
+            this.MySmoTable = t;
+            this.DataContext = t;
         }
 
-        public Oe.Table Table { get; set; }
+        public Oe.Table OeTable { get; set; }
+        public MySmo.Table MySmoTable { get; set; }
     }
 }
