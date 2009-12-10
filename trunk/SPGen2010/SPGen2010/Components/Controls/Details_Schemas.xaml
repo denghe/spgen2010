@@ -33,7 +33,7 @@
         <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
                   MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding Path=Text}" Header="Schema">
+                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding Path=Text}" Header="Name">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
