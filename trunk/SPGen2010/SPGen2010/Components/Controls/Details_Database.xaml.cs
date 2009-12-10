@@ -34,5 +34,10 @@ namespace SPGen2010.Components.Controls
         }
 
         public Database Database { get; set; }
+
+        private void _Details_DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

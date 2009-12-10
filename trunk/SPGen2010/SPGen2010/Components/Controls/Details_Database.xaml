@@ -5,6 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="FolderData" XPath="/Folders">
+            <x:XData>
+                <Folders xmlns="">
+                    <Folder Text="Schemas" Tips="" />
+                    <Folder Text="Tables" Tips="" />
+                    <Folder Text="Views" Tips="" />
+                    <Folder Text="UserDefinedFunctions" Tips="" />
+                    <Folder Text="UserDefinedTables" Tips="" />
+                    <Folder Text="StoredProcedures" Tips="" />
+                </Folders>
+            </x:XData>
+        </XmlDataProvider>
+
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
@@ -30,7 +45,21 @@
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
         
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White">
+        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  ItemsSource="{Binding Source={StaticResource FolderData}, XPath=Folder}" MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="250" ClipboardContentBinding="{Binding XPath=@Text}" Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/SPGen2010;component/Images/sql_folder.png"></Image>
+                                <Label Content="{Binding XPath=@Text}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding XPath=@Tips}" Binding="{Binding XPath=@Tips}" Header="Tips" />
+            </DataGrid.Columns>
         </DataGrid>
         
         <StackPanel Grid.Row="4" Name="_Stat_StackPanel" Orientation="Horizontal"></StackPanel>
