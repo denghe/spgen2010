@@ -31,6 +31,11 @@ namespace SPGen2010.Components.Controls
             : this()
         {
             this.Table = o;
+
+            // todo: get mysmo object
+
+
+            this.DataContext = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables\" + o.Text;
         }
 

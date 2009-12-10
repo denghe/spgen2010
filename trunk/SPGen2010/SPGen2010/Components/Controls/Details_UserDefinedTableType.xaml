@@ -29,7 +29,7 @@
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
         
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid" Background="White">
+        <DataGrid Grid.Row="3" Name="_Details_DataGrid">
         </DataGrid>
     </Grid>
 </UserControl>
