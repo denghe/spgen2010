@@ -33,24 +33,27 @@ namespace SPGen2010.Components.Fillers.MsSql
             #region Set SMO SQL Struct Data Limit
 
             this.Server.SetDefaultInitFields(typeof(Database),
-                new String[] { "Name" });
+                new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate" });
+
+            this.Server.SetDefaultInitFields(typeof(Schema),
+                new String[] { "Name", "IsSystemObject", "Owner" });
 
             this.Server.SetDefaultInitFields(typeof(Table),
-                new String[] { "Name", "Schema", "IsSystemObject" });
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
             this.Server.SetDefaultInitFields(typeof(View),
-                new String[] { "Name", "Schema", "IsSystemObject" });
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
             this.Server.SetDefaultInitFields(typeof(StoredProcedure),
-                new String[] { "Name", "Schema", "IsSystemObject" });
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
             this.Server.SetDefaultInitFields(typeof(UserDefinedFunction),
-                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject" });
+                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner" });
 
             if (this.Server.VersionMajor >= 10)
             {
                 this.Server.SetDefaultInitFields(typeof(UserDefinedTableType),
-                    new String[] { "Name", "Schema" });
+                    new String[] { "Name", "Schema", "CreateDate", "Owner" });
             }
 
             #endregion
@@ -69,7 +72,18 @@ namespace SPGen2010.Components.Fillers.MsSql
             oeserver.Databases.AddRange(
                 from Database db in this.Server.Databases
                 where db.IsSystemObject == false
-                select new Oe.Database { Parent = oeserver, Text = db.Name, Tag = db });
+                select new Oe.Database
+                {
+                    Parent = oeserver,
+                    Text = db.Name,
+                    Tag = db,
+                    Name = db.Name,
+                    RecoryModel = db.RecoveryModel.ToString(),
+                    CompatibilityLevel = db.CompatibilityLevel.ToString(),
+                    Collation = db.Collation,
+                    Owner = db.Owner,
+                    CreateDate = db.CreateDate
+                });
             return oeserver;
         }
 
@@ -85,7 +99,14 @@ namespace SPGen2010.Components.Fillers.MsSql
             sf.Schemas.AddRange(
                 from Schema o in db.Schemas
                 where o.IsSystemObject == false || o.Name == "dbo"
-                select new Oe.Schema { Parent = sf, Text = o.Name, Tag = o });
+                select new Oe.Schema
+                {
+                    Parent = sf,
+                    Text = o.Name,
+                    Tag = o,
+                    Name = o.Name,
+                    Owner = o.Owner
+                });
             oedb.Folders.Add(sf);
 
 
@@ -94,7 +115,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             tf.Tables.AddRange(
                 from Table o in db.Tables
                 where o.IsSystemObject == false
-                select new Oe.Table { Parent = tf, Text = o.Name, Tag = o });
+                select new Oe.Table
+                {
+                    Parent = tf,
+                    Text = o.Schema + "." + o.Name,
+                    Tag = o,
+                    Name = o.Name,
+                    Schema = o.Schema,
+                    Owner = o.Owner,
+                    CreateDate = o.CreateDate
+                });
             oedb.Folders.Add(tf);
 
 
@@ -103,7 +133,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             vf.Views.AddRange(
                 from View o in db.Views
                 where o.IsSystemObject == false
-                select new Oe.View { Parent = vf, Text = o.Name, Tag = o });
+                select new Oe.View
+                {
+                    Parent = vf,
+                    Text = o.Schema + "." + o.Name,
+                    Tag = o,
+                    Name = o.Name,
+                    Schema = o.Schema,
+                    Owner = o.Owner,
+                    CreateDate = o.CreateDate
+                });
             oedb.Folders.Add(vf);
 
 
@@ -113,8 +152,26 @@ namespace SPGen2010.Components.Fillers.MsSql
                 from UserDefinedFunction o in db.UserDefinedFunctions
                 where o.IsSystemObject == false
                 select o.FunctionType == UserDefinedFunctionType.Table ?
-                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Table { Parent = ff, Text = o.Name, Tag = o } :
-                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale { Parent = ff, Text = o.Name, Tag = o });
+                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Table
+                    {
+                        Parent = ff,
+                        Text = o.Schema + "." + o.Name,
+                        Tag = o,
+                        Name = o.Name,
+                        Schema = o.Schema,
+                        Owner = o.Owner,
+                        CreateDate = o.CreateDate
+                    } :
+                    (Oe.UserDefinedFunctionBase)new Oe.UserDefinedFunction_Scale
+                    {
+                        Parent = ff,
+                        Text = o.Name,
+                        Tag = o,
+                        Name = o.Name,
+                        Schema = o.Schema,
+                        Owner = o.Owner,
+                        CreateDate = o.CreateDate
+                    });
             oedb.Folders.Add(ff);
 
 
@@ -123,7 +180,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             spf.StoredProcedures.AddRange(
                 from StoredProcedure o in db.StoredProcedures
                 where o.IsSystemObject == false
-                select new Oe.StoredProcedure { Parent = spf, Text = o.Name, Tag = o });
+                select new Oe.StoredProcedure
+                {
+                    Parent = spf,
+                    Text = o.Schema + "." + o.Name,
+                    Tag = o,
+                    Name = o.Name,
+                    Schema = o.Schema,
+                    Owner = o.Owner,
+                    CreateDate = o.CreateDate
+                });
             oedb.Folders.Add(spf);
 
 
@@ -131,7 +197,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             var ttf = new Oe.Folder_UserDefinedTableTypes { Parent = oedb, Text = "UserDefinedTableTypes", Tag = db.UserDefinedTableTypes };
             ttf.UserDefinedTableTypes.AddRange(
                 from UserDefinedTableType o in db.UserDefinedTableTypes
-                select new Oe.UserDefinedTableType { Parent = ttf, Text = o.Name, Tag = o });
+                select new Oe.UserDefinedTableType
+                {
+                    Parent = ttf,
+                    Text = o.Schema + "." + o.Name,
+                    Tag = o,
+                    Name = o.Name,
+                    Schema = o.Schema,
+                    Owner = o.Owner,
+                    CreateDate = o.CreateDate
+                });
             oedb.Folders.Add(ttf);
 
 

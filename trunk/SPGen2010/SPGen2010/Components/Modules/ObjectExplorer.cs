@@ -21,6 +21,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(pn));
         }
+
         private string _text;
         public string Text
         {
@@ -31,6 +32,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
                 NotifyPropertyChange("Text");
             }
         }
+
         private string _tips;
         public string Tips
         {
@@ -41,13 +43,27 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
                 NotifyPropertyChange("Tips");
             }
         }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                NotifyPropertyChange("Name");
+            }
+        }
+
         public object Tag { get; set; }
     }
+
     public partial class Server : NodeBase
     {
         public Server() { this.Databases = new Databases { Parent = this }; }
         public Databases Databases { get; private set; }
     }
+
     public partial class Databases : ObservableCollection<Database>
     {
         public Server Parent { get; set; }
@@ -57,6 +73,7 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return items;
         }
     }
+
     public partial class Database : NodeBase
     {
         public Database() { this.Folders = new Folders { Parent = this }; }
@@ -71,7 +88,65 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
                 NotifyPropertyChange("Folders");
             }
         }
+
+        private string _recoryModel;
+        public string RecoryModel
+        {
+            get { return _recoryModel; }
+            set
+            {
+                _recoryModel = value;
+                NotifyPropertyChange("RecoryModel");
+            }
+        }
+
+        private string _compatibilityLevel;
+        public string CompatibilityLevel
+        {
+            get { return _compatibilityLevel; }
+            set
+            {
+                _compatibilityLevel = value;
+                NotifyPropertyChange("CompatibilityLevel");
+            }
+        }
+
+        private string _collation;
+        public string Collation
+        {
+            get { return _collation; }
+            set
+            {
+                _collation = value;
+                NotifyPropertyChange("Collation");
+            }
+        }
+
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
+
     public partial class Folders : ObservableCollection<FolderBase>
     {
         public Database Parent { get; set; }
@@ -81,15 +156,18 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public abstract partial class FolderBase : NodeBase
     {
         public Database Parent { get; set; }
     }
+
     public partial class Folder_Tables : FolderBase
     {
         public Folder_Tables() { this.Tables = new Tables { Parent = this }; }
         public Tables Tables { get; private set; }
     }
+
     public partial class Tables : ObservableCollection<Table>
     {
         public Folder_Tables Parent { get; set; }
@@ -99,11 +177,13 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Folder_Views : FolderBase
     {
         public Folder_Views() { this.Views = new Views { Parent = this }; }
         public Views Views { get; private set; }
     }
+
     public partial class Views : ObservableCollection<View>
     {
         public Folder_Views Parent { get; set; }
@@ -113,11 +193,13 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Folder_UserDefinedFunctions : FolderBase
     {
         public Folder_UserDefinedFunctions() { this.UserDefinedFunctions = new UserDefinedFunctions { Parent = this }; }
         public UserDefinedFunctions UserDefinedFunctions { get; private set; }
     }
+
     public partial class UserDefinedFunctions : ObservableCollection<UserDefinedFunctionBase>
     {
         public Folder_UserDefinedFunctions Parent { get; set; }
@@ -127,11 +209,13 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Folder_UserDefinedTableTypes : FolderBase
     {
         public Folder_UserDefinedTableTypes() { this.UserDefinedTableTypes = new UserDefinedTableTypes { Parent = this }; }
         public UserDefinedTableTypes UserDefinedTableTypes { get; private set; }
     }
+
     public partial class UserDefinedTableTypes : ObservableCollection<UserDefinedTableType>
     {
         public Folder_UserDefinedTableTypes Parent { get; set; }
@@ -141,11 +225,13 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Folder_StoredProcedures : FolderBase
     {
         public Folder_StoredProcedures() { this.StoredProcedures = new StoredProcedures { Parent = this }; }
         public StoredProcedures StoredProcedures { get; private set; }
     }
+
     public partial class StoredProcedures : ObservableCollection<StoredProcedure>
     {
         public Folder_StoredProcedures Parent { get; set; }
@@ -155,11 +241,13 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Folder_Schemas : FolderBase
     {
         public Folder_Schemas() { this.Schemas = new Schemas { Parent = this }; }
         public Schemas Schemas { get; private set; }
     }
+
     public partial class Schemas : ObservableCollection<Schema>
     {
         public Folder_Schemas Parent { get; set; }
@@ -169,17 +257,120 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
             return this;
         }
     }
+
     public partial class Table : NodeBase
     {
         public Folder_Tables Parent { get; set; }
+
+        private string _schema;
+        public string Schema
+        {
+            get { return _schema; }
+            set
+            {
+                _schema = value;
+                NotifyPropertyChange("Schema");
+            }
+        }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
     public partial class View : NodeBase
     {
         public Folder_Views Parent { get; set; }
+
+        private string _schema;
+        public string Schema
+        {
+            get { return _schema; }
+            set
+            {
+                _schema = value;
+                NotifyPropertyChange("Schema");
+            }
+        }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
     public partial class UserDefinedFunctionBase : NodeBase
     {
         public Folder_UserDefinedFunctions Parent { get; set; }
+
+        private string _schema;
+        public string Schema
+        {
+            get { return _schema; }
+            set
+            {
+                _schema = value;
+                NotifyPropertyChange("Schema");
+            }
+        }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
     public partial class UserDefinedFunction_Scale : UserDefinedFunctionBase
     {
@@ -190,13 +381,104 @@ namespace SPGen2010.Components.Modules.ObjectExplorer
     public partial class UserDefinedTableType : NodeBase
     {
         public Folder_UserDefinedTableTypes Parent { get; set; }
+
+        private string _schema;
+        public string Schema
+        {
+            get { return _schema; }
+            set
+            {
+                _schema = value;
+                NotifyPropertyChange("Schema");
+            }
+        }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
     public partial class StoredProcedure : NodeBase
     {
         public Folder_StoredProcedures Parent { get; set; }
+
+        private string _schema;
+        public string Schema
+        {
+            get { return _schema; }
+            set
+            {
+                _schema = value;
+                NotifyPropertyChange("Schema");
+            }
+        }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
     public partial class Schema : NodeBase
     {
         public Folder_Schemas Parent { get; set; }
+
+        private DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get { return _createDate; }
+            set
+            {
+                _createDate = value;
+                NotifyPropertyChange("CreateDate");
+            }
+        }
+
+        private string _owner;
+        public string Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChange("Owner");
+            }
+        }
+
     }
 }
