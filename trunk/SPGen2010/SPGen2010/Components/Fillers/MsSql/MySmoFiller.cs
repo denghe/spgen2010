@@ -115,6 +115,7 @@ namespace SPGen2010.Components.Fillers.MsSql
             }
             if (isIncludeExtendProperties)
             {
+                // todo
                 //mysmo_t.ExtendedProperties
                 //mysmo_t.Description = 
                 //mysmo_t.Caption = 
