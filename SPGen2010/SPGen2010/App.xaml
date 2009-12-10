@@ -8,7 +8,9 @@
             <Setter Property="TextElement.FontFamily" Value="SimSun" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
         </Style>
-        
+
+        <Style BasedOn="{StaticResource Font}" TargetType="DataGridCell">
+        </Style>
         <Style BasedOn="{StaticResource Font}" TargetType="Button">
         </Style>
         <Style BasedOn="{StaticResource Font}" TargetType="Menu">
@@ -30,6 +32,15 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!-- DataGrid -->
+        <SolidColorBrush x:Key="WhiteGridLine" Color="#FFFFFFFF" />
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WhiteGridLine}" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WhiteGridLine}" />
+        </Style>
+
 
     </Application.Resources>
 </Application>
