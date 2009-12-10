@@ -49,9 +49,5 @@ namespace SPGen2010.Components.Controls
             // row.Item as Database;
         }
 
-        private void _Details_ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }
