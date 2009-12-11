@@ -34,14 +34,14 @@ namespace SPGen2010.Components.Modules.MySmo
     {
         List<Parameter> Parameters { get; set; }
     }
-    public interface INameBase
+    public interface IName
     {
         string Name { get; set; }
     }
-    public interface INameSchemaBase
+    public interface INameSchema
     {
         string Name { get; set; }
-        Schema Schema { get; set; }
+        string Schema { get; set; }
     }
     public interface IDescription
     {
@@ -51,16 +51,24 @@ namespace SPGen2010.Components.Modules.MySmo
     {
         ExtendedProperties ExtendedProperties { get; set; }
     }
+    public interface IOwner
+    {
+        string Owner { get; set; }
+    }
+    public interface ICreateTime
+    {
+        DateTime CreateTime { get; set; }
+    }
 
     #endregion
 
-    public partial class Server : IMySmoObject, INameBase
+    public partial class Server : IMySmoObject, IName
     {
         public List<Database> Databases { get; set; }
         public string Name { get; set; }
     }
 
-    public partial class Database : IMySmoObject, IParentServer, INameBase, IExtendPropertiesBase
+    public partial class Database : IMySmoObject, IParentServer, IName, IExtendPropertiesBase, IOwner, ICreateTime
     {
         public Server ParentServer { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -69,63 +77,75 @@ namespace SPGen2010.Components.Modules.MySmo
         public List<StoredProcedure> StoredProcedures { get; set; }
         public List<UserDefinedFunction> UserDefinedFunctions { get; set; }
         public List<UserDefinedTableType> UserDefinedTableTypes { get; set; }
-        public List<Schema> Schemas { get; set; }
+        public List<string> Schemas { get; set; }
         public string Name { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
+    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public Schema Schema { get; set; }
+        public string Schema { get; set; }
         public string Description { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
+    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public Schema Schema { get; set; }
+        public string Schema { get; set; }
         public string Description { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
+    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
-        public Schema Schema { get; set; }
+        public string Schema { get; set; }
         public string Description { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameSchemaBase, IExtendPropertiesBase, IDescription
+    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
-        public Schema Schema { get; set; }
+        public string Schema { get; set; }
         public UserDefinedFunctionType UserDefinedFunctionType { get; set; }
         public string Description { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameSchemaBase, IExtendPropertiesBase, IDescription
+    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
-        public Schema Schema { get; set; }
+        public string Schema { get; set; }
         public string Description { get; set; }
+        public string Owner { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 
-    public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase, IDescription
+    public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, IName, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ITableBase ParentTableBase { get; set; }
@@ -146,16 +166,18 @@ namespace SPGen2010.Components.Modules.MySmo
         public bool RowGuidCol { get; set; }
     }
 
-    public partial class Parameter : IMySmoObject, IParentDatabase, IParentParameterBase, INameBase, IExtendPropertiesBase
+    public partial class Parameter : IMySmoObject, IParentDatabase, IParentParameterBase, IName, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public IParameterBase ParentParameterBase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public DataType DataType { get; set; }
         public string Name { get; set; }
+        public string DefaultValue { get; set; }
+        public bool IsReadOnly { get; set; }
     }
 
-    public partial class DataType : IMySmoObject, INameBase
+    public partial class DataType : IMySmoObject, IName
     {
         public SqlDataType SqlDataType { get; set; }
         public string Name { get; set; }
@@ -164,10 +186,11 @@ namespace SPGen2010.Components.Modules.MySmo
         public int NumericScale { get; set; }
     }
 
-    public partial class Schema : IMySmoObject, INameBase, IParentDatabase
+    public partial class Schema : IMySmoObject, IName, IParentDatabase, IOwner
     {
         public Database ParentDatabase { get; set; }
         public string Name { get; set; }
+        public string Owner { get; set; }
     }
 
     public partial class ExtendedProperties : Dictionary<string, string>, IMySmoObject

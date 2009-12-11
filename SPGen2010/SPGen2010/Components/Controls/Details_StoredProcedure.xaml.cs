@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,18 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_StoredProcedure(StoredProcedure o)
+        public Details_StoredProcedure(Oe.StoredProcedure o)
             : this()
         {
-            this.StoredProcedure = o;
+            this.OeStoredProcedure = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\StoredProcedures\" + o.Text;
+
+            var so = WMain.Instance.MySmoFiller.GetStoredProcedure(o);
+            this.MySmoStoredProcedure = so;
+            this.DataContext = so;
         }
 
-        public StoredProcedure StoredProcedure { get; set; }
+        public Oe.StoredProcedure OeStoredProcedure { get; set; }
+        public MySmo.StoredProcedure MySmoStoredProcedure { get; set; }
     }
 }
