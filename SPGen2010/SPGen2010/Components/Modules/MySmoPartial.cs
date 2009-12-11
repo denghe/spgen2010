@@ -6,78 +6,40 @@ using SPGen2010.Components.Helpers.MsSql;
 
 namespace SPGen2010.Components.Modules.MySmo
 {
-    public interface IExtendedInformation
+    partial class Server
     {
-        string Description { get; set; }
-        string Caption { get; set; }
-        string Summary { get; set; }
     }
 
-
-    partial class Server : IExtendedInformation
+    partial class Database
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-
-    partial class Database : IExtendedInformation
+    partial class Table
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-    partial class Table : IExtendedInformation
+    partial class View
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-    partial class View : IExtendedInformation
+    partial class UserDefinedTableType
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-    partial class UserDefinedTableType : IExtendedInformation
+    partial class UserDefinedFunction
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-    partial class UserDefinedFunction : IExtendedInformation
+    partial class StoredProcedure
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
-    partial class StoredProcedure : IExtendedInformation
+    partial class Column
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
-
-        // todo: result information
     }
 
-    partial class Column : IExtendedInformation
+    partial class Parameter
     {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
-    }
-
-    partial class Parameter : IExtendedInformation
-    {
-        public string Description { get; set; }
-        public string Caption { get; set; }
-        public string Summary { get; set; }
     }
 
     partial class DataType

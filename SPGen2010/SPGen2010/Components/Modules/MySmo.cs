@@ -43,6 +43,10 @@ namespace SPGen2010.Components.Modules.MySmo
         string Name { get; set; }
         Schema Schema { get; set; }
     }
+    public interface IDescription
+    {
+        string Description { get; set; }
+    }
     public interface IExtendPropertiesBase
     {
         ExtendedProperties ExtendedProperties { get; set; }
@@ -69,34 +73,37 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Name { get; set; }
     }
 
-    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
+    public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
         public Schema Schema { get; set; }
+        public string Description { get; set; }
     }
 
-    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
+    public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
         public Schema Schema { get; set; }
+        public string Description { get; set; }
     }
 
-    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchemaBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
         public string Name { get; set; }
         public Schema Schema { get; set; }
+        public string Description { get; set; }
     }
 
-    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameSchemaBase, IExtendPropertiesBase
+    public partial class UserDefinedFunction : IMySmoObject, IParentDatabase, ITableBase, IParameterBase, INameSchemaBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
@@ -105,25 +112,27 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Name { get; set; }
         public Schema Schema { get; set; }
         public UserDefinedFunctionType UserDefinedFunctionType { get; set; }
-
+        public string Description { get; set; }
     }
 
-    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameSchemaBase, IExtendPropertiesBase
+    public partial class StoredProcedure : IMySmoObject, IParentDatabase, IParameterBase, INameSchemaBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
         public Schema Schema { get; set; }
+        public string Description { get; set; }
     }
 
-    public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase
+    public partial class Column : IMySmoObject, IParentDatabase, IParentTableBase, INameBase, IExtendPropertiesBase, IDescription
     {
         public Database ParentDatabase { get; set; }
         public ITableBase ParentTableBase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public DataType DataType { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
 
         public bool Computed { get; set; }
         public string ComputedText { get; set; }
