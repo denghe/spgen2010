@@ -207,6 +207,8 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public MySmo.View GetView(Oe.View view, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
+            #region implement
+
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_v = new MySmo.View();
@@ -261,6 +263,8 @@ namespace SPGen2010.Components.Fillers.MsSql
                 }
             }
             return mysmo_v;
+
+            #endregion
         }
 
         public MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction, bool isIncludeExtendProperties = true, bool isIncludeChilds = true) where T : Oe.UserDefinedFunctionBase
@@ -270,7 +274,63 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
-            throw new NotImplementedException();
+            #region implement
+
+            SetDataLimit(isIncludeExtendProperties);
+
+            var mysmo_tt = new MySmo.UserDefinedTableType();
+            var smo_db = _smo_server.Databases[userdefinedtabletype.Parent.Parent.Name];
+            var smo_tt = smo_db.UserDefinedTableTypes[userdefinedtabletype.Name, userdefinedtabletype.Schema];
+            mysmo_tt.ParentDatabase = null;
+            mysmo_tt.Name = smo_tt.Name;
+            mysmo_tt.Schema = new MySmo.Schema { Name = userdefinedtabletype.Schema };
+            if (isIncludeExtendProperties)
+            {
+                mysmo_tt.ExtendedProperties = NewExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
+                if (mysmo_tt.ExtendedProperties.ContainsKey("MS_Description"))
+                    mysmo_tt.Description = mysmo_tt.ExtendedProperties["MS_Description"];
+            }
+            if (isIncludeChilds)
+            {
+                mysmo_tt.Columns = new List<MySmo.Column>();
+                foreach (Smo.Column smo_c in smo_tt.Columns)
+                {
+                    var mysmo_c = new MySmo.Column
+                    {
+                        ParentDatabase = null,
+                        ParentTableBase = mysmo_tt,
+                        Name = smo_c.Name,
+                        DataType = new MySmo.DataType
+                        {
+                            Name = smo_c.DataType.Name,
+                            MaximumLength = smo_c.DataType.MaximumLength,
+                            NumericPrecision = smo_c.DataType.NumericPrecision,
+                            NumericScale = smo_c.DataType.NumericScale,
+                            SqlDataType = (MySmo.SqlDataType)(int)smo_c.DataType.SqlDataType
+                        },
+                        Computed = smo_c.Computed,
+                        ComputedText = smo_c.ComputedText,
+                        Default = smo_c.Default,
+                        Identity = smo_c.Identity,
+                        IdentityIncrement = smo_c.IdentityIncrement,
+                        IdentitySeed = smo_c.IdentitySeed,
+                        InPrimaryKey = smo_c.InPrimaryKey,
+                        IsForeignKey = smo_c.IsForeignKey,
+                        Nullable = smo_c.Nullable,
+                        RowGuidCol = smo_c.RowGuidCol
+                    };
+                    if (isIncludeExtendProperties)
+                    {
+                        mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                        if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
+                            mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
+                    }
+                    mysmo_tt.Columns.Add(mysmo_c);
+                }
+            }
+            return mysmo_tt;
+
+            #endregion
         }
 
         public MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
