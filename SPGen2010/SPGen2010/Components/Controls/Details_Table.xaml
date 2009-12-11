@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="#f5f5dc">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
@@ -17,18 +17,20 @@
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+            <RowDefinition Height="3" MinHeight="3" MaxHeight="3" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="85" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="85" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.ColumnSpan="4" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
+        <Label Grid.Row="0" Grid.ColumnSpan="5" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
 
-        <ToolBarTray Grid.Row="1" Grid.ColumnSpan="4" Background="#bcc7d8">
+        <ToolBarTray Grid.Row="1" Grid.ColumnSpan="5" Background="#bcc7d8">
             <ToolBar Band="1" BandIndex="1">
                 <Button Name="_Refresh_Button" ToolTip="Refresh current node's data">
                     <Image Source="/SPGen2010;component/Images/b_refresh.png"></Image>
@@ -40,22 +42,22 @@
             </ToolBar>
         </ToolBarTray>
 
-        <Label Grid.Row="2" Grid.ColumnSpan="4" Name="_Path_Label" Background="#ffffe1"></Label>
+        <Label Grid.Row="2" Grid.ColumnSpan="5" Name="_Path_Label" Background="#ffffe1"></Label>
 
         <Label Grid.Row="3" Grid.Column="0" Content="Name:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="3" Grid.Column="1" Content="{Binding Path=Name}"></Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Height="22" Text="{Binding Path=Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
         <Label Grid.Row="3" Grid.Column="2" Content="Schema:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="3" Grid.Column="3" Content="{Binding Path=Schema.Name}"></Label>
+        <TextBox Grid.Row="3" Grid.Column="3" Height="22" Text="{Binding Path=Schema.Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Owner:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="4" Grid.Column="1" Content="{Binding Path=Owner}"></Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Height="22" Text="{Binding Path=Owner}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
         <Label Grid.Row="4" Grid.Column="2" Content="CreateTime:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="4" Grid.Column="3" Content="{Binding Path=CreateTime}"></Label>
+        <TextBox Grid.Row="4" Grid.Column="3" Height="22" Text="{Binding Path=CreateTime}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Description, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Height="22" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"></TextBox>
 
-        <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
+        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
                   ItemsSource="{Binding Path=Columns}" >
             <DataGrid.Columns>
@@ -75,10 +77,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
-                <DataGridCheckBoxColumn Width="32" Binding="{Binding Path=Nullable}" Header="Null"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
+                <DataGridTextColumn Width="6*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
+                <DataGridTextColumn Width="15*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
+                <DataGridCheckBoxColumn Width="32" Binding="{Binding Path=Nullable}" Header="Null" IsReadOnly="True"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
