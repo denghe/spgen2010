@@ -156,7 +156,7 @@ namespace SPGen2010.Components.Fillers.MsSql
             var smo_t = smo_db.Tables[table.Name, table.Schema];
             mysmo_t.ParentDatabase = null;
             mysmo_t.Name = smo_t.Name;
-            mysmo_t.Schema = new MySmo.Schema { Name = table.Schema };
+            mysmo_t.Schema = smo_t.Schema;
             if (isIncludeExtendProperties)
             {
                 mysmo_t.ExtendedProperties = NewExtendProperties(mysmo_t, smo_t.ExtendedProperties);
@@ -216,7 +216,7 @@ namespace SPGen2010.Components.Fillers.MsSql
             var smo_v = smo_db.Views[view.Name, view.Schema];
             mysmo_v.ParentDatabase = null;
             mysmo_v.Name = smo_v.Name;
-            mysmo_v.Schema = new MySmo.Schema { Name = view.Schema };
+            mysmo_v.Schema = smo_v.Schema;
             if (isIncludeExtendProperties)
             {
                 mysmo_v.ExtendedProperties = NewExtendProperties(mysmo_v, smo_v.ExtendedProperties);
@@ -283,7 +283,7 @@ namespace SPGen2010.Components.Fillers.MsSql
             var smo_tt = smo_db.UserDefinedTableTypes[userdefinedtabletype.Name, userdefinedtabletype.Schema];
             mysmo_tt.ParentDatabase = null;
             mysmo_tt.Name = smo_tt.Name;
-            mysmo_tt.Schema = new MySmo.Schema { Name = userdefinedtabletype.Schema };
+            mysmo_tt.Schema = smo_tt.Schema;
             if (isIncludeExtendProperties)
             {
                 mysmo_tt.ExtendedProperties = NewExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
@@ -335,13 +335,60 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
-            throw new NotImplementedException();
+            #region implement
+
+            SetDataLimit(isIncludeExtendProperties);
+
+            var mysmo_sp = new MySmo.StoredProcedure();
+            var smo_db = _smo_server.Databases[storedprocedure.Parent.Parent.Name];
+            var smo_sp = smo_db.StoredProcedures[storedprocedure.Name, storedprocedure.Schema];
+
+            mysmo_sp.ParentDatabase = null;
+            mysmo_sp.Name = smo_sp.Name;
+            mysmo_sp.Schema = smo_sp.Schema;
+            if (isIncludeExtendProperties)
+            {
+                mysmo_sp.ExtendedProperties = NewExtendProperties(mysmo_sp, smo_sp.ExtendedProperties);
+                if (mysmo_sp.ExtendedProperties.ContainsKey("MS_Description"))
+                    mysmo_sp.Description = mysmo_sp.ExtendedProperties["MS_Description"];
+            }
+            if (isIncludeChilds)
+            {
+                mysmo_sp.Parameters = new List<MySmo.Parameter>();
+                foreach (Smo.Parameter smo_p in smo_sp.Parameters)
+                {
+                    var mysmo_p = new MySmo.Parameter
+                    {
+                        ParentDatabase = null,
+                        ParentParameterBase = mysmo_sp,
+                        Name = smo_p.Name,
+                        DataType = new MySmo.DataType
+                        {
+                            Name = smo_p.DataType.Name,
+                            MaximumLength = smo_p.DataType.MaximumLength,
+                            NumericPrecision = smo_p.DataType.NumericPrecision,
+                            NumericScale = smo_p.DataType.NumericScale,
+                            SqlDataType = (MySmo.SqlDataType)(int)smo_p.DataType.SqlDataType
+                        }
+                    };
+                    //if (isIncludeExtendProperties)
+                    //{
+                    //    mysmo_p.ExtendedProperties = NewExtendProperties(mysmo_p, smo_p.ExtendedProperties);
+                    //    if (mysmo_p.ExtendedProperties.ContainsKey("MS_Description"))
+                    //        mysmo_p.Description = mysmo_p.ExtendedProperties["MS_Description"];
+                    //}
+                    mysmo_sp.Parameters.Add(mysmo_p);
+                }
+            }
+            return mysmo_sp;
+
+            #endregion
         }
 
 
 
 
-
+        #region Utils
 
         public static MySmo.ExtendedProperties NewExtendProperties(MySmo.IExtendPropertiesBase parent, Smo.ExtendedPropertyCollection epc)
         {
@@ -424,5 +471,8 @@ namespace SPGen2010.Components.Fillers.MsSql
 
             return eps;
         }
+
+        #endregion
+
     }
 }

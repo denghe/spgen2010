@@ -47,7 +47,7 @@
         <Label Grid.Row="3" Grid.Column="0" Content="Name:" HorizontalAlignment="Right"></Label>
         <TextBox Grid.Row="3" Grid.Column="1" Height="22" Text="{Binding Path=Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
         <Label Grid.Row="3" Grid.Column="2" Content="Schema:" HorizontalAlignment="Right"></Label>
-        <TextBox Grid.Row="3" Grid.Column="3" Height="22" Text="{Binding Path=Schema.Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="3" Height="22" Text="{Binding Path=Schema}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Owner:" HorizontalAlignment="Right"></Label>
         <TextBox Grid.Row="4" Grid.Column="1" Height="22" Text="{Binding Path=Owner}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
@@ -59,28 +59,13 @@
 
         <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-                  ItemsSource="{Binding Path=Columns}" >
+                  ItemsSource="{Binding Path=Parameters}" >
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" Header="">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="/SPGen2010;component/Images/sql_key.png" Width="16" Height="16" 
-                                   Visibility="{Binding Path=InPrimaryKey, Converter={StaticResource BooleanToHiddenVisibility}}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" Header="">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="/SPGen2010;component/Images/sql_foreignkey.png" Width="16" Height="16" 
-                                   Visibility="{Binding Path=IsForeignKey, Converter={StaticResource BooleanToHiddenVisibility}}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
+                <DataGridTextColumn Width="6*" Binding="{Binding Path=DefaultValue}" Header="DefaultValue" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Width="64" Binding="{Binding Path=IsReadOnly}" Header="ReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Width="15*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
-                <DataGridCheckBoxColumn Width="6*" Binding="{Binding Path=Default}" Header="Default" IsReadOnly="True"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
