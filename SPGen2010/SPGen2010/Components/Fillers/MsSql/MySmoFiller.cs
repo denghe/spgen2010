@@ -25,6 +25,38 @@ namespace SPGen2010.Components.Fillers.MsSql
         }
 
 
+        public void SetDataLimit()
+        {
+            #region Set SMO SQL Struct Data Limit
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Database),
+                new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
+                new String[] { "Name", "IsSystemObject", "Owner" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Table),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.View),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
+                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner" });
+
+            if (_smo_server.VersionMajor >= 10)
+            {
+                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
+                    new String[] { "Name", "Schema", "CreateDate", "Owner" });
+            }
+
+            #endregion
+        }
+
+
         public List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
         {
             throw new NotImplementedException();
