@@ -53,7 +53,7 @@
         <Label Grid.Row="4" Grid.Column="3" Content="{Binding Path=CreateTime}"></Label>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Description}"></TextBox>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Description, Mode=TwoWay}"></TextBox>
 
         <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
@@ -75,8 +75,9 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name}" Header="Name" />
-                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType}" Header="DataType" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
+                <DataGridTextColumn Width="*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
                 <DataGridCheckBoxColumn Width="32" Binding="{Binding Path=Nullable}" Header="Null"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
