@@ -29,7 +29,11 @@ namespace SPGen2010.Components.Fillers.MsSql
         public ObjectExplorerFiller(Server server)
         {
             this.Server = server;
+        }
+        public Server Server { get; set; }
 
+        public void SetDataLimit()
+        {
             #region Set SMO SQL Struct Data Limit
 
             this.Server.SetDefaultInitFields(typeof(Database),
@@ -58,7 +62,6 @@ namespace SPGen2010.Components.Fillers.MsSql
 
             #endregion
         }
-        public Server Server { get; set; }
 
         public string GetInstanceName()
         {
@@ -68,6 +71,7 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public Oe.Server Fill(Oe.Server oeserver)
         {
+            SetDataLimit();
             oeserver.Databases.Clear();
             oeserver.Databases.AddRange(
                 from Database db in this.Server.Databases
@@ -90,9 +94,9 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public Oe.Database Fill(Oe.Database oedb)
         {
-            var db = this.Server.Databases[oedb.Text];  // todo: check exists
+            SetDataLimit();
             oedb.Folders.Clear();
-
+            var db = this.Server.Databases[oedb.Text];  // todo: check exists
 
 
             var sf = new Oe.Folder_Schemas { Parent = oedb, Text = "Schemas", Tag = db.Schemas };
