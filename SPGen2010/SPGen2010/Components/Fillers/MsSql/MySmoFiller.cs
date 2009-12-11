@@ -25,35 +25,68 @@ namespace SPGen2010.Components.Fillers.MsSql
         }
 
 
-        public void SetDataLimit()
+        public void SetDataLimit(bool isIncludeExtendProperties)
         {
-            #region Set SMO SQL Struct Data Limit
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Database),
-                new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
-                new String[] { "Name", "IsSystemObject", "Owner" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Table),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.View),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
-                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner" });
-
-            if (_smo_server.VersionMajor >= 10)
+            if (isIncludeExtendProperties)
             {
-                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
-                    new String[] { "Name", "Schema", "CreateDate", "Owner" });
-            }
+                #region Set SMO SQL Struct Data Limit (with ExtendedProperties)
 
-            #endregion
+                _smo_server.SetDefaultInitFields(typeof(Smo.Database),
+                    new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
+                    new String[] { "Name", "IsSystemObject", "Owner" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.Table),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.View),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
+                    new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                if (_smo_server.VersionMajor >= 10)
+                {
+                    _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
+                        new String[] { "Name", "Schema", "CreateDate", "Owner", "ExtendedProperties" });
+                }
+
+                #endregion
+            }
+            else
+            {
+                #region Set SMO SQL Struct Data Limit
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.Database),
+                    new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
+                    new String[] { "Name", "IsSystemObject", "Owner" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.Table),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.View),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
+                    new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+                if (_smo_server.VersionMajor >= 10)
+                {
+                    _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
+                        new String[] { "Name", "Schema", "CreateDate", "Owner", "ExtendedProperties" });
+                }
+
+                #endregion
+            }
         }
 
 
@@ -109,51 +142,55 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public MySmo.Table GetTable(Oe.Table table, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
+            SetDataLimit(isIncludeExtendProperties);
+
             var mysmo_t = new MySmo.Table();
             var smo_db = _smo_server.Databases[table.Parent.Parent.Name];
             var smo_t = smo_db.Tables[table.Name, table.Schema];
             mysmo_t.ParentDatabase = null;
             mysmo_t.Name = smo_t.Name;
             mysmo_t.Schema = new MySmo.Schema { Name = table.Schema };
+            if (isIncludeExtendProperties)
+            {
+                mysmo_t.ExtendedProperties = NewExtendProperties(mysmo_t, smo_t.ExtendedProperties);
+                if (mysmo_t.ExtendedProperties.ContainsKey("MS_Description")) mysmo_t.Description = mysmo_t.ExtendedProperties["MS_Description"];
+            }
             if (isIncludeChilds)
             {
-                mysmo_t.Columns = new List<MySmo.Column>(
-                    from Smo.Column o in smo_t.Columns
-                    select new MySmo.Column
+                mysmo_t.Columns = new List<MySmo.Column>();
+                foreach (Smo.Column smo_c in smo_t.Columns)
+                {
+                    var mysmo_c = new MySmo.Column
                     {
                         ParentDatabase = null,
                         ParentTableBase = mysmo_t,
-                        Name = o.Name,
+                        Name = smo_c.Name,
                         DataType = new MySmo.DataType
                         {
-                            Name = o.DataType.Name,
-                            MaximumLength = o.DataType.MaximumLength,
-                            NumericPrecision = o.DataType.NumericPrecision,
-                            NumericScale = o.DataType.NumericScale,
-                            SqlDataType = (MySmo.SqlDataType)(int)o.DataType.SqlDataType
+                            Name = smo_c.DataType.Name,
+                            MaximumLength = smo_c.DataType.MaximumLength,
+                            NumericPrecision = smo_c.DataType.NumericPrecision,
+                            NumericScale = smo_c.DataType.NumericScale,
+                            SqlDataType = (MySmo.SqlDataType)(int)smo_c.DataType.SqlDataType
                         },
-                        Computed = o.Computed,
-                        ComputedText = o.ComputedText,
-                        Default = o.Default,
-                        Identity = o.Identity,
-                        IdentityIncrement = o.IdentityIncrement,
-                        IdentitySeed = o.IdentitySeed,
-                        InPrimaryKey = o.InPrimaryKey,
-                        IsForeignKey = o.IsForeignKey,
-                        Nullable = o.Nullable,
-                        RowGuidCol = o.RowGuidCol
+                        Computed = smo_c.Computed,
+                        ComputedText = smo_c.ComputedText,
+                        Default = smo_c.Default,
+                        Identity = smo_c.Identity,
+                        IdentityIncrement = smo_c.IdentityIncrement,
+                        IdentitySeed = smo_c.IdentitySeed,
+                        InPrimaryKey = smo_c.InPrimaryKey,
+                        IsForeignKey = smo_c.IsForeignKey,
+                        Nullable = smo_c.Nullable,
+                        RowGuidCol = smo_c.RowGuidCol
+                    };
+                    if (isIncludeExtendProperties)
+                    {
+                        mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
                     }
-                );
+                    mysmo_t.Columns.Add(mysmo_c);
+                }
             }
-            if (isIncludeExtendProperties)
-            {
-                // todo
-                //mysmo_t.ExtendedProperties
-                //mysmo_t.Description = 
-                //mysmo_t.Caption = 
-                //mysmo_t.Summary = 
-            }
-
             return mysmo_t;
         }
 
@@ -175,6 +212,95 @@ namespace SPGen2010.Components.Fillers.MsSql
         public MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
+        }
+
+
+
+
+
+
+
+
+        public static MySmo.ExtendedProperties NewExtendProperties(MySmo.IExtendPropertiesBase parent, Smo.ExtendedPropertyCollection epc)
+        {
+            var eps = new MySmo.ExtendedProperties { ParentExtendPropertiesBase = parent };
+            foreach (Smo.ExtendedProperty ep in epc) eps.Add(ep.Name, ep.Value as string);
+
+            // 如果有找到别的项的命名＝当前项名 + "#@!Part_" + 数字　合并，纳入删除表
+            var mark_part = "#@!Part_";
+
+            var delList = new List<string>();
+            foreach (var o in eps)
+            {
+                if (o.Key.Contains(mark_part)) continue;      // 分页项就不处理了　直接跳过
+                var s = o.Value;
+                // 根据　页码　部分　从小到大 排序取当前对象
+                var parts = from ep in eps
+                            where ep.Key.Contains(mark_part)
+                            orderby int.Parse(ep.Key.Substring(ep.Key.LastIndexOf(mark_part) + 8))
+                            select ep;
+                foreach (var part in parts)
+                {
+                    s += part.Value;
+                    delList.Add(part.Key);
+                }
+                if (s != o.Value) eps[o.Key] = s;
+            }
+
+            foreach (var key in delList) eps.Remove(key);       // 删除已合并键
+            delList.Clear();
+
+            // 检查到如果当前 ep 为子项配置集（有可能子对象不支持多 ep 集合或不支持 ep）时，将 ep 应用到子项
+
+            foreach (var o in eps)
+            {
+                if (o.Key == "ColumnSettings")
+                {
+                    var t = (MySmo.ITableBase)parent;
+                    var dt = new DS.ColumnExtendedInformationsDataTable();
+                    dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(o.Value)));
+                    foreach (var column in t.Columns)
+                    {
+                        var row = dt.FindByName(column.Name);
+                        if (row != null)
+                        {
+                            foreach (System.Data.DataColumn dc in dt.Columns)
+                            {
+                                if (dc.Unique) continue;
+                                var ceps = column.ExtendedProperties;
+                                if (ceps.ContainsKey(dc.ColumnName)) continue;
+                                ceps.Add(dc.ColumnName, (string)row[dc]);
+                            }
+                        }
+                    }
+                    delList.Add(o.Key);
+                }
+                else if (o.Key == "ParameterSettings")
+                {
+                    var t = (MySmo.IParameterBase)parent;
+                    var dt = new DS.ParameterExtendedInformationsDataTable();
+                    dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(o.Value)));
+                    foreach (var parameter in t.Parameters)
+                    {
+                        var row = dt.FindByName(parameter.Name);
+                        if (row != null)
+                        {
+                            foreach (System.Data.DataColumn dc in dt.Columns)
+                            {
+                                if (dc.Unique) continue;
+                                parameter.ExtendedProperties.Add(dc.ColumnName, (string)row[dc]);
+                            }
+                        }
+                    }
+                    delList.Add(o.Key);
+                }
+                // else if   ResultSettings for SP
+            }
+
+            foreach (var key in delList) eps.Remove(key);       // 删除已颁布到子元素的并键
+            delList.Clear();
+
+            return eps;
         }
     }
 }
