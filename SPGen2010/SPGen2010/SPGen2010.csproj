@@ -255,8 +255,8 @@
     <Compile Include="Components\Fillers\IMySmoFiller.cs" />
     <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
     <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
-    <Compile Include="Components\Fillers\MsSql\MySmoFiller_Extensions.cs" />
-    <Compile Include="Components\Fillers\MsSql\MySmoPrepare.cs" />
+    <Compile Include="Todo\MySmoFiller_Extensions.cs" />
+    <Compile Include="Todo\MySmoPrepare.cs" />
     <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
