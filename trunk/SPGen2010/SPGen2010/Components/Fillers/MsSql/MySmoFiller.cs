@@ -363,13 +363,16 @@ namespace SPGen2010.Components.Fillers.MsSql
             if (isIncludeChilds)
             {
                 mysmo_sp.Parameters = new List<MySmo.Parameter>();
-                foreach (Smo.Parameter smo_p in smo_sp.Parameters)
+                foreach (Smo.StoredProcedureParameter smo_p in smo_sp.Parameters)
                 {
                     var mysmo_p = new MySmo.Parameter
                     {
                         ParentDatabase = null,
                         ParentParameterBase = mysmo_sp,
                         Name = smo_p.Name,
+                        DefaultValue = smo_p.DefaultValue,
+                        IsOutputParameter = smo_p.IsOutputParameter,
+                        IsReadOnly = smo_p.IsReadOnly,
                         DataType = new MySmo.DataType
                         {
                             Name = smo_p.DataType.Name,
@@ -378,6 +381,7 @@ namespace SPGen2010.Components.Fillers.MsSql
                             NumericScale = smo_p.DataType.NumericScale,
                             SqlDataType = (MySmo.SqlDataType)(int)smo_p.DataType.SqlDataType
                         }
+                        //  //if (isIncludeExtendProperties)
                     };
                     //if (isIncludeExtendProperties)
                     //{

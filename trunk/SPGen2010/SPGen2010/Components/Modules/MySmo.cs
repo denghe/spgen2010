@@ -175,6 +175,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Name { get; set; }
         public string DefaultValue { get; set; }
         public bool IsReadOnly { get; set; }
+        public bool IsOutputParameter { get; set; }
     }
 
     public partial class DataType : IMySmoObject, IName
