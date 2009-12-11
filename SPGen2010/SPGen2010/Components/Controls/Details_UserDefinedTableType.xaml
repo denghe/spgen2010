@@ -16,7 +16,7 @@
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
-            <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+            <RowDefinition Height="55" MinHeight="55" MaxHeight="55" />
             <RowDefinition Height="3" MinHeight="3" MaxHeight="3" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -55,7 +55,8 @@
         <TextBox Grid.Row="4" Grid.Column="3" Height="22" Text="{Binding Path=CreateTime}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Height="22" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
+                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
 
         <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"

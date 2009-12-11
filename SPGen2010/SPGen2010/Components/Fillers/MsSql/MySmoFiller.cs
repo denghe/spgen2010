@@ -157,6 +157,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             mysmo_t.ParentDatabase = null;
             mysmo_t.Name = smo_t.Name;
             mysmo_t.Schema = smo_t.Schema;
+            mysmo_t.CreateTime = smo_t.CreateDate;
+            mysmo_t.Owner = smo_t.Owner;
             if (isIncludeExtendProperties)
             {
                 mysmo_t.ExtendedProperties = NewExtendProperties(mysmo_t, smo_t.ExtendedProperties);
@@ -217,6 +219,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             mysmo_v.ParentDatabase = null;
             mysmo_v.Name = smo_v.Name;
             mysmo_v.Schema = smo_v.Schema;
+            mysmo_v.CreateTime = smo_v.CreateDate;
+            mysmo_v.Owner = smo_v.Owner;
             if (isIncludeExtendProperties)
             {
                 mysmo_v.ExtendedProperties = NewExtendProperties(mysmo_v, smo_v.ExtendedProperties);
@@ -284,6 +288,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             mysmo_tt.ParentDatabase = null;
             mysmo_tt.Name = smo_tt.Name;
             mysmo_tt.Schema = smo_tt.Schema;
+            mysmo_tt.CreateTime = smo_tt.CreateDate;
+            mysmo_tt.Owner = smo_tt.Owner;
             if (isIncludeExtendProperties)
             {
                 mysmo_tt.ExtendedProperties = NewExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
@@ -346,6 +352,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             mysmo_sp.ParentDatabase = null;
             mysmo_sp.Name = smo_sp.Name;
             mysmo_sp.Schema = smo_sp.Schema;
+            mysmo_sp.CreateTime = smo_sp.CreateDate;
+            mysmo_sp.Owner = smo_sp.Owner;
             if (isIncludeExtendProperties)
             {
                 mysmo_sp.ExtendedProperties = NewExtendProperties(mysmo_sp, smo_sp.ExtendedProperties);
