@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,18 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_View(View o)
+        public Details_View(Oe.View o)
             : this()
         {
-            this.View = o;
-            _Path_Label.Content = o.Text + @"\Databases";
+            this.OeView = o;
+            _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Views\" + o.Text;
+
+            var v = WMain.Instance.MySmoFiller.GetView(o);
+            this.MySmoView = v;
+            this.DataContext = v;
         }
 
-        public View View { get; set; }
+        public Oe.View OeView { get; set; }
+        public MySmo.View MySmoView { get; set; }
     }
 }
