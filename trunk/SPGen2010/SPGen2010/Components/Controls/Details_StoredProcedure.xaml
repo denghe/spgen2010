@@ -65,7 +65,8 @@
                 <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" Binding="{Binding Path=DefaultValue}" Header="DefaultValue" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridCheckBoxColumn Width="64" Binding="{Binding Path=IsReadOnly}" Header="ReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Width="70" Binding="{Binding Path=IsReadOnly}" Header="IsReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Width="58" Binding="{Binding Path=IsOutputParameter}" Header="IsOutput" IsReadOnly="True"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Width="15*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
             </DataGrid.Columns>
         </DataGrid>
