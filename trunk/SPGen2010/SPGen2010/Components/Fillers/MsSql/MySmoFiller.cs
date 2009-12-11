@@ -25,6 +25,9 @@ namespace SPGen2010.Components.Fillers.MsSql
         }
 
 
+
+
+
         public void SetDataLimit(bool isIncludeExtendProperties)
         {
             if (isIncludeExtendProperties)
@@ -90,6 +93,9 @@ namespace SPGen2010.Components.Fillers.MsSql
         }
 
 
+
+
+
         public List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
         {
             throw new NotImplementedException();
@@ -142,6 +148,7 @@ namespace SPGen2010.Components.Fillers.MsSql
 
         public MySmo.Table GetTable(Oe.Table table, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
+            #region implement
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_t = new MySmo.Table();
@@ -153,7 +160,8 @@ namespace SPGen2010.Components.Fillers.MsSql
             if (isIncludeExtendProperties)
             {
                 mysmo_t.ExtendedProperties = NewExtendProperties(mysmo_t, smo_t.ExtendedProperties);
-                if (mysmo_t.ExtendedProperties.ContainsKey("MS_Description")) mysmo_t.Description = mysmo_t.ExtendedProperties["MS_Description"];
+                if (mysmo_t.ExtendedProperties.ContainsKey("MS_Description"))
+                    mysmo_t.Description = mysmo_t.ExtendedProperties["MS_Description"];
             }
             if (isIncludeChilds)
             {
@@ -187,16 +195,72 @@ namespace SPGen2010.Components.Fillers.MsSql
                     if (isIncludeExtendProperties)
                     {
                         mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                        if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
+                            mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
                     }
                     mysmo_t.Columns.Add(mysmo_c);
                 }
             }
             return mysmo_t;
+            #endregion
         }
 
         public MySmo.View GetView(Oe.View view, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
-            throw new NotImplementedException();
+            SetDataLimit(isIncludeExtendProperties);
+
+            var mysmo_v = new MySmo.View();
+            var smo_db = _smo_server.Databases[view.Parent.Parent.Name];
+            var smo_v = smo_db.Views[view.Name, view.Schema];
+            mysmo_v.ParentDatabase = null;
+            mysmo_v.Name = smo_v.Name;
+            mysmo_v.Schema = new MySmo.Schema { Name = view.Schema };
+            if (isIncludeExtendProperties)
+            {
+                mysmo_v.ExtendedProperties = NewExtendProperties(mysmo_v, smo_v.ExtendedProperties);
+                if (mysmo_v.ExtendedProperties.ContainsKey("MS_Description"))
+                    mysmo_v.Description = mysmo_v.ExtendedProperties["MS_Description"];
+            }
+            if (isIncludeChilds)
+            {
+                mysmo_v.Columns = new List<MySmo.Column>();
+                foreach (Smo.Column smo_c in smo_v.Columns)
+                {
+                    var mysmo_c = new MySmo.Column
+                    {
+                        ParentDatabase = null,
+                        ParentTableBase = mysmo_v,
+                        Name = smo_c.Name,
+                        DataType = new MySmo.DataType
+                        {
+                            Name = smo_c.DataType.Name,
+                            MaximumLength = smo_c.DataType.MaximumLength,
+                            NumericPrecision = smo_c.DataType.NumericPrecision,
+                            NumericScale = smo_c.DataType.NumericScale,
+                            SqlDataType = (MySmo.SqlDataType)(int)smo_c.DataType.SqlDataType
+                        },
+                        Computed = smo_c.Computed,
+                        ComputedText = smo_c.ComputedText,
+                        Default = smo_c.Default,
+                        Identity = smo_c.Identity,
+                        IdentityIncrement = smo_c.IdentityIncrement,
+                        IdentitySeed = smo_c.IdentitySeed,
+                        InPrimaryKey = smo_c.InPrimaryKey,
+                        IsForeignKey = smo_c.IsForeignKey,
+                        Nullable = smo_c.Nullable,
+                        RowGuidCol = smo_c.RowGuidCol
+                    };
+                    // todo: 从 view 的扩展属性中取字段的备注
+                    //if (isIncludeExtendProperties)
+                    //{
+                    //    mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                    //    if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
+                    //        mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
+                    //}
+                    mysmo_v.Columns.Add(mysmo_c);
+                }
+            }
+            return mysmo_v;
         }
 
         public MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction, bool isIncludeExtendProperties = true, bool isIncludeChilds = true) where T : Oe.UserDefinedFunctionBase
@@ -213,8 +277,6 @@ namespace SPGen2010.Components.Fillers.MsSql
         {
             throw new NotImplementedException();
         }
-
-
 
 
 
