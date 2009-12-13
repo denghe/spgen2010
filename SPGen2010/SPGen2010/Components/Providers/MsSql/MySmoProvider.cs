@@ -100,11 +100,6 @@ namespace SPGen2010.Components.Providers.MsSql
             throw new NotImplementedException();
         }
 
-        public MySmo.Database GetDatabase(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
         {
             throw new NotImplementedException();
@@ -141,6 +136,10 @@ namespace SPGen2010.Components.Providers.MsSql
             return GetStoredProcedures(_smo_server.Databases[database.Name]);
         }
 
+        public MySmo.Database GetDatabase(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            throw new NotImplementedException();
+        }
 
         public MySmo.Schema GetSchema(Oe.Schema schema, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
@@ -178,6 +177,26 @@ namespace SPGen2010.Components.Providers.MsSql
         #region Utils
 
 
+
+        public MySmo.Database GetDatabase(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var mysmo_db = new MySmo.Database();
+
+            // todo: set properties
+
+            mysmo_db.Tables = GetTables(smo_db);
+            mysmo_db.Views = GetViews(smo_db);
+            mysmo_db.Schemas = GetSchemas(smo_db).ConvertAll(o=>o.Name);
+            mysmo_db.UserDefinedFunctions = GetUserDefinedFunctions(smo_db);
+            mysmo_db.UserDefinedTableTypes = GetUserDefinedTableTypes(smo_db);
+            mysmo_db.StoredProcedures = GetStoredProcedures(smo_db);
+
+            return mysmo_db;
+
+            #endregion
+        }
 
 
         public MySmo.Schema GetSchema(Smo.Schema smo_s, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
