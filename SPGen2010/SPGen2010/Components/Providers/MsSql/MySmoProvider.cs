@@ -295,7 +295,7 @@ namespace SPGen2010.Components.Providers.MsSql
             if (isIncludeChilds)
             {
                 mysmo_f.Parameters = new List<MySmo.Parameter>();
-                foreach (Smo.StoredProcedureParameter smo_p in smo_f.Parameters)
+                foreach (Smo.UserDefinedFunctionParameter smo_p in smo_f.Parameters)
                 {
                     var mysmo_p = new MySmo.Parameter
                     {
@@ -303,7 +303,7 @@ namespace SPGen2010.Components.Providers.MsSql
                         ParentParameterBase = mysmo_f,
                         Name = smo_p.Name,
                         DefaultValue = smo_p.DefaultValue,
-                        IsOutputParameter = smo_p.IsOutputParameter,
+                        IsOutputParameter = false,
                         IsReadOnly = smo_p.IsReadOnly,
                         DataType = new MySmo.DataType
                         {
