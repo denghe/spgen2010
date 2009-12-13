@@ -143,7 +143,21 @@ namespace SPGen2010.Components.Providers.MsSql
 
         public MySmo.Schema GetSchema(Oe.Schema schema, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
-            throw new NotImplementedException();
+            #region implement
+            SetDataLimit(isIncludeExtendProperties);
+
+            var mysmo_s = new MySmo.Schema();
+            var smo_db = _smo_server.Databases[schema.Parent.Parent.Name];
+            var smo_s = smo_db.Schemas[schema.Name];
+            mysmo_s.ParentDatabase = null;
+            mysmo_s.Name = smo_s.Name;
+            mysmo_s.Owner = smo_s.Owner;
+            if (isIncludeExtendProperties)
+            {
+                mysmo_s.ExtendedProperties = NewExtendProperties(mysmo_s, smo_s.ExtendedProperties);
+            }
+            return mysmo_s;
+            #endregion
         }
 
         public MySmo.Table GetTable(Oe.Table table, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)

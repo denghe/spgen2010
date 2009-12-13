@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,18 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_Schema(Schema o)
+        public Details_Schema(Oe.Schema o)
             : this()
         {
             this.Schema = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Schemas\" + o.Text;
+
+            var so = WMain.Instance.MySmoProvider.GetSchema(o);
+            this.MySmoSchema = so;
+            this.DataContext = so;
         }
 
-        public Schema Schema { get; set; }
+        public Oe.Schema Schema { get; set; }
+        public MySmo.Schema MySmoSchema { get; set; }
     }
 }
