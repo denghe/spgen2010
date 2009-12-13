@@ -190,11 +190,12 @@ namespace SPGen2010.Components.Modules.MySmo
         public int NumericScale { get; set; }
     }
 
-    public partial class Schema : IMySmoObject, IName, IParentDatabase, IOwner
+    public partial class Schema : IMySmoObject, IName, IParentDatabase, IOwner, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
+        public ExtendedProperties ExtendedProperties { get; set; }
     }
 
     public partial class ExtendedProperties : Dictionary<string, string>, IMySmoObject
