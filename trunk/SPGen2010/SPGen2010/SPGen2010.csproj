@@ -521,10 +521,6 @@
     <Folder Include="Components\Helpers\MySql\" />
     <Folder Include="Components\Helpers\Oracle\" />
     <Folder Include="Components\Helpers\SqLite\" />
-    <Folder Include="Components\Persisters\MsSql\" />
-    <Folder Include="Components\Persisters\MySql\" />
-    <Folder Include="Components\Persisters\Oracle\" />
-    <Folder Include="Components\Persisters\SqLite\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
