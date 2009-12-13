@@ -3,19 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:SPGen2010.Components.Controls.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="237" d:DesignWidth="684">
+    <UserControl.Resources>
+        <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
+    </UserControl.Resources>
+    <Grid Background="#f5f5dc">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
-            <RowDefinition />
+            <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+            <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+            <RowDefinition Height="55" MinHeight="55" MaxHeight="55" />
+            <RowDefinition Height="3" MinHeight="3" MaxHeight="3" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Label Grid.Row="0" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3" />
+        </Grid.ColumnDefinitions>
 
-        <ToolBarTray Grid.Row="1" Background="#bcc7d8">
+        <Label Grid.Row="0" Grid.ColumnSpan="5" Foreground="White" Background="#3f5478">Object Explorer Details</Label>
+
+        <ToolBarTray Grid.Row="1" Grid.ColumnSpan="5" Background="#bcc7d8">
             <ToolBar Band="1" BandIndex="1">
                 <Button Name="_Refresh_Button" ToolTip="Refresh current node's data">
                     <Image Source="/SPGen2010;component/Images/b_refresh.png"></Image>
@@ -27,9 +42,33 @@
             </ToolBar>
         </ToolBarTray>
 
-        <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
-        
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid">
+        <Label Grid.Row="2" Grid.ColumnSpan="5" Name="_Path_Label" Background="#ffffe1"></Label>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Name:" HorizontalAlignment="Right"></Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Height="22" Text="{Binding Path=Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+        <Label Grid.Row="3" Grid.Column="2" Content="Schema:" HorizontalAlignment="Right"></Label>
+        <TextBox Grid.Row="3" Grid.Column="3" Height="22" Text="{Binding Path=Schema}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Owner:" HorizontalAlignment="Right"></Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Height="22" Text="{Binding Path=Owner}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+        <Label Grid.Row="4" Grid.Column="2" Content="CreateTime:" HorizontalAlignment="Right"></Label>
+        <TextBox Grid.Row="4" Grid.Column="3" Height="22" Text="{Binding Path=CreateTime}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
+                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+
+        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
+                  CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+                  ItemsSource="{Binding Path=Parameters}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
+                <DataGridTextColumn Width="8*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
+                <DataGridTextColumn Width="6*" Binding="{Binding Path=DefaultValue}" Header="DefaultValue" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Width="70" Binding="{Binding Path=IsReadOnly}" Header="IsReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Width="58" Binding="{Binding Path=IsOutputParameter}" Header="IsOutput" IsReadOnly="True"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Width="13*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>
