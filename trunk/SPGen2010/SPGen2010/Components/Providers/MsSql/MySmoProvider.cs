@@ -38,7 +38,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
-                    new String[] { "Name", "IsSystemObject", "Owner" });
+                    new String[] { "Name", "IsSystemObject", "Owner", "ExtendedProperties" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.Table),
                     new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
@@ -65,27 +65,27 @@ namespace SPGen2010.Components.Providers.MsSql
                 #region Set SMO SQL Struct Data Limit
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.Database),
-                    new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
+                    new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
                     new String[] { "Name", "IsSystemObject", "Owner" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.Table),
-                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.View),
-                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
-                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+                    new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner" });
 
                 _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
-                    new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+                    new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner" });
 
                 if (_smo_server.VersionMajor >= 10)
                 {
                     _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
-                        new String[] { "Name", "Schema", "CreateDate", "Owner", "ExtendedProperties" });
+                        new String[] { "Name", "Schema", "CreateDate", "Owner" });
                 }
 
                 #endregion
@@ -144,6 +144,7 @@ namespace SPGen2010.Components.Providers.MsSql
         public MySmo.Schema GetSchema(Oe.Schema schema, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
+
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_s = new MySmo.Schema();
@@ -157,6 +158,7 @@ namespace SPGen2010.Components.Providers.MsSql
                 mysmo_s.ExtendedProperties = NewExtendProperties(mysmo_s, smo_s.ExtendedProperties);
             }
             return mysmo_s;
+
             #endregion
         }
 
