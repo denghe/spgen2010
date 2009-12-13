@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using SPGen2010.Components.Modules.MySmo;
-using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Providers;
 using SPGen2010.Components.Modules.ObjectExplorer;
 
 namespace SPGen2010.Components.Generators

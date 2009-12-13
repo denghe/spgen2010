@@ -18,7 +18,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer;
 
 
-namespace SPGen2010.Components.Fillers.MsSql
+namespace SPGen2010.Components.Providers.MsSql
 {
     // todo: prefetch smo
 

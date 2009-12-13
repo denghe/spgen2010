@@ -1,7 +1,7 @@
 ﻿using System;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using System.ComponentModel;
-namespace SPGen2010.Components.Fillers
+namespace SPGen2010.Components.Providers
 {
     public interface IObjectExplorerFiller
     {

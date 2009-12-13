@@ -15,7 +15,7 @@ using System.IO;
 
 using SPGen2010.Components.Connectors;
 using SPGen2010.Components.Controls;
-using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Providers;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Generators;
 

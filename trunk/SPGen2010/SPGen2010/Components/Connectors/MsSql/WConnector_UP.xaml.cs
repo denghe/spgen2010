@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using SPGen2010.Components.Connectors.MsSql;
-using SPGen2010.Components.Fillers.MsSql;
+using SPGen2010.Components.Providers.MsSql;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 
 // SMO

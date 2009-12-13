@@ -14,7 +14,7 @@ using Smo = Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer;
 
-namespace SPGen2010.Components.Fillers.MsSql
+namespace SPGen2010.Components.Providers.MsSql
 {
     public partial class MySmoFiller : IMySmoFiller
     {

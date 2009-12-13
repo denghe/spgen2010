@@ -16,7 +16,7 @@ using SPGen2010.Components.Modules;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Windows;
-using SPGen2010.Components.Fillers;
+using SPGen2010.Components.Providers;
 
 namespace SPGen2010.Components.Controls
 {
