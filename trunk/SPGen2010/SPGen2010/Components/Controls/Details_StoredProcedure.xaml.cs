@@ -34,7 +34,7 @@ namespace SPGen2010.Components.Controls
             this.OeStoredProcedure = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\StoredProcedures\" + o.Text;
 
-            var so = WMain.Instance.MySmoFiller.GetStoredProcedure(o);
+            var so = WMain.Instance.MySmoProvider.GetStoredProcedure(o);
             this.MySmoStoredProcedure = so;
             this.DataContext = so;
         }

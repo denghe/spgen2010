@@ -59,8 +59,8 @@ namespace SPGen2010.Components.Connectors.MsSql
                 Close();
 
                 // set fillers
-                WMain.Instance.ObjectExplorerFiller = new ObjectExplorerFiller(ServerInstance);
-                WMain.Instance.MySmoFiller = new MySmoFiller(ServerInstance);
+                WMain.Instance.ObjectExplorerProvider = new ObjectExplorerProvider(ServerInstance);
+                WMain.Instance.MySmoProvider = new MySmoProvider(ServerInstance);
             }
             else _Message_Label.Content = errMsg;
         }
