@@ -252,12 +252,12 @@
     </Compile>
     <Compile Include="Components\Controls\PasswordBoxHelper.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
-    <Compile Include="Components\Fillers\IMySmoFiller.cs" />
-    <Compile Include="Components\Fillers\IObjectExplorerFiller.cs" />
-    <Compile Include="Components\Fillers\MsSql\MySmoFiller.cs" />
+    <Compile Include="Components\Providers\IMySmoFiller.cs" />
+    <Compile Include="Components\Providers\IObjectExplorerFiller.cs" />
+    <Compile Include="Components\Providers\MsSql\MySmoFiller.cs" />
     <None Include="Todo\MySmoFiller_Extensions.cs" />
     <None Include="Todo\MySmoPrepare.cs" />
-    <Compile Include="Components\Fillers\MsSql\ObjectExplorerFiller.cs" />
+    <Compile Include="Components\Providers\MsSql\ObjectExplorerFiller.cs" />
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
     <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
@@ -505,9 +505,6 @@
     <Folder Include="Components\Connectors\MySql\" />
     <Folder Include="Components\Connectors\Oracle\" />
     <Folder Include="Components\Connectors\SqLite\" />
-    <Folder Include="Components\Fillers\MySql\" />
-    <Folder Include="Components\Fillers\Oracle\" />
-    <Folder Include="Components\Fillers\SqLite\" />
     <Folder Include="Components\Generators\MsSql\Database\" />
     <Folder Include="Components\Generators\MsSql\Function\" />
     <Folder Include="Components\Generators\MsSql\Schema\" />
@@ -521,6 +518,9 @@
     <Folder Include="Components\Helpers\MySql\" />
     <Folder Include="Components\Helpers\Oracle\" />
     <Folder Include="Components\Helpers\SqLite\" />
+    <Folder Include="Components\Providers\MySql\" />
+    <Folder Include="Components\Providers\Oracle\" />
+    <Folder Include="Components\Providers\SqLite\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
