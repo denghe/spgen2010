@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
-namespace SPGen2010.Components.Fillers
+namespace SPGen2010.Components.Providers
 {
     public interface IMySmoFiller
     {

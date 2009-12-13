@@ -5,7 +5,7 @@ using System.Text;
 
 using SPGen2010.Components.Modules.MySmo;
 
-namespace SPGen2010.Components.Fillers.MsSql
+namespace SPGen2010.Components.Providers.MsSql
 {
     public static class MySmoPrepare
     {
