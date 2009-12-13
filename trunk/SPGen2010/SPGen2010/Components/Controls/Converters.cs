@@ -39,6 +39,7 @@ namespace SPGen2010.Components.Controls.Converters
 
     /// <summary>
     /// for sql_function type convert only
+    /// todo: DPI calc or get datagrid's row template width & return
     /// </summary>
     public class FuncTypeToImageString : IValueConverter
     {
@@ -64,4 +65,30 @@ namespace SPGen2010.Components.Controls.Converters
         }
 
     }
+
+    /// <summary>
+    /// for datagrid's row detail template width
+    /// </summary>
+    public class GetChildWidth : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double rv = 200;
+            try
+            {
+                double v = (double)value;
+                rv = v - 110;
+            }
+            catch (Exception)
+            {
+            }
+            return rv;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
 }
