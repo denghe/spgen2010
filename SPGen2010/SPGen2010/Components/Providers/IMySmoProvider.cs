@@ -8,12 +8,12 @@ namespace SPGen2010.Components.Providers
     public interface IMySmoProvider
     {
         List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false);
-        List<MySmo.Schema> GetSchemas(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
-        List<MySmo.Table> GetTables(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
-        List<MySmo.View> GetViews(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
-        List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
-        List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
-        List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.Schema> GetSchemas(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.Table> GetTables(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.View> GetViews(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
+        List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
 
         MySmo.Server GetServer(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false);
         MySmo.Database GetDatabase(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);
