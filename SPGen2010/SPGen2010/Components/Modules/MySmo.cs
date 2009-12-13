@@ -77,7 +77,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public List<StoredProcedure> StoredProcedures { get; set; }
         public List<UserDefinedFunction> UserDefinedFunctions { get; set; }
         public List<UserDefinedTableType> UserDefinedTableTypes { get; set; }
-        public List<string> Schemas { get; set; }
+        public List<Schema> Schemas { get; set; }
         public string Name { get; set; }
         public string Owner { get; set; }
         public DateTime CreateTime { get; set; }
