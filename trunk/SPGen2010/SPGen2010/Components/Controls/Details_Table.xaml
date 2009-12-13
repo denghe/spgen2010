@@ -67,8 +67,10 @@
                     <StackPanel Background="#F0F0F0" Margin="80,0,0,5">
                         <Expander Header="Description:" IsExpanded="True">
                             <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay}" HorizontalAlignment="Left"
-                                Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
+                            Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                            <!--Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"-->
+                            <!--Width="{TemplateBinding Property=ActualWidth}"-->
                         </Expander>
                         <Expander Header="Other Properties:" IsExpanded="False">
                             <Grid>
