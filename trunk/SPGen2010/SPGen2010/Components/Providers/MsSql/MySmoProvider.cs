@@ -101,32 +101,33 @@ namespace SPGen2010.Components.Providers.MsSql
             throw new NotImplementedException();
         }
 
-        public List<MySmo.Schema> GetSchemas(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public List<MySmo.Schema> GetSchemas(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public List<MySmo.Table> GetTables(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<MySmo.Table> GetTables(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public List<MySmo.View> GetViews(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<MySmo.View> GetViews(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             throw new NotImplementedException();
         }
