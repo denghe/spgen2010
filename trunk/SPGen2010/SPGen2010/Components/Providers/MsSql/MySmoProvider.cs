@@ -95,43 +95,6 @@ namespace SPGen2010.Components.Providers.MsSql
 
 
 
-
-        public List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.Schema> GetSchemas(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.Table> GetTables(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.View> GetViews(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
-        {
-            throw new NotImplementedException();
-        }
-
         public MySmo.Server GetServer(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
         {
             throw new NotImplementedException();
@@ -142,15 +105,88 @@ namespace SPGen2010.Components.Providers.MsSql
             throw new NotImplementedException();
         }
 
+        public List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public List<MySmo.Schema> GetSchemas(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetSchemas(_smo_server.Databases[database.Name]);
+        }
+
+        public List<MySmo.Table> GetTables(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetTables(_smo_server.Databases[database.Name]);
+        }
+
+        public List<MySmo.View> GetViews(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetViews(_smo_server.Databases[database.Name]);
+        }
+
+        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetUserDefinedFunctions(_smo_server.Databases[database.Name]);
+        }
+
+        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetUserDefinedTableTypes(_smo_server.Databases[database.Name]);
+        }
+
+        public List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetStoredProcedures(_smo_server.Databases[database.Name]);
+        }
+
+
         public MySmo.Schema GetSchema(Oe.Schema schema, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetSchema(_smo_server.Databases[schema.Parent.Parent.Name].Schemas[schema.Name]);
+        }
+
+        public MySmo.Table GetTable(Oe.Table table, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetTable(_smo_server.Databases[table.Parent.Parent.Name].Tables[table.Name, table.Schema]);
+        }
+
+        public MySmo.View GetView(Oe.View view, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetView(_smo_server.Databases[view.Parent.Parent.Name].Views[view.Name, view.Schema]);
+        }
+
+        public MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction, bool isIncludeExtendProperties = true, bool isIncludeChilds = true) where T : Oe.UserDefinedFunctionBase
+        {
+            return GetUserDefinedFunction(_smo_server.Databases[userdefinedfunction.Parent.Parent.Name].UserDefinedFunctions[userdefinedfunction.Name, userdefinedfunction.Schema]);
+        }
+
+        public MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetUserDefinedTableType(_smo_server.Databases[userdefinedtabletype.Parent.Parent.Name].UserDefinedTableTypes[userdefinedtabletype.Name, userdefinedtabletype.Schema]);
+        }
+
+        public MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            return GetStoredProcedure(_smo_server.Databases[storedprocedure.Parent.Parent.Name].StoredProcedures[storedprocedure.Name, storedprocedure.Schema]);
+        }
+
+
+
+
+        #region Utils
+
+
+
+
+        public MySmo.Schema GetSchema(Smo.Schema smo_s, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
 
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_s = new MySmo.Schema();
-            var smo_db = _smo_server.Databases[schema.Parent.Parent.Name];
-            var smo_s = smo_db.Schemas[schema.Name];
             mysmo_s.ParentDatabase = null;
             mysmo_s.Name = smo_s.Name;
             mysmo_s.Owner = smo_s.Owner;
@@ -163,14 +199,12 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-        public MySmo.Table GetTable(Oe.Table table, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public MySmo.Table GetTable(Smo.Table smo_t, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_t = new MySmo.Table();
-            var smo_db = _smo_server.Databases[table.Parent.Parent.Name];
-            var smo_t = smo_db.Tables[table.Name, table.Schema];
             mysmo_t.ParentDatabase = null;
             mysmo_t.Name = smo_t.Name;
             mysmo_t.Schema = smo_t.Schema;
@@ -224,15 +258,13 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-        public MySmo.View GetView(Oe.View view, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public MySmo.View GetView(Smo.View smo_v, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
 
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_v = new MySmo.View();
-            var smo_db = _smo_server.Databases[view.Parent.Parent.Name];
-            var smo_v = smo_db.Views[view.Name, view.Schema];
             mysmo_v.ParentDatabase = null;
             mysmo_v.Name = smo_v.Name;
             mysmo_v.Schema = smo_v.Schema;
@@ -288,15 +320,13 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-        public MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction, bool isIncludeExtendProperties = true, bool isIncludeChilds = true) where T : Oe.UserDefinedFunctionBase
+        public MySmo.UserDefinedFunction GetUserDefinedFunction(Smo.UserDefinedFunction smo_f, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
 
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_f = new MySmo.UserDefinedFunction();
-            var smo_db = _smo_server.Databases[userdefinedfunction.Parent.Parent.Name];
-            var smo_f = smo_db.UserDefinedFunctions[userdefinedfunction.Name, userdefinedfunction.Schema];
 
             mysmo_f.ParentDatabase = null;
             mysmo_f.Name = smo_f.Name;
@@ -341,7 +371,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     //}
                     mysmo_f.Parameters.Add(mysmo_p);
                 }
-                if (userdefinedfunction is Oe.UserDefinedFunction_Table)
+                if (smo_f.FunctionType == Smo.UserDefinedFunctionType.Table)
                 {
                     mysmo_f.Columns = new List<MySmo.Column>();
                     foreach (Smo.Column smo_c in smo_f.Columns)
@@ -386,15 +416,13 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-        public MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public MySmo.UserDefinedTableType GetUserDefinedTableType(Smo.UserDefinedTableType smo_tt, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
 
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_tt = new MySmo.UserDefinedTableType();
-            var smo_db = _smo_server.Databases[userdefinedtabletype.Parent.Parent.Name];
-            var smo_tt = smo_db.UserDefinedTableTypes[userdefinedtabletype.Name, userdefinedtabletype.Schema];
             mysmo_tt.ParentDatabase = null;
             mysmo_tt.Name = smo_tt.Name;
             mysmo_tt.Schema = smo_tt.Schema;
@@ -449,15 +477,13 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-        public MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        public MySmo.StoredProcedure GetStoredProcedure(Smo.StoredProcedure smo_sp, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
         {
             #region implement
 
             SetDataLimit(isIncludeExtendProperties);
 
             var mysmo_sp = new MySmo.StoredProcedure();
-            var smo_db = _smo_server.Databases[storedprocedure.Parent.Parent.Name];
-            var smo_sp = smo_db.StoredProcedures[storedprocedure.Name, storedprocedure.Schema];
 
             mysmo_sp.ParentDatabase = null;
             mysmo_sp.Name = smo_sp.Name;
@@ -510,10 +536,78 @@ namespace SPGen2010.Components.Providers.MsSql
 
 
 
-        #region Utils
+        public List<MySmo.Schema> GetSchemas(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.Schema>();
+            foreach (Smo.Schema item in smo_db.Schemas) os.Add(GetSchema(item));
+            return os;
+
+            #endregion
+        }
+
+        public List<MySmo.Table> GetTables(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.Table>();
+            foreach (Smo.Table item in smo_db.Tables) os.Add(GetTable(item));
+            return os;
+
+            #endregion
+        }
+
+        public List<MySmo.View> GetViews(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.View>();
+            foreach (Smo.View item in smo_db.Views) os.Add(GetView(item));
+            return os;
+
+            #endregion
+        }
+
+        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.UserDefinedFunction>();
+            foreach (Smo.UserDefinedFunction item in smo_db.UserDefinedFunctions) os.Add(GetUserDefinedFunction(item));
+            return os;
+
+            #endregion
+        }
+
+        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.UserDefinedTableType>();
+            foreach (Smo.UserDefinedTableType item in smo_db.UserDefinedTableTypes) os.Add(GetUserDefinedTableType(item));
+            return os;
+
+            #endregion
+        }
+
+        public List<MySmo.StoredProcedure> GetStoredProcedures(Smo.Database smo_db, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)
+        {
+            #region implement
+
+            var os = new List<MySmo.StoredProcedure>();
+            foreach (Smo.StoredProcedure item in smo_db.StoredProcedures) os.Add(GetStoredProcedure(item));
+            return os;
+
+            #endregion
+        }
+
+
 
         public static MySmo.ExtendedProperties NewExtendProperties(MySmo.IExtendPropertiesBase parent, Smo.ExtendedPropertyCollection epc)
         {
+            #region implement
+
             var eps = new MySmo.ExtendedProperties { ParentExtendPropertiesBase = parent };
             foreach (Smo.ExtendedProperty ep in epc) eps.Add(ep.Name, ep.Value as string);
 
@@ -592,6 +686,8 @@ namespace SPGen2010.Components.Providers.MsSql
             delList.Clear();
 
             return eps;
+
+            #endregion
         }
 
         #endregion
