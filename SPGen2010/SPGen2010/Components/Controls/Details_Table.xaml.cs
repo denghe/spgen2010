@@ -41,5 +41,11 @@ namespace SPGen2010.Components.Controls
 
         public Oe.Table OeTable { get; set; }
         public MySmo.Table MySmoTable { get; set; }
+
+        //private void TextBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var tb = sender as TextBox;
+        //    tb.MinWidth = tb.Width = tb.MaxWidth = tb.ActualWidth;
+        //}
     }
 }

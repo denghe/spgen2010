@@ -91,10 +91,14 @@ namespace SPGen2010.Components.Windows
 
         private void PopupWindow_ConnectorBrowser()
         {
+            this.ObjectExplorerProvider = null;
+            _ObjectExplorer._TreeView.ItemsSource = null;
+            _ObjectExplorer._TreeView.Items.Clear();
+
             var c = new WConnectorBrowser();
             c.ShowDialog();
 
-            _ObjectExplorer.BindData();
+            if (this.ObjectExplorerProvider != null) _ObjectExplorer.BindData();
         }
 
         #endregion

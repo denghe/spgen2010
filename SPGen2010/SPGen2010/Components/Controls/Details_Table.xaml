@@ -8,6 +8,7 @@
              d:DesignHeight="237" d:DesignWidth="684">
     <UserControl.Resources>
         <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
+        <converters:GetChildWidth x:Key="GetChildWidth"/>
     </UserControl.Resources>
     <Grid Background="#f5f5dc">
         <Grid.RowDefinitions>
@@ -60,13 +61,14 @@
 
         <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Columns_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-                  ItemsSource="{Binding Path=Columns}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                  ItemsSource="{Binding Path=Columns}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalScrollBarVisibility="Visible">
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="50,0,30,10" Background="#F0F0F0">
+                    <StackPanel Background="#F0F0F0" Margin="80,0,0,5">
                         <Expander Header="Description:" IsExpanded="True">
-                            <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
-                             TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                            <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay}" HorizontalAlignment="Left"
+                                Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
+                                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
                         </Expander>
                         <Expander Header="Other Properties:" IsExpanded="False">
                             <Grid>
