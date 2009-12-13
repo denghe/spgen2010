@@ -34,7 +34,7 @@ namespace SPGen2010.Components.Controls
             this.OeView = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Views\" + o.Text;
 
-            var v = WMain.Instance.MySmoFiller.GetView(o);
+            var v = WMain.Instance.MySmoProvider.GetView(o);
             this.MySmoView = v;
             this.DataContext = v;
         }

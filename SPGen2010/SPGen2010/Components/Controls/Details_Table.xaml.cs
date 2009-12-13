@@ -34,7 +34,7 @@ namespace SPGen2010.Components.Controls
             this.OeTable = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables\" + o.Text;
 
-            var so = WMain.Instance.MySmoFiller.GetTable(o);
+            var so = WMain.Instance.MySmoProvider.GetTable(o);
             this.MySmoTable = so;
             this.DataContext = so;
         }

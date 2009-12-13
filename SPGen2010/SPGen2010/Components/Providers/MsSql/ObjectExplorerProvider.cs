@@ -24,9 +24,9 @@ namespace SPGen2010.Components.Providers.MsSql
 
     // todo: load data's progress bar (process notify)
 
-    public partial class ObjectExplorerFiller : IObjectExplorerFiller
+    public partial class ObjectExplorerProvider : IObjectExplorerProvider
     {
-        public ObjectExplorerFiller(Server server)
+        public ObjectExplorerProvider(Server server)
         {
             this.Server = server;
         }

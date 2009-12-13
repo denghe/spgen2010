@@ -16,10 +16,10 @@ using Microsoft.SqlServer;
 
 namespace SPGen2010.Components.Providers.MsSql
 {
-    public partial class MySmoFiller : IMySmoFiller
+    public partial class MySmoProvider : IMySmoProvider
     {
         private Smo.Server _smo_server;
-        public MySmoFiller(Smo.Server smo_server)
+        public MySmoProvider(Smo.Server smo_server)
         {
             _smo_server = smo_server;
         }

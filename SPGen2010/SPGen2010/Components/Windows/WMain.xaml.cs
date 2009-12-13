@@ -40,19 +40,12 @@ namespace SPGen2010.Components.Windows
         /// <summary>
         /// tips: set value after connected to database
         /// </summary>
-        public IObjectExplorerFiller ObjectExplorerFiller
-        {
-            set
-            {
-                _ObjectExplorer.Filler = value;
-                _ObjectExplorer.BindData();
-            }
-        }
+        public IObjectExplorerProvider ObjectExplorerProvider { get; set; }
 
         /// <summary>
         /// tips: set value after connected to database
         /// </summary>
-        public IMySmoFiller MySmoFiller { get; set; }
+        public IMySmoProvider MySmoProvider { get; set; }
 
         /// <summary>
         /// tips: set value before connect to database
@@ -100,6 +93,8 @@ namespace SPGen2010.Components.Windows
         {
             var c = new WConnectorBrowser();
             c.ShowDialog();
+
+            _ObjectExplorer.BindData();
         }
 
         #endregion

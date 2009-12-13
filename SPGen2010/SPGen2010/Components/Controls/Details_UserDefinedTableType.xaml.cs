@@ -34,7 +34,7 @@ namespace SPGen2010.Components.Controls
             this.OeUserDefinedTableType = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\UserDefinedTableTypes\" + o.Text;
 
-            var so = WMain.Instance.MySmoFiller.GetUserDefinedTableType(o);
+            var so = WMain.Instance.MySmoProvider.GetUserDefinedTableType(o);
             this.MySmoUserDefinedTableType = so;
             this.DataContext = so;
         }

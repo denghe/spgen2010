@@ -32,12 +32,11 @@ namespace SPGen2010.Components.Controls
         }
 
         public Server DataSource = null;
-        public IObjectExplorerFiller Filler { get; set; }
 
         public void BindData()
         {
-            this.DataSource = new Server { Text = this.Filler.GetInstanceName() };
-            this.Filler.Fill(this.DataSource);
+            this.DataSource = new Server { Text = WMain.Instance.ObjectExplorerProvider.GetInstanceName() };
+            WMain.Instance.ObjectExplorerProvider.Fill(this.DataSource);
             this._TreeView.ItemsSource = new Server[] { this.DataSource };
         }
 
@@ -75,7 +74,7 @@ namespace SPGen2010.Components.Controls
                 {
                     try
                     {
-                        Filler.Fill(db);
+                        WMain.Instance.ObjectExplorerProvider.Fill(db);
                     }
                     catch { }   // todo
                 }

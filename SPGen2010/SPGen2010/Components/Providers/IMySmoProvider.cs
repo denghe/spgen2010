@@ -5,7 +5,7 @@ using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
 namespace SPGen2010.Components.Providers
 {
-    public interface IMySmoFiller
+    public interface IMySmoProvider
     {
         List<MySmo.Database> GetDatabases(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = false);
         List<MySmo.Schema> GetSchemas(Oe.Server server, bool isIncludeExtendProperties = true, bool isIncludeChilds = true);

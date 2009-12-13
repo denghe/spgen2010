@@ -252,12 +252,12 @@
     </Compile>
     <Compile Include="Components\Controls\PasswordBoxHelper.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
-    <Compile Include="Components\Providers\IMySmoFiller.cs" />
-    <Compile Include="Components\Providers\IObjectExplorerFiller.cs" />
-    <Compile Include="Components\Providers\MsSql\MySmoFiller.cs" />
+    <Compile Include="Components\Providers\IMySmoProvider.cs" />
+    <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
+    <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
     <None Include="Todo\MySmoFiller_Extensions.cs" />
     <None Include="Todo\MySmoPrepare.cs" />
-    <Compile Include="Components\Providers\MsSql\ObjectExplorerFiller.cs" />
+    <Compile Include="Components\Providers\MsSql\ObjectExplorerProvider.cs" />
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
     <Compile Include="Components\Generators\MsSql\Table\Enum.cs" />
