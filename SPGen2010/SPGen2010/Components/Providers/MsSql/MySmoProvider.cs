@@ -273,7 +273,100 @@ namespace SPGen2010.Components.Providers.MsSql
 
         public MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction, bool isIncludeExtendProperties = true, bool isIncludeChilds = true) where T : Oe.UserDefinedFunctionBase
         {
-            throw new NotImplementedException();
+            #region implement
+
+            SetDataLimit(isIncludeExtendProperties);
+
+            var mysmo_f = new MySmo.UserDefinedFunction();
+            var smo_db = _smo_server.Databases[userdefinedfunction.Parent.Parent.Name];
+            var smo_f = smo_db.UserDefinedFunctions[userdefinedfunction.Name, userdefinedfunction.Schema];
+
+            mysmo_f.ParentDatabase = null;
+            mysmo_f.Name = smo_f.Name;
+            mysmo_f.Schema = smo_f.Schema;
+            mysmo_f.CreateTime = smo_f.CreateDate;
+            mysmo_f.Owner = smo_f.Owner;
+            if (isIncludeExtendProperties)
+            {
+                mysmo_f.ExtendedProperties = NewExtendProperties(mysmo_f, smo_f.ExtendedProperties);
+                if (mysmo_f.ExtendedProperties.ContainsKey("MS_Description"))
+                    mysmo_f.Description = mysmo_f.ExtendedProperties["MS_Description"];
+            }
+            if (isIncludeChilds)
+            {
+                mysmo_f.Parameters = new List<MySmo.Parameter>();
+                foreach (Smo.StoredProcedureParameter smo_p in smo_f.Parameters)
+                {
+                    var mysmo_p = new MySmo.Parameter
+                    {
+                        ParentDatabase = null,
+                        ParentParameterBase = mysmo_f,
+                        Name = smo_p.Name,
+                        DefaultValue = smo_p.DefaultValue,
+                        IsOutputParameter = smo_p.IsOutputParameter,
+                        IsReadOnly = smo_p.IsReadOnly,
+                        DataType = new MySmo.DataType
+                        {
+                            Name = smo_p.DataType.Name,
+                            MaximumLength = smo_p.DataType.MaximumLength,
+                            NumericPrecision = smo_p.DataType.NumericPrecision,
+                            NumericScale = smo_p.DataType.NumericScale,
+                            SqlDataType = (MySmo.SqlDataType)(int)smo_p.DataType.SqlDataType
+                        }
+                        //  //if (isIncludeExtendProperties)
+                    };
+                    // todo: 从 func 的扩展属性中取参数的备注
+                    //if (isIncludeExtendProperties)
+                    //{
+                    //    mysmo_p.ExtendedProperties = NewExtendProperties(mysmo_p, smo_p.ExtendedProperties);
+                    //    if (mysmo_p.ExtendedProperties.ContainsKey("MS_Description"))
+                    //        mysmo_p.Description = mysmo_p.ExtendedProperties["MS_Description"];
+                    //}
+                    mysmo_f.Parameters.Add(mysmo_p);
+                }
+                if (userdefinedfunction is Oe.UserDefinedFunction_Table)
+                {
+                    mysmo_f.Columns = new List<MySmo.Column>();
+                    foreach (Smo.Column smo_c in smo_f.Columns)
+                    {
+                        var mysmo_c = new MySmo.Column
+                        {
+                            ParentDatabase = null,
+                            ParentTableBase = mysmo_f,
+                            Name = smo_c.Name,
+                            DataType = new MySmo.DataType
+                            {
+                                Name = smo_c.DataType.Name,
+                                MaximumLength = smo_c.DataType.MaximumLength,
+                                NumericPrecision = smo_c.DataType.NumericPrecision,
+                                NumericScale = smo_c.DataType.NumericScale,
+                                SqlDataType = (MySmo.SqlDataType)(int)smo_c.DataType.SqlDataType
+                            },
+                            Computed = smo_c.Computed,
+                            ComputedText = smo_c.ComputedText,
+                            Default = smo_c.Default,
+                            Identity = smo_c.Identity,
+                            IdentityIncrement = smo_c.IdentityIncrement,
+                            IdentitySeed = smo_c.IdentitySeed,
+                            InPrimaryKey = smo_c.InPrimaryKey,
+                            IsForeignKey = smo_c.IsForeignKey,
+                            Nullable = smo_c.Nullable,
+                            RowGuidCol = smo_c.RowGuidCol
+                        };
+                        // todo: 从 func 的扩展属性中取字段的备注
+                        //if (isIncludeExtendProperties)
+                        //{
+                        //    mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                        //    if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
+                        //        mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
+                        //}
+                        mysmo_f.Columns.Add(mysmo_c);
+                    }
+                }
+            }
+            return mysmo_f;
+
+            #endregion
         }
 
         public MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype, bool isIncludeExtendProperties = true, bool isIncludeChilds = true)

@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -26,13 +28,18 @@ namespace SPGen2010.Components.Controls
             InitializeComponent();
         }
 
-        public Details_UserDefinedFunction_Scale(UserDefinedFunction_Scale o)
+        public Details_UserDefinedFunction_Scale(Oe.UserDefinedFunction_Scale o)
             : this()
         {
-            this.UserDefinedFunction_Scale = o;
+            this.OeUserDefinedFunction_Scale = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\UserDefinedFunctions\" + o.Text;
+
+            var so = WMain.Instance.MySmoProvider.GetUserDefinedFunction(o);
+            this.MySmoUserDefinedFunction = so;
+            this.DataContext = so;
         }
 
-        public UserDefinedFunction_Scale UserDefinedFunction_Scale { get; set; }
+        public Oe.UserDefinedFunction_Scale OeUserDefinedFunction_Scale { get; set; }
+        public MySmo.UserDefinedFunction MySmoUserDefinedFunction { get; set; }
     }
 }
