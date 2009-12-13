@@ -99,7 +99,7 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             var mysmo_server = new MySmo.Server();
             var mysmo_dbs = new List<MySmo.Database>();
-            foreach(Smo.Database smo_db in _smo_server.Databases)
+            foreach (Smo.Database smo_db in _smo_server.Databases)
             {
                 var mysmo_db = GetDatabase(smo_db, isIncludeExtendProperties, isIncludeChilds);
                 mysmo_db.ParentServer = mysmo_server;
@@ -655,30 +655,49 @@ namespace SPGen2010.Components.Providers.MsSql
 
             var eps = new MySmo.ExtendedProperties { ParentExtendPropertiesBase = parent };
             foreach (Smo.ExtendedProperty ep in epc) eps.Add(ep.Name, ep.Value as string);
+            return eps;
 
-            // 如果有找到别的项的命名＝当前项名 + "#@!Part_" + 数字　合并，纳入删除表
-            var mark_part = "#@!Part_";
+            #endregion
+        }
+
+
+
+        public static void FormatExtendProperties(MySmo.Table mysmo_t)
+        {
+            var eps = mysmo_t.ExtendedProperties;
+
+            // combine part extended properties. template: ____Part_???_Of_???. sample: ____Part_001_Of_012
+            var mark_part = "____Part_";
 
             var delList = new List<string>();
+            var combines = new Dictionary<string, string[]>();
             foreach (var o in eps)
             {
-                if (o.Key.Contains(mark_part)) continue;      // 分页项就不处理了　直接跳过
-                var s = o.Value;
-                // 根据　页码　部分　从小到大 排序取当前对象
-                var parts = from ep in eps
-                            where ep.Key.Contains(mark_part)
-                            orderby int.Parse(ep.Key.Substring(ep.Key.LastIndexOf(mark_part) + 8))
-                            select ep;
-                foreach (var part in parts)
+                var key = o.Key;
+                var len = key.Length;
+                if (len > 19 && key.Substring(len - 19, 9) == mark_part)
                 {
-                    s += part.Value;
-                    delList.Add(part.Key);
+                    var purekey = key.Substring(0, len - 19);
+                    var ss = key.Substring(len - 10).Split(new string[] { "_Of_" }, StringSplitOptions.None);
+                    if (combines.ContainsKey(purekey))
+                    {
+                        var value = combines[purekey];
+                        value[int.Parse(ss[0])] = o.Value;
+                    }
+                    else
+                    {
+                        var value = new string[int.Parse(ss[1])];
+                        value[int.Parse(ss[0])] = o.Value;
+                        combines.Add(key.Substring(0, len - 19), value);
+                    }
                 }
-                if (s != o.Value) eps[o.Key] = s;
+                delList.Add(key);
             }
 
             foreach (var key in delList) eps.Remove(key);       // 删除已合并键
             delList.Clear();
+
+            foreach (var combine in combines) eps.Add(combine.Key, string.Join("", combine.Value));
 
             // 检查到如果当前 ep 为子项配置集（有可能子对象不支持多 ep 集合或不支持 ep）时，将 ep 应用到子项
 
@@ -686,10 +705,9 @@ namespace SPGen2010.Components.Providers.MsSql
             {
                 if (o.Key == "ColumnSettings")
                 {
-                    var t = (MySmo.ITableBase)parent;
                     var dt = new DS.ColumnExtendedInformationsDataTable();
                     dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(o.Value)));
-                    foreach (var column in t.Columns)
+                    foreach (var column in mysmo_t.Columns)
                     {
                         var row = dt.FindByName(column.Name);
                         if (row != null)
@@ -729,10 +747,6 @@ namespace SPGen2010.Components.Providers.MsSql
 
             foreach (var key in delList) eps.Remove(key);       // 删除已颁布到子元素的并键
             delList.Clear();
-
-            return eps;
-
-            #endregion
         }
 
         #endregion
