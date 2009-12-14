@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -31,13 +32,26 @@ namespace SPGen2010.Components.Controls
         {
             this.Database = o;
             _Path_Label.Content = o.Parent.Text + @"\Databases\" + o.Text;
+
+            _Details_DataGrid.ItemsSource = o.Folders;
         }
 
         public Database Database { get; set; }
 
         private void _Details_DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+            var row = UIHelpers.TryFindParent<DataGridRow>(source);
+            if (row == null) return;
+            e.Handled = true;
 
+            var db = row.Item as FolderBase;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<NodeBase>(
+                new NodeBase[] { db.Parent.Parent, db.Parent, db },
+                (x, y) => x == y,
+                item => (NodeBase)item
+            );
         }
     }
 }

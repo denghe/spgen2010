@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -32,7 +33,7 @@ namespace SPGen2010.Components.Controls
             this.Server = o;
             _Path_Label.Content = o.Text + @"\Databases";
 
-            _Details_DataGrid.ItemsSource = this.Server.Databases;
+            _Details_DataGrid.ItemsSource = o.Databases;
             _Count_Label.Content = o.Databases.Count.ToString();
         }
 
@@ -45,8 +46,13 @@ namespace SPGen2010.Components.Controls
             if (row == null) return;
             e.Handled = true;
 
-            // todo: WMain Tree 定位，控件刷新
-            // row.Item as Database;
+            var db = row.Item as Database;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<NodeBase>(
+                new NodeBase[] { db.Parent, db },
+                (x, y) => x == y,
+                item => (NodeBase)item
+            );
         }
 
     }
