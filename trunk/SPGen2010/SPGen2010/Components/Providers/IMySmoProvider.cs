@@ -7,14 +7,6 @@ namespace SPGen2010.Components.Providers
 {
     public interface IMySmoProvider
     {
-        List<MySmo.Database> GetDatabases(Oe.Server server);
-        List<MySmo.Schema> GetSchemas(Oe.Database database);
-        List<MySmo.Table> GetTables(Oe.Database database);
-        List<MySmo.View> GetViews(Oe.Database database);
-        List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database);
-        List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database);
-        List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database);
-
         MySmo.Server GetServer(Oe.Server server);
         MySmo.Database GetDatabase(Oe.Database database);
         MySmo.Schema GetSchema(Oe.Schema schema);
@@ -23,5 +15,14 @@ namespace SPGen2010.Components.Providers
         MySmo.UserDefinedFunction GetUserDefinedFunction<T>(T userdefinedfunction) where T : Oe.UserDefinedFunctionBase;
         MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype);
         MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure);
+
+        void SaveExtendProperties(MySmo.Server o);
+        void SaveExtendProperties(MySmo.Database o);
+        void SaveExtendProperties(MySmo.Schema o);
+        void SaveExtendProperties(MySmo.Table o);
+        void SaveExtendProperties(MySmo.View o);
+        void SaveExtendProperties(MySmo.UserDefinedFunction o);
+        void SaveExtendProperties(MySmo.UserDefinedTableType o);
+        void SaveExtendProperties(MySmo.StoredProcedure o);
     }
 }
