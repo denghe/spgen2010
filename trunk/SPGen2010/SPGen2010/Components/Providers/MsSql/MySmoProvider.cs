@@ -662,9 +662,91 @@ namespace SPGen2010.Components.Providers.MsSql
 
 
 
+        public static void FormatExtendProperties(MySmo.Schema mysmo_s)
+        {
+            CombineExtendProperties(mysmo_s.ExtendedProperties);
+        }
         public static void FormatExtendProperties(MySmo.Table mysmo_t)
         {
-            var eps = mysmo_t.ExtendedProperties;
+            CombineExtendProperties(mysmo_t.ExtendedProperties);
+            DistributeExtendProperties((MySmo.ITableBase)mysmo_t);
+        }
+        public static void FormatExtendProperties(MySmo.View mysmo_v)
+        {
+            CombineExtendProperties(mysmo_v.ExtendedProperties);
+            DistributeExtendProperties((MySmo.ITableBase)mysmo_v);
+        }
+        public static void FormatExtendProperties(MySmo.UserDefinedFunction mysmo_f)
+        {
+            CombineExtendProperties(mysmo_f.ExtendedProperties);
+            if (mysmo_f.FunctionType == MySmo.UserDefinedFunctionType.Table) 
+                DistributeExtendProperties((MySmo.ITableBase)mysmo_f);
+            DistributeExtendProperties((MySmo.IParameterBase)mysmo_f);
+        }
+        public static void FormatExtendProperties(MySmo.UserDefinedTableType mysmo_tt)
+        {
+            CombineExtendProperties(mysmo_tt.ExtendedProperties);
+            DistributeExtendProperties((MySmo.ITableBase)mysmo_tt);
+        }
+        public static void FormatExtendProperties(MySmo.StoredProcedure mysmo_sp)
+        {
+            CombineExtendProperties(mysmo_sp.ExtendedProperties);
+            DistributeExtendProperties((MySmo.IParameterBase)mysmo_sp);
+        }
+
+
+
+        public static void DistributeExtendProperties(MySmo.ITableBase mysmo_tb)
+        {
+            var epb = (MySmo.IExtendPropertiesBase)mysmo_tb;
+            string s;
+            if (!epb.ExtendedProperties.TryGetValue("ColumnSettings", out s)) return;
+            var dt = new DS.ColumnExtendedInformationsDataTable();
+            dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(s)));
+            foreach (var column in mysmo_tb.Columns)
+            {
+                var row = dt.FindByName(column.Name);
+                if (row != null)
+                {
+                    foreach (System.Data.DataColumn dc in dt.Columns)
+                    {
+                        if (dc.Unique) continue;
+                        var ceps = column.ExtendedProperties;
+                        if (ceps.ContainsKey(dc.ColumnName)) continue;
+                        ceps.Add(dc.ColumnName, (string)row[dc]);
+                    }
+                }
+            }
+            epb.ExtendedProperties.Remove("ColumnSettings");
+        }
+
+
+        public static void DistributeExtendProperties(MySmo.IParameterBase mysmo_pb)
+        {
+            var epb = (MySmo.IExtendPropertiesBase)mysmo_pb;
+            string s;
+            if (!epb.ExtendedProperties.TryGetValue("ParameterSettings", out s)) return;
+            var dt = new DS.ParameterExtendedInformationsDataTable();
+            dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(s)));
+            foreach (var parameter in mysmo_pb.Parameters)
+            {
+                var row = dt.FindByName(parameter.Name);
+                if (row != null)
+                {
+                    foreach (System.Data.DataColumn dc in dt.Columns)
+                    {
+                        if (dc.Unique) continue;
+                        parameter.ExtendedProperties.Add(dc.ColumnName, (string)row[dc]);
+                    }
+                }
+            }
+            epb.ExtendedProperties.Remove("ParameterSettings");
+        }
+
+
+        public static void CombineExtendProperties(MySmo.ExtendedProperties eps)
+        {
+            #region implement
 
             // combine part extended properties. template: ____Part_???_Of_???. sample: ____Part_001_Of_012
             var mark_part = "____Part_";
@@ -693,60 +775,10 @@ namespace SPGen2010.Components.Providers.MsSql
                 }
                 delList.Add(key);
             }
-
-            foreach (var key in delList) eps.Remove(key);       // 删除已合并键
-            delList.Clear();
-
+            foreach (var key in delList) eps.Remove(key);
             foreach (var combine in combines) eps.Add(combine.Key, string.Join("", combine.Value));
 
-            // 检查到如果当前 ep 为子项配置集（有可能子对象不支持多 ep 集合或不支持 ep）时，将 ep 应用到子项
-
-            foreach (var o in eps)
-            {
-                if (o.Key == "ColumnSettings")
-                {
-                    var dt = new DS.ColumnExtendedInformationsDataTable();
-                    dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(o.Value)));
-                    foreach (var column in mysmo_t.Columns)
-                    {
-                        var row = dt.FindByName(column.Name);
-                        if (row != null)
-                        {
-                            foreach (System.Data.DataColumn dc in dt.Columns)
-                            {
-                                if (dc.Unique) continue;
-                                var ceps = column.ExtendedProperties;
-                                if (ceps.ContainsKey(dc.ColumnName)) continue;
-                                ceps.Add(dc.ColumnName, (string)row[dc]);
-                            }
-                        }
-                    }
-                    delList.Add(o.Key);
-                }
-                else if (o.Key == "ParameterSettings")
-                {
-                    var t = (MySmo.IParameterBase)parent;
-                    var dt = new DS.ParameterExtendedInformationsDataTable();
-                    dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(o.Value)));
-                    foreach (var parameter in t.Parameters)
-                    {
-                        var row = dt.FindByName(parameter.Name);
-                        if (row != null)
-                        {
-                            foreach (System.Data.DataColumn dc in dt.Columns)
-                            {
-                                if (dc.Unique) continue;
-                                parameter.ExtendedProperties.Add(dc.ColumnName, (string)row[dc]);
-                            }
-                        }
-                    }
-                    delList.Add(o.Key);
-                }
-                // else if   ResultSettings for SP
-            }
-
-            foreach (var key in delList) eps.Remove(key);       // 删除已颁布到子元素的并键
-            delList.Clear();
+            #endregion
         }
 
         #endregion

@@ -127,7 +127,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public List<Parameter> Parameters { get; set; }
         public string Name { get; set; }
         public string Schema { get; set; }
-        public UserDefinedFunctionType UserDefinedFunctionType { get; set; }
+        public UserDefinedFunctionType FunctionType { get; set; }
         public string Description { get; set; }
         public string Owner { get; set; }
         public DateTime CreateTime { get; set; }
