@@ -30,7 +30,8 @@
 
         <Label Grid.Row="2" Name="_Path_Label" Background="#ffffe1"></Label>
 
-        <DataGrid Grid.Row="3" Name="_Details_DataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <DataGrid Grid.Row="3" Name="_Details_DataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  MouseDoubleClick="_Details_DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="Auto" Header="">
                     <DataGridTemplateColumn.CellTemplate>
