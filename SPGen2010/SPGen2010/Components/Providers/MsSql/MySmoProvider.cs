@@ -76,8 +76,10 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
+            var mysmo_server = new MySmo.Server();
+            mysmo_server.Name = _smo_server.InstanceName;
             var mysmo_dbs = new List<MySmo.Database>();
-            foreach (Smo.Database smo_db in _smo_server.Databases) mysmo_dbs.Add(GetDatabase(smo_db));
+            foreach (Smo.Database smo_db in _smo_server.Databases) mysmo_dbs.Add(GetDatabase(smo_db, mysmo_server));
             return mysmo_dbs;
 
             #endregion
