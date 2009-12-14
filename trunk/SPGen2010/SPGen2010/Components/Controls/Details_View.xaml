@@ -36,7 +36,7 @@
                     <Image Source="/SPGen2010;component/Images/b_refresh.png"></Image>
                 </Button>
                 <Separator/>
-                <Button Name="_Up_Button" ToolTip="Up to parent node" Height="20">
+                <Button Name="_Up_Button" ToolTip="Up to parent node" Height="20" Click="_Up_Button_Click">
                     <Image Source="/SPGen2010;component/Images/up.png"></Image>
                 </Button>
             </ToolBar>
