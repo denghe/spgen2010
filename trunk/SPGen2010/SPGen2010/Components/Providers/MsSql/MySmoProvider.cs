@@ -90,6 +90,10 @@ namespace SPGen2010.Components.Providers.MsSql
         public void SaveExtendProperties(MySmo.UserDefinedFunction epb)
         {
             throw new Exception("not implement");
+
+            // todo: 收拢 parameters, columns 的 ExtendProperties 到 DS 扩展属性表, 写入 epb 之扩展属性中
+            // todo: 超长的以 3600 字符打断
+            // todo: 保存：清掉原值并添加新的扩展属性
         }
         public void SaveExtendProperties(MySmo.UserDefinedTableType epb)
         {
