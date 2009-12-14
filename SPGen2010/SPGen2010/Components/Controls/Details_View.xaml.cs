@@ -41,5 +41,16 @@ namespace SPGen2010.Components.Controls
 
         public Oe.View OeView { get; set; }
         public MySmo.View MySmoView { get; set; }
+
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.OeView;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<Oe.NodeBase>(
+                new Oe.NodeBase[] { o.Parent.Parent.Parent, o.Parent.Parent, o.Parent },
+                (x, y) => x == y,
+                item => (Oe.NodeBase)item
+            );
+        }
     }
 }

@@ -41,5 +41,16 @@ namespace SPGen2010.Components.Controls
 
         public Oe.Schema Schema { get; set; }
         public MySmo.Schema MySmoSchema { get; set; }
+
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.Schema;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<Oe.NodeBase>(
+                new Oe.NodeBase[] { o.Parent.Parent.Parent, o.Parent.Parent, o.Parent },
+                (x, y) => x == y,
+                item => (Oe.NodeBase)item
+            );
+        }
     }
 }

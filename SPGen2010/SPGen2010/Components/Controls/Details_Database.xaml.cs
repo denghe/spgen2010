@@ -45,10 +45,21 @@ namespace SPGen2010.Components.Controls
             if (row == null) return;
             e.Handled = true;
 
-            var db = row.Item as FolderBase;
+            var o = row.Item as FolderBase;
             var tv = WMain.Instance._ObjectExplorer._TreeView;
             tv.SetSelectedItem<NodeBase>(
-                new NodeBase[] { db.Parent.Parent, db.Parent, db },
+                new NodeBase[] { o.Parent.Parent, o.Parent, o },
+                (x, y) => x == y,
+                item => (NodeBase)item
+            );
+        }
+
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.Database;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<NodeBase>(
+                new NodeBase[] { o.Parent },
                 (x, y) => x == y,
                 item => (NodeBase)item
             );

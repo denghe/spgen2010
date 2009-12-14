@@ -53,5 +53,16 @@ namespace SPGen2010.Components.Controls
                 item => (NodeBase)item
             );
         }
+
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.UserDefinedFunctions;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<NodeBase>(
+                new NodeBase[] { o.Parent.Parent, o.Parent },
+                (x, y) => x == y,
+                item => (NodeBase)item
+            );
+        }
     }
 }

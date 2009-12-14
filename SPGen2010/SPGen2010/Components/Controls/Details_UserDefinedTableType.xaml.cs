@@ -41,5 +41,16 @@ namespace SPGen2010.Components.Controls
 
         public Oe.UserDefinedTableType OeUserDefinedTableType { get; set; }
         public MySmo.UserDefinedTableType MySmoUserDefinedTableType { get; set; }
+
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.OeUserDefinedTableType;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<Oe.NodeBase>(
+                new Oe.NodeBase[] { o.Parent.Parent.Parent, o.Parent.Parent, o.Parent },
+                (x, y) => x == y,
+                item => (Oe.NodeBase)item
+            );
+        }
     }
 }

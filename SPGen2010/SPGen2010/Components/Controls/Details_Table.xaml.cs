@@ -42,6 +42,17 @@ namespace SPGen2010.Components.Controls
         public Oe.Table OeTable { get; set; }
         public MySmo.Table MySmoTable { get; set; }
 
+        private void _Up_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var o = this.OeTable;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<Oe.NodeBase>(
+                new Oe.NodeBase[] { o.Parent.Parent.Parent, o.Parent.Parent, o.Parent },
+                (x, y) => x == y,
+                item => (Oe.NodeBase)item
+            );
+        }
+
         //private void TextBox_Loaded(object sender, RoutedEventArgs e)
         //{
         //    var tb = sender as TextBox;
