@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using SPGen2010.Components.Modules.ObjectExplorer;
+using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using SPGen2010.Components.Windows;
 
 namespace SPGen2010.Components.Controls
 {
@@ -36,5 +38,21 @@ namespace SPGen2010.Components.Controls
         }
 
         public Folder_Tables Tables { get; set; }
+
+        private void _Details_DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+            var row = UIHelpers.TryFindParent<DataGridRow>(source);
+            if (row == null) return;
+            e.Handled = true;
+
+            var o = row.Item as Oe.Table;
+            var tv = WMain.Instance._ObjectExplorer._TreeView;
+            tv.SetSelectedItem<NodeBase>(
+                new NodeBase[] { o.Parent.Parent.Parent, o.Parent.Parent, o.Parent, o },
+                (x, y) => x == y,
+                item => (NodeBase)item
+            );
+        }
     }
 }
