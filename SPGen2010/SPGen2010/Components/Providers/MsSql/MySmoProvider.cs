@@ -18,47 +18,6 @@ namespace SPGen2010.Components.Providers.MsSql
 {
     public partial class MySmoProvider : IMySmoProvider
     {
-        private Smo.Server _smo_server;
-        public MySmoProvider(Smo.Server smo_server)
-        {
-            _smo_server = smo_server;
-        }
-
-
-
-        public void SetDataLimit()
-        {
-            #region Set SMO SQL Struct Data Limit
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Database),
-                new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
-                new String[] { "Name", "IsSystemObject", "Owner", "ExtendedProperties" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.Table),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.View),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
-                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
-
-            _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
-                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
-
-            if (_smo_server.VersionMajor >= 10)
-            {
-                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
-                    new String[] { "Name", "Schema", "CreateDate", "Owner", "ExtendedProperties" });
-            }
-
-            #endregion
-        }
-
-
-
         public MySmo.Server GetServer(Oe.Server server)
         {
             #region implement
@@ -71,52 +30,6 @@ namespace SPGen2010.Components.Providers.MsSql
 
             #endregion
         }
-
-        public List<MySmo.Database> GetDatabases(Oe.Server server)
-        {
-            #region implement
-
-            var mysmo_server = new MySmo.Server();
-            mysmo_server.Name = _smo_server.InstanceName;
-            var mysmo_dbs = new List<MySmo.Database>();
-            foreach (Smo.Database smo_db in _smo_server.Databases) mysmo_dbs.Add(GetDatabase(smo_db, mysmo_server));
-            return mysmo_dbs;
-
-            #endregion
-        }
-
-
-        public List<MySmo.Schema> GetSchemas(Oe.Database database)
-        {
-            return GetSchemas(_smo_server.Databases[database.Name]);
-        }
-
-        public List<MySmo.Table> GetTables(Oe.Database database)
-        {
-            return GetTables(_smo_server.Databases[database.Name]);
-        }
-
-        public List<MySmo.View> GetViews(Oe.Database database)
-        {
-            return GetViews(_smo_server.Databases[database.Name]);
-        }
-
-        public List<MySmo.UserDefinedFunction> GetUserDefinedFunctions(Oe.Database database)
-        {
-            return GetUserDefinedFunctions(_smo_server.Databases[database.Name]);
-        }
-
-        public List<MySmo.UserDefinedTableType> GetUserDefinedTableTypes(Oe.Database database)
-        {
-            return GetUserDefinedTableTypes(_smo_server.Databases[database.Name]);
-        }
-
-        public List<MySmo.StoredProcedure> GetStoredProcedures(Oe.Database database)
-        {
-            return GetStoredProcedures(_smo_server.Databases[database.Name]);
-        }
-
-
 
         public MySmo.Database GetDatabase(Oe.Database database)
         {
@@ -154,11 +67,84 @@ namespace SPGen2010.Components.Providers.MsSql
         }
 
 
+        public void SaveExtendProperties(MySmo.Server epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.Database epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.Schema epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.Table epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.View epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.UserDefinedFunction epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.UserDefinedTableType epb)
+        {
+            throw new Exception("not implement");
+        }
+        public void SaveExtendProperties(MySmo.StoredProcedure epb)
+        {
+            throw new Exception("not implement");
+        }
 
+
+
+        #region Constructures
+
+        public MySmoProvider(Smo.Server smo_server)
+        {
+            _smo_server = smo_server;
+        }
+
+        #endregion
 
         #region Utils
 
+        private Smo.Server _smo_server;
 
+        public void SetDataLimit()
+        {
+            #region Set SMO SQL Struct Data Limit
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Database),
+                new String[] { "Name", "RecoveryModel", "CompatibilityLevel", "Collation", "Owner", "CreateDate", "ExtendedProperties" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Schema),
+                new String[] { "Name", "IsSystemObject", "Owner", "ExtendedProperties" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.Table),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.View),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.StoredProcedure),
+                new String[] { "Name", "Schema", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+            _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedFunction),
+                new String[] { "Name", "Schema", "FunctionType", "IsSystemObject", "CreateDate", "Owner", "ExtendedProperties" });
+
+            if (_smo_server.VersionMajor >= 10)
+            {
+                _smo_server.SetDefaultInitFields(typeof(Smo.UserDefinedTableType),
+                    new String[] { "Name", "Schema", "CreateDate", "Owner", "ExtendedProperties" });
+            }
+
+            #endregion
+        }
 
         public MySmo.Database GetDatabase(Smo.Database smo_db, MySmo.Server parent = null)
         {
