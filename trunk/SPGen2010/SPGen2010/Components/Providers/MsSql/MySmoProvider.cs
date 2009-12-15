@@ -67,27 +67,27 @@ namespace SPGen2010.Components.Providers.MsSql
         }
 
 
-        public void SaveExtendProperties(MySmo.Server epb)
+        public void Save(MySmo.Server epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.Database epb)
+        public void Save(MySmo.Database epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.Schema epb)
+        public void Save(MySmo.Schema epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.Table epb)
+        public void Save(MySmo.Table epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.View epb)
+        public void Save(MySmo.View epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.UserDefinedFunction epb)
+        public void Save(MySmo.UserDefinedFunction epb)
         {
             throw new Exception("not implement");
 
@@ -95,11 +95,11 @@ namespace SPGen2010.Components.Providers.MsSql
             // todo: 超长的以 3600 字符打断
             // todo: 保存：清掉原值并添加新的扩展属性
         }
-        public void SaveExtendProperties(MySmo.UserDefinedTableType epb)
+        public void Save(MySmo.UserDefinedTableType epb)
         {
             throw new Exception("not implement");
         }
-        public void SaveExtendProperties(MySmo.StoredProcedure epb)
+        public void Save(MySmo.StoredProcedure epb)
         {
             throw new Exception("not implement");
         }
