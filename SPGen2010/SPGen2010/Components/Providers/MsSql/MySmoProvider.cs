@@ -68,7 +68,7 @@ namespace SPGen2010.Components.Providers.MsSql
 
 
 
-        public void SaveExtendProperty(MySmo.IExtendPropertiesBase epb, string key = null)
+        public void SaveExtendProperty(MySmo.IExtendPropertiesBase epb)
         {
             // todo: 收拢 parameters, columns 的 ExtendProperties 到 DS 扩展属性表, 写入 epb 之扩展属性中
             // todo: 超长的以 3600 字符打断
@@ -81,6 +81,14 @@ namespace SPGen2010.Components.Providers.MsSql
                 if (mysmo_c.ParentTableBase is MySmo.Table)
                 {
                     var mysmo_t = mysmo_c.ParentTableBase as MySmo.Table;
+
+                    // 流程：
+                    // 1. 读 table 的扩展属性的 ColumnProperties 的数据
+                    // 2. 更新 column 的扩展属性到　第 1 步　读到的数据中
+                    // 3. 
+                    // todo: 将 Column 的扩展属性归纳到 Table 的扩展属性
+                    // todo: 
+
                     var smo_t = smo_db.Tables[mysmo_t.Name, mysmo_t.Schema];
                     var smo_c = smo_t.Columns[mysmo_c.Name];
 
