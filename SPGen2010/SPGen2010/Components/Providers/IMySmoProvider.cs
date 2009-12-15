@@ -16,13 +16,13 @@ namespace SPGen2010.Components.Providers
         MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype);
         MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure);
 
-        void SaveExtendProperties(MySmo.Server o);
-        void SaveExtendProperties(MySmo.Database o);
-        void SaveExtendProperties(MySmo.Schema o);
-        void SaveExtendProperties(MySmo.Table o);
-        void SaveExtendProperties(MySmo.View o);
-        void SaveExtendProperties(MySmo.UserDefinedFunction o);
-        void SaveExtendProperties(MySmo.UserDefinedTableType o);
-        void SaveExtendProperties(MySmo.StoredProcedure o);
+        void Save(MySmo.Server o);
+        void Save(MySmo.Database o);
+        void Save(MySmo.Schema o);
+        void Save(MySmo.Table o);
+        void Save(MySmo.View o);
+        void Save(MySmo.UserDefinedFunction o);
+        void Save(MySmo.UserDefinedTableType o);
+        void Save(MySmo.StoredProcedure o);
     }
 }
