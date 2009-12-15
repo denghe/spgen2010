@@ -117,7 +117,7 @@ namespace SPGen2010.Components.Providers.MsSql
                             mysmo_t.ExtendedProperties.Add("ColumnSettings", AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
                         }
                     }
-                    // todo: call save table's ep
+                    SaveExtendProperty(mysmo_t, "ColumnSettings");
                 }
                 //else if ( View, Function, ...
             }
