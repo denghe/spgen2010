@@ -48,7 +48,7 @@ namespace SPGen2010.Components.Controls.Converters
             var rv = "/SPGen2010;component/Images/sql_function_scale.png";
             try
             {
-                if (value.GetType() == typeof(SPGen2010.Components.Modules.ObjectExplorer.UserDefinedFunction_Table))
+                if (value is SPGen2010.Components.Modules.ObjectExplorer.UserDefinedFunction_Table)
                 {
                     rv = "/SPGen2010;component/Images/sql_function_table.png";
                 }

@@ -67,41 +67,24 @@ namespace SPGen2010.Components.Providers.MsSql
         }
 
 
-        public void Save(MySmo.Server epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.Database epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.Schema epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.Table epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.View epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.UserDefinedFunction epb)
-        {
-            throw new Exception("not implement");
 
+        public void Save(MySmo.IExtendPropertiesBase epb, string key = null)
+        {
             // todo: 收拢 parameters, columns 的 ExtendProperties 到 DS 扩展属性表, 写入 epb 之扩展属性中
             // todo: 超长的以 3600 字符打断
             // todo: 保存：清掉原值并添加新的扩展属性
-        }
-        public void Save(MySmo.UserDefinedTableType epb)
-        {
-            throw new Exception("not implement");
-        }
-        public void Save(MySmo.StoredProcedure epb)
-        {
-            throw new Exception("not implement");
+
+            if (epb is MySmo.Table)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    // full save
+                }
+                else
+                {
+                    // todo
+                }
+            }
         }
 
 
@@ -160,7 +143,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_db.Name = smo_db.Name;
             mysmo_db.Owner = smo_db.Owner;
             mysmo_db.CreateTime = smo_db.CreateDate;
-            mysmo_db.ExtendedProperties = NewExtendProperties(mysmo_db, smo_db.ExtendedProperties);
+            mysmo_db.ExtendedProperties = GetExtendProperties(mysmo_db, smo_db.ExtendedProperties);
             mysmo_db.Schemas = GetSchemas(smo_db, mysmo_db);
             mysmo_db.Tables = GetTables(smo_db, mysmo_db);
             mysmo_db.Views = GetViews(smo_db, mysmo_db);
@@ -185,7 +168,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_s.ParentDatabase = parent;
             mysmo_s.Name = smo_s.Name;
             mysmo_s.Owner = smo_s.Owner;
-            mysmo_s.ExtendedProperties = NewExtendProperties(mysmo_s, smo_s.ExtendedProperties);
+            mysmo_s.ExtendedProperties = GetExtendProperties(mysmo_s, smo_s.ExtendedProperties);
             CombineExtendProperties(mysmo_s);
 
             return mysmo_s;
@@ -204,7 +187,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_t.Schema = smo_t.Schema;
             mysmo_t.CreateTime = smo_t.CreateDate;
             mysmo_t.Owner = smo_t.Owner;
-            mysmo_t.ExtendedProperties = NewExtendProperties(mysmo_t, smo_t.ExtendedProperties);
+            mysmo_t.ExtendedProperties = GetExtendProperties(mysmo_t, smo_t.ExtendedProperties);
             if (mysmo_t.ExtendedProperties.ContainsKey("MS_Description"))
                 mysmo_t.Description = mysmo_t.ExtendedProperties["MS_Description"];
             mysmo_t.Columns = new List<MySmo.Column>();
@@ -234,7 +217,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     Nullable = smo_c.Nullable,
                     RowGuidCol = smo_c.RowGuidCol
                 };
-                mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
                 if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
                     mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
                 mysmo_t.Columns.Add(mysmo_c);
@@ -257,7 +240,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_v.Schema = smo_v.Schema;
             mysmo_v.CreateTime = smo_v.CreateDate;
             mysmo_v.Owner = smo_v.Owner;
-            mysmo_v.ExtendedProperties = NewExtendProperties(mysmo_v, smo_v.ExtendedProperties);
+            mysmo_v.ExtendedProperties = GetExtendProperties(mysmo_v, smo_v.ExtendedProperties);
             if (mysmo_v.ExtendedProperties.ContainsKey("MS_Description"))
                 mysmo_v.Description = mysmo_v.ExtendedProperties["MS_Description"];
             mysmo_v.Columns = new List<MySmo.Column>();
@@ -309,7 +292,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_f.Schema = smo_f.Schema;
             mysmo_f.CreateTime = smo_f.CreateDate;
             mysmo_f.Owner = smo_f.Owner;
-            mysmo_f.ExtendedProperties = NewExtendProperties(mysmo_f, smo_f.ExtendedProperties);
+            mysmo_f.ExtendedProperties = GetExtendProperties(mysmo_f, smo_f.ExtendedProperties);
             if (mysmo_f.ExtendedProperties.ContainsKey("MS_Description"))
                 mysmo_f.Description = mysmo_f.ExtendedProperties["MS_Description"];
             mysmo_f.Parameters = new List<MySmo.Parameter>();
@@ -385,7 +368,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_tt.Schema = smo_tt.Schema;
             mysmo_tt.CreateTime = smo_tt.CreateDate;
             mysmo_tt.Owner = smo_tt.Owner;
-            mysmo_tt.ExtendedProperties = NewExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
+            mysmo_tt.ExtendedProperties = GetExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
             if (mysmo_tt.ExtendedProperties.ContainsKey("MS_Description"))
                 mysmo_tt.Description = mysmo_tt.ExtendedProperties["MS_Description"];
             mysmo_tt.Columns = new List<MySmo.Column>();
@@ -415,7 +398,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     Nullable = smo_c.Nullable,
                     RowGuidCol = smo_c.RowGuidCol
                 };
-                mysmo_c.ExtendedProperties = NewExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
                 if (mysmo_c.ExtendedProperties.ContainsKey("MS_Description"))
                     mysmo_c.Description = mysmo_c.ExtendedProperties["MS_Description"];
                 mysmo_tt.Columns.Add(mysmo_c);
@@ -440,7 +423,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_sp.Schema = smo_sp.Schema;
             mysmo_sp.CreateTime = smo_sp.CreateDate;
             mysmo_sp.Owner = smo_sp.Owner;
-            mysmo_sp.ExtendedProperties = NewExtendProperties(mysmo_sp, smo_sp.ExtendedProperties);
+            mysmo_sp.ExtendedProperties = GetExtendProperties(mysmo_sp, smo_sp.ExtendedProperties);
             if (mysmo_sp.ExtendedProperties.ContainsKey("MS_Description"))
                 mysmo_sp.Description = mysmo_sp.ExtendedProperties["MS_Description"];
             mysmo_sp.Parameters = new List<MySmo.Parameter>();
@@ -541,9 +524,7 @@ namespace SPGen2010.Components.Providers.MsSql
             #endregion
         }
 
-
-
-        public static MySmo.ExtendedProperties NewExtendProperties(MySmo.IExtendPropertiesBase parent, Smo.ExtendedPropertyCollection epc)
+        public static MySmo.ExtendedProperties GetExtendProperties(MySmo.IExtendPropertiesBase parent, Smo.ExtendedPropertyCollection epc)
         {
             #region implement
 
@@ -553,7 +534,6 @@ namespace SPGen2010.Components.Providers.MsSql
 
             #endregion
         }
-
 
 
         public static void FormatExtendProperties(MySmo.Schema mysmo_s)
@@ -597,27 +577,23 @@ namespace SPGen2010.Components.Providers.MsSql
             var epb = (MySmo.IExtendPropertiesBase)mysmo_tb;
             string s;
             if (!epb.ExtendedProperties.TryGetValue("ColumnSettings", out s)) return;
-            var dt = new DS.ColumnExtendedInformationsDataTable();
+            var dt = new DS.KeyValuePairDataTable();
             dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(s)));
             foreach (var column in mysmo_tb.Columns)
             {
-                var row = dt.FindByName(column.Name);
+                var row = dt.FindByKey(column.Name);
                 if (row != null)
                 {
-                    foreach (System.Data.DataColumn dc in dt.Columns)
-                    {
-                        if (dc.Unique) continue;
-                        var ceps = column.ExtendedProperties;
-                        if (ceps.ContainsKey(dc.ColumnName)) continue;
-                        ceps.Add(dc.ColumnName, (string)row[dc]);
-                    }
+                    var cdt = new DS.KeyValuePairDataTable();
+                    cdt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(row.Value)));
+                    foreach (var crow in cdt)
+                        column.ExtendedProperties.Add(crow.Key, crow.Value);
                 }
             }
             epb.ExtendedProperties.Remove("ColumnSettings");
 
             #endregion
         }
-
 
         public static void DistributeExtendProperties(MySmo.IParameterBase mysmo_pb)
         {
@@ -626,18 +602,17 @@ namespace SPGen2010.Components.Providers.MsSql
             var epb = (MySmo.IExtendPropertiesBase)mysmo_pb;
             string s;
             if (!epb.ExtendedProperties.TryGetValue("ParameterSettings", out s)) return;
-            var dt = new DS.ParameterExtendedInformationsDataTable();
+            var dt = new DS.KeyValuePairDataTable();
             dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(s)));
             foreach (var parameter in mysmo_pb.Parameters)
             {
-                var row = dt.FindByName(parameter.Name);
+                var row = dt.FindByKey(parameter.Name);
                 if (row != null)
                 {
-                    foreach (System.Data.DataColumn dc in dt.Columns)
-                    {
-                        if (dc.Unique) continue;
-                        parameter.ExtendedProperties.Add(dc.ColumnName, (string)row[dc]);
-                    }
+                    var cdt = new DS.KeyValuePairDataTable();
+                    cdt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(row.Value)));
+                    foreach (var crow in cdt)
+                        parameter.ExtendedProperties.Add(crow.Key, crow.Value);
                 }
             }
             epb.ExtendedProperties.Remove("ParameterSettings");
