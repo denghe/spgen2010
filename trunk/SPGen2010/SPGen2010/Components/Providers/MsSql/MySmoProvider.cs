@@ -730,6 +730,40 @@ namespace SPGen2010.Components.Providers.MsSql
         }
 
 
+        /// <summary>
+        /// delete extended property from ep's ExtendedProperties
+        /// </summary>
+        /// <param name="ep">SMO object that has ExtendedProperties property.</param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void DeleteExtendProperty(dynamic ep, string key)
+        {
+            if (ep.ExtendedProperties.Contains(key))
+            {
+                ep.ExtendedProperties[key].Drop();
+                ep.Alter();
+            }
+            else
+            {
+                var mark_part = "____Part_";
+                foreach (Smo.ExtendedProperty p in ep.ExtendedProperties)
+                {
+                    var name = p.Name;
+                    var len = key.Length;
+                    if (len > 19 && name.Substring(len - 19, 9) == mark_part)
+                    {
+                        var ss = key.Substring(len - 10).Split(new string[] { "_Of_" }, StringSplitOptions.None);
+                        var count = int.Parse(ss[1]);
+                        for (int i = 0; i <= count; i++)
+                        {
+                            DeleteExtendProperty(ep, key + "____Part_" + i.ToString("###") + "_Of_" + count.ToString("###"));
+                        }
+                    }
+                }
+            }
+        }
+
+
         #endregion
 
     }
