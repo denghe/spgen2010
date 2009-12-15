@@ -16,6 +16,6 @@ namespace SPGen2010.Components.Providers
         MySmo.UserDefinedTableType GetUserDefinedTableType(Oe.UserDefinedTableType userdefinedtabletype);
         MySmo.StoredProcedure GetStoredProcedure(Oe.StoredProcedure storedprocedure);
 
-        void Save(MySmo.IExtendPropertiesBase epb, string key = null);
+        void SaveExtendProperty(MySmo.IExtendPropertiesBase epb, string key = null);
     }
 }
