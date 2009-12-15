@@ -1,3 +1,3 @@
 ﻿MySmoProvider.cs
 
-FormatExtendedProperties
+保存扩展属性（读取，归纳，对比，分段存储）
