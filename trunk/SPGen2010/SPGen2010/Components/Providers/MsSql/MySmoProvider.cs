@@ -68,23 +68,45 @@ namespace SPGen2010.Components.Providers.MsSql
 
 
 
-        public void Save(MySmo.IExtendPropertiesBase epb, string key = null)
+        public void SaveExtendProperty(MySmo.IExtendPropertiesBase epb, string key = null)
         {
             // todo: 收拢 parameters, columns 的 ExtendProperties 到 DS 扩展属性表, 写入 epb 之扩展属性中
             // todo: 超长的以 3600 字符打断
             // todo: 保存：清掉原值并添加新的扩展属性
 
-            if (epb is MySmo.Table)
+            if (epb is MySmo.Column)
             {
-                if (string.IsNullOrEmpty(key))
+                var mysmo_c = epb as MySmo.Column;
+                var smo_db = _smo_server.Databases[mysmo_c.ParentDatabase.Name];
+                if (mysmo_c.ParentTableBase is MySmo.Table)
                 {
-                    // full save
-                }
-                else
-                {
-                    // todo
+                    var mysmo_t = mysmo_c.ParentTableBase as MySmo.Table;
+                    var smo_t = smo_db.Tables[mysmo_t.Name, mysmo_t.Schema];
+                    var smo_c = smo_t.Columns[mysmo_c.Name];
+
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        foreach (var kvp in mysmo_c.ExtendedProperties)
+                        {
+                            if (kvp.Key == "MS_Description")
+                                SaveExtendProperty(smo_c, kvp.Key, kvp.Value);
+                            else
+                            {
+                                //...
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var v = mysmo_c.ExtendedProperties[key];
+                        //SaveExtendProperty(smo_c, key, v);
+                    }
                 }
             }
+            else if (epb is MySmo.Table)
+            {
+            }
+            //...
         }
 
 
@@ -661,6 +683,52 @@ namespace SPGen2010.Components.Providers.MsSql
 
             #endregion
         }
+
+
+        /// <summary>
+        /// save extended property to ep's ExtendedProperties
+        /// </summary>
+        /// <param name="ep">SMO object that has ExtendedProperties property.</param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void SaveExtendProperty(dynamic ep, string key, string value)
+        {
+            var length = value.Length;
+            if (length > 3600)
+            {
+                var count = value.Length / 3600 + (value.Length % 3600 > 0 ? 1 : 0);
+                for (int i = 0; i <= count; i++)
+                {
+                    var mod = value.Length % 3600;
+                    var v = value.Substring(i * 3600, mod == 0 ? 3600 : mod);
+                    SaveExtendProperty(ep, key + "____Part_" + i.ToString("###") + "_Of_" + count.ToString("###"), v);
+                }
+                return;
+            }
+
+            if (ep.ExtendedProperties.Contains(key))
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    ep.ExtendedProperties[key].Drop();
+                    ep.Alter();
+                }
+                else if (ep.ExtendedProperties[key].Value as string != value)
+                {
+                    ep.ExtendedProperties[key].Value = value;
+                    ep.Alter();
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    ep.ExtendedProperties.Add(new Smo.ExtendedProperty((Smo.SqlSmoObject)ep, key, value));
+                    ep.Alter();
+                }
+            }
+        }
+
 
         #endregion
 
