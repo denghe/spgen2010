@@ -38,11 +38,7 @@ namespace SPGen2010.Components.Modules {
         
         private SchemesDataTable tableSchemes;
         
-        private ColumnExtendedInformationsDataTable tableColumnExtendedInformations;
-        
-        private ParameterExtendedInformationsDataTable tableParameterExtendedInformations;
-        
-        private GeneralExtendedInformationsDataTable tableGeneralExtendedInformations;
+        private KeyValuePairDataTable tableKeyValuePair;
         
         private ConnLogDataTable tableConnLog;
         
@@ -50,9 +46,9 @@ namespace SPGen2010.Components.Modules {
         
         private global::System.Data.DataRelation relationFK_Positions_Escapes;
         
-        private global::System.Data.DataRelation relationFK_Schemes_SchemesFilters;
-        
         private global::System.Data.DataRelation relationFK_TypeNames_SchemesFilters;
+        
+        private global::System.Data.DataRelation relationFK_Schemes_SchemesFilters;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -103,14 +99,8 @@ namespace SPGen2010.Components.Modules {
                 if ((ds.Tables["Schemes"] != null)) {
                     base.Tables.Add(new SchemesDataTable(ds.Tables["Schemes"]));
                 }
-                if ((ds.Tables["ColumnExtendedInformations"] != null)) {
-                    base.Tables.Add(new ColumnExtendedInformationsDataTable(ds.Tables["ColumnExtendedInformations"]));
-                }
-                if ((ds.Tables["ParameterExtendedInformations"] != null)) {
-                    base.Tables.Add(new ParameterExtendedInformationsDataTable(ds.Tables["ParameterExtendedInformations"]));
-                }
-                if ((ds.Tables["GeneralExtendedInformations"] != null)) {
-                    base.Tables.Add(new GeneralExtendedInformationsDataTable(ds.Tables["GeneralExtendedInformations"]));
+                if ((ds.Tables["KeyValuePair"] != null)) {
+                    base.Tables.Add(new KeyValuePairDataTable(ds.Tables["KeyValuePair"]));
                 }
                 if ((ds.Tables["ConnLog"] != null)) {
                     base.Tables.Add(new ConnLogDataTable(ds.Tables["ConnLog"]));
@@ -207,29 +197,9 @@ namespace SPGen2010.Components.Modules {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ColumnExtendedInformationsDataTable ColumnExtendedInformations {
+        public KeyValuePairDataTable KeyValuePair {
             get {
-                return this.tableColumnExtendedInformations;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ParameterExtendedInformationsDataTable ParameterExtendedInformations {
-            get {
-                return this.tableParameterExtendedInformations;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public GeneralExtendedInformationsDataTable GeneralExtendedInformations {
-            get {
-                return this.tableGeneralExtendedInformations;
+                return this.tableKeyValuePair;
             }
         }
         
@@ -331,14 +301,8 @@ namespace SPGen2010.Components.Modules {
                 if ((ds.Tables["Schemes"] != null)) {
                     base.Tables.Add(new SchemesDataTable(ds.Tables["Schemes"]));
                 }
-                if ((ds.Tables["ColumnExtendedInformations"] != null)) {
-                    base.Tables.Add(new ColumnExtendedInformationsDataTable(ds.Tables["ColumnExtendedInformations"]));
-                }
-                if ((ds.Tables["ParameterExtendedInformations"] != null)) {
-                    base.Tables.Add(new ParameterExtendedInformationsDataTable(ds.Tables["ParameterExtendedInformations"]));
-                }
-                if ((ds.Tables["GeneralExtendedInformations"] != null)) {
-                    base.Tables.Add(new GeneralExtendedInformationsDataTable(ds.Tables["GeneralExtendedInformations"]));
+                if ((ds.Tables["KeyValuePair"] != null)) {
+                    base.Tables.Add(new KeyValuePairDataTable(ds.Tables["KeyValuePair"]));
                 }
                 if ((ds.Tables["ConnLog"] != null)) {
                     base.Tables.Add(new ConnLogDataTable(ds.Tables["ConnLog"]));
@@ -418,22 +382,10 @@ namespace SPGen2010.Components.Modules {
                     this.tableSchemes.InitVars();
                 }
             }
-            this.tableColumnExtendedInformations = ((ColumnExtendedInformationsDataTable)(base.Tables["ColumnExtendedInformations"]));
+            this.tableKeyValuePair = ((KeyValuePairDataTable)(base.Tables["KeyValuePair"]));
             if ((initTable == true)) {
-                if ((this.tableColumnExtendedInformations != null)) {
-                    this.tableColumnExtendedInformations.InitVars();
-                }
-            }
-            this.tableParameterExtendedInformations = ((ParameterExtendedInformationsDataTable)(base.Tables["ParameterExtendedInformations"]));
-            if ((initTable == true)) {
-                if ((this.tableParameterExtendedInformations != null)) {
-                    this.tableParameterExtendedInformations.InitVars();
-                }
-            }
-            this.tableGeneralExtendedInformations = ((GeneralExtendedInformationsDataTable)(base.Tables["GeneralExtendedInformations"]));
-            if ((initTable == true)) {
-                if ((this.tableGeneralExtendedInformations != null)) {
-                    this.tableGeneralExtendedInformations.InitVars();
+                if ((this.tableKeyValuePair != null)) {
+                    this.tableKeyValuePair.InitVars();
                 }
             }
             this.tableConnLog = ((ConnLogDataTable)(base.Tables["ConnLog"]));
@@ -444,8 +396,8 @@ namespace SPGen2010.Components.Modules {
             }
             this.relationFK_TypeNames_Filters = this.Relations["FK_TypeNames_Filters"];
             this.relationFK_Positions_Escapes = this.Relations["FK_Positions_Escapes"];
-            this.relationFK_Schemes_SchemesFilters = this.Relations["FK_Schemes_SchemesFilters"];
             this.relationFK_TypeNames_SchemesFilters = this.Relations["FK_TypeNames_SchemesFilters"];
+            this.relationFK_Schemes_SchemesFilters = this.Relations["FK_Schemes_SchemesFilters"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -470,12 +422,8 @@ namespace SPGen2010.Components.Modules {
             base.Tables.Add(this.tableSchemesFilters);
             this.tableSchemes = new SchemesDataTable();
             base.Tables.Add(this.tableSchemes);
-            this.tableColumnExtendedInformations = new ColumnExtendedInformationsDataTable();
-            base.Tables.Add(this.tableColumnExtendedInformations);
-            this.tableParameterExtendedInformations = new ParameterExtendedInformationsDataTable();
-            base.Tables.Add(this.tableParameterExtendedInformations);
-            this.tableGeneralExtendedInformations = new GeneralExtendedInformationsDataTable();
-            base.Tables.Add(this.tableGeneralExtendedInformations);
+            this.tableKeyValuePair = new KeyValuePairDataTable();
+            base.Tables.Add(this.tableKeyValuePair);
             this.tableConnLog = new ConnLogDataTable();
             base.Tables.Add(this.tableConnLog);
             global::System.Data.ForeignKeyConstraint fkc;
@@ -493,16 +441,16 @@ namespace SPGen2010.Components.Modules {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.SchemesIDColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.TypeNameColumn});
             this.tableSchemesFilters.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.TypeNameColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.SchemesIDColumn});
             this.tableSchemesFilters.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -515,14 +463,14 @@ namespace SPGen2010.Components.Modules {
                         this.tablePositions.PositionColumn}, new global::System.Data.DataColumn[] {
                         this.tableEscapes.PositionColumn}, false);
             this.Relations.Add(this.relationFK_Positions_Escapes);
-            this.relationFK_Schemes_SchemesFilters = new global::System.Data.DataRelation("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
-                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSchemesFilters.SchemesIDColumn}, false);
-            this.Relations.Add(this.relationFK_Schemes_SchemesFilters);
             this.relationFK_TypeNames_SchemesFilters = new global::System.Data.DataRelation("FK_TypeNames_SchemesFilters", new global::System.Data.DataColumn[] {
                         this.tableTypeNames.TypeNameColumn}, new global::System.Data.DataColumn[] {
                         this.tableSchemesFilters.TypeNameColumn}, false);
             this.Relations.Add(this.relationFK_TypeNames_SchemesFilters);
+            this.relationFK_Schemes_SchemesFilters = new global::System.Data.DataRelation("FK_Schemes_SchemesFilters", new global::System.Data.DataColumn[] {
+                        this.tableSchemes.SchemesIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSchemesFilters.SchemesIDColumn}, false);
+            this.Relations.Add(this.relationFK_Schemes_SchemesFilters);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -569,19 +517,7 @@ namespace SPGen2010.Components.Modules {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeColumnExtendedInformations() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeParameterExtendedInformations() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeGeneralExtendedInformations() {
+        private bool ShouldSerializeKeyValuePair() {
             return false;
         }
         
@@ -668,13 +604,7 @@ namespace SPGen2010.Components.Modules {
         public delegate void SchemesRowChangeEventHandler(object sender, SchemesRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ColumnExtendedInformationsRowChangeEventHandler(object sender, ColumnExtendedInformationsRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ParameterExtendedInformationsRowChangeEventHandler(object sender, ParameterExtendedInformationsRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void GeneralExtendedInformationsRowChangeEventHandler(object sender, GeneralExtendedInformationsRowChangeEvent e);
+        public delegate void KeyValuePairRowChangeEventHandler(object sender, KeyValuePairRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void ConnLogRowChangeEventHandler(object sender, ConnLogRowChangeEvent e);
@@ -3071,20 +3001,16 @@ namespace SPGen2010.Components.Modules {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ColumnExtendedInformationsDataTable : global::System.Data.TypedTableBase<ColumnExtendedInformationsRow> {
+        public partial class KeyValuePairDataTable : global::System.Data.TypedTableBase<KeyValuePairRow> {
             
-            private global::System.Data.DataColumn columnName;
+            private global::System.Data.DataColumn columnKey;
             
-            private global::System.Data.DataColumn columnCaption;
-            
-            private global::System.Data.DataColumn columnSummary;
-            
-            private global::System.Data.DataColumn columnMS_Description;
+            private global::System.Data.DataColumn columnValue;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsDataTable() {
-                this.TableName = "ColumnExtendedInformations";
+            public KeyValuePairDataTable() {
+                this.TableName = "KeyValuePair";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -3092,7 +3018,7 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ColumnExtendedInformationsDataTable(global::System.Data.DataTable table) {
+            internal KeyValuePairDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -3109,40 +3035,24 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ColumnExtendedInformationsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected KeyValuePairDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NameColumn {
+            public global::System.Data.DataColumn KeyColumn {
                 get {
-                    return this.columnName;
+                    return this.columnKey;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CaptionColumn {
+            public global::System.Data.DataColumn ValueColumn {
                 get {
-                    return this.columnCaption;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SummaryColumn {
-                get {
-                    return this.columnSummary;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn MS_DescriptionColumn {
-                get {
-                    return this.columnMS_Description;
+                    return this.columnValue;
                 }
             }
             
@@ -3157,55 +3067,53 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRow this[int index] {
+            public KeyValuePairRow this[int index] {
                 get {
-                    return ((ColumnExtendedInformationsRow)(this.Rows[index]));
+                    return ((KeyValuePairRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ColumnExtendedInformationsRowChangeEventHandler ColumnExtendedInformationsRowChanging;
+            public event KeyValuePairRowChangeEventHandler KeyValuePairRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ColumnExtendedInformationsRowChangeEventHandler ColumnExtendedInformationsRowChanged;
+            public event KeyValuePairRowChangeEventHandler KeyValuePairRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ColumnExtendedInformationsRowChangeEventHandler ColumnExtendedInformationsRowDeleting;
+            public event KeyValuePairRowChangeEventHandler KeyValuePairRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ColumnExtendedInformationsRowChangeEventHandler ColumnExtendedInformationsRowDeleted;
+            public event KeyValuePairRowChangeEventHandler KeyValuePairRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddColumnExtendedInformationsRow(ColumnExtendedInformationsRow row) {
+            public void AddKeyValuePairRow(KeyValuePairRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRow AddColumnExtendedInformationsRow(string Name, string Caption, string Summary, string MS_Description) {
-                ColumnExtendedInformationsRow rowColumnExtendedInformationsRow = ((ColumnExtendedInformationsRow)(this.NewRow()));
+            public KeyValuePairRow AddKeyValuePairRow(string Key, string Value) {
+                KeyValuePairRow rowKeyValuePairRow = ((KeyValuePairRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        Name,
-                        Caption,
-                        Summary,
-                        MS_Description};
-                rowColumnExtendedInformationsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowColumnExtendedInformationsRow);
-                return rowColumnExtendedInformationsRow;
+                        Key,
+                        Value};
+                rowKeyValuePairRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowKeyValuePairRow);
+                return rowKeyValuePairRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRow FindByName(string Name) {
-                return ((ColumnExtendedInformationsRow)(this.Rows.Find(new object[] {
-                            Name})));
+            public KeyValuePairRow FindByKey(string Key) {
+                return ((KeyValuePairRow)(this.Rows.Find(new object[] {
+                            Key})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ColumnExtendedInformationsDataTable cln = ((ColumnExtendedInformationsDataTable)(base.Clone()));
+                KeyValuePairDataTable cln = ((KeyValuePairDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -3213,66 +3121,56 @@ namespace SPGen2010.Components.Modules {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ColumnExtendedInformationsDataTable();
+                return new KeyValuePairDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnName = base.Columns["Name"];
-                this.columnCaption = base.Columns["Caption"];
-                this.columnSummary = base.Columns["Summary"];
-                this.columnMS_Description = base.Columns["MS_Description"];
+                this.columnKey = base.Columns["Key"];
+                this.columnValue = base.Columns["Value"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName);
-                this.columnCaption = new global::System.Data.DataColumn("Caption", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCaption);
-                this.columnSummary = new global::System.Data.DataColumn("Summary", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSummary);
-                this.columnMS_Description = new global::System.Data.DataColumn("MS_Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMS_Description);
+                this.columnKey = new global::System.Data.DataColumn("Key", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnKey);
+                this.columnValue = new global::System.Data.DataColumn("Value", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnValue);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnName}, true));
-                this.columnName.AllowDBNull = false;
-                this.columnName.Unique = true;
-                this.columnName.DefaultValue = ((string)(""));
-                this.columnCaption.AllowDBNull = false;
-                this.columnCaption.DefaultValue = ((string)(""));
-                this.columnSummary.AllowDBNull = false;
-                this.columnSummary.DefaultValue = ((string)(""));
-                this.columnMS_Description.AllowDBNull = false;
-                this.columnMS_Description.DefaultValue = ((string)(""));
+                                this.columnKey}, true));
+                this.columnKey.AllowDBNull = false;
+                this.columnKey.Unique = true;
+                this.columnKey.DefaultValue = ((string)(""));
+                this.columnValue.AllowDBNull = false;
+                this.columnValue.DefaultValue = ((string)(""));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRow NewColumnExtendedInformationsRow() {
-                return ((ColumnExtendedInformationsRow)(this.NewRow()));
+            public KeyValuePairRow NewKeyValuePairRow() {
+                return ((KeyValuePairRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ColumnExtendedInformationsRow(builder);
+                return new KeyValuePairRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ColumnExtendedInformationsRow);
+                return typeof(KeyValuePairRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ColumnExtendedInformationsRowChanged != null)) {
-                    this.ColumnExtendedInformationsRowChanged(this, new ColumnExtendedInformationsRowChangeEvent(((ColumnExtendedInformationsRow)(e.Row)), e.Action));
+                if ((this.KeyValuePairRowChanged != null)) {
+                    this.KeyValuePairRowChanged(this, new KeyValuePairRowChangeEvent(((KeyValuePairRow)(e.Row)), e.Action));
                 }
             }
             
@@ -3280,8 +3178,8 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ColumnExtendedInformationsRowChanging != null)) {
-                    this.ColumnExtendedInformationsRowChanging(this, new ColumnExtendedInformationsRowChangeEvent(((ColumnExtendedInformationsRow)(e.Row)), e.Action));
+                if ((this.KeyValuePairRowChanging != null)) {
+                    this.KeyValuePairRowChanging(this, new KeyValuePairRowChangeEvent(((KeyValuePairRow)(e.Row)), e.Action));
                 }
             }
             
@@ -3289,8 +3187,8 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ColumnExtendedInformationsRowDeleted != null)) {
-                    this.ColumnExtendedInformationsRowDeleted(this, new ColumnExtendedInformationsRowChangeEvent(((ColumnExtendedInformationsRow)(e.Row)), e.Action));
+                if ((this.KeyValuePairRowDeleted != null)) {
+                    this.KeyValuePairRowDeleted(this, new KeyValuePairRowChangeEvent(((KeyValuePairRow)(e.Row)), e.Action));
                 }
             }
             
@@ -3298,14 +3196,14 @@ namespace SPGen2010.Components.Modules {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ColumnExtendedInformationsRowDeleting != null)) {
-                    this.ColumnExtendedInformationsRowDeleting(this, new ColumnExtendedInformationsRowChangeEvent(((ColumnExtendedInformationsRow)(e.Row)), e.Action));
+                if ((this.KeyValuePairRowDeleting != null)) {
+                    this.KeyValuePairRowDeleting(this, new KeyValuePairRowChangeEvent(((KeyValuePairRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveColumnExtendedInformationsRow(ColumnExtendedInformationsRow row) {
+            public void RemoveKeyValuePairRow(KeyValuePairRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -3332,580 +3230,7 @@ namespace SPGen2010.Components.Modules {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ColumnExtendedInformationsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ParameterExtendedInformationsDataTable : global::System.Data.TypedTableBase<ParameterExtendedInformationsRow> {
-            
-            private global::System.Data.DataColumn columnName;
-            
-            private global::System.Data.DataColumn columnCaption;
-            
-            private global::System.Data.DataColumn columnSummary;
-            
-            private global::System.Data.DataColumn columnMS_Description;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsDataTable() {
-                this.TableName = "ParameterExtendedInformations";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ParameterExtendedInformationsDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ParameterExtendedInformationsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NameColumn {
-                get {
-                    return this.columnName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CaptionColumn {
-                get {
-                    return this.columnCaption;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SummaryColumn {
-                get {
-                    return this.columnSummary;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn MS_DescriptionColumn {
-                get {
-                    return this.columnMS_Description;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRow this[int index] {
-                get {
-                    return ((ParameterExtendedInformationsRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ParameterExtendedInformationsRowChangeEventHandler ParameterExtendedInformationsRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ParameterExtendedInformationsRowChangeEventHandler ParameterExtendedInformationsRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ParameterExtendedInformationsRowChangeEventHandler ParameterExtendedInformationsRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ParameterExtendedInformationsRowChangeEventHandler ParameterExtendedInformationsRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddParameterExtendedInformationsRow(ParameterExtendedInformationsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRow AddParameterExtendedInformationsRow(string Name, string Caption, string Summary, string MS_Description) {
-                ParameterExtendedInformationsRow rowParameterExtendedInformationsRow = ((ParameterExtendedInformationsRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        Name,
-                        Caption,
-                        Summary,
-                        MS_Description};
-                rowParameterExtendedInformationsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowParameterExtendedInformationsRow);
-                return rowParameterExtendedInformationsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRow FindByName(string Name) {
-                return ((ParameterExtendedInformationsRow)(this.Rows.Find(new object[] {
-                            Name})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                ParameterExtendedInformationsDataTable cln = ((ParameterExtendedInformationsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new ParameterExtendedInformationsDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnName = base.Columns["Name"];
-                this.columnCaption = base.Columns["Caption"];
-                this.columnSummary = base.Columns["Summary"];
-                this.columnMS_Description = base.Columns["MS_Description"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName);
-                this.columnCaption = new global::System.Data.DataColumn("Caption", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCaption);
-                this.columnSummary = new global::System.Data.DataColumn("Summary", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSummary);
-                this.columnMS_Description = new global::System.Data.DataColumn("MS_Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMS_Description);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnName}, true));
-                this.columnName.AllowDBNull = false;
-                this.columnName.Unique = true;
-                this.columnName.DefaultValue = ((string)(""));
-                this.columnCaption.AllowDBNull = false;
-                this.columnCaption.DefaultValue = ((string)(""));
-                this.columnSummary.AllowDBNull = false;
-                this.columnSummary.DefaultValue = ((string)(""));
-                this.columnMS_Description.AllowDBNull = false;
-                this.columnMS_Description.Caption = "Description";
-                this.columnMS_Description.DefaultValue = ((string)(""));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRow NewParameterExtendedInformationsRow() {
-                return ((ParameterExtendedInformationsRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ParameterExtendedInformationsRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(ParameterExtendedInformationsRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.ParameterExtendedInformationsRowChanged != null)) {
-                    this.ParameterExtendedInformationsRowChanged(this, new ParameterExtendedInformationsRowChangeEvent(((ParameterExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.ParameterExtendedInformationsRowChanging != null)) {
-                    this.ParameterExtendedInformationsRowChanging(this, new ParameterExtendedInformationsRowChangeEvent(((ParameterExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.ParameterExtendedInformationsRowDeleted != null)) {
-                    this.ParameterExtendedInformationsRowDeleted(this, new ParameterExtendedInformationsRowChangeEvent(((ParameterExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.ParameterExtendedInformationsRowDeleting != null)) {
-                    this.ParameterExtendedInformationsRowDeleting(this, new ParameterExtendedInformationsRowChangeEvent(((ParameterExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveParameterExtendedInformationsRow(ParameterExtendedInformationsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DS ds = new DS();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ParameterExtendedInformationsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class GeneralExtendedInformationsDataTable : global::System.Data.TypedTableBase<GeneralExtendedInformationsRow> {
-            
-            private global::System.Data.DataColumn columnCaption;
-            
-            private global::System.Data.DataColumn columnSummary;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsDataTable() {
-                this.TableName = "GeneralExtendedInformations";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal GeneralExtendedInformationsDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected GeneralExtendedInformationsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CaptionColumn {
-                get {
-                    return this.columnCaption;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SummaryColumn {
-                get {
-                    return this.columnSummary;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsRow this[int index] {
-                get {
-                    return ((GeneralExtendedInformationsRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event GeneralExtendedInformationsRowChangeEventHandler GeneralExtendedInformationsRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event GeneralExtendedInformationsRowChangeEventHandler GeneralExtendedInformationsRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event GeneralExtendedInformationsRowChangeEventHandler GeneralExtendedInformationsRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event GeneralExtendedInformationsRowChangeEventHandler GeneralExtendedInformationsRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddGeneralExtendedInformationsRow(GeneralExtendedInformationsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsRow AddGeneralExtendedInformationsRow(string Caption, string Summary) {
-                GeneralExtendedInformationsRow rowGeneralExtendedInformationsRow = ((GeneralExtendedInformationsRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        Caption,
-                        Summary};
-                rowGeneralExtendedInformationsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowGeneralExtendedInformationsRow);
-                return rowGeneralExtendedInformationsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                GeneralExtendedInformationsDataTable cln = ((GeneralExtendedInformationsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new GeneralExtendedInformationsDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnCaption = base.Columns["Caption"];
-                this.columnSummary = base.Columns["Summary"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnCaption = new global::System.Data.DataColumn("Caption", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCaption);
-                this.columnSummary = new global::System.Data.DataColumn("Summary", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSummary);
-                this.columnCaption.AllowDBNull = false;
-                this.columnCaption.DefaultValue = ((string)(""));
-                this.columnSummary.AllowDBNull = false;
-                this.columnSummary.DefaultValue = ((string)(""));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsRow NewGeneralExtendedInformationsRow() {
-                return ((GeneralExtendedInformationsRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new GeneralExtendedInformationsRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(GeneralExtendedInformationsRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.GeneralExtendedInformationsRowChanged != null)) {
-                    this.GeneralExtendedInformationsRowChanged(this, new GeneralExtendedInformationsRowChangeEvent(((GeneralExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.GeneralExtendedInformationsRowChanging != null)) {
-                    this.GeneralExtendedInformationsRowChanging(this, new GeneralExtendedInformationsRowChangeEvent(((GeneralExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.GeneralExtendedInformationsRowDeleted != null)) {
-                    this.GeneralExtendedInformationsRowDeleted(this, new GeneralExtendedInformationsRowChangeEvent(((GeneralExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.GeneralExtendedInformationsRowDeleting != null)) {
-                    this.GeneralExtendedInformationsRowDeleting(this, new GeneralExtendedInformationsRowChangeEvent(((GeneralExtendedInformationsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveGeneralExtendedInformationsRow(GeneralExtendedInformationsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DS ds = new DS();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "GeneralExtendedInformationsDataTable";
+                attribute2.FixedValue = "KeyValuePairDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -4875,23 +4200,23 @@ namespace SPGen2010.Components.Modules {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SchemesRow SchemesRow {
-                get {
-                    return ((SchemesRow)(this.GetParentRow(this.Table.ParentRelations["FK_Schemes_SchemesFilters"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_Schemes_SchemesFilters"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TypeNamesRow TypeNamesRow {
                 get {
                     return ((TypeNamesRow)(this.GetParentRow(this.Table.ParentRelations["FK_TypeNames_SchemesFilters"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_TypeNames_SchemesFilters"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public SchemesRow SchemesRow {
+                get {
+                    return ((SchemesRow)(this.GetParentRow(this.Table.ParentRelations["FK_Schemes_SchemesFilters"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Schemes_SchemesFilters"]);
                 }
             }
         }
@@ -5112,154 +4437,36 @@ namespace SPGen2010.Components.Modules {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class ColumnExtendedInformationsRow : global::System.Data.DataRow {
+        public partial class KeyValuePairRow : global::System.Data.DataRow {
             
-            private ColumnExtendedInformationsDataTable tableColumnExtendedInformations;
+            private KeyValuePairDataTable tableKeyValuePair;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ColumnExtendedInformationsRow(global::System.Data.DataRowBuilder rb) : 
+            internal KeyValuePairRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableColumnExtendedInformations = ((ColumnExtendedInformationsDataTable)(this.Table));
+                this.tableKeyValuePair = ((KeyValuePairDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Name {
+            public string Key {
                 get {
-                    return ((string)(this[this.tableColumnExtendedInformations.NameColumn]));
+                    return ((string)(this[this.tableKeyValuePair.KeyColumn]));
                 }
                 set {
-                    this[this.tableColumnExtendedInformations.NameColumn] = value;
+                    this[this.tableKeyValuePair.KeyColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Caption {
+            public string Value {
                 get {
-                    return ((string)(this[this.tableColumnExtendedInformations.CaptionColumn]));
+                    return ((string)(this[this.tableKeyValuePair.ValueColumn]));
                 }
                 set {
-                    this[this.tableColumnExtendedInformations.CaptionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Summary {
-                get {
-                    return ((string)(this[this.tableColumnExtendedInformations.SummaryColumn]));
-                }
-                set {
-                    this[this.tableColumnExtendedInformations.SummaryColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string MS_Description {
-                get {
-                    return ((string)(this[this.tableColumnExtendedInformations.MS_DescriptionColumn]));
-                }
-                set {
-                    this[this.tableColumnExtendedInformations.MS_DescriptionColumn] = value;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class ParameterExtendedInformationsRow : global::System.Data.DataRow {
-            
-            private ParameterExtendedInformationsDataTable tableParameterExtendedInformations;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ParameterExtendedInformationsRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableParameterExtendedInformations = ((ParameterExtendedInformationsDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Name {
-                get {
-                    return ((string)(this[this.tableParameterExtendedInformations.NameColumn]));
-                }
-                set {
-                    this[this.tableParameterExtendedInformations.NameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Caption {
-                get {
-                    return ((string)(this[this.tableParameterExtendedInformations.CaptionColumn]));
-                }
-                set {
-                    this[this.tableParameterExtendedInformations.CaptionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Summary {
-                get {
-                    return ((string)(this[this.tableParameterExtendedInformations.SummaryColumn]));
-                }
-                set {
-                    this[this.tableParameterExtendedInformations.SummaryColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string MS_Description {
-                get {
-                    return ((string)(this[this.tableParameterExtendedInformations.MS_DescriptionColumn]));
-                }
-                set {
-                    this[this.tableParameterExtendedInformations.MS_DescriptionColumn] = value;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class GeneralExtendedInformationsRow : global::System.Data.DataRow {
-            
-            private GeneralExtendedInformationsDataTable tableGeneralExtendedInformations;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal GeneralExtendedInformationsRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableGeneralExtendedInformations = ((GeneralExtendedInformationsDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Caption {
-                get {
-                    return ((string)(this[this.tableGeneralExtendedInformations.CaptionColumn]));
-                }
-                set {
-                    this[this.tableGeneralExtendedInformations.CaptionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Summary {
-                get {
-                    return ((string)(this[this.tableGeneralExtendedInformations.SummaryColumn]));
-                }
-                set {
-                    this[this.tableGeneralExtendedInformations.SummaryColumn] = value;
+                    this[this.tableKeyValuePair.ValueColumn] = value;
                 }
             }
         }
@@ -5587,90 +4794,22 @@ namespace SPGen2010.Components.Modules {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ColumnExtendedInformationsRowChangeEvent : global::System.EventArgs {
+        public class KeyValuePairRowChangeEvent : global::System.EventArgs {
             
-            private ColumnExtendedInformationsRow eventRow;
+            private KeyValuePairRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRowChangeEvent(ColumnExtendedInformationsRow row, global::System.Data.DataRowAction action) {
+            public KeyValuePairRowChangeEvent(KeyValuePairRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ColumnExtendedInformationsRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ParameterExtendedInformationsRowChangeEvent : global::System.EventArgs {
-            
-            private ParameterExtendedInformationsRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRowChangeEvent(ParameterExtendedInformationsRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ParameterExtendedInformationsRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class GeneralExtendedInformationsRowChangeEvent : global::System.EventArgs {
-            
-            private GeneralExtendedInformationsRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsRowChangeEvent(GeneralExtendedInformationsRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public GeneralExtendedInformationsRow Row {
+            public KeyValuePairRow Row {
                 get {
                     return this.eventRow;
                 }
