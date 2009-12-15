@@ -96,26 +96,18 @@ namespace SPGen2010.Components.Providers.MsSql
                             {
                                 var s = "";
                                 if (mysmo_t.ExtendedProperties.TryGetValue("ColumnSettings", out s))
-                                {
                                     mysmo_t.ExtendedProperties["ColumnSettings"] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                                }
                                 else
-                                {
                                     mysmo_t.ExtendedProperties.Add("ColumnSettings", AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                                }
                             }
                         }
                     else
                     {
                         var s = "";
                         if (mysmo_t.ExtendedProperties.TryGetValue("ColumnSettings", out s))
-                        {
                             mysmo_t.ExtendedProperties["ColumnSettings"] = AddKVPRowAndGetString(s, key, mysmo_c.ExtendedProperties[key]);
-                        }
                         else
-                        {
                             mysmo_t.ExtendedProperties.Add("ColumnSettings", AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
-                        }
                     }
                     SaveExtendProperty(mysmo_t, "ColumnSettings");
                 }
