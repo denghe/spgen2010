@@ -157,7 +157,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     SaveExtendProperty(smo_sp, mysmo_ep.Key, mysmo_ep.Value);
                 }
                 DeleteExtendProperty(smo_sp, K_ColumnSettings);
-                SaveExtendProperty(smo_sp, K_ColumnSettings, GetParametersExtendPropertiesString(mysmo_sp));
+                SaveExtendProperty(smo_sp, K_ParameterSettings, GetParametersExtendPropertiesString(mysmo_sp));
             }
             else if (mysmo_epb is MySmo.Schema)
             {
@@ -562,6 +562,7 @@ namespace SPGen2010.Components.Providers.MsSql
                 };
                 mysmo_sp.Parameters.Add(mysmo_p);
             }
+
             FormatExtendProperties(mysmo_sp);
 
             return mysmo_sp;
@@ -731,7 +732,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     foreach (var crow in cdt)
                     {
                         if (crow.Key == K_MS_Description) parameter.Description = crow.Value;
-                        parameter.ExtendedProperties.Add(crow.Key, crow.Value);
+                        else parameter.ExtendedProperties.Add(crow.Key, crow.Value);
                     }
                 }
             }
@@ -773,8 +774,8 @@ namespace SPGen2010.Components.Providers.MsSql
                         value[int.Parse(ss[0])] = o.Value;
                         combines.Add(key.Substring(0, len - 19), value);
                     }
+                    delList.Add(key);
                 }
-                delList.Add(key);
             }
             foreach (var key in delList) eps.Remove(key);
             foreach (var combine in combines) eps.Add(combine.Key, string.Join("", combine.Value));
@@ -871,6 +872,7 @@ namespace SPGen2010.Components.Providers.MsSql
             foreach (var mysmo_c in mysmo_tb.Columns)
             {
                 var cdt = new DS.KeyValuePairDataTable();
+                if (!(mysmo_epb is MySmo.Table)) cdt.AddKeyValuePairRow(K_MS_Description, mysmo_c.Description);
                 foreach (var mysmo_ep in mysmo_c.ExtendedProperties)
                     cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
                 var csb = new StringBuilder();
@@ -894,6 +896,7 @@ namespace SPGen2010.Components.Providers.MsSql
             foreach (var mysmo_p in mysmo_pb.Parameters)
             {
                 var cdt = new DS.KeyValuePairDataTable();
+                cdt.AddKeyValuePairRow(K_MS_Description, mysmo_p.Description);
                 if (mysmo_p.ExtendedProperties != null)
                     foreach (var mysmo_ep in mysmo_p.ExtendedProperties)
                         cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
