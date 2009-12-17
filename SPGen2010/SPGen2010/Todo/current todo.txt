@@ -1,12 +1,1 @@
-﻿MySmoProvider.cs
-
-非表的扩展属性处理:
-
-1. Description 存入 ExtendedProperties  MS_Descriptions
-2. Save EPs
-
-还原的时候： 不删掉非 Table's Columns 的 MS_Descriptions 扩展
-
-存储过程的参数的备注保存还不灵光
-
-Description 属性的修改的　UpdateTrigger 要改为属性修改
+﻿继续实现 view, func, tt 等的备注修改
