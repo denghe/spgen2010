@@ -98,7 +98,19 @@ namespace SPGen2010.Components.Windows
             var c = new WConnectorBrowser();
             c.ShowDialog();
 
-            if (this.ObjectExplorerProvider != null) _ObjectExplorer.BindData();
+            if (this.ObjectExplorerProvider != null)
+            {
+                _ObjectExplorer.BindData();
+                _ObjectExplorer._TreeView.SetSelectedItem<NodeBase>(
+                    new NodeBase[] { _ObjectExplorer.DataSource },
+                    (x, y) => x == y,
+                    item => (NodeBase)item
+                );
+
+                var o = _ObjectExplorer._TreeView.Items[0];
+                var treeItem = _ObjectExplorer._TreeView.ItemContainerGenerator.ContainerFromItem(o) as TreeViewItem;
+                if (treeItem != null || treeItem.HasItems) treeItem.IsExpanded = true;
+            }
         }
 
         #endregion
