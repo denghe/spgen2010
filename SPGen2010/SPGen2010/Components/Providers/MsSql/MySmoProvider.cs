@@ -157,7 +157,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     SaveExtendProperty(smo_sp, mysmo_ep.Key, mysmo_ep.Value);
                 }
                 DeleteExtendProperty(smo_sp, K_ColumnSettings);
-                SaveExtendProperty(smo_sp, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_sp));
+                SaveExtendProperty(smo_sp, K_ColumnSettings, GetParametersExtendPropertiesString(mysmo_sp));
             }
             else if (mysmo_epb is MySmo.Schema)
             {
@@ -791,17 +791,20 @@ namespace SPGen2010.Components.Providers.MsSql
         /// <param name="value"></param>
         public void SaveExtendProperty(dynamic ep, string key, string value)
         {
-            var length = value.Length;
-            if (length > 3600)
+            if (value != null)
             {
-                var count = value.Length / 3600 + (value.Length % 3600 > 0 ? 1 : 0);
-                for (int i = 0; i <= count; i++)
+                var length = value.Length;
+                if (length > 3600)
                 {
-                    var mod = value.Length % 3600;
-                    var v = value.Substring(i * 3600, mod == 0 ? 3600 : mod);
-                    SaveExtendProperty(ep, key + "____Part_" + i.ToString("###") + "_Of_" + count.ToString("###"), v);
+                    var count = value.Length / 3600 + (value.Length % 3600 > 0 ? 1 : 0);
+                    for (int i = 0; i <= count; i++)
+                    {
+                        var mod = value.Length % 3600;
+                        var v = value.Substring(i * 3600, mod == 0 ? 3600 : mod);
+                        SaveExtendProperty(ep, key + "____Part_" + i.ToString("###") + "_Of_" + count.ToString("###"), v);
+                    }
+                    return;
                 }
-                return;
             }
 
             if (ep.ExtendedProperties.Contains(key))
@@ -891,8 +894,9 @@ namespace SPGen2010.Components.Providers.MsSql
             foreach (var mysmo_p in mysmo_pb.Parameters)
             {
                 var cdt = new DS.KeyValuePairDataTable();
-                foreach (var mysmo_ep in mysmo_p.ExtendedProperties)
-                    cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
+                if (mysmo_p.ExtendedProperties != null)
+                    foreach (var mysmo_ep in mysmo_p.ExtendedProperties)
+                        cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
                 var csb = new StringBuilder();
                 var csw = new StringWriter(csb);
                 cdt.AcceptChanges();
