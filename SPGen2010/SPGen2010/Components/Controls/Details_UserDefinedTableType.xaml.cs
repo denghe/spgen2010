@@ -35,6 +35,7 @@ namespace SPGen2010.Components.Controls
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\UserDefinedTableTypes\" + o.Text;
 
             var so = WMain.Instance.MySmoProvider.GetUserDefinedTableType(o);
+            so.ParentDatabase = new MySmo.Database { Name = o.Parent.Parent.Name }; // for save
             this.MySmoUserDefinedTableType = so;
             this.DataContext = so;
         }
@@ -51,6 +52,14 @@ namespace SPGen2010.Components.Controls
                 (x, y) => x == y,
                 item => (Oe.NodeBase)item
             );
+        }
+
+        private void _Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Cursor cc = Cursor;
+            Cursor = Cursors.Wait;
+            WMain.Instance.MySmoProvider.SaveExtendProperty(this.MySmoUserDefinedTableType);
+            Cursor = cc;
         }
     }
 }

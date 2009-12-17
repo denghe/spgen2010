@@ -8,6 +8,7 @@
              d:DesignHeight="237" d:DesignWidth="684">
     <UserControl.Resources>
         <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
+        <converters:GetChildWidth x:Key="GetChildWidth"/>
     </UserControl.Resources>
     <Grid Background="#f5f5dc">
         <Grid.RowDefinitions>
@@ -39,6 +40,9 @@
                 <Button Name="_Up_Button" ToolTip="Up to parent node" Height="20" Click="_Up_Button_Click">
                     <Image Source="/SPGen2010;component/Images/up.png"></Image>
                 </Button>
+                <Separator/>
+                <Button Name="_Save_Button" ToolTip="Save Descriptions to Database" Content="Save" Height="20" Foreground="Red" Click="_Save_Button_Click">
+                </Button>
             </ToolBar>
         </ToolBarTray>
 
@@ -58,16 +62,74 @@
         <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
                  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
 
-        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
+        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Parameters_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-                  ItemsSource="{Binding Path=Parameters}" >
+                  ItemsSource="{Binding Path=Parameters}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalScrollBarVisibility="Visible">
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Background="#F0F0F0" Margin="80,0,0,5">
+                        <Expander Header="Description:" IsExpanded="True">
+                            <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                            Width="{Binding ElementName=__Parameters_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
+                                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                        </Expander>
+                        <Expander Header="Other Properties:" IsExpanded="False">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                    <RowDefinition Height="25" MinHeight="25" MaxHeight="25" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="Name:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Height="22" Text="{Binding Path=Name}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+                                <Label Grid.Row="0" Grid.Column="2" Content="DataType:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="0" Grid.Column="3" Height="22" Text="{Binding Path=DataType}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+
+                                <Label Grid.Row="1" Grid.Column="0" Content="Nullable:" HorizontalAlignment="Right"></Label>
+                                <CheckBox Grid.Row="1" Grid.Column="1" Height="22" IsChecked="{Binding Path=Nullable}" IsEnabled="False" VerticalAlignment="Center"></CheckBox>
+                                <Label Grid.Row="1" Grid.Column="2" Content="RowGuidCol:" HorizontalAlignment="Right"></Label>
+                                <CheckBox Grid.Row="1" Grid.Column="3" Height="22" IsChecked="{Binding Path=RowGuidCol}" IsEnabled="False" VerticalAlignment="Center"></CheckBox>
+
+                                <Label Grid.Row="2" Grid.Column="0" Content="InPrimaryKey:" HorizontalAlignment="Right"></Label>
+                                <CheckBox Grid.Row="2" Grid.Column="1" Height="22" IsChecked="{Binding Path=InPrimaryKey}" IsEnabled="False" VerticalAlignment="Center"></CheckBox>
+                                <Label Grid.Row="2" Grid.Column="2" Content="IsForeignKey:" HorizontalAlignment="Right"></Label>
+                                <CheckBox Grid.Row="2" Grid.Column="3" Height="22" IsChecked="{Binding Path=IsForeignKey}" IsEnabled="False" VerticalAlignment="Center"></CheckBox>
+
+                                <Label Grid.Row="3" Grid.Column="0" Content="Computed:" HorizontalAlignment="Right"></Label>
+                                <CheckBox Grid.Row="3" Grid.Column="1" Height="22" IsChecked="{Binding Path=Computed}" IsEnabled="False" VerticalAlignment="Center"></CheckBox>
+                                <Label Grid.Row="3" Grid.Column="2" Content="Default:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="3" Grid.Column="3" Height="22" Text="{Binding Path=Default}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+
+                                <Label Grid.Row="4" Grid.Column="0" Content="ComputedText:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="4" Grid.Column="1" Height="22" Text="{Binding Path=ComputedText}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+                                <Label Grid.Row="4" Grid.Column="2" Content="Identity:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="4" Grid.Column="3" Height="22" Text="{Binding Path=Identity}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+
+                                <Label Grid.Row="5" Grid.Column="0" Content="IdentityIncrement:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="5" Grid.Column="1" Height="22" Text="{Binding Path=IdentityIncrement}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+                                <Label Grid.Row="5" Grid.Column="2" Content="IdentitySeed:" HorizontalAlignment="Right"></Label>
+                                <TextBox Grid.Row="5" Grid.Column="3" Height="22" Text="{Binding Path=IdentitySeed}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
+                            </Grid>
+                        </Expander>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
                 <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
                 <DataGridTextColumn Width="8*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" Binding="{Binding Path=DefaultValue}" Header="DefaultValue" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridCheckBoxColumn Width="70" Binding="{Binding Path=IsReadOnly}" Header="IsReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Width="58" Binding="{Binding Path=IsOutputParameter}" Header="IsOutput" IsReadOnly="True"></DataGridCheckBoxColumn>
-                <DataGridTextColumn Width="13*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
+                <DataGridTextColumn Width="13*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" Header="Description" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
