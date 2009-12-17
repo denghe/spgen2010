@@ -1,3 +1,8 @@
 ﻿MySmoProvider.cs
 
-保存扩展属性（读取，归纳，对比，分段存储）
+非表的扩展属性处理:
+
+1. Description 存入 ExtendedProperties  MS_Descriptions
+2. Save EPs
+
+还原的时候： 不删掉非 Table's Columns 的 MS_Descriptions 扩展
