@@ -34,9 +34,10 @@ namespace SPGen2010.Components.Controls
             this.OeView = o;
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Views\" + o.Text;
 
-            var v = WMain.Instance.MySmoProvider.GetView(o);
-            this.MySmoView = v;
-            this.DataContext = v;
+            var so = WMain.Instance.MySmoProvider.GetView(o);
+            so.ParentDatabase = new MySmo.Database { Name = o.Parent.Parent.Name }; // for save
+            this.MySmoView = so;
+            this.DataContext = so;
         }
 
         public Oe.View OeView { get; set; }
@@ -51,6 +52,14 @@ namespace SPGen2010.Components.Controls
                 (x, y) => x == y,
                 item => (Oe.NodeBase)item
             );
+        }
+
+        private void _Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Cursor cc = Cursor;
+            Cursor = Cursors.Wait;
+            WMain.Instance.MySmoProvider.SaveExtendProperty(this.MySmoView);
+            Cursor = cc;
         }
     }
 }
