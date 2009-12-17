@@ -35,6 +35,7 @@ namespace SPGen2010.Components.Controls
             _Path_Label.Content = o.Parent.Parent.Parent.Text + @"\" + o.Parent.Parent.Text + @"\Tables\" + o.Text;
 
             var so = WMain.Instance.MySmoProvider.GetTable(o);
+            so.ParentDatabase = new MySmo.Database { Name = o.Parent.Parent.Name }; // for save
             this.MySmoTable = so;
             this.DataContext = so;
         }
