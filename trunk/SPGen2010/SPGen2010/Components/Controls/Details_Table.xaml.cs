@@ -54,19 +54,12 @@ namespace SPGen2010.Components.Controls
             );
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _Save_Button.IsEnabled = _Restore_Button.IsEnabled = true;
-        }
-
         private void _Save_Button_Click(object sender, RoutedEventArgs e)
         {
             Cursor cc = Cursor;
             Cursor = Cursors.Wait;
             WMain.Instance.MySmoProvider.SaveExtendProperty(this.MySmoTable);
             Cursor = cc;
-
-            _Save_Button.IsEnabled = _Restore_Button.IsEnabled = false;
         }
     }
 }

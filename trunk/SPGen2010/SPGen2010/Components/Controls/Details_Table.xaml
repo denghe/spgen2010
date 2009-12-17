@@ -43,8 +43,6 @@
                 <Separator/>
                 <Button Name="_Save_Button" ToolTip="Save Descriptions to Database" Content="Save" Height="20" IsEnabled="False" Foreground="Red" Click="_Save_Button_Click">
                 </Button>
-                <Button Name="_Restore_Button" ToolTip="Load/Restore Descriptions from Database" Content="Restore" Height="20" IsEnabled="False">
-                </Button>
             </ToolBar>
         </ToolBarTray>
 
@@ -62,7 +60,7 @@
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
         <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
-                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" TextChanged="TextBox_TextChanged"></TextBox>
+                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
 
         <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Columns_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
@@ -73,7 +71,7 @@
                         <Expander Header="Description:" IsExpanded="True">
                             <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
                             Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
-                                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" TextChanged="TextBox_TextChanged"></TextBox>
+                                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
                             <!--Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"-->
                             <!--Width="{TemplateBinding Property=ActualWidth}"-->
                         </Expander>
