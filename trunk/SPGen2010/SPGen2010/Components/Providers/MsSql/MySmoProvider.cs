@@ -285,7 +285,11 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_t.Owner = smo_t.Owner;
             mysmo_t.ExtendedProperties = GetExtendProperties(mysmo_t, smo_t.ExtendedProperties);
             var s = "";
-            if (mysmo_t.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_t.Description = s;
+            if (mysmo_t.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+            {
+                mysmo_t.Description = s;
+                mysmo_t.ExtendedProperties.Remove(K_MS_Description);
+            }
             mysmo_t.Columns = new List<MySmo.Column>();
             foreach (Smo.Column smo_c in smo_t.Columns)
             {
@@ -338,7 +342,11 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_v.Owner = smo_v.Owner;
             mysmo_v.ExtendedProperties = GetExtendProperties(mysmo_v, smo_v.ExtendedProperties);
             var s = "";
-            if (mysmo_v.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_v.Description = s;
+            if (mysmo_v.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+            {
+                mysmo_v.Description = s;
+                mysmo_v.ExtendedProperties.Remove(K_MS_Description);
+            }
             mysmo_v.Columns = new List<MySmo.Column>();
             foreach (Smo.Column smo_c in smo_v.Columns)
             {
@@ -390,7 +398,11 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_f.Owner = smo_f.Owner;
             mysmo_f.ExtendedProperties = GetExtendProperties(mysmo_f, smo_f.ExtendedProperties);
             var s = "";
-            if (mysmo_f.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_f.Description = s;
+            if (mysmo_f.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+            {
+                mysmo_f.Description = s;
+                mysmo_f.ExtendedProperties.Remove(K_MS_Description);
+            }
             mysmo_f.Parameters = new List<MySmo.Parameter>();
             foreach (Smo.UserDefinedFunctionParameter smo_p in smo_f.Parameters)
             {
@@ -466,7 +478,11 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_tt.Owner = smo_tt.Owner;
             mysmo_tt.ExtendedProperties = GetExtendProperties(mysmo_tt, smo_tt.ExtendedProperties);
             var s = "";
-            if (mysmo_tt.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_tt.Description = s;
+            if (mysmo_tt.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+            {
+                mysmo_tt.Description = s;
+                mysmo_tt.ExtendedProperties.Remove(K_MS_Description);
+            }
             mysmo_tt.Columns = new List<MySmo.Column>();
             foreach (Smo.Column smo_c in smo_tt.Columns)
             {
@@ -495,8 +511,6 @@ namespace SPGen2010.Components.Providers.MsSql
                     RowGuidCol = smo_c.RowGuidCol
                 };
                 mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
-                s = "";
-                if (mysmo_c.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_c.Description = s;
                 mysmo_tt.Columns.Add(mysmo_c);
             }
             FormatExtendProperties(mysmo_tt);
@@ -521,7 +535,11 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_sp.Owner = smo_sp.Owner;
             mysmo_sp.ExtendedProperties = GetExtendProperties(mysmo_sp, smo_sp.ExtendedProperties);
             var s = "";
-            if (mysmo_sp.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_sp.Description = s;
+            if (mysmo_sp.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+            {
+                mysmo_sp.Description = s;
+                mysmo_sp.ExtendedProperties.Remove(K_MS_Description);
+            }
             mysmo_sp.Parameters = new List<MySmo.Parameter>();
             foreach (Smo.StoredProcedureParameter smo_p in smo_sp.Parameters)
             {
