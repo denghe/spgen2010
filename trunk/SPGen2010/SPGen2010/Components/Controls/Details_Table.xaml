@@ -71,7 +71,7 @@
                 <DataTemplate>
                     <StackPanel Background="#F0F0F0" Margin="80,0,0,5">
                         <Expander Header="Description:" IsExpanded="True">
-                            <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay}" HorizontalAlignment="Left"
+                            <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
                             Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" TextChanged="TextBox_TextChanged"></TextBox>
                             <!--Width="{Binding ElementName=_Columns_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"-->
@@ -146,7 +146,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
-                <DataGridTextColumn Width="15*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=OneWay}" Header="Description" IsReadOnly="True" />
+                <DataGridTextColumn Width="15*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" Header="Description" IsReadOnly="True" />
                 <DataGridCheckBoxColumn Width="32" Binding="{Binding Path=Nullable}" Header="Null" IsReadOnly="True"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
