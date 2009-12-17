@@ -41,7 +41,7 @@
                     <Image Source="/SPGen2010;component/Images/up.png"></Image>
                 </Button>
                 <Separator/>
-                <Button Name="_Save_Button" ToolTip="Save Descriptions to Database" Content="Save" Height="20" IsEnabled="False" Foreground="Red" Click="_Save_Button_Click">
+                <Button Name="_Save_Button" ToolTip="Save Descriptions to Database" Content="Save" Height="20" Foreground="Red" Click="_Save_Button_Click">
                 </Button>
             </ToolBar>
         </ToolBarTray>
