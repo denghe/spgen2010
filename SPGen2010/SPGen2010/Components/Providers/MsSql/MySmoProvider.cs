@@ -72,174 +72,11 @@ namespace SPGen2010.Components.Providers.MsSql
 
             if (mysmo_epb is MySmo.Column)
             {
-                var mysmo_c = mysmo_epb as MySmo.Column;
-                if (mysmo_c.ParentTableBase is MySmo.Table)
-                {
-                    var mysmo_t = mysmo_c.ParentTableBase as MySmo.Table;
-                    var smo_db = _smo_server.Databases[mysmo_t.ParentDatabase.Name];
-                    var smo_t = smo_db.Tables[mysmo_t.Name, mysmo_t.Schema];
-                    var smo_c = smo_t.Columns[mysmo_c.Name];
-                    if (key == K_MS_Description)
-                    {
-                        DeleteExtendProperty(smo_c, key);
-                        SaveExtendProperty(smo_c, key, mysmo_c.ExtendedProperties[key]);
-                    }
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_t.ExtendedProperties)
-                        {
-                            if (mysmo_ep.Key == K_MS_Description)
-                            {
-                                DeleteExtendProperty(smo_c, mysmo_ep.Key);
-                                SaveExtendProperty(smo_c, mysmo_ep.Key, mysmo_ep.Value);
-                            }
-                            else
-                            {
-                                var s = "";
-                                if (mysmo_t.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                                    mysmo_t.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                                else
-                                    mysmo_t.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                            }
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_t.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                            mysmo_t.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, key, mysmo_c.ExtendedProperties[key]);
-                        else
-                            mysmo_t.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_t, K_ColumnSettings);
-                }
-                else if (mysmo_c.ParentTableBase is MySmo.View)
-                {
-                    var mysmo_v = mysmo_c.ParentTableBase as MySmo.View;
-                    var smo_db = _smo_server.Databases[mysmo_v.ParentDatabase.Name];
-                    var smo_v = smo_db.Views[mysmo_v.Name, mysmo_v.Schema];
-                    var smo_c = smo_v.Columns[mysmo_c.Name];
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_v.ExtendedProperties)
-                        {
-                            var s = "";
-                            if (mysmo_v.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                                mysmo_v.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                            else
-                                mysmo_v.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_v.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                            mysmo_v.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, key, mysmo_c.ExtendedProperties[key]);
-                        else
-                            mysmo_v.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_v, K_ColumnSettings);
-                }
-                else if (mysmo_c.ParentTableBase is MySmo.UserDefinedFunction)
-                {
-                    var mysmo_f = mysmo_c.ParentTableBase as MySmo.UserDefinedFunction;
-                    var smo_db = _smo_server.Databases[mysmo_f.ParentDatabase.Name];
-                    var smo_f = smo_db.UserDefinedFunctions[mysmo_f.Name, mysmo_f.Schema];
-                    var smo_c = smo_f.Columns[mysmo_c.Name];
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_f.ExtendedProperties)
-                        {
-                            var s = "";
-                            if (mysmo_f.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                                mysmo_f.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                            else
-                                mysmo_f.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_f.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                            mysmo_f.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, key, mysmo_c.ExtendedProperties[key]);
-                        else
-                            mysmo_f.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_f, K_ColumnSettings);
-                }
-                else if (mysmo_c.ParentTableBase is MySmo.UserDefinedTableType)
-                {
-                    var mysmo_tt = mysmo_c.ParentTableBase as MySmo.UserDefinedTableType;
-                    var smo_db = _smo_server.Databases[mysmo_tt.ParentDatabase.Name];
-                    var smo_tt = smo_db.UserDefinedTableTypes[mysmo_tt.Name, mysmo_tt.Schema];
-                    var smo_c = smo_tt.Columns[mysmo_c.Name];
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_tt.ExtendedProperties)
-                        {
-                            var s = "";
-                            if (mysmo_tt.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                                mysmo_tt.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                            else
-                                mysmo_tt.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_tt.ExtendedProperties.TryGetValue(K_ColumnSettings, out s))
-                            mysmo_tt.ExtendedProperties[K_ColumnSettings] = AddKVPRowAndGetString(s, key, mysmo_c.ExtendedProperties[key]);
-                        else
-                            mysmo_tt.ExtendedProperties.Add(K_ColumnSettings, AddKVPRowAndGetString(null, key, mysmo_c.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_tt, K_ColumnSettings);
-                }
+                throw new Exception("not implement");
             }
             else if (mysmo_epb is MySmo.Parameter)
             {
-                var mysmo_p = mysmo_epb as MySmo.Parameter;
-                if (mysmo_p.ParentParameterBase is MySmo.UserDefinedFunction)
-                {
-                    var mysmo_f = mysmo_p.ParentParameterBase as MySmo.UserDefinedFunction;
-                    var smo_db = _smo_server.Databases[mysmo_f.ParentDatabase.Name];
-                    var smo_f = smo_db.UserDefinedFunctions[mysmo_f.Name, mysmo_f.Schema];
-                    var smo_p = smo_f.Parameters[mysmo_p.Name];
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_f.ExtendedProperties)
-                        {
-                            var s = "";
-                            if (mysmo_f.ExtendedProperties.TryGetValue(K_ParameterSettings, out s))
-                                mysmo_f.ExtendedProperties[K_ParameterSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                            else
-                                mysmo_f.ExtendedProperties.Add(K_ParameterSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_f.ExtendedProperties.TryGetValue(K_ParameterSettings, out s))
-                            mysmo_f.ExtendedProperties[K_ParameterSettings] = AddKVPRowAndGetString(s, key, mysmo_p.ExtendedProperties[key]);
-                        else
-                            mysmo_f.ExtendedProperties.Add(K_ParameterSettings, AddKVPRowAndGetString(null, key, mysmo_p.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_f, K_ParameterSettings);
-                }
-                else if (mysmo_p.ParentParameterBase is MySmo.StoredProcedure)
-                {
-                    var mysmo_sp = mysmo_p.ParentParameterBase as MySmo.StoredProcedure;
-                    var smo_db = _smo_server.Databases[mysmo_sp.ParentDatabase.Name];
-                    var smo_sp = smo_db.StoredProcedures[mysmo_sp.Name, mysmo_sp.Schema];
-                    var smo_p = smo_sp.Parameters[mysmo_p.Name];
-                    if (string.IsNullOrEmpty(key))
-                        foreach (var mysmo_ep in mysmo_sp.ExtendedProperties)
-                        {
-                            var s = "";
-                            if (mysmo_sp.ExtendedProperties.TryGetValue(K_ParameterSettings, out s))
-                                mysmo_sp.ExtendedProperties[K_ParameterSettings] = AddKVPRowAndGetString(s, mysmo_ep.Key, mysmo_ep.Value);
-                            else
-                                mysmo_sp.ExtendedProperties.Add(K_ParameterSettings, AddKVPRowAndGetString(null, mysmo_ep.Key, mysmo_ep.Value));
-                        }
-                    else
-                    {
-                        var s = "";
-                        if (mysmo_sp.ExtendedProperties.TryGetValue(K_ParameterSettings, out s))
-                            mysmo_sp.ExtendedProperties[K_ParameterSettings] = AddKVPRowAndGetString(s, key, mysmo_p.ExtendedProperties[key]);
-                        else
-                            mysmo_sp.ExtendedProperties.Add(K_ParameterSettings, AddKVPRowAndGetString(null, key, mysmo_p.ExtendedProperties[key]));
-                    }
-                    SaveExtendProperty(mysmo_sp, K_ParameterSettings);
-                }
+                throw new Exception("not implement");
             }
             else if (mysmo_epb is MySmo.Table)
             {
@@ -247,11 +84,15 @@ namespace SPGen2010.Components.Providers.MsSql
                 var smo_db = _smo_server.Databases[mysmo_t.ParentDatabase.Name];
                 var smo_t = smo_db.Tables[mysmo_t.Name, mysmo_t.Schema];
                 if (string.IsNullOrEmpty(key))
+                {
                     foreach (var mysmo_ep in mysmo_t.ExtendedProperties)
                     {
                         DeleteExtendProperty(smo_t, mysmo_ep.Key);
                         SaveExtendProperty(smo_t, mysmo_ep.Key, mysmo_ep.Value);
                     }
+                    DeleteExtendProperty(smo_t, K_ColumnSettings);
+                    SaveExtendProperty(smo_t, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_t));
+                }
                 else
                 {
                     DeleteExtendProperty(smo_t, key);
@@ -264,11 +105,15 @@ namespace SPGen2010.Components.Providers.MsSql
                 var smo_db = _smo_server.Databases[mysmo_v.ParentDatabase.Name];
                 var smo_v = smo_db.Views[mysmo_v.Name, mysmo_v.Schema];
                 if (string.IsNullOrEmpty(key))
+                {
                     foreach (var mysmo_ep in mysmo_v.ExtendedProperties)
                     {
                         DeleteExtendProperty(smo_v, mysmo_ep.Key);
                         SaveExtendProperty(smo_v, mysmo_ep.Key, mysmo_ep.Value);
                     }
+                    DeleteExtendProperty(smo_v, K_ColumnSettings);
+                    SaveExtendProperty(smo_v, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_v));
+                }
                 else
                 {
                     DeleteExtendProperty(smo_v, key);
@@ -281,11 +126,20 @@ namespace SPGen2010.Components.Providers.MsSql
                 var smo_db = _smo_server.Databases[mysmo_f.ParentDatabase.Name];
                 var smo_f = smo_db.UserDefinedFunctions[mysmo_f.Name, mysmo_f.Schema];
                 if (string.IsNullOrEmpty(key))
+                {
                     foreach (var mysmo_ep in mysmo_f.ExtendedProperties)
                     {
                         DeleteExtendProperty(smo_f, mysmo_ep.Key);
                         SaveExtendProperty(smo_f, mysmo_ep.Key, mysmo_ep.Value);
                     }
+                    DeleteExtendProperty(smo_f, K_ParameterSettings);
+                    SaveExtendProperty(smo_f, K_ParameterSettings, GetParametersExtendPropertiesString(mysmo_f));
+                    if (mysmo_f.FunctionType == MySmo.UserDefinedFunctionType.Table)
+                    {
+                        DeleteExtendProperty(smo_f, K_ColumnSettings);
+                        SaveExtendProperty(smo_f, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_f));
+                    }
+                }
                 else
                 {
                     DeleteExtendProperty(smo_f, key);
@@ -298,11 +152,15 @@ namespace SPGen2010.Components.Providers.MsSql
                 var smo_db = _smo_server.Databases[mysmo_tt.ParentDatabase.Name];
                 var smo_tt = smo_db.UserDefinedTableTypes[mysmo_tt.Name, mysmo_tt.Schema];
                 if (string.IsNullOrEmpty(key))
+                {
                     foreach (var mysmo_ep in mysmo_tt.ExtendedProperties)
                     {
                         DeleteExtendProperty(smo_tt, mysmo_ep.Key);
                         SaveExtendProperty(smo_tt, mysmo_ep.Key, mysmo_ep.Value);
                     }
+                    DeleteExtendProperty(smo_tt, K_ColumnSettings);
+                    SaveExtendProperty(smo_tt, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_tt));
+                }
                 else
                 {
                     DeleteExtendProperty(smo_tt, key);
@@ -315,11 +173,15 @@ namespace SPGen2010.Components.Providers.MsSql
                 var smo_db = _smo_server.Databases[mysmo_sp.ParentDatabase.Name];
                 var smo_sp = smo_db.StoredProcedures[mysmo_sp.Name, mysmo_sp.Schema];
                 if (string.IsNullOrEmpty(key))
+                {
                     foreach (var mysmo_ep in mysmo_sp.ExtendedProperties)
                     {
                         DeleteExtendProperty(smo_sp, mysmo_ep.Key);
                         SaveExtendProperty(smo_sp, mysmo_ep.Key, mysmo_ep.Value);
                     }
+                    DeleteExtendProperty(smo_sp, K_ColumnSettings);
+                    SaveExtendProperty(smo_sp, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_sp));
+                }
                 else
                 {
                     DeleteExtendProperty(smo_sp, key);
@@ -1008,20 +870,55 @@ namespace SPGen2010.Components.Providers.MsSql
             }
         }
 
-        /// <summary>
-        /// add a key & value row to dt , and return dt xml
-        /// </summary>
-        public string AddKVPRowAndGetString(string xml, string key, string value)
+        public string GetColumnsExtendPropertiesString(MySmo.IExtendPropertiesBase mysmo_epb)
         {
             var dt = new DS.KeyValuePairDataTable();
-            if (!string.IsNullOrEmpty(xml)) dt.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-            dt.AddKeyValuePairRow(key, value);
+            var mysmo_tb = mysmo_epb as MySmo.ITableBase;
+            foreach (var mysmo_c in mysmo_tb.Columns)
+            {
+                var cdt = new DS.KeyValuePairDataTable();
+                foreach (var mysmo_ep in mysmo_c.ExtendedProperties)
+                {
+                    if (mysmo_epb is MySmo.Table && mysmo_ep.Key == K_MS_Description) continue;
+                    cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
+                }
+                var csb = new StringBuilder();
+                var csw = new StringWriter(csb);
+                cdt.AcceptChanges();
+                cdt.WriteXml(csw);
+
+                dt.AddKeyValuePairRow(mysmo_c.Name, csb.ToString());
+            }
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             dt.AcceptChanges();
             dt.WriteXml(sw);
             return sb.ToString();
         }
+
+        public string GetParametersExtendPropertiesString(MySmo.IExtendPropertiesBase mysmo_epb)
+        {
+            var dt = new DS.KeyValuePairDataTable();
+            var mysmo_pb = mysmo_epb as MySmo.IParameterBase;
+            foreach (var mysmo_p in mysmo_pb.Parameters)
+            {
+                var cdt = new DS.KeyValuePairDataTable();
+                foreach (var mysmo_ep in mysmo_p.ExtendedProperties)
+                    cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
+                var csb = new StringBuilder();
+                var csw = new StringWriter(csb);
+                cdt.AcceptChanges();
+                cdt.WriteXml(csw);
+
+                dt.AddKeyValuePairRow(mysmo_p.Name, csb.ToString());
+            }
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            dt.AcceptChanges();
+            dt.WriteXml(sw);
+            return sb.ToString();
+        }
+
 
         #endregion
 
