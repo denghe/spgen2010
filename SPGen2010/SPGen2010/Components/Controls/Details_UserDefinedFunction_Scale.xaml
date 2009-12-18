@@ -8,6 +8,7 @@
              d:DesignHeight="237" d:DesignWidth="684">
     <UserControl.Resources>
         <converters:BooleanToHiddenVisibility x:Key="BooleanToHiddenVisibility"/>
+        <converters:GetChildWidth x:Key="GetChildWidth"/>
     </UserControl.Resources>
     <Grid Background="#f5f5dc">
         <Grid.RowDefinitions>
@@ -39,6 +40,9 @@
                 <Button Name="_Up_Button" ToolTip="Up to parent node" Height="20" Click="_Up_Button_Click">
                     <Image Source="/SPGen2010;component/Images/up.png"></Image>
                 </Button>
+                <Separator/>
+                <Button Name="_Save_Button" ToolTip="Save Descriptions to Database" Content="Save" Height="20" Foreground="Red" Click="_Save_Button_Click">
+                </Button>
             </ToolBar>
         </ToolBarTray>
 
@@ -55,19 +59,30 @@
         <TextBox Grid.Row="4" Grid.Column="3" Height="22" Text="{Binding Path=CreateTime}" IsReadOnly="True" Background="#f5f5dc"></TextBox>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description:" HorizontalAlignment="Right"></Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White" Text="{Binding Path=Description, Mode=TwoWay}"
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,1,0,1" Background="White"
+                 Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
 
-        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
+        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Parameters_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-                  ItemsSource="{Binding Path=Parameters}" >
+                  ItemsSource="{Binding Path=Parameters}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalScrollBarVisibility="Visible">
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Expander Header="Description:" IsExpanded="True" Background="#F0F0F0" Margin="80,0,0,5">
+                        <TextBox Height="55" Background="White" Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                            Width="{Binding ElementName=_Parameters_DataGrid, Path=ActualWidth, Converter={StaticResource GetChildWidth}, NotifyOnSourceUpdated=True}"
+                                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                    </Expander>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
                 <DataGridTextColumn Width="10*" ClipboardContentBinding="{Binding Path=Name}" Binding="{Binding Path=Name, Mode=OneWay}" Header="Name" IsReadOnly="True" />
                 <DataGridTextColumn Width="8*" ClipboardContentBinding="{Binding Path=DataType}" Binding="{Binding Path=DataType, Mode=OneWay}" Header="DataType" IsReadOnly="True" />
                 <DataGridTextColumn Width="6*" Binding="{Binding Path=DefaultValue}" Header="DefaultValue" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridCheckBoxColumn Width="70" Binding="{Binding Path=IsReadOnly}" Header="IsReadOnly" IsReadOnly="True"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Width="58" Binding="{Binding Path=IsOutputParameter}" Header="IsOutput" IsReadOnly="True"></DataGridCheckBoxColumn>
-                <DataGridTextColumn Width="13*" ClipboardContentBinding="{Binding Path=Description}" Binding="{Binding Path=Description, Mode=TwoWay}" Header="Description" />
+                <DataGridTextColumn Width="13*" ClipboardContentBinding="{Binding Path=Description}" Header="Description" IsReadOnly="True"
+                                    Binding="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
