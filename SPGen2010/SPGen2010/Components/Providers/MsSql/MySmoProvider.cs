@@ -142,6 +142,11 @@ namespace SPGen2010.Components.Providers.MsSql
                     DeleteExtendProperty(smo_tt, mysmo_ep.Key);
                     SaveExtendProperty(smo_tt, mysmo_ep.Key, mysmo_ep.Value);
                 }
+                foreach (var mysmo_c in mysmo_tt.Columns)
+                {
+                    var smo_c = smo_tt.Columns[mysmo_c.Name];
+                    SaveExtendProperty(smo_c, K_MS_Description, mysmo_c.Description);
+                }
                 DeleteExtendProperty(smo_tt, K_ColumnSettings);
                 SaveExtendProperty(smo_tt, K_ColumnSettings, GetColumnsExtendPropertiesString(mysmo_tt));
             }
@@ -882,7 +887,8 @@ namespace SPGen2010.Components.Providers.MsSql
             foreach (var mysmo_c in mysmo_tb.Columns)
             {
                 var cdt = new DS.KeyValuePairDataTable();
-                if (!(mysmo_epb is MySmo.Table)) cdt.AddKeyValuePairRow(K_MS_Description, mysmo_c.Description);
+                if (!(mysmo_epb is MySmo.Table || mysmo_epb is MySmo.UserDefinedTableType))
+                    cdt.AddKeyValuePairRow(K_MS_Description, mysmo_c.Description);
                 foreach (var mysmo_ep in mysmo_c.ExtendedProperties)
                     cdt.AddKeyValuePairRow(mysmo_ep.Key, mysmo_ep.Value);
                 var csb = new StringBuilder();
