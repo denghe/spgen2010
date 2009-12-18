@@ -319,7 +319,11 @@ namespace SPGen2010.Components.Providers.MsSql
                 };
                 mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
                 s = "";
-                if (mysmo_c.ExtendedProperties.TryGetValue(K_MS_Description, out s)) mysmo_c.Description = s;
+                if (mysmo_c.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+                {
+                    mysmo_c.Description = s;
+                    mysmo_c.ExtendedProperties.Remove(K_MS_Description);
+                }
                 mysmo_t.Columns.Add(mysmo_c);
             }
             FormatExtendProperties(mysmo_t);
@@ -511,6 +515,12 @@ namespace SPGen2010.Components.Providers.MsSql
                     RowGuidCol = smo_c.RowGuidCol
                 };
                 mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
+                s = "";
+                if (mysmo_c.ExtendedProperties.TryGetValue(K_MS_Description, out s))
+                {
+                    mysmo_c.Description = s;
+                    mysmo_c.ExtendedProperties.Remove(K_MS_Description);
+                }
                 mysmo_tt.Columns.Add(mysmo_c);
             }
             FormatExtendProperties(mysmo_tt);
