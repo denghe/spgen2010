@@ -40,13 +40,27 @@ namespace SPGen2010.Components.Controls
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                var c = new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,
                     ToolTip = (string)gen.Properties[GenProperties.Tips]
-                });
+                    ,
+                    Tag = gen
+                };
+                c.MouseDown += new MouseButtonEventHandler(c_MouseDown);
+                _Actions_StackPanel.Children.Add(c);
             }
+        }
+
+        void c_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var c = sender as Label;
+            var gen = c.Tag as IGenerator;
+            
+            // todo:
+            //var result = gen.Generate( GetMySmoTable(this.Table) );
+            // output result;
         }
 
         public Oe.Table Table { get; set; }
