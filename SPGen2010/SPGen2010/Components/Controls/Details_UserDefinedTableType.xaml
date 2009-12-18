@@ -63,7 +63,7 @@
                  Text="{Binding Path=Description, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
 
-        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Details_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
+        <DataGrid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" Name="_Columns_DataGrid" AutoGenerateColumns="False" SelectionMode="Single"
                   CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
                   ItemsSource="{Binding Path=Columns}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalScrollBarVisibility="Visible">
             <DataGrid.RowDetailsTemplate>
