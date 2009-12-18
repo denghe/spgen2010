@@ -1,4 +1,6 @@
-﻿继续实现 view, func, tt 等的备注修改
+﻿Actions_Table.xaml.cs
+
+实现生成
 
 
 需要实现： SP 的结果集自定义（多结果集，手动添加字段）
