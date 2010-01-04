@@ -254,6 +254,7 @@
     <Compile Include="Components\Controls\TreeViewExtensions.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
     <Compile Include="Components\Controls\UIUtility.cs" />
+    <Compile Include="Components\Helpers\IO\Output.cs" />
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
@@ -278,6 +279,12 @@
       <DependentUpon>ObjectExplorer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Controls\TreeViewWithIcons.cs" />
+    <Compile Include="Components\Windows\WOutputText.xaml.cs">
+      <DependentUpon>WOutputText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Windows\WOutputTexts.xaml.cs">
+      <DependentUpon>WOutputTexts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -501,6 +508,14 @@
     <Page Include="Components\Windows\WMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Windows\WOutputText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Windows\WOutputTexts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
