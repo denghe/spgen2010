@@ -1,7 +1,9 @@
 ﻿<Window x:Class="SPGen2010.Components.Windows.WOutputTexts"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WOutputTexts" Height="300" Width="300">
+        Title="Texts Output"
+        WindowStartupLocation="CenterScreen"
+        Height="500" Width="800">
     <Grid>
         <ListBox Name="_Output_ListBox">
             <ListBox.ItemTemplate>
