@@ -2,15 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Texts Output"
-        WindowStartupLocation="CenterScreen"
-        Height="500" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
+        >
+    <Grid Height="500">
         <ListBox Name="_Output_ListBox">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBox  Background="White"
+                    <StackPanel>
+                        <TextBox Background="White"
                          Text="{Binding Path=Key, Mode=OneWay}" IsReadOnly="True"
                          TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                        <TextBox  Background="White" Height="300" Width="700"
+                         Text="{Binding Path=Value, Mode=OneWay}" IsReadOnly="True"
+                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"></TextBox>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
