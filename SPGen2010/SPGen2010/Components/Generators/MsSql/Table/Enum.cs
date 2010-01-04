@@ -127,8 +127,14 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
             #region return
 
-            gr = new GenResult(GenResultTypes.CodeSegment);
-            gr.CodeSegment = new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString());
+            //gr = new GenResult(GenResultTypes.CodeSegment);
+            //gr.CodeSegment = new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString());
+            //return gr;
+
+            gr = new GenResult(GenResultTypes.CodeSegments);
+            gr.CodeSegments = new List<KeyValuePair<string, string>>();
+            gr.CodeSegments.Add(new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString()));
+            gr.CodeSegments.Add(new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString()));
             return gr;
 
             #endregion

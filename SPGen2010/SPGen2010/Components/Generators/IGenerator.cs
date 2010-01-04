@@ -68,53 +68,26 @@ namespace SPGen2010.Components.Generators
         protected GenResultTypes _resultType;
         public GenResultTypes GenResultType { get { return _resultType; } }
 
-        protected string _message;
         /// <summary>
         /// get or set output message
         /// </summary>
-        public string Message
-        {
-            get { return _message; }
-            set { _message = value; }
-        }
-        protected KeyValuePair<string, string> _codeSegment;
-
+        public string Message { get; set; }
         /// <summary>
         /// get or set (title, code)
         /// </summary>
-        public KeyValuePair<string, string> CodeSegment
-        {
-            get { return _codeSegment; }
-            set { _codeSegment = value; }
-        }
-        protected List<KeyValuePair<string, string>> _codeSegments;
+        public KeyValuePair<string, string> CodeSegment { get; set; }
         /// <summary>
         /// get or set (title, code)[]
         /// </summary>
-        public List<KeyValuePair<string, string>> CodeSegments
-        {
-            get { return _codeSegments; }
-            set { _codeSegments = value; }
-        }
-        protected KeyValuePair<string, byte[]> _file;
+        public List<KeyValuePair<string, string>> CodeSegments { get; set; }
         /// <summary>
         /// get or set (filename, data)
         /// </summary>
-        public KeyValuePair<string, byte[]> File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
-        protected List<KeyValuePair<string, byte[]>> _files;
-
+        public KeyValuePair<string, byte[]> File { get; set; }
         /// <summary>
         /// get or set (filename, data)[]
         /// </summary>
-        public List<KeyValuePair<string, byte[]>> Files
-        {
-            get { return _files; }
-            set { _files = value; }
-        }
+        public List<KeyValuePair<string, byte[]>> Files { get; set; }
     }
 
     /// <summary>
