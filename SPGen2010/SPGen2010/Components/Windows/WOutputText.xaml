@@ -1,7 +1,9 @@
 ﻿<Window x:Class="SPGen2010.Components.Windows.WOutputText"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WOutputText" Height="300" Width="300">
+        Title="Text Output" 
+        WindowStartupLocation="CenterScreen"
+        Height="500" Width="800">
     <Grid>
         <TextBox Name="_Output_TextBlock" Background="White"
                  Text="{Binding Path=Text, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
