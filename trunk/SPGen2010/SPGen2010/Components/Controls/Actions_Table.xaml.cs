@@ -13,8 +13,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
+using MySmo = SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Generators;
 using SPGen2010.Components.Windows;
+using SPGen2010.Components.Helpers.IO;
 
 namespace SPGen2010.Components.Controls
 {
@@ -57,10 +59,8 @@ namespace SPGen2010.Components.Controls
         {
             var c = sender as Label;
             var gen = c.Tag as IGenerator;
-            
-            // todo:
-            //var result = gen.Generate( GetMySmoTable(this.Table) );
-            // output result;
+            var result = gen.Generate(this.Table);
+            OutputHelper.Output(result);
         }
 
         public Oe.Table Table { get; set; }

@@ -43,7 +43,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
         /// condations:
         /// only one primary key, and must be INTEGER (2bytes, 4bytes, 8bytes) type
         /// </summary>
-        public bool Validate<T>(params T[] targetElements) where T : Oe.NodeBase
+        public bool Validate(params Oe.NodeBase[] targetElements)
         {
             var t = (Smo.Table)targetElements[0].Tag;
             var pks = Utils.GetPrimaryKeyColumns(t);
@@ -52,7 +52,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
         #endregion
 
-        public GenResult Generate<T>(params T[] targetElements) where T : Oe.NodeBase
+        public GenResult Generate(params Oe.NodeBase[] targetElements)
         {
             #region Init
 

@@ -23,12 +23,12 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// check sql element before gen
         /// </summary>
-        bool Validate<T>(params T[] targetElements) where T : NodeBase;
+        bool Validate(params NodeBase[] targets);
 
         /// <summary>
         /// generate
         /// </summary>
-        GenResult Generate<T>(params T[] targetElements) where T : NodeBase;
+        GenResult Generate(params NodeBase[] targets);
     }
 
     /// <summary>
