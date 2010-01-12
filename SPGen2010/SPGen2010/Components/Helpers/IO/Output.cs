@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Diagnostics;
 using SPGen2010.Components.Windows;
+using Microsoft.VisualC.StlClr;
 
 namespace SPGen2010.Components.Helpers.IO
 {
@@ -38,7 +39,7 @@ namespace SPGen2010.Components.Helpers.IO
             {
                 CleanOutput();
 
-                Output(result.File.Key, result.File.Value);
+                Output(result.File.first, result.File.second);
 
                 PopupOutput();
             }
@@ -46,9 +47,9 @@ namespace SPGen2010.Components.Helpers.IO
             {
                 CleanOutput();
 
-                foreach (KeyValuePair<string, byte[]> file in result.Files)
+                foreach (GenericPair<string, byte[]> file in result.Files)
                 {
-                    Output(file.Key, file.Value);
+                    Output(file.first, file.second);
                 }
 
                 PopupOutput();

@@ -128,13 +128,18 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             #region return
 
             //gr = new GenResult(GenResultTypes.CodeSegment);
-            //gr.CodeSegment = new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString());
+            //gr.CodeSegment.Key = this.Properties[GenProperties.Tips].ToString();
+            //gr.CodeSegment.Value = sb.ToString();
             //return gr;
 
-            gr = new GenResult(GenResultTypes.CodeSegments);
-            gr.CodeSegments = new List<KeyValuePair<string, string>>();
-            gr.CodeSegments.Add(new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString()));
-            gr.CodeSegments.Add(new KeyValuePair<string, string>(this._properties[GenProperties.Tips].ToString(), sb.ToString()));
+            //gr = new GenResult(GenResultTypes.CodeSegments);
+            //gr.CodeSegments.Add("1", sb.ToString());
+            //gr.CodeSegments.Add("2", sb.ToString());
+            //return gr;
+
+            gr = new GenResult(GenResultTypes.Files);
+            gr.Files.Add("1.txt", sb);
+            gr.Files.Add("2.txt", sb);
             return gr;
 
             #endregion
