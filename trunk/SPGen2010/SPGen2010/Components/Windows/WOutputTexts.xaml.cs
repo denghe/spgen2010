@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.VisualC.StlClr;
 
 namespace SPGen2010.Components.Windows
 {
@@ -23,7 +24,7 @@ namespace SPGen2010.Components.Windows
             InitializeComponent();
         }
 
-        public WOutputTexts(List<KeyValuePair<string, string>> texts)
+        public WOutputTexts(List<GenericPair<string, string>> texts)
             : this()
         {
             _Output_ListBox.ItemsSource = texts;

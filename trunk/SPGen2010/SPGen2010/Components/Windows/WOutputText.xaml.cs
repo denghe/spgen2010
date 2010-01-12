@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.VisualC.StlClr;
 
 namespace SPGen2010.Components.Windows
 {
@@ -28,10 +29,10 @@ namespace SPGen2010.Components.Windows
             this.Text = text;
             this.DataContext = this;
         }
-        public WOutputText(KeyValuePair<string, string> code)
-            : this(code.Value)
+        public WOutputText(GenericPair<string, string> code)
+            : this(code.second)
         {
-            this.Title = code.Key;
+            this.Title = code.first;
         }
 
         public string Text { get; set; }

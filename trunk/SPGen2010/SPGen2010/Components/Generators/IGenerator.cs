@@ -5,9 +5,35 @@ using System.ComponentModel;
 using SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Providers;
 using SPGen2010.Components.Modules.ObjectExplorer;
+using Microsoft.VisualC.StlClr;
 
 namespace SPGen2010.Components.Generators
 {
+
+    /*
+     result sample:
+     single text:
+     
+            var gr = new GenResult(GenResultTypes.CodeSegment);
+            gr.CodeSegment.first = this.Properties[GenProperties.Tips].ToString();
+            gr.CodeSegment.second = sb.ToString();
+
+     multi texts:
+     
+            var gr = new GenResult(GenResultTypes.CodeSegments);
+            gr.CodeSegments.Add("xxxx", sb1);
+            gr.CodeSegments.Add("eeee", sb2);
+            return gr;
+
+     files output:
+
+            var gr = new GenResult(GenResultTypes.Files);
+			gr.Files.Add("xxxx.aspx", sb1);
+            gr.Files.Add("eeee.cs", sb2);
+
+     */
+
+
     /// <summary>
     /// Generator's interface
     /// </summary>
@@ -63,10 +89,29 @@ namespace SPGen2010.Components.Generators
     /// </summary>
     public class GenResult
     {
-        public GenResult(GenResultTypes rt) { _resultType = rt; }
+        public GenResult(GenResultTypes rt)
+        {
+            this.GenResultType = rt;
+            switch (rt)
+            {
+                case GenResultTypes.CodeSegment:
+                    this.CodeSegment = new GenericPair<string, string>();
+                    break;
+                case GenResultTypes.CodeSegments:
+                    this.CodeSegments = new List<GenericPair<string, string>>();
+                    break;
+                case GenResultTypes.File:
+                    this.File = new GenericPair<string, byte[]>();
+                    break;
+                case GenResultTypes.Files:
+                    this.Files = new List<GenericPair<string, byte[]>>();
+                    break;
+                case GenResultTypes.Message: break;
+                default: break;
+            }
+        }
 
-        protected GenResultTypes _resultType;
-        public GenResultTypes GenResultType { get { return _resultType; } }
+        public GenResultTypes GenResultType { get; private set; }
 
         /// <summary>
         /// get or set output message
@@ -75,19 +120,19 @@ namespace SPGen2010.Components.Generators
         /// <summary>
         /// get or set (title, code)
         /// </summary>
-        public KeyValuePair<string, string> CodeSegment { get; set; }
+        public GenericPair<string, string> CodeSegment { get; private set; }
         /// <summary>
         /// get or set (title, code)[]
         /// </summary>
-        public List<KeyValuePair<string, string>> CodeSegments { get; set; }
+        public List<GenericPair<string, string>> CodeSegments { get; private set; }
         /// <summary>
         /// get or set (filename, data)
         /// </summary>
-        public KeyValuePair<string, byte[]> File { get; set; }
+        public GenericPair<string, byte[]> File { get; private set; }
         /// <summary>
         /// get or set (filename, data)[]
         /// </summary>
-        public List<KeyValuePair<string, byte[]>> Files { get; set; }
+        public List<GenericPair<string, byte[]>> Files { get; private set; }
     }
 
     /// <summary>
@@ -100,7 +145,7 @@ namespace SPGen2010.Components.Generators
         /// </summary>
         CodeSegment,
         /// <summary>
-        /// KeyValuePair＜string name, string content＞[] 
+        /// GenericPair＜string name, string content＞[] 
         /// </summary>
         CodeSegments,
         /// <summary>
@@ -108,7 +153,7 @@ namespace SPGen2010.Components.Generators
         /// </summary>
         File,
         /// <summary>
-        /// KeyValuePair＜string filename, byte[] content＞[] 
+        /// GenericPair＜string filename, byte[] content＞[] 
         /// </summary>
         Files,
         /// <summary>
@@ -150,4 +195,24 @@ namespace SPGen2010.Components.Generators
         Schemas = 65536,
     }
 
+    public static class GenResultExtensions
+    {
+        public static GenericPair<string, string> Add(this List<GenericPair<string, string>> texts, string title, object text)
+        {
+            var item = new GenericPair<string, string>(title, text.ToString());
+            texts.Add(item);
+            return item;
+        }
+        public static GenericPair<string, byte[]> Add(this List<GenericPair<string, byte[]>> files, string filename, object content)
+        {
+            var item = new GenericPair<string, byte[]>{ first = filename};
+            if (content is byte[])
+            {
+                item.second = (byte[])content;
+            }
+            else item.second = Encoding.UTF8.GetBytes(content.ToString());
+            files.Add(item);
+            return item;
+        }
+    }
 }
