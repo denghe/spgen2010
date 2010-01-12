@@ -9,7 +9,6 @@ using Microsoft.VisualC.StlClr;
 
 namespace SPGen2010.Components.Generators
 {
-
     /*
      result sample:
      single text:
@@ -32,6 +31,7 @@ namespace SPGen2010.Components.Generators
             gr.Files.Add("eeee.cs", sb2);
 
      */
+
 
 
     /// <summary>

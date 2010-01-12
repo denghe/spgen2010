@@ -56,8 +56,8 @@ namespace SPGen2010.Components.Helpers.IO
             }
         }
 
-        public static string OutputPath = Path.Combine(App.Current.StartupUri.AbsolutePath, "Output");
-
+        public static string OutputPath = Path.Combine(new FileInfo(App.ResourceAssembly.Location).Directory.FullName, "Output");
+        
         /// <summary>
         /// 清空输出结果
         /// </summary>
