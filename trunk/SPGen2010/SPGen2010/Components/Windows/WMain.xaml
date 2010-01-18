@@ -17,9 +17,9 @@
         </Menu>
         <Grid Grid.Row="1" Background="Beige">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="200" Width="25*" />
-                <ColumnDefinition MinWidth="400" Width="75*" />
-                <ColumnDefinition MinWidth="200" Width="25*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="75*" />
+                <ColumnDefinition Width="25*" />
             </Grid.ColumnDefinitions>
             
             <my:ObjectExplorer x:Name="_ObjectExplorer" Grid.Column="0"></my:ObjectExplorer>
