@@ -256,6 +256,7 @@
     <Compile Include="Components\Controls\TreeViewExtensions.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
     <Compile Include="Components\Controls\UIUtility.cs" />
+    <Compile Include="Components\Generators\MsSql\Database\DAL.cs" />
     <Compile Include="Components\Helpers\IO\Output.cs" />
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
@@ -525,7 +526,6 @@
     <Folder Include="Components\Connectors\MySql\" />
     <Folder Include="Components\Connectors\Oracle\" />
     <Folder Include="Components\Connectors\SqLite\" />
-    <Folder Include="Components\Generators\MsSql\Database\" />
     <Folder Include="Components\Generators\MsSql\Function\" />
     <Folder Include="Components\Generators\MsSql\Schema\" />
     <Folder Include="Components\Generators\MsSql\Server\" />

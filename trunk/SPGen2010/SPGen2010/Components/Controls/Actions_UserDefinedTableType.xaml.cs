@@ -13,8 +13,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
-using SPGen2010.Components.Windows;
+using MySmo = SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Generators;
+using SPGen2010.Components.Windows;
+using SPGen2010.Components.Helpers.IO;
 
 namespace SPGen2010.Components.Controls
 {
@@ -31,24 +33,36 @@ namespace SPGen2010.Components.Controls
         public Actions_UserDefinedTableType(Oe.UserDefinedTableType o)
             : this()
         {
-            this.UserDefinedTableType = o;
+            this.O = o;
 
             var gens = WMain.Instance.Generators.FindAll(a =>
             {
-                return (int)(a.TargetSqlElementType & SqlElementTypes.UserDefinedTableType) > 0 && a.Validate(o);
+                return (int)(a.TargetSqlElementType & SqlElementTypes.Table) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                var c = new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,
                     ToolTip = (string)gen.Properties[GenProperties.Tips]
-                });
+                    ,
+                    Tag = gen
+                };
+                c.MouseDown += new MouseButtonEventHandler(c_MouseDown);
+                _Actions_StackPanel.Children.Add(c);
             }
         }
 
-        public Oe.UserDefinedTableType UserDefinedTableType { get; set; }
+        void c_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var c = sender as Label;
+            var gen = c.Tag as IGenerator;
+            var result = gen.Generate(this.O);
+            OutputHelper.Output(result);
+        }
+
+        public Oe.UserDefinedTableType O { get; set; }
     }
 }
