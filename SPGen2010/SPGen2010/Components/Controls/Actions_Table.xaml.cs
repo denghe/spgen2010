@@ -33,7 +33,7 @@ namespace SPGen2010.Components.Controls
         public Actions_Table(Oe.Table o)
             : this()
         {
-            this.Table = o;
+            this.O = o;
 
             var gens = WMain.Instance.Generators.FindAll(a =>
             {
@@ -59,10 +59,10 @@ namespace SPGen2010.Components.Controls
         {
             var c = sender as Label;
             var gen = c.Tag as IGenerator;
-            var result = gen.Generate(this.Table);
+            var result = gen.Generate(this.O);
             OutputHelper.Output(result);
         }
 
-        public Oe.Table Table { get; set; }
+        public Oe.Table O { get; set; }
     }
 }
