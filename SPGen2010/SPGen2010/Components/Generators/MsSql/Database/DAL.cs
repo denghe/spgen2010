@@ -52,19 +52,18 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
         #endregion
 
-        private IMySmoProvider _msp = WMain.Instance.MySmoProvider;
-
         public GenResult Generate(params Oe.NodeBase[] targetElements)
         {
             #region Init
 
             GenResult gr;
             var oe_db = (Oe.Database)targetElements[0];
-            var mysmo_db = _msp.GetDatabase(oe_db);
+            var mysmo_db = WMain.Instance.MySmoProvider.GetDatabase(oe_db);
 
             #endregion
 
             #region Gen
+
 
 
             #endregion

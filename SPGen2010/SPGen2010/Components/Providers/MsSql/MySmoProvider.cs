@@ -17,6 +17,7 @@ using Microsoft.SqlServer;
 
 namespace SPGen2010.Components.Providers.MsSql
 {
+    // todo: skip system object
     public partial class MySmoProvider : IMySmoProvider
     {
         public MySmo.Server GetServer(Oe.Server server)
@@ -592,9 +593,11 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.Schema>();
-            foreach (Smo.Schema item in smo_db.Schemas) os.Add(GetSchema(item, parent));
-            return os;
+            return new List<MySmo.Schema>(
+                from Smo.Schema o in smo_db.Schemas
+                where o.IsSystemObject == false || o.Name == "dbo"
+                select GetSchema(o,parent)
+            );
 
             #endregion
         }
@@ -603,9 +606,11 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.Table>();
-            foreach (Smo.Table item in smo_db.Tables) os.Add(GetTable(item, parent));
-            return os;
+            return new List<MySmo.Table>(
+                from Smo.Table o in smo_db.Tables
+                where o.IsSystemObject == false
+                select GetTable(o, parent)
+            );
 
             #endregion
         }
@@ -614,9 +619,11 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.View>();
-            foreach (Smo.View item in smo_db.Views) os.Add(GetView(item, parent));
-            return os;
+            return new List<MySmo.View>(
+                from Smo.View o in smo_db.Views
+                where o.IsSystemObject == false
+                select GetView(o, parent)
+            );
 
             #endregion
         }
@@ -625,9 +632,11 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.UserDefinedFunction>();
-            foreach (Smo.UserDefinedFunction item in smo_db.UserDefinedFunctions) os.Add(GetUserDefinedFunction(item, parent));
-            return os;
+            return new List<MySmo.UserDefinedFunction>(
+                from Smo.UserDefinedFunction o in smo_db.UserDefinedFunctions
+                where o.IsSystemObject == false
+                select GetUserDefinedFunction(o, parent)
+            );
 
             #endregion
         }
@@ -636,9 +645,10 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.UserDefinedTableType>();
-            foreach (Smo.UserDefinedTableType item in smo_db.UserDefinedTableTypes) os.Add(GetUserDefinedTableType(item, parent));
-            return os;
+            return new List<MySmo.UserDefinedTableType>(
+                from Smo.UserDefinedTableType o in smo_db.UserDefinedTableTypes
+                select GetUserDefinedTableType(o, parent)
+            );
 
             #endregion
         }
@@ -647,9 +657,11 @@ namespace SPGen2010.Components.Providers.MsSql
         {
             #region implement
 
-            var os = new List<MySmo.StoredProcedure>();
-            foreach (Smo.StoredProcedure item in smo_db.StoredProcedures) os.Add(GetStoredProcedure(item, parent));
-            return os;
+            return new List<MySmo.StoredProcedure>(
+                from Smo.StoredProcedure o in smo_db.StoredProcedures
+                where o.IsSystemObject == false
+                select GetStoredProcedure(o, parent)
+            );
 
             #endregion
         }
