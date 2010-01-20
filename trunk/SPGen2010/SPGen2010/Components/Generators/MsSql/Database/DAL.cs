@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Linq;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
@@ -73,12 +74,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 ");
-            foreach (var schema in db.Schemas)
+            var schemas = from table in db.Tables group table by table.Schema;
+            foreach (var tables in schemas)
             {
                 sb.Append(@"
-namespace DAL.Tables." + schema.GetEscapeName() + @"
+namespace DAL.Tables." + tables.Key.Escape() + @"
 {");
-                foreach (var t in db.Tables)
+                foreach (var t in tables)
                 {
                     sb.Append(@"
     public partial class " + t.GetEscapeName() + @"
