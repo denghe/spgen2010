@@ -258,6 +258,7 @@
     <Compile Include="Components\Controls\UIUtility.cs" />
     <Compile Include="Components\Generators\MsSql\Database\DAL.cs" />
     <Compile Include="Components\Helpers\IO\Output.cs" />
+    <Compile Include="Components\Generators\MySmoExtensions.cs" />
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
