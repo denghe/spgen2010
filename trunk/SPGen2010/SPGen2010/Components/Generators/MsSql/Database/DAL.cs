@@ -5,14 +5,14 @@ using System.Data;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
-using Smo = Microsoft.SqlServer.Management.Smo;
-using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
+//using Smo = Microsoft.SqlServer.Management.Smo;
+//using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
 using SPGen2010.Components.Windows;
-using SPGen2010.Components.Providers;
+//using SPGen2010.Components.Providers;
 
-using SPGen2010.Components.Helpers.MySmo;
+using SPGen2010.Components.Generators.Extensions.CS;
 
-namespace SPGen2010.Components.Generators.MsSql.Table
+namespace SPGen2010.Components.Generators.MsSql.Database
 {
     class DAL : IGenerator
     {
@@ -67,12 +67,35 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             #region Gen
             var sb = new StringBuilder();
 
-            // 先试下扫表　生成类结构
-            foreach (var t in db.Tables)
+            sb.Append(@"
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+");
+            foreach (var schema in db.Schemas)
             {
-                
+                sb.Append(@"
+namespace DAL.Tables." + schema.GetEscapeName() + @"
+{");
+                foreach (var t in db.Tables)
+                {
+                    sb.Append(@"
+    public partial class " + t.GetEscapeName() + @"
+    {");
+                    foreach (var c in t.Columns)
+                    {
+                        sb.Append(@"
+        public " + c.DataType.GetEscapeName() + @" " + c.GetEscapeName() + @" { get; set; }");
+                    }
+                    sb.Append(@"
+    }");
+                }
+                sb.Append(@"
+}");
             }
 
+            gr.Files.Add("DAL_Tables.cs", sb);
 
             #endregion
 
