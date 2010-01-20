@@ -10,6 +10,8 @@ using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
 using SPGen2010.Components.Windows;
 using SPGen2010.Components.Providers;
 
+using SPGen2010.Components.Helpers.MySmo;
+
 namespace SPGen2010.Components.Generators.MsSql.Table
 {
     class DAL : IGenerator
@@ -56,26 +58,26 @@ namespace SPGen2010.Components.Generators.MsSql.Table
         {
             #region Init
 
-            GenResult gr;
+            var gr = new GenResult(GenResultTypes.Files);
             var oe_db = (Oe.Database)targetElements[0];
-            var mysmo_db = WMain.Instance.MySmoProvider.GetDatabase(oe_db);
+            var db = WMain.Instance.MySmoProvider.GetDatabase(oe_db);
 
             #endregion
 
             #region Gen
+            var sb = new StringBuilder();
 
+            // 先试下扫表　生成类结构
+            foreach (var t in db.Tables)
+            {
+                
+            }
 
 
             #endregion
 
-            #region return
-
-            gr = new GenResult(GenResultTypes.Files);
-            //gr.Files.Add("1.txt", sb);
             //gr.Files.Add("2.txt", sb);
             return gr;
-
-            #endregion
         }
 
     }
