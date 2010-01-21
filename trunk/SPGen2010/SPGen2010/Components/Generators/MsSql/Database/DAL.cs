@@ -67,6 +67,8 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
             // todo: Get Namespace replace "DAL"
 
+            #region Gen Class Declares
+
             #region Gen Tables
 
             var sb = new StringBuilder();
@@ -188,13 +190,14 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
 
             #endregion
 
-            #region Gen UserDefinedFunctions (TableType)
+            #region Gen UserDefinedFunctions_Table
 
             {
                 sb.Clear();
 
                 sb.Append(@"
 using System;
+using UDTT = DAL.UserDefinedTableTypes;
 ");
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
@@ -210,18 +213,94 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         sb.Append(@"
     public partial class " + f.GetEscapeName() + @"
     {");
-                        var maxlen = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in f.Columns)
-                        {
-                            sb.Append(c.Description.ToSummary(2));
-                            sb.Append(@"
-        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
-                        }
                         sb.Append(@"
-
         public partial class Parameters
         {");
-                        maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        var maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        foreach (var p in f.Parameters)
+                        {
+                            var pn = p.GetEscapeName();
+                            var pdn = p.DataType.GetEscapeName();
+                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                            {
+                                pdn = "UDTT." + pdn + "_Collection";
+                            }
+                            sb.Append(@"
+            #region " + pn + @"
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
+            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            public " + pdn.FillSpace(9) + @" " + pn + @"
+            {
+                get
+                {
+                    return _v_" + pn + @";
+                }
+                set
+                {
+                    _f_" + pn + @" = true;
+                    _v_" + pn + @" = value;
+                }
+            }
+
+            #endregion");
+                        }
+                        sb.Append(@"
+        }
+        public partial class ResultTable
+        {");
+                        maxlen = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in f.Columns)
+                        {
+                            sb.Append(c.Description.ToSummary(4));
+                            sb.Append(@"
+            public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+                        }
+                        sb.Append(@"
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #region Gen UserDefinedFunctions_Scalar
+
+            {
+                sb.Clear();
+
+                sb.Append(@"
+using System;
+using UDTT = DAL.UserDefinedTableTypes;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Scalar
+                              group func by func.Schema;
+                foreach (var fs in schemas)
+                {
+                    sb.Append(@"
+namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
+{");
+                    foreach (var f in fs)
+                    {
+                        sb.Append(f.Description.ToSummary(1));
+                        sb.Append(@"
+    public partial class " + f.GetEscapeName() + @"
+    {");
+                        sb.Append(@"
+        public partial class Parameters
+        {");
+                        var maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                         foreach (var p in f.Parameters)
                         {
                             var pn = p.GetEscapeName();
@@ -263,7 +342,7 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_UserDefinedFunctions.cs", sb);
+                gr.Files.Add("DAL_UserDefinedFunctions_Scalar.cs", sb);
             }
 
             #endregion
@@ -367,6 +446,12 @@ namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
                 gr.Files.Add("DAL_StoredProcedures.cs", sb);
             }
 
+
+            #endregion
+
+            #endregion
+
+            #region Gen Class Server Extension Methods
 
             #endregion
 
