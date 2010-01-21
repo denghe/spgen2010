@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using SPGen2010.Components.Modules.MySmo;
+using System.IO;
 
 namespace SPGen2010.Components.Generators.Extensions.CS
 {
@@ -12,6 +13,70 @@ namespace SPGen2010.Components.Generators.Extensions.CS
     /// </summary>
     public static partial class Extension
     {
+        #region ToSummary
+
+        /// <summary>
+        /// 返回为 代码段的 summary 部分而格式化的备注输出格式。每一行的前面带三个斜杠
+        /// todo: 内容转义
+        /// </summary>
+        public static string ToSummary(this string o)
+        {
+            return ToSummary(o, string.Empty, 2);
+        }
+
+        /// <summary>
+        /// 返回为 代码段的 summary 部分而格式化的备注输出格式。每一行的前面带三个斜杠
+        /// todo: 内容转义
+        /// </summary>
+        public static string ToSummary(this string o, int numTabs)
+        {
+            return ToSummary(o, string.Empty, numTabs);
+        }
+
+        /// <summary>
+        /// 返回为 代码段的 summary 部分而格式化的备注输出格式。每一行的前面带三个斜杠。内容最后面附加一些字串，前面可空 numTabs 个 Tab 符
+        /// todo: 内容转义
+        /// </summary>
+        public static string ToSummary(this string o, string attach, int numTabs)
+        {
+            var str = o + attach;
+            var tabs = new string('\t', numTabs);
+            if (string.IsNullOrEmpty(str))
+            {
+                return @"
+" + tabs + @"/// <summary>
+" + tabs + @"/// 
+" + tabs + @"/// </summary>";
+            }
+            var sb = new StringBuilder();
+            sb.Append(@"
+" + tabs + @"/// <summary>");
+            using (var tr = new StringReader(str))
+            {
+                while (true)
+                {
+                    var s = tr.ReadLine();
+                    if (s == null) break;
+                    if (s.Contains("--"))
+                    {
+                        if (s.StartsWith("-- ============================")) continue;
+                    }
+                    sb.Append(@"
+" + tabs + @"/// " + s);
+                }
+            }
+            sb.Append(@"
+" + tabs + @"/// </summary>");
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region GetEscapeName
+
+        /// <summary>
+        /// 取转义后的 Name 字串（去空格，过滤类，类成员名中的非法字符，处理和 C# 数据类型同名的字段名：前面加 _）
+        /// </summary>
         public static string GetEscapeName(this DataType o)
         {
 
@@ -89,6 +154,10 @@ namespace SPGen2010.Components.Generators.Extensions.CS
             return o.Name.Escape();
         }
 
+        #endregion
+
+        #region Escape
+
         /// <summary>
         /// 取转义后的名称（类名，属性名，参数名等）字串（去空格，过滤类，类成员名中的非法字符，处理和 C# 数据类型同名的字段名：前面加 _）
         /// </summary>
@@ -126,6 +195,10 @@ namespace SPGen2010.Components.Generators.Extensions.CS
                 .Replace('@', '_')
                 .Replace('$', '_');
         }
+
+        #endregion
+
+        #region CheckIsKeywords
 
         /// <summary>
         /// 判断一个字串是否为 C# 的关键字 (支持到 .net 4) (没有去理会上下文系列，如 linq)
@@ -230,8 +303,44 @@ namespace SPGen2010.Components.Generators.Extensions.CS
                 s == "enum" ||
                 s == "namespace" ||
                 s == "string";
+        }
 
+        #endregion
 
+        #region FillSpace
+
+        /// <summary>
+        /// 在字串后面 数个 空格, 令总长度达到 len. 如果超长则在后面添加 1 个空格
+        /// </summary>
+        public static string FillSpace(this string s, int len)
+        {
+            var L = Encoding.ASCII.GetByteCount(s);
+            if (L < len) return s + new string(' ', len - L);
+            return s + " ";
+        }
+
+        #endregion
+
+        #region GetMaxLength
+
+        /// <summary>
+        /// 返回字串集合中最长的字串长度 (byte length)
+        /// </summary>
+        public static int GetMaxLength(this IEnumerable<string> ss)
+        {
+            if (ss == null) return 0;
+            if (ss.Count() > 0) return ss.Max(s => Encoding.ASCII.GetByteCount(s));
+            return 0;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 返回字串的 ASCII 字节长
+        /// </summary>
+        public static int GetByteCount(this string s)
+        {
+            return Encoding.ASCII.GetByteCount(s);
         }
     }
 }

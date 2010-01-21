@@ -65,43 +65,86 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
             #endregion
 
-            #region Gen
+            // todo: Get Namespace replace "DAL"
+
+            #region Gen Tables
+
             var sb = new StringBuilder();
 
-            sb.Append(@"
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-");
-            var schemas = from table in db.Tables group table by table.Schema;
-            foreach (var tables in schemas)
             {
                 sb.Append(@"
-namespace DAL.Tables." + tables.Key.Escape() + @"
-{");
-                foreach (var t in tables)
+using System;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas)
                 {
                     sb.Append(@"
+namespace DAL.Tables." + ts.Key.Escape() + @"
+{");
+                    foreach (var t in ts)
+                    {
+                        sb.Append(t.Description.ToSummary(1));
+                        sb.Append(@"
     public partial class " + t.GetEscapeName() + @"
     {");
-                    foreach (var c in t.Columns)
-                    {
+                        var maxlen = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in t.Columns)
+                        {
+                            sb.Append(c.Description.ToSummary(2));
+                            sb.Append(@"
+        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @" { get; set; }");
+                        }
                         sb.Append(@"
-        public " + c.DataType.GetEscapeName() + @" " + c.GetEscapeName() + @" { get; set; }");
+    }");
                     }
                     sb.Append(@"
-    }");
-                }
-                sb.Append(@"
 }");
-            }
+                }
 
-            gr.Files.Add("DAL_Tables.cs", sb);
+                gr.Files.Add("DAL_Tables.cs", sb);
+            }
 
             #endregion
 
-            //gr.Files.Add("2.txt", sb);
+
+            #region Gen UserDefinedTableTypes
+
+            {
+                sb.Clear();
+
+                sb.Append(@"
+using System;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas)
+                {
+                    sb.Append(@"
+namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{");
+                    foreach (var tt in tts)
+                    {
+                        sb.Append(tt.Description.ToSummary(1));
+                        sb.Append(@"
+    public partial class " + tt.GetEscapeName() + @"
+    {");
+                        foreach (var c in tt.Columns)
+                        {
+                            sb.Append(c.Description.ToSummary(2));
+                            sb.Append(@"
+        public " + c.DataType.GetEscapeName() + @" " + c.GetEscapeName() + @" { get; set; }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
             return gr;
         }
 
