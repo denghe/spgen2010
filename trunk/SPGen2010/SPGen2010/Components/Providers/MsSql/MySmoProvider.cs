@@ -420,7 +420,7 @@ namespace SPGen2010.Components.Providers.MsSql
                 {
                     ParentDatabase = parent,
                     ParentParameterBase = mysmo_f,
-                    Name = smo_p.Name,
+                    Name = smo_p.Name.Substring(1),
                     DefaultValue = smo_p.DefaultValue,
                     IsOutputParameter = false,
                     IsReadOnly = smo_p.IsReadOnly,
@@ -563,7 +563,7 @@ namespace SPGen2010.Components.Providers.MsSql
                 {
                     ParentDatabase = parent,
                     ParentParameterBase = mysmo_sp,
-                    Name = smo_p.Name,
+                    Name = smo_p.Name.Substring(1),
                     DefaultValue = smo_p.DefaultValue,
                     IsOutputParameter = smo_p.IsOutputParameter,
                     IsReadOnly = smo_p.IsReadOnly,
