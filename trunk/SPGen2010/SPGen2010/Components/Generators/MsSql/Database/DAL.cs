@@ -92,7 +92,7 @@ namespace DAL.Tables." + ts.Key.Escape() + @"
                         {
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @" { get; set; }");
+        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
     }");
@@ -106,6 +106,44 @@ namespace DAL.Tables." + ts.Key.Escape() + @"
 
             #endregion
 
+            #region Gen Views
+
+            {
+                sb.Clear();
+
+                sb.Append(@"
+using System;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas)
+                {
+                    sb.Append(@"
+namespace DAL.Views." + vs.Key.Escape() + @"
+{");
+                    foreach (var v in vs)
+                    {
+                        sb.Append(v.Description.ToSummary(1));
+                        sb.Append(@"
+    public partial class " + v.GetEscapeName() + @"
+    {");
+                        var maxlen = v.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in v.Columns)
+                        {
+                            sb.Append(c.Description.ToSummary(2));
+                            sb.Append(@"
+        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Views.cs", sb);
+            }
+
+            #endregion
 
             #region Gen UserDefinedTableTypes
 
@@ -127,13 +165,18 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
                         sb.Append(@"
     public partial class " + tt.GetEscapeName() + @"
     {");
+                        var maxlen = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in tt.Columns)
                         {
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetEscapeName() + @" " + c.GetEscapeName() + @" { get; set; }");
+        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
+    }
+    public partial class " + tt.GetEscapeName() + @"_Collection : List<" + tt.GetEscapeName() + @">
+    {
+        // todo: ToDataTable()
     }");
                     }
                     sb.Append(@"
@@ -142,6 +185,188 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
 
                 gr.Files.Add("DAL_UserDefinedTableTypes.cs", sb);
             }
+
+            #endregion
+
+            #region Gen UserDefinedFunctions (TableType)
+
+            {
+                sb.Clear();
+
+                sb.Append(@"
+using System;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas)
+                {
+                    sb.Append(@"
+namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
+{");
+                    foreach (var f in fs)
+                    {
+                        sb.Append(f.Description.ToSummary(1));
+                        sb.Append(@"
+    public partial class " + f.GetEscapeName() + @"
+    {");
+                        var maxlen = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in f.Columns)
+                        {
+                            sb.Append(c.Description.ToSummary(2));
+                            sb.Append(@"
+        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+                        }
+                        sb.Append(@"
+
+        public partial class Parameters
+        {");
+                        maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        foreach (var p in f.Parameters)
+                        {
+                            var pn = p.GetEscapeName();
+                            var pdn = p.DataType.GetEscapeName();
+                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                            {
+                                pdn = "UDTT." + pdn + "_Collection";
+                            }
+                            sb.Append(@"
+            #region " + pn + @"
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
+            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            public " + pdn.FillSpace(9) + @" " + pn + @"
+            {
+                get
+                {
+                    return _v_" + pn + @";
+                }
+                set
+                {
+                    _f_" + pn + @" = true;
+                    _v_" + pn + @" = value;
+                }
+            }
+
+            #endregion");
+                        }
+                        sb.Append(@"
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_UserDefinedFunctions.cs", sb);
+            }
+
+            #endregion
+
+            #region Gen StoredProcedures
+
+
+            {
+                sb.Clear();
+
+                sb.Append(@"
+using System;
+using UDTT = DAL.UserDefinedTableTypes;
+");
+                var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
+                foreach (var sps in schemas)
+                {
+                    sb.Append(@"
+namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
+{");
+                    foreach (var sp in sps)
+                    {
+                        sb.Append(sp.Description.ToSummary(1));
+                        sb.Append(@"
+    public partial class " + sp.GetEscapeName() + @"
+    {
+        public partial class Parameters
+        {");
+                        var maxlen = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        foreach (var p in sp.Parameters)
+                        {
+                            var pn = p.GetEscapeName();
+                            var pdn = p.DataType.GetEscapeName();
+                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                            {
+                                pdn = "UDTT." + pdn + "_Collection";
+                            }
+                            sb.Append(@"
+            #region " + pn + @"
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
+            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+");
+                            sb.Append(p.Description.ToSummary(3));
+                            sb.Append(@"
+            public " + pdn.FillSpace(9) + @" " + pn + @"
+            {
+                get
+                {
+                    return _v_" + pn + @";
+                }
+                set
+                {
+                    _f_" + pn + @" = true;
+                    _v_" + pn + @" = value;
+                }
+            }
+
+            #endregion");
+                        }
+                        sb.Append(@"
+        }
+
+        public partial class ResultSet
+        {
+            public int ReturnValue { get; set; }
+            public ResultTable1 Result1 { get; set; }
+            public ResultTable2 Result2 { get; set; }
+            //...
+        }
+
+        #region Result Class Declares
+
+        public partial class ResultRow1
+        {
+            //columns properties......
+        }
+        public partial class ResultRow2
+        {
+            //columns properties......
+        }
+        // ...
+
+        public partial class ResultTable1 : List<ResultRow1>
+        {
+        }
+        public partial class ResultTable2 : List<ResultRow2>
+        {
+        }
+        // ...
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_StoredProcedures.cs", sb);
+            }
+
 
             #endregion
 
