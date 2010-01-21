@@ -66,11 +66,15 @@ namespace SPGen2010.Components.Helpers.IO
             try
             {
                 Directory.Delete(OutputPath, true);
+                System.Threading.Thread.Sleep(200);
+                // todo: 这里要想办法确保目录已删除成功
             }
             catch { }
             try
             {
                 Directory.CreateDirectory(OutputPath);
+                System.Threading.Thread.Sleep(200);
+                // todo: 这里要想办法确保目录已创建成功
             }
             catch { }
         }
