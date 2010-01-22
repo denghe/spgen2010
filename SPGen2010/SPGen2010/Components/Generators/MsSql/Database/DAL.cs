@@ -94,7 +94,7 @@ namespace DAL.Tables." + ts.Key.Escape() + @"
                         {
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
     }");
@@ -133,7 +133,7 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                         {
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
     }");
@@ -172,7 +172,7 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
                         {
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
     }
@@ -220,7 +220,7 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         foreach (var p in f.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetEscapeName();
+                            var pdn = p.DataType.GetTypeName();
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                             {
                                 pdn = "UDTT." + pdn + "_Collection";
@@ -259,7 +259,7 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         {
                             sb.Append(c.Description.ToSummary(4));
                             sb.Append(@"
-            public " + c.DataType.GetEscapeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+            public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
                         }
                         sb.Append(@"
         }
@@ -304,7 +304,7 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         foreach (var p in f.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetEscapeName();
+                            var pdn = p.DataType.GetTypeName();
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                             {
                                 pdn = "UDTT." + pdn + "_Collection";
@@ -375,7 +375,7 @@ namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
                         foreach (var p in sp.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetEscapeName();
+                            var pdn = p.DataType.GetTypeName();
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                             {
                                 pdn = "UDTT." + pdn + "_Collection";

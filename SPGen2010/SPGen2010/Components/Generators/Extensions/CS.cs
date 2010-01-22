@@ -11,7 +11,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS
     /// <summary>
     /// generate extensions for mysmo
     /// </summary>
-    public static partial class Extension
+    public static partial class Extensions
     {
         #region ToSummary
 
@@ -72,12 +72,74 @@ namespace SPGen2010.Components.Generators.Extensions.CS
 
         #endregion
 
-        #region GetEscapeName
+        #region GetTypeName
 
         /// <summary>
-        /// 取转义后的 Name 字串（去空格，过滤类，类成员名中的非法字符，处理和 C# 数据类型同名的字段名：前面加 _）
+        /// 返回一个字段数据类型所对应的 C# 对象类型（可空类型）
         /// </summary>
-        public static string GetEscapeName(this DataType o)
+        public static string GetNullableTypeName(this DataType o)
+        {
+            switch (o.SqlDataType)
+            {
+                case SqlDataType.Bit:
+                    return "bool?";
+                case SqlDataType.TinyInt:
+                    return "byte?";
+                case SqlDataType.SmallInt:
+                    return "short?";
+                case SqlDataType.Int:
+                    return "int?";
+                case SqlDataType.BigInt:
+                    return "Int64?";
+                case SqlDataType.Decimal:
+                case SqlDataType.Numeric:
+                case SqlDataType.Money:
+                case SqlDataType.SmallMoney:
+                    return "decimal?";
+                case SqlDataType.Float:
+                    return "double?";
+                case SqlDataType.Real:
+                    return "float?";
+                case SqlDataType.DateTime:
+                case SqlDataType.SmallDateTime:
+                case SqlDataType.DateTime2:
+                case SqlDataType.DateTimeOffset:
+                case SqlDataType.Date:
+                case SqlDataType.Time:
+                    return "System.DateTime?";
+                case SqlDataType.Char:
+                case SqlDataType.Text:
+                case SqlDataType.VarChar:
+                case SqlDataType.NChar:
+                case SqlDataType.NText:
+                case SqlDataType.NVarChar:
+                case SqlDataType.NVarCharMax:
+                case SqlDataType.VarCharMax:
+                case SqlDataType.Xml:
+                    return "string";
+                case SqlDataType.Binary:
+                case SqlDataType.Image:
+                case SqlDataType.VarBinary:
+                case SqlDataType.VarBinaryMax:
+                case SqlDataType.Timestamp:
+                    return "byte[]";
+                case SqlDataType.UniqueIdentifier:
+                    return "System.Guid?";
+
+                //case SqlDataType.UserDefinedDataType:
+                //    return GetNullableDataType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
+
+                case SqlDataType.UserDefinedType:
+
+                // todo: hierachyid, geography, ...
+
+                default:
+                    return "object";
+            }
+        }
+
+
+        public static string GetTypeName(this DataType o)
         {
 
             switch (o.SqlDataType)
@@ -138,6 +200,11 @@ namespace SPGen2010.Components.Generators.Extensions.CS
                     return "object";
             }
         }
+
+        #endregion
+
+        #region GetEscapeName
+
 
         /// <summary>
         /// 取转义后的 Name 字串（去空格，过滤类，类成员名中的非法字符，处理和 C# 数据类型同名的字段名：前面加 _）
@@ -335,6 +402,8 @@ namespace SPGen2010.Components.Generators.Extensions.CS
 
         #endregion
 
+        #region GetByteCount
+
         /// <summary>
         /// 返回字串的 ASCII 字节长
         /// </summary>
@@ -342,5 +411,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS
         {
             return Encoding.ASCII.GetByteCount(s);
         }
+
+        #endregion
     }
 }
