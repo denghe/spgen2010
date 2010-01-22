@@ -89,12 +89,14 @@ namespace DAL.Tables." + ts.Key.Escape() + @"
                         sb.Append(@"
     public partial class " + t.GetEscapeName() + @"
     {");
-                        var maxlen = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in t.Columns)
                         {
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+                            var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
     }");
@@ -128,12 +130,14 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                         sb.Append(@"
     public partial class " + v.GetEscapeName() + @"
     {");
-                        var maxlen = v.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        var L = v.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in v.Columns)
                         {
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+                            var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
     }");
@@ -167,12 +171,14 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
                         sb.Append(@"
     public partial class " + tt.GetEscapeName() + @"
     {");
-                        var maxlen = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        var L = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in tt.Columns)
                         {
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+                            var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
                             sb.Append(@"
-        public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+        public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
     }
@@ -216,26 +222,25 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         sb.Append(@"
         public partial class Parameters
         {");
-                        var maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        var L = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                         foreach (var p in f.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetTypeName();
+                            string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                            {
-                                pdn = "UDTT." + pdn + "_Collection";
-                            }
+                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
+                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
-            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+            private " + "bool".FillSpace(10) + @" _f_" + pn + @";
+            private " + pdn + @" _v_" + pn + @";
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            public " + pdn.FillSpace(9) + @" " + pn + @"
+            public " + pdn + @" " + pn + @"
             {
                 get
                 {
@@ -254,12 +259,14 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
         }
         public partial class ResultTable
         {");
-                        maxlen = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        L = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in f.Columns)
                         {
-                            sb.Append(c.Description.ToSummary(4));
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+                            var fieldname = c.GetEscapeName().FillSpace(L);
+                            sb.Append(c.Description.ToSummary(3));
                             sb.Append(@"
-            public " + c.DataType.GetTypeName().FillSpace(9) + @" " + c.GetEscapeName().FillSpace(maxlen) + @"{ get; set; }");
+            public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
         }
@@ -300,26 +307,25 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                         sb.Append(@"
         public partial class Parameters
         {");
-                        var maxlen = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        var L = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                         foreach (var p in f.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetTypeName();
+                            string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                            {
-                                pdn = "UDTT." + pdn + "_Collection";
-                            }
+                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
+                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10); 
                             sb.Append(@"
             #region " + pn + @"
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
-            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+            private " + "bool".FillSpace(10) + @" _f_" + pn + @";
+            private " + pdn + @" _v_" + pn + @";
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            public " + pdn.FillSpace(9) + @" " + pn + @"
+            public " + pdn + @" " + pn + @"
             {
                 get
                 {
@@ -371,26 +377,25 @@ namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
     {
         public partial class Parameters
         {");
-                        var maxlen = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                        var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                         foreach (var p in sp.Parameters)
                         {
                             var pn = p.GetEscapeName();
-                            var pdn = p.DataType.GetTypeName();
+                            string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                            {
-                                pdn = "UDTT." + pdn + "_Collection";
-                            }
+                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
+                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            private " + "bool".FillSpace(9) + @" _f_" + pn + @";
-            private " + pdn.FillSpace(9) + @" _v_" + pn + @";
+            private " + "bool".FillSpace(10) + @" _f_" + pn + @";
+            private " + pdn + @" _v_" + pn + @";
 ");
                             sb.Append(p.Description.ToSummary(3));
                             sb.Append(@"
-            public " + pdn.FillSpace(9) + @" " + pn + @"
+            public " + pdn + @" " + pn + @"
             {
                 get
                 {
