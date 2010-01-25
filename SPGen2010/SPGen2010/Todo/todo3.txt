@@ -23,3 +23,51 @@ namespace DAL.StoredProcedures
 DAL. ... .dbo.Xxxxx.MethodName
 
 DAL.Schemas (enum)
+
+
+
+
+
+存储过程返回值结构规划：
+
+必然返回部分：
+	RETURN int
+
+自定义返回值部分：
+
+1. 简单类型：
+	值类型：
+		1. 第一行第一列的 object
+	完全匹配现有结构：
+		2. 单行某表
+		3. 单行某视图
+		4. 单行某表类型
+		5. 多行某表
+		6. 多行某视图
+		7. 多行某表类型
+	生成器编辑界面创建：
+		8. 单行自定义结构
+		9. 多行自定义结构
+2. 复合类型：
+	在简单类型的基础上，由多个简单类型拼接而成
+	结构伪声明：
+	List < Pair < Type, Value > >
+	其中：
+	Type 为 简单类型 枚举
+	Value 为 具体的数据
+
+
+假设我有 SP 内容如下　：
+
+select count(*) from xxx;
+select 20;
+select top(20) * from xxx;
+
+值的类型为
+
+class ResultSet
+{
+	public Pair<1, int>				Result1 {get;set;}
+	public Pair<1, int> 			Result2 {get;set;}
+	public Pair<5, Tables.dbo.xxx> 	Result3 {get;set;}
+}
