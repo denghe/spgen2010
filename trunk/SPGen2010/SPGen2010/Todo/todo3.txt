@@ -55,6 +55,13 @@ DAL.Schemas (enum)
 	其中：
 	Type 为 简单类型 枚举
 	Value 为 具体的数据
+3. 未知类型：
+	返回的结果集个数未知，每个集的字段名，字段数。。。通通未知
+	暂定处理方案为　DataSet
+
+特殊优化：
+	允许设置为不 RETURN （相当于是无返回值的情况）
+	在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。
 
 
 假设我有 SP 内容如下　：
@@ -71,3 +78,48 @@ class ResultSet
 	public Pair<1, int> 			Result2 {get;set;}
 	public Pair<5, Tables.dbo.xxx> 	Result3 {get;set;}
 }
+
+
+
+
+
+
+
+
+一些琐碎示例
+
+
+using SP = DAL.StoredProcedures.dbo;
+...
+var rows = SP.usp_表_select(....);
+foreach(var row in rows) ...
+
+bool b = SP.usp_Users_Exists(username, password);
+
+
+
+
+某 SP 部分内容：
+
+
+PRINT @Username
+PRINT @Password
+
+SELECT IsEnabled 
+  FROM dbo.Users 
+ WHERE Username = @Username 
+   AND Password = @Password
+
+RETURN 0;
+
+调用代码：
+
+var p = new SP.usp_Users_Exists.Parameters {
+   Username = "xxx"
+ , Password = "123456"
+};
+var r = SP.usp_Users_Exists( p );
+
+// r.ReturnValue = 0
+// r.Result = true
+// r.PrintMessage = "xxx   123456"
