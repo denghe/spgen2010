@@ -123,3 +123,24 @@ var r = SP.usp_Users_Exists( p );
 // r.ReturnValue = 0
 // r.Result = true
 // r.PrintMessage = "xxx   123456"
+
+
+
+
+
+class Unknown
+{
+   public List<Column> Columns;
+   public List<Row> Rows;
+}
+class Column
+{
+   // 排在 Columns 的第几个 Index
+   // 类型　精度 ... 
+}
+class Row
+{
+   private List<Object[]> data;
+   public Object this(int idx)
+   public Object this(Column col)
+}
