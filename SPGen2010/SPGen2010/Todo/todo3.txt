@@ -56,7 +56,7 @@ DAL.Schemas (enum)
 
 	特殊优化：
 		允许设置为不 RETURN （相当于是无返回值的情况）
-		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。（ Direct, Simple, Complete 三种模式。见下例 ）
+		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。（ Direct, Simple, Complete, DataSet 4种模式。见下例 ）
 
 
 
@@ -95,7 +95,9 @@ class SPName
     /// <summary>
     /// Execute SPName SP & Return Value.
     /// </summary>
-	public Result Execute( ... );
+	public Result Execute( ... ) {
+		...
+	};
 
 	class Result
 	{
@@ -105,7 +107,7 @@ class SPName
 		public int 			ReturnValue 		{ get; set; }
 
 	    /// <summary>
-	    /// Custom Select Rows
+	    /// Custom Select Statments
 	    /// </summary>
 		public ResultSet	ResultSet			{ get; set; }
 
@@ -182,7 +184,9 @@ class SPName
     /// <summary>
     /// Execute SPName SP & Return Value.
     /// </summary>
-	public Result Execute( ... );
+	public Result Execute( ... ) {
+		...
+	};
 
 	class Result				// 简单模式的生成：可理解为用 ResultSet 直接替代了 Result 类  且不生成 False 的几个属性
 	{
@@ -208,8 +212,57 @@ class SPName
     /// <summary>
 	/// 返回最大创建时间
 	/// </summary>
-	public DateTime Execute( ... );				// 直接模式的生成：无视返回值命名，直接指定类型。
+	public DateTime Execute( ... ) {
+		...
+	};				// 直接模式的生成：无视返回值命名，直接指定类型。
 }
+
+
+
+
+
+<ResultConfig>
+	<ResultType Mode="DataSet" HasReturnValue="False" HasPrintMessages="True" HasRaiserrorMessages="False" />
+</ResultConfig>
+
+
+class SPName
+{
+    /// <summary>
+    /// Execute SPName SP & Return Value.
+    /// </summary>
+	public Result Execute( ... ) {
+		...
+	};
+
+	class Result
+	{
+	    /// <summary>
+	    /// Custom Select Statments
+	    /// </summary>
+		public DataSet		ResultSet			{ get; set; }
+
+	    /// <summary>
+	    /// Print Messages
+	    /// </summary>
+		public string		PrintMessages		{ get; set; }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
