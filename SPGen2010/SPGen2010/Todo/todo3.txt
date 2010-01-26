@@ -66,10 +66,12 @@ DAL.Schemas (enum)
 	select 20;
 	select top(20) * from xxx;
 	select top(1) a.id, b.name, c.price from a, b, c ...;
+	return 1;
 
 返回值结构定义长像：
 
 <Root>
+	<Result HasReturnValue="True" />
 	<ResultSet>
 		<Result Index="1" Name="Total" Category="1" Type="int" Description="总行数" />
 		<Result Index="2" Name="PageSize" Category="1" Type="int" Description="每页行数" />
@@ -85,6 +87,28 @@ DAL.Schemas (enum)
 
 C# 结构描述相关生成物大至长像：
 
+class Result
+{
+    /// <summary>
+    /// Return Value
+    /// </summary>
+	public int 			ReturnValue { get; set; }
+
+    /// <summary>
+    /// Custom Select Rows
+    /// </summary>
+	public ResultSet	ResultSet	{ get; set; }
+
+    /// <summary>
+    /// Print Messages
+    /// </summary>
+	public string		Messages	{ get; set; }
+
+    /// <summary>
+    /// Level: 1 - 10 Raiserrors
+    /// </summary>
+	public string		Raiserrors	{ get; set; }
+}
 class ResultSet
 {
     /// <summary>
