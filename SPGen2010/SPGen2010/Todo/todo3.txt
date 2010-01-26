@@ -35,50 +35,95 @@ DAL.Schemas (enum)
 
 自定义返回值部分：
 
-1. 简单类型：
-	值类型：
-		1. 第一行第一列的 object
-	完全匹配现有结构：
-		2. 单行某表
-		3. 单行某视图
-		4. 单行某表类型
-		5. 多行某表
-		6. 多行某视图
-		7. 多行某表类型
-	生成器编辑界面创建：
-		8. 单行自定义结构
-		9. 多行自定义结构
-2. 复合类型：
-	在简单类型的基础上，由多个简单类型拼接而成
-	结构伪声明：
-	List < Pair < Type, Value > >
-	其中：
-	Type 为 简单类型 枚举
-	Value 为 具体的数据
-3. 未知类型：
-	返回的结果集个数未知，每个集的字段名，字段数。。。通通未知
-	暂定处理方案为　DataSet
+	1. 简单类型：
+		值类型：
+			1. 第一行第一列的 object
+		完全匹配现有结构：
+			2. 单行某表
+			3. 单行某视图
+			4. 单行某表类型
+			5. 多行某表
+			6. 多行某视图
+			7. 多行某表类型
+		生成器编辑界面创建：
+			8. 单行自定义结构
+			9. 多行自定义结构
+	2. 复合类型：
+		在简单类型的基础上，由多个简单类型拼接而成
+	3. 未知类型：
+		返回的结果集个数未知，每个集的字段名，字段数。。。通通未知
+		暂定处理方案为　DataSet
 
-特殊优化：
-	允许设置为不 RETURN （相当于是无返回值的情况）
-	在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。
+	特殊优化：
+		允许设置为不 RETURN （相当于是无返回值的情况）
+		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。
+
 
 
 假设我有 SP 内容如下　：
 
-select count(*) from xxx;
-select 20;
-select top(20) * from xxx;
+	select count(*) from xxx;
+	select 20;
+	select top(20) * from xxx;
+	select top(1) a.id, b.name, c.price from a, b, c ...;
 
-值的类型为
+返回值结构定义长像：
+
+<Root>
+	<ResultSet>
+		<Result Index="1" Name="Total" Category="1" Type="int" Description="总行数" />
+		<Result Index="2" Name="PageSize" Category="1" Type="int" Description="每页行数" />
+		<Result Index="3" Name="Rows" Category="5" Schema="dbo" Name="xxx" Description="xxx表当前页的数据" />
+		<Result Index="4" Name="ReferenceRows" Category="8" Description="附带的相关明细数据" />
+	</ResultSet>
+	<Struct_ReferenceRows>
+		<Column Index="1" Name="ID" SqlDataType="int" Nullable="True" Description="编号" />
+		<Column Index="2" Name="Name" SqlDataType="string" Nullable="True" MaximumLength="50" Description="名称" />
+		<Column Index="3" Name="Price" SqlDataType="decimal" Nullable="True" NumericPrecision="10" NumericScale="2" Description="价格" />
+	</Struct_ReferenceRows>
+</Root>
+
+C# 结构描述相关生成物大至长像：
 
 class ResultSet
 {
-	public Pair<1, int>				Result1 {get;set;}
-	public Pair<1, int> 			Result2 {get;set;}
-	public Pair<5, Tables.dbo.xxx> 	Result3 {get;set;}
-}
+    /// <summary>
+    /// 总行数
+    /// </summary>
+	public int					Total 			{ get; set; }
 
+    /// <summary>
+    /// 每页行数
+    /// </summary>
+	public int	 				PageSize 		{ get; set; }
+
+    /// <summary>
+    /// xxx表当前页的数据
+    /// </summary>
+	public Tables.dbo.xxx 		Rows 			{ get; set; }
+
+    /// <summary>
+    /// 附带的相关明细数据
+    /// </summary>
+	public Struct_ReferenceRows	ReferenceRows	{ get; set; }
+}
+class Struct_ReferenceRows
+{
+    /// <summary>
+    /// 编号
+    /// </summary>
+	public int 		ID 		{ get; set; }
+
+    /// <summary>
+    /// 名称
+    /// </summary>
+	public string 	Name 	{ get; set; }
+
+    /// <summary>
+    /// 价格
+    /// </summary>
+	public decimal 	Price 	{ get; set; }
+}
 
 
 
