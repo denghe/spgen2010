@@ -37,17 +37,17 @@ DAL.Schemas (enum)
 
 	1. 简单类型：
 		值类型：
-			1. 第一行第一列的 object
+			1. 第一行第一列的 object		Scalar
 		完全匹配现有结构：
-			2. 单行某表
-			3. 单行某视图
-			4. 单行某表类型
-			5. 多行某表
-			6. 多行某视图
-			7. 多行某表类型
+			2. 单行某表					TableRow
+			3. 单行某视图				ViewRow
+			4. 单行某表类型				TableTypeRow
+			5. 多行某表					TableRows
+			6. 多行某视图				ViewRows
+			7. 多行某表类型				TableTypeRows
 		生成器编辑界面创建：
-			8. 单行自定义结构
-			9. 多行自定义结构
+			8. 单行自定义结构			StructRow
+			9. 多行自定义结构			StructRows
 	2. 复合类型：
 		在简单类型的基础上，由多个简单类型拼接而成
 	3. 未知类型：
@@ -56,11 +56,11 @@ DAL.Schemas (enum)
 
 	特殊优化：
 		允许设置为不 RETURN （相当于是无返回值的情况）
-		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。
+		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。（ Direct, Simple, Complete 三种模式。见下例 ）
 
 
 
-假设我有 SP 内容如下　：
+假设有 SP 内容如下　：
 
 	select count(*) from xxx;
 	select 20;
@@ -70,86 +70,146 @@ DAL.Schemas (enum)
 
 返回值结构定义长像：
 
-<Root>
-	<Result HasReturnValue="True" />
+
+<ResultConfig>
+	<ResultType Category="2" Mode="Complete" HasReturnValue="True" />
 	<ResultSet>
-		<Result Index="1" Name="Total" Category="1" Type="int" Description="总行数" />
-		<Result Index="2" Name="PageSize" Category="1" Type="int" Description="每页行数" />
-		<Result Index="3" Name="Rows" Category="5" Schema="dbo" Name="xxx" Description="xxx表当前页的数据" />
-		<Result Index="4" Name="ReferenceRows" Category="8" Description="附带的相关明细数据" />
+		<Result Index="1" Name="Total" 			Category="Scalar" 		Type="int" 		Description="总行数" />
+		<Result Index="2" Name="PageSize" 		Category="Scalar" 		Type="int" 		Description="每页行数" />
+		<Result Index="3" Name="Rows" 			Category="TableRows" 	Schema="dbo" 	Name="xxx" 			Description="xxx表当前页的数据" />
+		<Result Index="4" Name="ReferenceRows" 	Category="StructRow" 	Description="附带的相关明细数据" />
 	</ResultSet>
 	<Struct_ReferenceRows>
-		<Column Index="1" Name="ID" SqlDataType="int" Nullable="True" Description="编号" />
-		<Column Index="2" Name="Name" SqlDataType="string" Nullable="True" MaximumLength="50" Description="名称" />
-		<Column Index="3" Name="Price" SqlDataType="decimal" Nullable="True" NumericPrecision="10" NumericScale="2" Description="价格" />
+		<Column Index="1" Name="ID" 	SqlDataType="int" 		Nullable="True" Description="编号" />
+		<Column Index="2" Name="Name" 	SqlDataType="string" 	Nullable="True" MaximumLength="50" 		Description="名称" />
+		<Column Index="3" Name="Price" 	SqlDataType="decimal" 	Nullable="True" NumericPrecision="10" 	NumericScale="2" 	Description="价格" />
 	</Struct_ReferenceRows>
-</Root>
+</ResultConfig>
+
 
 C# 结构描述相关生成物大至长像：
 
-class Result
+
+class SPName
 {
     /// <summary>
-    /// Return Value
+    /// Execute SPName SP & Return Value.
     /// </summary>
-	public int 			ReturnValue { get; set; }
+	public Result Execute( ... );
 
-    /// <summary>
-    /// Custom Select Rows
-    /// </summary>
-	public ResultSet	ResultSet	{ get; set; }
+	class Result
+	{
+	    /// <summary>
+	    /// Return Value
+	    /// </summary>
+		public int 			ReturnValue 		{ get; set; }
 
-    /// <summary>
-    /// Print Messages
-    /// </summary>
-	public string		Messages	{ get; set; }
+	    /// <summary>
+	    /// Custom Select Rows
+	    /// </summary>
+		public ResultSet	ResultSet			{ get; set; }
 
-    /// <summary>
-    /// Level: 1 - 10 Raiserrors
-    /// </summary>
-	public string		Raiserrors	{ get; set; }
+	    /// <summary>
+	    /// Print Messages
+	    /// </summary>
+		public string		PrintMessages		{ get; set; }
+
+	    /// <summary>
+	    /// Level: 1 - 10 Raiserrors
+	    /// </summary>
+		public string		RaiserrorMessages	{ get; set; }
+	}
+	class ResultSet
+	{
+	    /// <summary>
+	    /// 总行数
+	    /// </summary>
+		public int					Total 			{ get; set; }
+
+	    /// <summary>
+	    /// 每页行数
+	    /// </summary>
+		public int	 				PageSize 		{ get; set; }
+
+	    /// <summary>
+	    /// xxx表当前页的数据
+	    /// </summary>
+		public Tables.dbo.xxx 		Rows 			{ get; set; }
+
+	    /// <summary>
+	    /// 附带的相关明细数据
+	    /// </summary>
+		public Struct_ReferenceRows	ReferenceRows	{ get; set; }
+	}
+	class Struct_ReferenceRows
+	{
+	    /// <summary>
+	    /// 编号
+	    /// </summary>
+		public int 		ID 		{ get; set; }
+
+	    /// <summary>
+	    /// 名称
+	    /// </summary>
+		public string 	Name 	{ get; set; }
+
+	    /// <summary>
+	    /// 价格
+	    /// </summary>
+		public decimal 	Price 	{ get; set; }
+	}
 }
-class ResultSet
+
+
+
+
+
+假设有 SP 内容如下　：
+
+	select max(CreateTime) from xxx;
+
+
+<ResultConfig>
+	<ResultType Category="1" Mode="Simple" HasReturnValue="False" HasPrintMessages="False" HasRaiserrorMessages="False" />
+	<ResultSet>
+		<Result Index="3" Name="MaxCreateTime" Category="TableRows" Schema="dbo" Name="xxx" Description="最大创建时间" />
+	</ResultSet>
+</ResultConfig>
+
+
+class SPName
 {
     /// <summary>
-    /// 总行数
+    /// Execute SPName SP & Return Value.
     /// </summary>
-	public int					Total 			{ get; set; }
+	public Result Execute( ... );
 
-    /// <summary>
-    /// 每页行数
-    /// </summary>
-	public int	 				PageSize 		{ get; set; }
-
-    /// <summary>
-    /// xxx表当前页的数据
-    /// </summary>
-	public Tables.dbo.xxx 		Rows 			{ get; set; }
-
-    /// <summary>
-    /// 附带的相关明细数据
-    /// </summary>
-	public Struct_ReferenceRows	ReferenceRows	{ get; set; }
+	class Result				// 简单模式的生成：可理解为用 ResultSet 直接替代了 Result 类  且不生成 False 的几个属性
+	{
+	    /// <summary>
+	    /// 最大创建时间
+	    /// </summary>
+		public DateTime MaxCreateTime { get; set; }
+	}
 }
-class Struct_ReferenceRows
+
+
+
+<ResultConfig>
+	<ResultType Category="1" Mode="Direct" />
+	<ResultSet>
+		<Result Index="3" Name="MaxCreateTime" Category="TableRows" Schema="dbo" Name="xxx" Description="返回最大创建时间" />
+	</ResultSet>
+</ResultConfig>
+
+
+class SPName
 {
     /// <summary>
-    /// 编号
-    /// </summary>
-	public int 		ID 		{ get; set; }
-
-    /// <summary>
-    /// 名称
-    /// </summary>
-	public string 	Name 	{ get; set; }
-
-    /// <summary>
-    /// 价格
-    /// </summary>
-	public decimal 	Price 	{ get; set; }
+	/// 返回最大创建时间
+	/// </summary>
+	public DateTime Execute( ... );				// 直接模式的生成：无视返回值命名，直接指定类型。
 }
-
-
 
 
 
