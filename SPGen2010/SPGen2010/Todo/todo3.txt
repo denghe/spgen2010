@@ -260,13 +260,14 @@ class SPName
 
 class Set
 {
-	public Dictionary<string, Table> Tables;
+	public List<Table> Tables;
 	public Table this ( int index );
 	public Table this ( string name );
 }
 class Table
 {
 	public int Index;
+	public string Name;
 	public List<Column> Columns;
 	public List<Row> Rows;
 	public Row this ( int rowIdx );
@@ -296,6 +297,38 @@ class Row
 
 
 
+
+
+
+sp: xxx
+select count(*) from xxx;
+select top(100) * from xxx;
+
+
+var set = xxx.Execute();
+
+var count = (int)set[0][0][0];
+var table = set[1];
+foreach(var row in table.Rows)
+
+
+var ds = cmd.ExecuteDataSet("exec xxx");
+
+int
+int? i = null;
+
+
+
+
+
+
+
+
+
+
+
+
+
 一些琐碎示例
 
 
@@ -305,6 +338,13 @@ var rows = SP.usp_表_select(....);
 foreach(var row in rows) ...
 
 bool b = SP.usp_Users_Exists(username, password);
+
+
+
+
+
+
+
 
 
 

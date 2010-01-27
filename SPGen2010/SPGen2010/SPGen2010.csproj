@@ -262,6 +262,7 @@
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
+    <Compile Include="Todo\Set.cs" />
     <None Include="app.config" />
     <None Include="Todo\MySmoFiller_Extensions.cs" />
     <None Include="Todo\MySmoPrepare.cs" />
