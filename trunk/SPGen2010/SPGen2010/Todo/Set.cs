@@ -33,12 +33,17 @@ namespace SPGen2010.Todo
         public int GetIndex() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
         public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
         public DbColumn NewColumn() { return new DbColumn(this); }
-
+        public DbColumn NewColumn(string name, Type type) { return new DbColumn(this, name, type); }
+        public DbColumn NewColumn(string name) { return new DbColumn(this, name); }
     }
     public partial class DbColumn
     {
-        private DbColumn();
-        public DbColumn(DbTable parent, string name, Type type) { this.Table = parent; parent.Columns.Add(this); this.Name = name; this.Type = type; }
+        private DbColumn() { }
+        public DbColumn(DbTable parent, string name, Type type)
+        {
+            this.Table = parent; parent.Columns.Add(this); this.Name = name; this.Type = type;
+            if (parent.Rows.Count > 0) foreach (var row in parent.Rows) row.Increase();
+        }
         public DbColumn(DbTable parent, string name) : this(parent, name, typeof(string)) { }
         public DbColumn(DbTable parent) : this(parent, null, typeof(string)) { }
         public DbTable Table { get; set; }
@@ -49,17 +54,32 @@ namespace SPGen2010.Todo
     public partial class DbRow
     {
         private DbRow() { }
-        public DbRow(DbTable parent, object[] data) { this.Table = parent; this.DataArray = data; parent.Rows.Add(this); }
+        public DbRow(DbTable parent, params object[] data)
+        {
+            if (parent.Columns.Count == 0 && (data == null || data.Length > 0))
+                throw new Exception("Beyond the limited number of fields");
+            else if (parent.Columns.Count > 0 && (data == null || data.Length != parent.Columns.Count))
+                throw new Exception("Insufficient data or Beyond the limited number of fields");
+            this.Table = parent;
+            this.DataArray = data;
+            parent.Rows.Add(this);
+        }
         public DbTable Table { get; private set; }
-        public object[] DataArray { get; set; }
-        public object this[int idx] { get { return DataArray[idx]; } set { DataArray[idx] = value; } }
-        public object this[DbColumn col] { get { return DataArray[col.GetIndex()]; } set { DataArray[col.GetIndex()] = value; } }
+        private object[] _dataArray;
+        public object[] DataArray { get { return this._dataArray; } set { this._dataArray = value; } }
+        public object this[int idx] { get { return this._dataArray[idx]; } set { this._dataArray[idx] = value; } }
+        public object this[DbColumn col] { get { return this._dataArray[col.GetIndex()]; } set { this._dataArray[col.GetIndex()] = value; } }
         public object this[string name]
         {
-            get { return DataArray[Table.Columns.Find(o => o.Name == name).GetIndex()]; }
-            set { DataArray[Table.Columns.Find(o => o.Name == name).GetIndex()] = value; }
+            get { return this._dataArray[this.Table.Columns.Find(o => o.Name == name).GetIndex()]; }
+            set { this._dataArray[this.Table.Columns.Find(o => o.Name == name).GetIndex()] = value; }
         }
-        public void SetValues(params object[] data) { DataArray = data; }
+        public void SetValues(params object[] data) { this._dataArray = data; }
+        internal void Increase()
+        {
+            if (this._dataArray == null) this._dataArray = new object[] { null };
+            else Array.Resize<object>(ref this._dataArray, this._dataArray.Length + 1);
+        }
     }
 
 
