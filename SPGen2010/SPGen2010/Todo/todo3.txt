@@ -46,8 +46,8 @@ DAL.Schemas (enum)
 			6. 多行某视图				ViewRows
 			7. 多行某表类型				TableTypeRows
 		生成器编辑界面创建：
-			8. 单行自定义结构			StructRow
-			9. 多行自定义结构			StructRows
+			8. 单行自定义结构			CustomRow
+			9. 多行自定义结构			CustomRows
 	2. 复合类型：
 		在简单类型的基础上，由多个简单类型拼接而成
 	3. 一知半解类型：
@@ -87,14 +87,13 @@ DAL.Schemas (enum)
 
 假设有 SP 内容如下　：
 
-	select count(*) from xxx;
-	select 20;
-	select top(20) * from xxx;
-	select top(1) a.id, b.name, c.price from a, b, c ...;
-	return 1;
+select count(*) from xxx;
+select 20;
+select top(20) * from xxx;
+select top(1) a.id, b.name, c.price from a, b, c ...;
+return 1;
 
-返回值结构定义长像：
-
+返回值结构描述：
 
 <ResultConfig>
 	<ResultOption HasReturnValue="True" HasPrintMessages="True" HasRaiserrorMessages="True" HasResultSet="True" />
@@ -104,11 +103,11 @@ DAL.Schemas (enum)
 		<Result Index="3" Name="Rows" 			Category="TableRows" 	Schema="dbo" 	Name="xxx" 			Description="xxx表当前页的数据" />
 		<Result Index="4" Name="ReferenceRows" 	Category="CustomRow" 	Description="附带的相关明细数据" />
 	</ResultSet>
-	<Struct_ReferenceRows>
+	<Custom_ReferenceRows>
 		<Column Index="1" Name="ID" 	SqlDataType="int" 		Nullable="True" Description="编号" />
 		<Column Index="2" Name="Name" 	SqlDataType="string" 	Nullable="True" MaximumLength="50" 		Description="名称" />
 		<Column Index="3" Name="Price" 	SqlDataType="decimal" 	Nullable="True" NumericPrecision="10" 	NumericScale="2" 	Description="价格" />
-	</Struct_ReferenceRows>
+	</Custom_ReferenceRows>
 </ResultConfig>
 
 
@@ -134,7 +133,7 @@ class SPName
 	    /// <summary>
 	    /// Custom Select Statments
 	    /// </summary>
-		public SelectSet	SelectSet			{ get; set; }
+		public ResultSet	ResultSet			{ get; set; }
 
 	    /// <summary>
 	    /// Print Messages
@@ -146,27 +145,27 @@ class SPName
 	    /// </summary>
 		public string		RaiserrorMessages	{ get; set; }
 	}
-	class SelectSet
+	class ResultSet
 	{
 	    /// <summary>
 	    /// 总行数
 	    /// </summary>
-		public int						Total 			{ get; set; }
+		public int								Total 			{ get; set; }
 
 	    /// <summary>
 	    /// 每页行数
 	    /// </summary>
-		public int	 					PageSize 		{ get; set; }
+		public int	 							PageSize 		{ get; set; }
 
 	    /// <summary>
 	    /// xxx表当前页的数据
 	    /// </summary>
-		public Tables.dbo.xxx 			Rows 			{ get; set; }
+		public Tables.dbo.xxx 					Rows 			{ get; set; }
 
 	    /// <summary>
 	    /// 附带的相关明细数据
 	    /// </summary>
-		public CustomRow_ReferenceRows	ReferenceRows	{ get; set; }
+		public List<CustomRow_ReferenceRows>	ReferenceRows	{ get; set; }
 	}
 	class CustomRow_ReferenceRows
 	{
