@@ -56,11 +56,13 @@ DAL.Schemas (enum)
 		返回的结果集个数未知，每个集的字段名，字段数。。。通通未知	DbSet
 		
 
-选项（名称，默认值，说明）：
+返回值关注（生成）选项（名称，默认值，说明）：
+
 	HasReturnValue			= True			是否含有 RETURN int 语句
 	HasPrintMessages		= False			是否含有 PRINT 语句
 	HasRaiserrorMessages	= False			是否含有 RAISERROR 语句或 错误输出
 	HasResultSet			= True			是否含有 SELECT 语句若干
+
 注：生成时这些选项直接影响生成的调用结果承载代码 是否含有某种属性。
 
 生成物特殊优化：
@@ -77,6 +79,10 @@ DAL.Schemas (enum)
 	HasRaiserrorMessages	= False
 	HasResultSet			= False
 
+....
+
+即：当只包含单项返回内容时，该内容于执行调用后直接返回
+
 
 
 假设有 SP 内容如下　：
@@ -91,7 +97,7 @@ DAL.Schemas (enum)
 
 
 <ResultConfig>
-	<ResultType Category="2" Mode="Complete" HasReturnValue="True" />
+	<ResultOption HasReturnValue="True" HasPrintMessages="True" HasRaiserrorMessages="True" HasResultSet="True" />
 	<ResultSet>
 		<Result Index="1" Name="Total" 			Category="Scalar" 		Type="int" 		Description="总行数" />
 		<Result Index="2" Name="PageSize" 		Category="Scalar" 		Type="int" 		Description="每页行数" />
@@ -191,7 +197,7 @@ class SPName
 
 
 <ResultConfig>
-	<ResultType Category="1" Mode="Simple" HasReturnValue="False" HasPrintMessages="False" HasRaiserrorMessages="False" />
+	<ResultOption HasReturnValue="False" />
 	<ResultSet>
 		<Result Index="3" Name="MaxCreateTime" Category="TableRows" Schema="dbo" Name="xxx" Description="最大创建时间" />
 	</ResultSet>
@@ -218,97 +224,8 @@ class SPName
 
 
 
-<ResultConfig>
-	<ResultType Category="1" Mode="Direct" />
-	<ResultSet>
-		<Result Index="3" Name="MaxCreateTime" Category="TableRows" Schema="dbo" Name="xxx" Description="返回最大创建时间" />
-	</ResultSet>
-</ResultConfig>
 
 
-class SPName
-{
-    /// <summary>
-	/// 返回最大创建时间
-	/// </summary>
-	public DateTime Execute( ... ) {
-		...
-	};				// 直接模式的生成：无视返回值命名，直接指定类型。
-}
-
-
-
-
-
-<ResultConfig>
-	<ResultType Mode="DataSet" HasReturnValue="False" HasPrintMessages="True" HasRaiserrorMessages="False" />
-</ResultConfig>
-
-
-class SPName
-{
-    /// <summary>
-    /// Execute SPName SP & Return Value.
-    /// </summary>
-	public Result Execute( ... ) {
-		...
-	};
-
-	class Result
-	{
-	    /// <summary>
-	    /// Custom Select Statments
-	    /// </summary>
-		public DataSet		ResultSet			{ get; set; }
-
-	    /// <summary>
-	    /// Print Messages
-	    /// </summary>
-		public string		PrintMessages		{ get; set; }
-	}
-}
-
-
-
-
-
-
-
-
-完全未知返回值解决方案：
-
-class Set
-{
-	public List<Table> Tables;
-	public Table this ( int index );
-	public Table this ( string name );
-}
-class Table
-{
-	public int Index;
-	public string Name;
-	public List<Column> Columns;
-	public List<Row> Rows;
-	public Row this ( int rowIdx );
-}
-class Column
-{
-	public int Index;
-	// 类型　精度 ... 
-}
-class Row
-{
-	private List<Object[]> data;
-	public Object this ( int idx )
-	public Object this ( Column col )
-	public object this ( string name )
-}
-
-
-
-部分结果未知返回值解决方案：
-
-	结合已知结构外加上面 Table 这一级的数据结构来存储。
 
 
 
