@@ -134,7 +134,7 @@ class SPName
 	    /// <summary>
 	    /// Custom Select Statments
 	    /// </summary>
-		public ResultSet	ResultSet			{ get; set; }
+		public SelectSet	SelectSet			{ get; set; }
 
 	    /// <summary>
 	    /// Print Messages
@@ -146,7 +146,7 @@ class SPName
 	    /// </summary>
 		public string		RaiserrorMessages	{ get; set; }
 	}
-	class ResultSet
+	class SelectSet
 	{
 	    /// <summary>
 	    /// 总行数
