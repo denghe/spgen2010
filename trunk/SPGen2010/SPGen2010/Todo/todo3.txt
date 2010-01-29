@@ -28,7 +28,7 @@ DAL.Schemas (enum)
 
 
 
-存储过程返回值结构规划：
+存储过程执行结果结构规划：
 
 必然返回部分：
 	RETURN int
@@ -50,13 +50,32 @@ DAL.Schemas (enum)
 			9. 多行自定义结构			StructRows
 	2. 复合类型：
 		在简单类型的基础上，由多个简单类型拼接而成
-	3. 未知类型：
-		返回的结果集个数未知，每个集的字段名，字段数。。。通通未知
-		暂定处理方案为　DataSet
+	3. 一知半解类型：
+		基于复合类型，只是其中部分结构的字段名或个数，返回行数未知	DbTable 穿插
+	4. 未知类型：
+		返回的结果集个数未知，每个集的字段名，字段数。。。通通未知	DbSet
+		
 
-	特殊优化：
-		允许设置为不 RETURN （相当于是无返回值的情况）
-		在不 RETURN 的情况下，如果存在自定义返回值部分，则返回值直接为简单类型。（ Direct, Simple, Complete, DataSet 4种模式。见下例 ）
+选项（名称，默认值，说明）：
+	HasReturnValue			= True			是否含有 RETURN int 语句
+	HasPrintMessages		= False			是否含有 PRINT 语句
+	HasRaiserrorMessages	= False			是否含有 RAISERROR 语句或 错误输出
+	HasResultSet			= True			是否含有 SELECT 语句若干
+注：生成时这些选项直接影响生成的调用结果承载代码 是否含有某种属性。
+
+生成物特殊优化：
+
+当符合下列 *所有* 条件时，执行 直接返回 结构实例：
+	HasReturnValue			= False
+	HasPrintMessages		= False
+	HasRaiserrorMessages	= False
+	HasResultSet			= True
+
+当符合下列 *所有* 条件时，执行 直接返回 ReturnValue：
+	HasReturnValue			= True
+	HasPrintMessages		= False
+	HasRaiserrorMessages	= False
+	HasResultSet			= False
 
 
 
