@@ -413,35 +413,39 @@ namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
                         sb.Append(@"
         }
 
-        public partial class ResultSet
-        {
-            public int ReturnValue { get; set; }
-            public ResultTable1 Result1 { get; set; }
-            public ResultTable2 Result2 { get; set; }
+    	public partial class Result
+    	{
+    	    /// <summary>
+    	    /// Return Value
+    	    /// </summary>
+    		public int 			ReturnValue 		{ get; set; }
+
+    	    /// <summary>
+    	    /// Custom Select Statments
+    	    /// </summary>
+    		public DbSet        SelectSet    		{ get; set; }
+
+    	    /// <summary>
+    	    /// Print Messages
+    	    /// </summary>
+    		public string		PrintMessages		{ get; set; }
+
+    	    /// <summary>
+    	    /// Error Messages
+    	    /// </summary>
+    		public string		RaiserrorMessages	{ get; set; }
+    	}
+
+        //public partial class SelectSet
+        //{
             //...
-        }
+        //}
 
-        #region Result Class Declares
+        //public partial class CustomRow_Xxxxx
+        //{
+            //...
+        //}
 
-        public partial class ResultRow1
-        {
-            //columns properties......
-        }
-        public partial class ResultRow2
-        {
-            //columns properties......
-        }
-        // ...
-
-        public partial class ResultTable1 : List<ResultRow1>
-        {
-        }
-        public partial class ResultTable2 : List<ResultRow2>
-        {
-        }
-        // ...
-
-        #endregion
     }");
                     }
                     sb.Append(@"
