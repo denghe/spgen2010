@@ -317,7 +317,7 @@
         /// <summary>
         /// 执行一个 SQL 命令对象，返回一个 DbSet 数据集
         /// </summary>
-        public static DbSet ExecuteDbSet(SqlCommand cmd, bool isGetInfoMessage = false, SqlInfoMessageEventHandler imHandler = null)
+        public static DbSet ExecuteDbSet(SqlCommand cmd, bool isGetInfoMessage = true, SqlInfoMessageEventHandler imHandler = null)
         {
             var se = CurrentSqlElements;
             var ds = new DbSet();
@@ -782,7 +782,7 @@
         /// <summary>
         /// 执行一个 SQL 语句，返回一个 DbSet 数据集
         /// </summary>
-        public static DbSet ExecuteDbSet(string s, bool isStoredProcedure = false, bool isGetInfoMessage = false, SqlInfoMessageEventHandler imHandler = null)
+        public static DbSet ExecuteDbSet(string s, bool isStoredProcedure = false, bool isGetInfoMessage = true, SqlInfoMessageEventHandler imHandler = null)
         {
             var se = CurrentSqlElements;
             var ds = new DbSet();
