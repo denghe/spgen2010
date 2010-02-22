@@ -262,7 +262,13 @@
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
-    <Compile Include="Todo\DbSet.cs" />
+    <Compile Include="Todo\OutputFiles\DbSet.cs" />
+    <Compile Include="Todo\OutputFiles\DbSet_Extensions.cs" />
+    <Compile Include="Todo\OutputFiles\SpResultConfig.cs" />
+    <Compile Include="Todo\OutputFiles\SqlGens.cs" />
+    <Compile Include="Todo\OutputFiles\SqlHelper.cs" />
+    <Compile Include="Todo\OutputFiles\SqlUtils.cs" />
+    <None Include="Todo\DbSet.cs" />
     <None Include="app.config" />
     <None Include="Todo\MySmoFiller_Extensions.cs" />
     <None Include="Todo\MySmoPrepare.cs" />
