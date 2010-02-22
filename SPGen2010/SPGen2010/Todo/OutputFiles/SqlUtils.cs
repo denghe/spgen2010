@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 
 public partial class Pair<T1, T2>
 {
@@ -12,6 +13,8 @@ public partial class Pair<T1, T2>
 
 public static partial class SqlUtils
 {
+    #region string methods
+
     /// <summary>
     /// combine a list to string like  xx,xxx,xx,xx,...
     /// </summary>
@@ -75,4 +78,6 @@ public static partial class SqlUtils
         }
         return sb.ToString();
     }
+    #endregion
+
 }
