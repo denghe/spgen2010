@@ -88,6 +88,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public Database ParentDatabase { get; set; }
         public ExtendedProperties ExtendedProperties { get; set; }
         public List<Column> Columns { get; set; }
+        public List<ForeignKey> ForeignKeys { get; set; }
         public string Name { get; set; }
         public string Schema { get; set; }
         public string Description { get; set; }
@@ -166,6 +167,37 @@ namespace SPGen2010.Components.Modules.MySmo
         public bool RowGuidCol { get; set; }
     }
 
+    public partial class ForeignKey : IMySmoObject, IParentDatabase, IName, IExtendPropertiesBase, ICreateTime
+    {
+        public Database ParentDatabase { get; set; }
+        public List<ForeignKeyColumn> Columns { get; set; }
+        public ExtendedProperties ExtendedProperties { get; set; }
+        public bool IsChecked { get; set; }
+        public bool IsEnabled { get; set; }
+        public bool IsSystemNamed { get; set; }
+        public string Name { get; set; }
+        public bool NotForReplication { get; set; }
+        public Table ParentTable { get; set; }
+        public string ReferencedKey { get; set; }
+        public string ReferencedTable { get; set; }
+        public string ReferencedTableSchema { get; set; }
+        public string ScriptReferencedTable { get; set; }
+        public string ScriptReferencedTableSchema { get; set; }
+
+        public ForeignKeyAction UpdateAction { get; set; }
+        public ForeignKeyAction DeleteAction { get; set; }
+
+        public DateTime CreateTime { get; set; }
+    }
+
+    public partial class ForeignKeyColumn : IMySmoObject, IParentDatabase, IName
+    {
+        public Database ParentDatabase { get; set; }
+        public string Name { get; set; }
+        public ForeignKey ParentForeignKey { get; set; }
+        public string ReferencedColumn { get; set; }
+    }
+
     public partial class Parameter : IMySmoObject, IParentDatabase, IParentParameterBase, IName, IExtendPropertiesBase
     {
         public Database ParentDatabase { get; set; }
@@ -202,6 +234,14 @@ namespace SPGen2010.Components.Modules.MySmo
     public partial class ExtendedProperties : Dictionary<string, string>, IMySmoObject
     {
         public IExtendPropertiesBase ParentExtendPropertiesBase { get; set; }
+    }
+
+    public enum ForeignKeyAction
+    {
+        NoAction = 0,
+        Cascade = 1,
+        SetNull = 2,
+        SetDefault = 3,
     }
 
     public enum UserDefinedFunctionType
