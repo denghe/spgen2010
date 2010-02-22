@@ -332,6 +332,42 @@ namespace SPGen2010.Components.Providers.MsSql
                 }
                 mysmo_t.Columns.Add(mysmo_c);
             }
+            mysmo_t.ForeignKeys = new List<MySmo.ForeignKey>();
+            foreach (Smo.ForeignKey smo_fk in smo_t.ForeignKeys)
+            {
+                var mysmo_fk = new MySmo.ForeignKey
+                {
+                    ParentDatabase = parent,
+                    Columns = new List<MySmo.ForeignKeyColumn>(),
+                    CreateTime = smo_fk.CreateDate,
+                    DeleteAction = (MySmo.ForeignKeyAction)(int)smo_fk.DeleteAction,
+                    IsChecked = smo_fk.IsChecked,
+                    IsEnabled = smo_fk.IsEnabled,
+                    IsSystemNamed = smo_fk.IsSystemNamed,
+                    Name = smo_fk.Name,
+                    NotForReplication = smo_fk.NotForReplication,
+                    ParentTable = mysmo_t,
+                    ReferencedKey = smo_fk.ReferencedKey,
+                    ReferencedTable = smo_fk.ReferencedTable,
+                    ReferencedTableSchema = smo_fk.ReferencedTableSchema,
+                    ScriptReferencedTable = smo_fk.ScriptReferencedTable,
+                    ScriptReferencedTableSchema = smo_fk.ScriptReferencedTableSchema,
+                    UpdateAction = (MySmo.ForeignKeyAction)(int)smo_fk.UpdateAction
+                };
+                foreach (Smo.ForeignKeyColumn smo_fkc in smo_fk.Columns)
+                {
+                    var mysmo_fkc = new MySmo.ForeignKeyColumn
+                    {
+                        ParentDatabase = parent,
+                        Name = smo_fkc.Name,
+                        ParentForeignKey = mysmo_fk,
+                        ReferencedColumn = smo_fkc.ReferencedColumn
+                    };
+                    mysmo_fk.Columns.Add(mysmo_fkc);
+                }
+                mysmo_fk.ExtendedProperties = GetExtendProperties(mysmo_fk, smo_fk.ExtendedProperties);
+                mysmo_t.ForeignKeys.Add(mysmo_fk);
+            }
             FormatExtendProperties(mysmo_t);
 
             return mysmo_t;
@@ -596,7 +632,7 @@ namespace SPGen2010.Components.Providers.MsSql
             return new List<MySmo.Schema>(
                 from Smo.Schema o in smo_db.Schemas
                 where o.IsSystemObject == false || o.Name == "dbo"
-                select GetSchema(o,parent)
+                select GetSchema(o, parent)
             );
 
             #endregion
