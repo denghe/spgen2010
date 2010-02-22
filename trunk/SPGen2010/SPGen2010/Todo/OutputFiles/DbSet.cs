@@ -29,14 +29,17 @@ public partial class DbTable
         this.Rows = new List<DbRow>();
         this.Columns = new List<DbColumn>();
     }
+
     public DbSet Set { get; set; }
     public string Name { get; set; }
     public string Schema { get; set; }
     public List<DbRow> Rows { get; private set; }
     public List<DbColumn> Columns { get; private set; }
+
     public DbRow this[int rowIdx] { get { return this.Rows[rowIdx]; } }
     public int GetOrdinal() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
     public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
+
     public DbColumn NewColumn() { return new DbColumn(this); }
     public DbColumn NewColumn(string name, Type type, bool nullable) { return new DbColumn(this, name, type, nullable); }
     public DbColumn NewColumn(string name, Type type) { return new DbColumn(this, name, type); }
@@ -53,10 +56,12 @@ public partial class DbColumn
     public DbColumn(DbTable parent, string name, Type type) : this(parent, name, type, true) { }
     public DbColumn(DbTable parent, string name) : this(parent, name, typeof(string)) { }
     public DbColumn(DbTable parent) : this(parent, null, typeof(string)) { }
+
     public DbTable Table { get; set; }
     public string Name { get; set; }
     public Type Type { get; set; }
     public bool AllowDBNull { get; set; }
+
     public int GetOrdinal() { return this.Table.Columns.IndexOf(this); }
 }
 public partial class DbRow
@@ -72,9 +77,11 @@ public partial class DbRow
         this._itemArray = data;
         parent.Rows.Add(this);
     }
+
     public DbTable Table { get; private set; }
     private object[] _itemArray;
     public object[] ItemArray() { return this._itemArray; }
+
     public object this[int idx] { get { return this._itemArray[idx]; } set { this._itemArray[idx] = value; } }
     public object this[DbColumn col] { get { return this._itemArray[col.GetOrdinal()]; } set { this._itemArray[col.GetOrdinal()] = value; } }
     public object this[string name]
@@ -166,8 +173,7 @@ public class SqlError
     /// </summary>
     public override string ToString()
     {
-        return string.Format(@"
-Class       = {0}
+        return string.Format(@"Class       = {0}
 LineNumber  = {1}
 Message     = {2}
 Number      = {3}
