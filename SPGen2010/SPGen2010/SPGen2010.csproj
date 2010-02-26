@@ -262,14 +262,6 @@
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
-    <Compile Include="Todo\OutputFiles\DAL\SqlHelper.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Extensions.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Partial.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Utils.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SpResultConfig.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SqlGens.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SqlUtils.cs" />
     <None Include="Todo\DbSet.cs" />
     <None Include="app.config" />
     <None Include="Todo\MySmoFiller_Extensions.cs" />
@@ -551,6 +543,7 @@
     <Folder Include="Components\Providers\MySql\" />
     <Folder Include="Components\Providers\Oracle\" />
     <Folder Include="Components\Providers\SqLite\" />
+    <Folder Include="Todo\OutputFiles\SqlLib\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
