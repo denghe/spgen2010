@@ -262,18 +262,7 @@
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DAL\SqlHelper.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Extensions.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Partial.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Utils.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SpResultConfig.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SqlGens.cs" />
-    <Compile Include="Todo\OutputFiles\SqlLib\SqlUtils.cs" />
-    <None Include="Todo\DbSet.cs" />
     <None Include="app.config" />
-    <None Include="Todo\MySmoFiller_Extensions.cs" />
-    <None Include="Todo\MySmoPrepare.cs" />
     <Compile Include="Components\Providers\MsSql\ObjectExplorerProvider.cs" />
     <Compile Include="Components\Generators\GeneratorLoader.cs" />
     <Compile Include="Components\Generators\IGenerator.cs" />
@@ -286,7 +275,6 @@
     <Compile Include="Components\Modules\MySmo.cs" />
     <Compile Include="Components\Modules\MySmoPartial.cs" />
     <Compile Include="Components\Modules\ObjectExplorer.cs" />
-    <None Include="Todo\SQLHelper.cs" />
     <Compile Include="Components\Helpers\MsSql\Utils.cs" />
     <Compile Include="Components\Controls\ImageSourceHelper.cs" />
     <Compile Include="Components\Controls\ObjectExplorer.xaml.cs">
