@@ -7,14 +7,14 @@ public partial class DbSet
 {
     public DbSet()
     {
-        this.Tables = new List<DbTable>();
-        this.Messages = new List<string>();
-        this.Errors = new List<SqlError>();
+        this.Tables = new Tables();
+        this.Messages = new Messages();
+        this.Errors = new Errors();
     }
 
-    public List<DbTable> Tables { get; private set; }
-    public List<string> Messages { get; private set; }
-    public List<SqlError> Errors { get; private set; }
+    public Tables Tables { get; private set; }
+    public Messages Messages { get; private set; }
+    public Errors Errors { get; private set; }
     public int ReturnValue { get; set; }
     public int RecordsAffected { get; set; }
 
@@ -22,19 +22,30 @@ public partial class DbSet
     public DbTable this[string name] { get { return Tables.Find(o => o.Name == name); } }
     public DbTable this[string name, string schema] { get { return Tables.Find(o => o.Name == name && o.Schema == schema); } }
 }
+
+public partial class Tables : List<DbTable>
+{
+}
+public partial class Messages : List<string>
+{
+}
+public partial class Errors : List<SqlError>
+{
+}
+
 public partial class DbTable
 {
     public DbTable()
     {
-        this.Rows = new List<DbRow>();
-        this.Columns = new List<DbColumn>();
+        this.Rows = new Rows();
+        this.Columns = new Columns();
     }
 
     public DbSet Set { get; set; }
     public string Name { get; set; }
     public string Schema { get; set; }
-    public List<DbRow> Rows { get; private set; }
-    public List<DbColumn> Columns { get; private set; }
+    public Rows Rows { get; private set; }
+    public Columns Columns { get; private set; }
 
     public DbRow this[int rowIdx] { get { return this.Rows[rowIdx]; } }
     public int GetOrdinal() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
@@ -45,6 +56,14 @@ public partial class DbTable
     public DbColumn NewColumn(string name, Type type) { return new DbColumn(this, name, type); }
     public DbColumn NewColumn(string name) { return new DbColumn(this, name); }
 }
+
+public partial class Rows : List<DbRow>
+{
+}
+public partial class Columns : List<DbColumn>
+{
+}
+
 public partial class DbColumn
 {
     private DbColumn() { }
@@ -64,18 +83,36 @@ public partial class DbColumn
 
     public int GetOrdinal() { return this.Table.Columns.IndexOf(this); }
 }
+
 public partial class DbRow
 {
     private DbRow() { }
     public DbRow(DbTable parent, params object[] data)
     {
-        if (parent.Columns.Count == 0 && (data == null || data.Length > 0))
+        var count = parent.Columns.Count;
+        if (count == 0 && (data == null || data.Length > 0))
             throw new Exception("Beyond the limited number of fields");
-        else if (parent.Columns.Count > 0 && (data == null || data.Length != parent.Columns.Count))
-            throw new Exception("Insufficient data or Beyond the limited number of fields");
-        this.Table = parent;
-        this._itemArray = data;
-        parent.Rows.Add(this);
+        else
+        {
+            if (data == null || data.Length == 0)
+            {
+                this._itemArray = new object[count];
+                for (int i = 0; i < count; i++)
+                {
+                    this._itemArray[i] = DBNull.Value;
+                }
+            }
+            else if (data.Length != count)
+            {
+                throw new Exception("Insufficient data or Beyond the limited number of fields");
+            }
+            else
+            {
+                this._itemArray = data;
+            }
+            this.Table = parent;
+            parent.Rows.Add(this);
+        }
     }
 
     public DbTable Table { get; private set; }
@@ -100,7 +137,7 @@ public partial class DbRow
 /// <summary>
 ///  Collects information relevant to a warning or error returned by SQL Server.
 /// </summary>
-public class SqlError
+public partial class SqlError
 {
     /// <summary>
     ///     Gets the severity level of the error returned from SQL Server.
@@ -111,6 +148,14 @@ public class SqlError
     /// </summary>
     public byte Class { get; set; }
     /// <summary>
+    ///     Gets a numeric error code from SQL Server that represents an error, warning
+    ///     or "no data found" message.
+    ///
+    /// Returns:
+    ///     The number that represents the error code.
+    /// </summary>
+    public byte State { get; set; }
+    /// <summary>
     ///     Gets the line number within the Transact-SQL command batch or stored procedure
     ///     that contains the error.
     ///
@@ -120,6 +165,13 @@ public class SqlError
     /// </summary>
     public int LineNumber { get; set; }
     /// <summary>
+    ///     Gets a number that identifies the type of error.
+    ///
+    /// Returns:
+    ///     The number that identifies the type of error.
+    /// </summary>
+    public int Number { get; set; }
+    /// <summary>
     ///     Gets the text describing the error.
     ///
     /// Returns:
@@ -127,13 +179,6 @@ public class SqlError
     ///     SQL Server, see SQL Server Books Online.
     /// </summary>
     public string Message { get; set; }
-    /// <summary>
-    ///     Gets a number that identifies the type of error.
-    ///
-    /// Returns:
-    ///     The number that identifies the type of error.
-    /// </summary>
-    public int Number { get; set; }
     /// <summary>
     ///     Gets the name of the stored procedure or remote procedure call (RPC) that
     ///     generated the error.
@@ -157,30 +202,4 @@ public class SqlError
     ///     The name of the provider that generated the error.
     /// </summary>
     public string Source { get; set; }
-    /// <summary>
-    ///     Gets a numeric error code from SQL Server that represents an error, warning
-    ///     or "no data found" message.
-    ///
-    /// Returns:
-    ///     The number that represents the error code.
-    /// </summary>
-    public byte State { get; set; }
-    /// <summary>
-    ///     Gets the complete text of the error message.
-    ///
-    /// Returns:
-    ///     The complete text of the error.
-    /// </summary>
-    public override string ToString()
-    {
-        return string.Format(@"Class       = {0}
-LineNumber  = {1}
-Message     = {2}
-Number      = {3}
-Procedure   = {4}
-Server      = {5}
-Source      = {6}
-State       = {7}",
-            Class, LineNumber, Message, Number, Procedure, Server, Source, State);
-    }
 }
