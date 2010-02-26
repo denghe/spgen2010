@@ -262,6 +262,7 @@
     <Compile Include="Components\Providers\IMySmoProvider.cs" />
     <Compile Include="Components\Providers\IObjectExplorerProvider.cs" />
     <Compile Include="Components\Providers\MsSql\MySmoProvider.cs" />
+    <Compile Include="Todo\OutputFiles\DAL\SqlHelper.cs" />
     <Compile Include="Todo\OutputFiles\SqlLib\DbSet.cs" />
     <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Extensions.cs" />
     <Compile Include="Todo\OutputFiles\SqlLib\DbSet_Partial.cs" />
