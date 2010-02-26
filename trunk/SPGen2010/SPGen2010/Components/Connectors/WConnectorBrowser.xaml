@@ -13,7 +13,7 @@
                     <Setter Property="Cursor" Value="Hand"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Button Name="_MsSql_Instance_UP_Connect_Button" Content="Connect to MsSql (IP,Port/Name, Username, Password)" Click="_MsSql_Instance_UP_Connect_Button_Click"></Button>
+            <Button Name="_MsSql_Instance_UP_Connect_Button" Content="Connect to MsSql (IP,Port/Name, Username, Password)" Click="_MsSql_Instance_UP_Connect_Button_Click" IsDefault="True"></Button>
             <Button Name="_MsSql_Instance_TC_Connect_Button" Content="Connect to MsSql (IP,Port/Name, Trusted Connect)" Click="_MsSql_Instance_TC_Connect_Button_Click" IsEnabled="False"></Button>
             <Button Name="_MsSql_DBFile_Connect_Button" Content="Connect to MsSql (File Location)" Click="_MsSql_DBFile_Connect_Button_Click" IsEnabled="False"></Button>
             <Button Name="_SqLite_Connect_Button" Content="Connect to SqLite (coming soon...)" Click="_SqLite_Connect_Button_Click" IsEnabled="False"></Button>
