@@ -5,28 +5,4 @@
 继续做 DAL 生成
 
 
-需要实现： SP 的结果集自定义（多结果集，手动添加字段）
-
-
-
-DbSet 之填充代码：
-
-
-
-do
-{
-    var hi = reader.GetSchemaTable();
-    var dt = new DbTable();
-    for (int i = 0; i < hi.Rows.Count; i++)
-        dt.NewColumn((string)hi.Rows[i]["ColumnName"]
-            , (Type)hi.Rows[i]["DataType"]
-            , (bool)hi.Rows[i]["AllowDBNull"]);
-    ds.Tables.Add(dt);
-    if (reader.HasRows)
-        while (reader.Read())
-        {
-            var buffer = new object[dt.Columns.Count];
-            reader.GetValues(buffer);
-            dt.NewRow(buffer);
-        }
-} while (reader.NextResult());
+所有类均带 GetBytes 和 Fill 序列化套件方法
