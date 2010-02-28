@@ -378,8 +378,6 @@ namespace DAL.Views." + vs.Key.Escape() + @"
         public partial class Parameters
         {");
                             var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
-                            var s = "";
-                            var s2 = "";
                             foreach (var p in sp.Parameters)
                             {
                                 var pn = p.GetEscapeName();
@@ -393,7 +391,6 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                                 sb.Append(p.Description.ToSummary(3));
                                 sb.Append(@"
             private " + "bool".FillSpace(10) + @" _f_" + pn + @";
-            public bool Exists_" + pn + @"() { return _f_" + pn + @"; }
 
             private " + pdn + @" _v_" + pn + @";
 ");
@@ -413,9 +410,110 @@ namespace DAL.Views." + vs.Key.Escape() + @"
             }
 
             #endregion");
+                            }
+                            sb.Append(@"
+        }");
+                        }
+                        else
+                        {
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_StoredProcedures.cs", sb);
+            }
+
+
+            #endregion
+
+            #endregion
+
+            #region Gen Class Server Extension Methods
+
+            #region Tables
+
+
+
+            #endregion
+
+            #region Views
+
+
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+
+
+            #endregion
+
+            #region UserDefinedFunctions_Scalar
+
+
+
+            #endregion
+
+            #region StoredProcedures
+
+            {
+                sb.Clear();
+
+                var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
+                foreach (var sps in schemas)
+                {
+                    sb.Append(@"namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+    using UDTT = DAL.UserDefinedTableTypes;
+    using SqlLib;
+");
+                    foreach (var sp in sps)
+                    {
+                        sb.Append(sp.Description.ToSummary(1));
+                        sb.Append(@"
+    partial class " + sp.GetEscapeName() + @"
+    {
+");
+                        if (sp.Parameters.Count > 0)
+                        {
+                            sb.Append(@"
+        partial class Parameters
+        {");
+                            var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                            var s = "";
+                            var s2 = "";
+                            foreach (var p in sp.Parameters)
+                            {
+                                var pn = p.GetEscapeName();
+                                string pdn;
+                                if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                    pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
+
+                                sb.Append(@"
+            public bool Exists_" + pn + @"() { return _f_" + pn + @"; }");
+
                                 // ResetFlags Method Content
                                 s += @"
-                _f_" + pn + @" = false;";
+            _f_" + pn + @" = false;";
                                 // Parameters
                                 if (p.IsOutputParameter)
                                 {
@@ -472,15 +570,11 @@ sb.Append(@"
 }");
                 }
 
-                gr.Files.Add("DAL_StoredProcedures.cs", sb);
+                gr.Files.Add("DAL_StoredProcedures_Methods.cs", sb);
             }
 
 
             #endregion
-
-            #endregion
-
-            #region Gen Class Server Extension Methods
 
             #endregion
 
