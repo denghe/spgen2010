@@ -74,15 +74,14 @@ namespace SPGen2010.Components.Generators.MsSql.Database
             var sb = new StringBuilder();
 
             {
-                sb.Append(@"
-using System;
-");
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach (var ts in schemas)
                 {
-                    sb.Append(@"
-namespace DAL.Tables." + ts.Key.Escape() + @"
-{");
+                    sb.Append(@"namespace DAL.Tables." + ts.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+");
                     foreach (var t in ts)
                     {
                         sb.Append(t.Description.ToSummary(1));
@@ -115,15 +114,15 @@ namespace DAL.Tables." + ts.Key.Escape() + @"
             {
                 sb.Clear();
 
-                sb.Append(@"
-using System;
-");
                 var schemas = from view in db.Views group view by view.Schema;
                 foreach (var vs in schemas)
                 {
                     sb.Append(@"
 namespace DAL.Views." + vs.Key.Escape() + @"
-{");
+{
+    using System;
+    using System.Collections.Generic;
+");
                     foreach (var v in vs)
                     {
                         sb.Append(v.Description.ToSummary(1));
@@ -156,15 +155,15 @@ namespace DAL.Views." + vs.Key.Escape() + @"
             {
                 sb.Clear();
 
-                sb.Append(@"
-using System;
-");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
                 foreach (var tts in schemas)
                 {
-                    sb.Append(@"
-namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{");
+                    sb.Append(@"namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+
+");
                     foreach (var tt in tts)
                     {
                         sb.Append(tt.Description.ToSummary(1));
@@ -201,18 +200,17 @@ namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
             {
                 sb.Clear();
 
-                sb.Append(@"
-using System;
-using UDTT = DAL.UserDefinedTableTypes;
-");
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
                 foreach (var fs in schemas)
                 {
-                    sb.Append(@"
-namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
-{");
+                    sb.Append(@"namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+    using UDTT = DAL.UserDefinedTableTypes;
+");
                     foreach (var f in fs)
                     {
                         sb.Append(f.Description.ToSummary(1));
@@ -228,7 +226,7 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
+                                pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
@@ -286,18 +284,17 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
             {
                 sb.Clear();
 
-                sb.Append(@"
-using System;
-using UDTT = DAL.UserDefinedTableTypes;
-");
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Scalar
                               group func by func.Schema;
                 foreach (var fs in schemas)
                 {
-                    sb.Append(@"
-namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
-{");
+                    sb.Append(@"namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+    using UDTT = DAL.UserDefinedTableTypes;
+");
                     foreach (var f in fs)
                     {
                         sb.Append(f.Description.ToSummary(1));
@@ -313,8 +310,8 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
-                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10); 
+                                pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
 ");
@@ -355,46 +352,53 @@ namespace DAL.UserDefinedFunctions." + fs.Key.Escape() + @"
 
             #region Gen StoredProcedures
 
-
             {
                 sb.Clear();
 
-                sb.Append(@"
-using System;
-using UDTT = DAL.UserDefinedTableTypes;
-");
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
                 foreach (var sps in schemas)
                 {
-                    sb.Append(@"
-namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
-{");
+                    sb.Append(@"namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+    using UDTT = DAL.UserDefinedTableTypes;
+    using SqlLib;
+");
                     foreach (var sp in sps)
                     {
                         sb.Append(sp.Description.ToSummary(1));
                         sb.Append(@"
-    public partial class " + sp.GetEscapeName() + @"
+    public static partial class " + sp.GetEscapeName() + @"
     {
+");
+                        if (sp.Parameters.Count > 0)
+                        {
+                            sb.Append(@"
         public partial class Parameters
         {");
-                        var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
-                        foreach (var p in sp.Parameters)
-                        {
-                            var pn = p.GetEscapeName();
-                            string pdn;
-                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "UDTT." + p.DataType.GetTypeName() + "_Collection";
-                            else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
-                            sb.Append(@"
+                            var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
+                            var s = "";
+                            var s2 = "";
+                            foreach (var p in sp.Parameters)
+                            {
+                                var pn = p.GetEscapeName();
+                                string pdn;
+                                if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                    pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
+                                sb.Append(@"
             #region " + pn + @"
 ");
-                            sb.Append(p.Description.ToSummary(3));
-                            sb.Append(@"
+                                sb.Append(p.Description.ToSummary(3));
+                                sb.Append(@"
             private " + "bool".FillSpace(10) + @" _f_" + pn + @";
+            public bool Exists_" + pn + @"() { return _f_" + pn + @"; }
+
             private " + pdn + @" _v_" + pn + @";
 ");
-                            sb.Append(p.Description.ToSummary(3));
-                            sb.Append(@"
+                                sb.Append(p.Description.ToSummary(3));
+                                sb.Append(@"
             public " + pdn + @" " + pn + @"
             {
                 get
@@ -409,43 +413,59 @@ namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
             }
 
             #endregion");
-                        }
-                        sb.Append(@"
+                                // ResetFlags Method Content
+                                s += @"
+                _f_" + pn + @" = false;";
+                                // Parameters
+                                if (p.IsOutputParameter)
+                                {
+                                }
+                                else
+                                {
+                                    s2 += @"
+            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", ps." + pn + @", " + p.DataType.SqlDataType.GetSqlDbType() + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
+                                }
+                            }
+
+                            sb.Append(@"
+
+            public void ResetFlags()
+            {" + s + @"
+            }
+        }");
+                            sb.Append(@"
+        public static DbSet Execute(Parameters ps)
+        {
+            var cmd = SqlHelper.NewCommand(""" + sp.GetEscapeName() + @""");" + s2 + @"
+            return SqlHelper.ExecuteDbSet(cmd);
         }
+");
+                        }
+                        else
+                        {
+                            sb.Append(@"
+        public static DbSet Execute()
+        {
+            return SqlHelper.ExecuteDbSet(""" + sp.GetEscapeName() + @""", true);
+        }
+");
+                        }
 
-    	public partial class Result
-    	{
-    	    /// <summary>
-    	    /// Return Value
-    	    /// </summary>
-    		public int 			ReturnValue 		{ get; set; }
 
-    	    /// <summary>
-    	    /// Custom Select Statments
-    	    /// </summary>
-    		public DbSet        SelectSet    		{ get; set; }
 
-    	    /// <summary>
-    	    /// Print Messages
-    	    /// </summary>
-    		public string		PrintMessages		{ get; set; }
+                        // todo: 读 SP 的配置，视情况生成相应 Result 的结构
+                        // 先生成执行后返回 DbResult 的方法
 
-    	    /// <summary>
-    	    /// Error Messages
-    	    /// </summary>
-    		public string		RaiserrorMessages	{ get; set; }
-    	}
+                        /*
+sb.Append(@"
+        public partial class Result : DbSet // ????
+        {
+        }
+        // ...
+    }");
+                         */
 
-        //public partial class SelectSet
-        //{
-            //...
-        //}
-
-        //public partial class CustomRow_Xxxxx
-        //{
-            //...
-        //}
-
+                        sb.Append(@"
     }");
                     }
                     sb.Append(@"
