@@ -212,88 +212,122 @@ namespace SPGen2010.Components.Generators.Extensions.CS
         /// <summary>
         /// for command parameter's type
         /// </summary>
-        public static string GetSqlDbType(this SqlDataType t)
+        public static string GetSqlDbType(this SqlDataType t, bool isSimpleMode = false)
         {
+            string result = "";
             switch (t)
             {
                 case SqlDataType.BigInt:
-                    return "System.Data.SqlDbType.BigInt";
+                    result = "SqlDbType.BigInt";
+                    break;
                 case SqlDataType.Decimal:
-                    return "System.Data.SqlDbType.Decimal";
+                    result = "SqlDbType.Decimal";
+                    break;
                 case SqlDataType.Int:
-                    return "System.Data.SqlDbType.Int";
+                    result = "SqlDbType.Int";
+                    break;
                 case SqlDataType.Numeric:
-                    return "System.Data.SqlDbType.Decimal";
+                    result = "SqlDbType.Decimal";
+                    break;
                 case SqlDataType.SmallInt:
-                    return "System.Data.SqlDbType.SmallInt";
+                    result = "SqlDbType.SmallInt";
+                    break;
                 case SqlDataType.Money:
-                    return "System.Data.SqlDbType.Money";
+                    result = "SqlDbType.Money";
+                    break;
                 case SqlDataType.TinyInt:
-                    return "System.Data.SqlDbType.TinyInt";
+                    result = "SqlDbType.TinyInt";
+                    break;
                 case SqlDataType.SmallMoney:
-                    return "System.Data.SqlDbType.SmallMoney";
+                    result = "SqlDbType.SmallMoney";
+                    break;
                 case SqlDataType.Bit:
-                    return "System.Data.SqlDbType.Bit";
+                    result = "SqlDbType.Bit";
+                    break;
                 case SqlDataType.Float:
-                    return "System.Data.SqlDbType.Float";
+                    result = "SqlDbType.Float";
+                    break;
                 case SqlDataType.Real:
-                    return "System.Data.SqlDbType.Real";
+                    result = "SqlDbType.Real";
+                    break;
                 case SqlDataType.DateTime:
-                    return "System.Data.SqlDbType.DateTime";
+                    result = "SqlDbType.DateTime";
+                    break;
                 case SqlDataType.SmallDateTime:
-                    return "System.Data.SqlDbType.SmallDateTime";
+                    result = "SqlDbType.SmallDateTime";
+                    break;
                 case SqlDataType.Char:
-                    return "System.Data.SqlDbType.Char";
+                    result = "SqlDbType.Char";
+                    break;
                 case SqlDataType.Text:
-                    return "System.Data.SqlDbType.Text";
+                    result = "SqlDbType.Text";
+                    break;
                 case SqlDataType.VarChar:
                 case SqlDataType.VarCharMax:
-                    return "System.Data.SqlDbType.VarChar";
+                    result = "SqlDbType.VarChar";
+                    break;
                 case SqlDataType.NChar:
-                    return "System.Data.SqlDbType.NChar";
+                    result = "SqlDbType.NChar";
+                    break;
                 case SqlDataType.NText:
-                    return "System.Data.SqlDbType.NText";
+                    result = "SqlDbType.NText";
+                    break;
                 case SqlDataType.NVarChar:
                 case SqlDataType.NVarCharMax:
-                    return "System.Data.SqlDbType.NVarChar";
+                    result = "SqlDbType.NVarChar";
+                    break;
                 case SqlDataType.Binary:
-                    return "System.Data.SqlDbType.Binary";
+                    result = "SqlDbType.Binary";
+                    break;
                 case SqlDataType.Image:
-                    return "System.Data.SqlDbType.Image";
+                    result = "SqlDbType.Image";
+                    break;
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
-                    return "System.Data.SqlDbType.VarBinary";
+                    result = "SqlDbType.VarBinary";
+                    break;
                 case SqlDataType.UniqueIdentifier:
-                    return "System.Data.SqlDbType.UniqueIdentifier";
+                    result = "SqlDbType.UniqueIdentifier";
+                    break;
 
                 case SqlDataType.UserDefinedDataType:
                     throw new Exception("not implement");
-                //return GetSqlDbType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
+                //result = GetSqlDbType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
 
                 case SqlDataType.UserDefinedType:
-                    return "System.Data.SqlDbType.Udt";
+                    result = "SqlDbType.Udt";
+                    break;
 
                 case SqlDataType.UserDefinedTableType:
-                    return "System.Data.SqlDbType.Structured";
+                    result = "SqlDbType.Structured";
+                    break;
 
                 case SqlDataType.DateTime2:
-                    return "System.Data.SqlDbType.DateTime2";
+                    result = "SqlDbType.DateTime2";
+                    break;
                 case SqlDataType.DateTimeOffset:
-                    return "System.Data.SqlDbType.DateTimeOffset";
+                    result = "SqlDbType.DateTimeOffset";
+                    break;
                 case SqlDataType.Date:
-                    return "System.Data.SqlDbType.Date";
+                    result = "SqlDbType.Date";
+                    break;
                 case SqlDataType.Time:
-                    return "System.Data.SqlDbType.Time";
+                    result = "SqlDbType.Time";
+                    break;
 
                 case SqlDataType.Xml:
-                    return "System.Data.SqlDbType.Xml";
+                    result = "SqlDbType.Xml";
+                    break;
 
                 case SqlDataType.Timestamp:
-                    return "System.Data.SqlDbType.Timestamp";
+                    result = "SqlDbType.Timestamp";
+                    break;
 
                 default:
-                    return "System.Data.SqlDbType.Variant";
+                    result = "SqlDbType.Variant";
+                    break;
             }
+            return isSimpleMode ? result : ("System.Data." + result);
         }
 
         #endregion
