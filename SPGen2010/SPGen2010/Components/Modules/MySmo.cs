@@ -218,6 +218,10 @@ namespace SPGen2010.Components.Modules.MySmo
     {
         public SqlDataType SqlDataType { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// for user defined table type
+        /// </summary>
+        public string Schema { get; set; }
         public int MaximumLength { get; set; }
         public int NumericPrecision { get; set; }
         public int NumericScale { get; set; }

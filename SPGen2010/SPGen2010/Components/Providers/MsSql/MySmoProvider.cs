@@ -307,6 +307,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     DataType = new MySmo.DataType
                     {
                         Name = smo_c.DataType.Name,
+                        Schema = smo_c.DataType.Schema,
                         MaximumLength = smo_c.DataType.MaximumLength,
                         NumericPrecision = smo_c.DataType.NumericPrecision,
                         NumericScale = smo_c.DataType.NumericScale,
@@ -404,6 +405,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     DataType = new MySmo.DataType
                     {
                         Name = smo_c.DataType.Name,
+                        Schema = smo_c.DataType.Schema,
                         MaximumLength = smo_c.DataType.MaximumLength,
                         NumericPrecision = smo_c.DataType.NumericPrecision,
                         NumericScale = smo_c.DataType.NumericScale,
@@ -463,6 +465,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     DataType = new MySmo.DataType
                     {
                         Name = smo_p.DataType.Name,
+                        Schema = smo_p.DataType.Schema,
                         MaximumLength = smo_p.DataType.MaximumLength,
                         NumericPrecision = smo_p.DataType.NumericPrecision,
                         NumericScale = smo_p.DataType.NumericScale,
@@ -484,6 +487,7 @@ namespace SPGen2010.Components.Providers.MsSql
                         DataType = new MySmo.DataType
                         {
                             Name = smo_c.DataType.Name,
+                            Schema = smo_c.DataType.Schema,
                             MaximumLength = smo_c.DataType.MaximumLength,
                             NumericPrecision = smo_c.DataType.NumericPrecision,
                             NumericScale = smo_c.DataType.NumericScale,
@@ -540,6 +544,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     DataType = new MySmo.DataType
                     {
                         Name = smo_c.DataType.Name,
+                        Schema = smo_c.DataType.Schema,
                         MaximumLength = smo_c.DataType.MaximumLength,
                         NumericPrecision = smo_c.DataType.NumericPrecision,
                         NumericScale = smo_c.DataType.NumericScale,
@@ -606,6 +611,7 @@ namespace SPGen2010.Components.Providers.MsSql
                     DataType = new MySmo.DataType
                     {
                         Name = smo_p.DataType.Name,
+                        Schema = smo_p.DataType.Schema,
                         MaximumLength = smo_p.DataType.MaximumLength,
                         NumericPrecision = smo_p.DataType.NumericPrecision,
                         NumericScale = smo_p.DataType.NumericScale,

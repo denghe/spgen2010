@@ -191,13 +191,108 @@ namespace SPGen2010.Components.Generators.Extensions.CS
                 case SqlDataType.UniqueIdentifier:
                     return "Guid";
 
-                //case SqlDataType.UserDefinedDataType:
+                case SqlDataType.UserDefinedDataType:
+                    throw new Exception("not implement");
                 //    return GetDataType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
+
+                case SqlDataType.UserDefinedTableType:
+                    throw new Exception("not implement");
 
                 case SqlDataType.UserDefinedType:
 
                 default:
                     return "object";
+            }
+        }
+
+        #endregion
+
+        #region GetSqlDbType
+
+        /// <summary>
+        /// for command parameter's type
+        /// </summary>
+        public static string GetSqlDbType(this SqlDataType t)
+        {
+            switch (t)
+            {
+                case SqlDataType.BigInt:
+                    return "System.Data.SqlDbType.BigInt";
+                case SqlDataType.Decimal:
+                    return "System.Data.SqlDbType.Decimal";
+                case SqlDataType.Int:
+                    return "System.Data.SqlDbType.Int";
+                case SqlDataType.Numeric:
+                    return "System.Data.SqlDbType.Decimal";
+                case SqlDataType.SmallInt:
+                    return "System.Data.SqlDbType.SmallInt";
+                case SqlDataType.Money:
+                    return "System.Data.SqlDbType.Money";
+                case SqlDataType.TinyInt:
+                    return "System.Data.SqlDbType.TinyInt";
+                case SqlDataType.SmallMoney:
+                    return "System.Data.SqlDbType.SmallMoney";
+                case SqlDataType.Bit:
+                    return "System.Data.SqlDbType.Bit";
+                case SqlDataType.Float:
+                    return "System.Data.SqlDbType.Float";
+                case SqlDataType.Real:
+                    return "System.Data.SqlDbType.Real";
+                case SqlDataType.DateTime:
+                    return "System.Data.SqlDbType.DateTime";
+                case SqlDataType.SmallDateTime:
+                    return "System.Data.SqlDbType.SmallDateTime";
+                case SqlDataType.Char:
+                    return "System.Data.SqlDbType.Char";
+                case SqlDataType.Text:
+                    return "System.Data.SqlDbType.Text";
+                case SqlDataType.VarChar:
+                case SqlDataType.VarCharMax:
+                    return "System.Data.SqlDbType.VarChar";
+                case SqlDataType.NChar:
+                    return "System.Data.SqlDbType.NChar";
+                case SqlDataType.NText:
+                    return "System.Data.SqlDbType.NText";
+                case SqlDataType.NVarChar:
+                case SqlDataType.NVarCharMax:
+                    return "System.Data.SqlDbType.NVarChar";
+                case SqlDataType.Binary:
+                    return "System.Data.SqlDbType.Binary";
+                case SqlDataType.Image:
+                    return "System.Data.SqlDbType.Image";
+                case SqlDataType.VarBinary:
+                case SqlDataType.VarBinaryMax:
+                    return "System.Data.SqlDbType.VarBinary";
+                case SqlDataType.UniqueIdentifier:
+                    return "System.Data.SqlDbType.UniqueIdentifier";
+
+                case SqlDataType.UserDefinedDataType:
+                    throw new Exception("not implement");
+                //return GetSqlDbType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
+
+                case SqlDataType.UserDefinedType:
+                    return "System.Data.SqlDbType.Udt";
+
+                case SqlDataType.UserDefinedTableType:
+                    return "System.Data.SqlDbType.Structured";
+
+                case SqlDataType.DateTime2:
+                    return "System.Data.SqlDbType.DateTime2";
+                case SqlDataType.DateTimeOffset:
+                    return "System.Data.SqlDbType.DateTimeOffset";
+                case SqlDataType.Date:
+                    return "System.Data.SqlDbType.Date";
+                case SqlDataType.Time:
+                    return "System.Data.SqlDbType.Time";
+
+                case SqlDataType.Xml:
+                    return "System.Data.SqlDbType.Xml";
+
+                case SqlDataType.Timestamp:
+                    return "System.Data.SqlDbType.Timestamp";
+
+                default:
+                    return "System.Data.SqlDbType.Variant";
             }
         }
 
