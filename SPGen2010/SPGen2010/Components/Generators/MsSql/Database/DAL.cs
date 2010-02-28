@@ -448,7 +448,45 @@ namespace DAL.Views." + vs.Key.Escape() + @"
 
             #region UserDefinedTableTypes
 
+            {
+                sb.Clear();
 
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas)
+                {
+                    sb.Append(@"namespace DAL.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+
+");
+                    foreach (var tt in tts)
+                    {
+                        sb.Append(tt.Description.ToSummary(1));
+                        sb.Append(@"
+    partial class " + tt.GetEscapeName() + @"_Collection : List<" + tt.GetEscapeName() + @">
+    {
+        public DataTable ToDataTable()
+        {");
+                        var L = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in tt.Columns)
+                        {
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+                            var fieldname = c.GetEscapeName().FillSpace(L);
+                            sb.Append(c.Description.ToSummary(2));
+                            sb.Append(@"
+        public " + typename + @" " + fieldname + @"{ get; set; }");
+                        }
+                        sb.Append(@"
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_UserDefinedTableTypes_Methods.cs", sb);
+            }
 
             #endregion
 
@@ -481,6 +519,7 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                     sb.Append(@"namespace DAL.StoredProcedures." + sps.Key.Escape() + @"
 {
     using System;
+    using System.Data;
     using System.Collections.Generic;
     using UDTT = DAL.UserDefinedTableTypes;
     using SqlLib;
@@ -521,7 +560,7 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                                 else
                                 {
                                     s2 += @"
-            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", ps." + pn + @", " + p.DataType.SqlDataType.GetSqlDbType() + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
+            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", ps." + pn + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
                                 }
                             }
 
