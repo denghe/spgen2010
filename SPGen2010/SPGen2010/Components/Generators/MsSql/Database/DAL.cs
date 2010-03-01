@@ -436,7 +436,47 @@ namespace DAL.Views." + vs.Key.Escape() + @"
 
             #region Tables
 
+            {
+                sb.Clear();
 
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas)
+                {
+                    sb.Append(@"namespace DAL.Tables." + ts.Key.Escape() + @"
+{
+    using System;
+    using System.Collections.Generic;
+");
+                    foreach (var t in ts)
+                    {
+                        sb.Append(t.Description.ToSummary(1));
+                        sb.Append(@"
+    partial class " + t.GetEscapeName() + @"
+    {");
+                        // select
+
+                        // insert
+                        // update
+                        // delete
+
+//                        var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+//                        foreach (var c in t.Columns)
+//                        {
+//                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
+//                            var fieldname = c.GetEscapeName().FillSpace(L);
+//                            sb.Append(c.Description.ToSummary(2));
+//                            sb.Append(@"
+//        public " + typename + @" " + fieldname + @"{ get; set; }");
+//                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Tables_Methods.cs", sb);
+            }
 
             #endregion
 
@@ -571,7 +611,7 @@ namespace DAL.Views." + vs.Key.Escape() + @"
             }
         }");
                             sb.Append(@"
-        public static DbSet Execute(Parameters ps)
+        public static DbSet ExecuteDbSet(Parameters ps)
         {
             var cmd = SqlHelper.NewCommand(""" + sp.GetEscapeName() + @""");" + s2 + @"
             return SqlHelper.ExecuteDbSet(cmd);
@@ -581,7 +621,7 @@ namespace DAL.Views." + vs.Key.Escape() + @"
                         else
                         {
                             sb.Append(@"
-        public static DbSet Execute()
+        public static DbSet ExecuteDbSet()
         {
             return SqlHelper.ExecuteDbSet(""" + sp.GetEscapeName() + @""", true);
         }
