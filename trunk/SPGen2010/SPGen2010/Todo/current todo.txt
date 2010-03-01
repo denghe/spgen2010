@@ -4,8 +4,4 @@
 
 填充 MySmo 时，取 DataType 的名字要判断是否为用户自定义数据类型，是的话取其原型
 
-填充 MySmo 时，取 DataType 的名字要判断是否为用户定义表类型，是的话取该类型的 Name, Schema
-
-
-
 所有类均带 GetBytes 和 Fill 序列化套件方法
