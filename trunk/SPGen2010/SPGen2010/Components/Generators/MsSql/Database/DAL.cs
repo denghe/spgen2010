@@ -1095,19 +1095,59 @@ namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
                 sb.Clear();
                 sb.Append(@"using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
+using SqlLib;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach(var ts in schemas) {
-
+                    var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.Tables." + ts.Key.Escape() + @"
+namespace DAL.Database.Tables." + sn + @"
 {
 ");
                     foreach(var t in ts) {
-                        sb.Append(t.Description.ToSummary(1));
+                        var tn = t.GetEscapeName();
                         sb.Append(@"
-    partial class " + t.GetEscapeName() + @"
-    {");
+    partial class " + tn + @"
+    {
+        public static List<" + tn + @"> Select(Queries.Tables." + sn + @"." + tn + @" q)
+        {
+            var tsql = q.ToSqlString();
+            var rows = new List<" + tn + @">();
+            using(var reader = SqlHelper.ExecuteDataReader(tsql))
+            {
+                while(reader.Read())
+                {
+                    rows.Add(new " + tn + @"
+                    {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            var mn = "GetInt32";    // todo
+                            sb.Append(@"
+                        " + cn + @" = reader." + mn + @"(" + i + ")");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+                    });
+                }
+            }
+            return rows;
+        }
+
+        public static List<" + tn + @"> Select(
+            Expressions.Tables." + sn + @"." + tn + @".Handler where = null
+            , Orientations.Tables." + sn + @"." + tn + @".Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            , ColumnEnums.Tables." + sn + @"." + tn + @".Handler columns = null
+            )
+        {
+            return Select(Queries.Tables." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
+        }
+");
                         // select
 
                         // insert
