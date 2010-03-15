@@ -58,20 +58,22 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
             #endregion
 
             // todo: Get Namespace replace "DAL"
+            var sb = new StringBuilder();
 
             #region Gen Database Class
 
             #region Gen Tables
 
-            var sb = new StringBuilder();
-
             {
+                sb.Clear();
+
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach(var ts in schemas) {
-                    sb.Append(@"namespace DAL.Database.Tables." + ts.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+
+namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
 ");
                     foreach(var t in ts) {
                         sb.Append(t.Description.ToSummary(1));
@@ -105,11 +107,11 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
 
                 var schemas = from view in db.Views group view by view.Schema;
                 foreach(var vs in schemas) {
-                    sb.Append(@"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+
 namespace DAL.Database.Views." + vs.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
 ");
                     foreach(var v in vs) {
                         sb.Append(v.Description.ToSummary(1));
@@ -143,11 +145,11 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
                 foreach(var tts in schemas) {
-                    sb.Append(@"namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-    using System;
-    using System.Collections.Generic;
+                    sb.Append(@"using System;
+using System.Collections.Generic;
 
+namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
 ");
                     foreach(var tt in tts) {
                         sb.Append(tt.Description.ToSummary(1));
@@ -187,11 +189,12 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
                 foreach(var fs in schemas) {
-                    sb.Append(@"namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+using UDTT = DAL.Database.UserDefinedTableTypes;
+
+namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
-    using UDTT = DAL.UserDefinedTableTypes;
 ");
                     foreach(var f in fs) {
                         sb.Append(f.Description.ToSummary(1));
@@ -267,11 +270,12 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Scalar
                               group func by func.Schema;
                 foreach(var fs in schemas) {
-                    sb.Append(@"namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+using UDTT = DAL.Database.UserDefinedTableTypes;
+
+namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
-    using UDTT = DAL.UserDefinedTableTypes;
 ");
                     foreach(var f in fs) {
                         sb.Append(f.Description.ToSummary(1));
@@ -333,12 +337,13 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
                 foreach(var sps in schemas) {
-                    sb.Append(@"namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+using UDTT = DAL.Database.UserDefinedTableTypes;
+using SqlLib;
+
+namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
-    using UDTT = DAL.UserDefinedTableTypes;
-    using SqlLib;
 ");
                     foreach(var sp in sps) {
                         sb.Append(sp.Description.ToSummary(1));
@@ -405,21 +410,23 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
             #region Gen Expressions Class
 
             {
+                sb.Clear();
+
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach(var ts in schemas) {
-                    sb.Append(@"namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
-{
-    using System;
-    using System.Collections.Generic;
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
 
-    using SqlLib.Expressions;
+namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+{
 ");
                     foreach(var t in ts) {
                         sb.Append(@"
-    public partial class " + t.GetEscapeName() + @" : LogicalNode<t2>
+    public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
     {");
                         foreach(var c in t.Columns) {
-                            var s = (c.Nullable ? "_Nullable" : "_") + c.DataType.GetExpressionTypeName();
+                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
                             var typename = "ExpNode" + s + "<" + t.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
@@ -463,10 +470,11 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach(var ts in schemas) {
-                    sb.Append(@"namespace DAL.Database.Tables." + ts.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Collections.Generic;
+
+namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 {
-    using System;
-    using System.Collections.Generic;
 ");
                     foreach(var t in ts) {
                         sb.Append(t.Description.ToSummary(1));
@@ -513,11 +521,12 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
                 foreach(var tts in schemas) {
-                    sb.Append(@"namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-    using System;
-    using System.Collections.Generic;
+                    sb.Append(@"using System;
+using System.Data;
+using System.Collections.Generic;
 
+namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
 ");
                     foreach(var tt in tts) {
                         sb.Append(tt.Description.ToSummary(1));
@@ -531,10 +540,11 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
-                            sb.Append(@"
-        public " + typename + @" " + fieldname + @"{ get; set; }");
+//                            sb.Append(@"
+//        public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
+            return null;
         }
     }");
                     }
@@ -572,13 +582,14 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
                 foreach(var sps in schemas) {
-                    sb.Append(@"namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
+                    sb.Append(@"using System;
+using System.Data;
+using System.Collections.Generic;
+using UDTT = DAL.Database.UserDefinedTableTypes;
+using SqlLib;
+
+namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 {
-    using System;
-    using System.Data;
-    using System.Collections.Generic;
-    using UDTT = DAL.UserDefinedTableTypes;
-    using SqlLib;
 ");
                     foreach(var sp in sps) {
                         sb.Append(sp.Description.ToSummary(1));
