@@ -1118,15 +1118,47 @@ namespace DAL.Database.Tables." + sn + @"
             var rows = new List<" + tn + @">();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new " + tn + @"
-                    {");
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0) {
+                    while(reader.Read()) {
+                        var row = new " + tn + @"();
+                        for(int i = 0; i < count; i++) {");
                         for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
-                        " + cn + " = ");
+                            ");
+                            if(i > 0) sb.Append("else if(i < count && ");
+                            else sb.Append("if(");
+                            sb.Append(@"q.Columns[i] == @""" + c.Name.Replace("\"", "\"\"") + @""") {row." + cn + @" = ");
+                            var s = "";
+                            if(c.Nullable) {
+                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                sb.Append(@"reader.IsDBNull(i) ? null : " + s);
+                            } else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(i).Value");
+                                } else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
+                            }
+                            sb.Append(@"; i++; }");
+                        }
+                        sb.Append(@"
+                        }
+                        rows.Add(row);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new " + tn + @"
+                        {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+                            " + cn + " = ");
                             var s = "";
                             if(c.Nullable) {
                                 s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
@@ -1140,8 +1172,10 @@ namespace DAL.Database.Tables." + sn + @"
                             if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
-                    });
+                        });
+                    }
                 }
+
             }
             return rows;
         }
