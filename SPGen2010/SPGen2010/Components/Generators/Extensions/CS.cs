@@ -205,6 +205,71 @@ namespace SPGen2010.Components.Generators.Extensions.CS
             }
         }
 
+
+        public static string GetExpressionTypeName(this DataType o) {
+
+            switch(o.SqlDataType) {
+                case SqlDataType.Bit:
+                    return "Boolean";
+                case SqlDataType.TinyInt:
+                    return "Byte";
+                case SqlDataType.SmallInt:
+                    return "Int16";
+                case SqlDataType.Int:
+                    return "Int32";
+                case SqlDataType.BigInt:
+                    return "Int64";
+                case SqlDataType.Decimal:
+                case SqlDataType.Numeric:
+                case SqlDataType.Money:
+                case SqlDataType.SmallMoney:
+                    return "Decimal";
+
+                case SqlDataType.Float:
+                    return "Double";
+
+                case SqlDataType.Real:
+                    return "Float";
+                case SqlDataType.DateTime:
+                case SqlDataType.SmallDateTime:
+                case SqlDataType.DateTime2:
+                case SqlDataType.DateTimeOffset:
+                case SqlDataType.Time:
+                case SqlDataType.Date:
+                    return "DateTime";
+                case SqlDataType.Char:
+                case SqlDataType.Text:
+                case SqlDataType.VarChar:
+                case SqlDataType.NChar:
+                case SqlDataType.NText:
+                case SqlDataType.NVarChar:
+                case SqlDataType.NVarCharMax:
+                case SqlDataType.VarCharMax:
+                case SqlDataType.Xml:
+                    return "String";
+                case SqlDataType.Binary:
+                case SqlDataType.Image:
+                case SqlDataType.VarBinary:
+                case SqlDataType.VarBinaryMax:
+                case SqlDataType.Timestamp:
+                    return "Bytes";
+                case SqlDataType.UniqueIdentifier:
+                    return "Guid";
+
+                case SqlDataType.UserDefinedDataType:
+                    throw new Exception("not implement");
+                //    return GetDataType(db, GetDataType(db.UserDefinedDataTypes[dt.Name, dt.Schema]));
+
+                case SqlDataType.UserDefinedTableType:
+                    throw new Exception("not implement");
+
+                case SqlDataType.UserDefinedType:
+
+                default:
+                    return "Object";
+            }
+        }
+
         #endregion
 
         #region GetSqlDbType
