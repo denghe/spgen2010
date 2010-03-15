@@ -1167,16 +1167,16 @@ namespace DAL.Database.Tables." + sn + @"
                                 if(i > 0) sb.Append(@", ");
                                 sb.Append(c.DataType.GetTypeName() + " c" + i);
                             }
-                            sb.Append(@")
+                            sb.Append(@", ColumnEnums.Tables." + sn + @"." + tn + @".Handler columns = null)
         {
-            return this.Select(o => ");
+            return Select(o => ");
                             for(int i = 0; i < pks.Count; i++) {
                                 var c = pks[i];
                                 var cn = c.Name.Escape();
                                 if(i > 0) sb.Append(@" & ");
                                 sb.Append("o." + cn + ".Equal(c" + i + ")");
                             }
-                            sb.Append(@").FirstOrDefault();
+                            sb.Append(@", columns: columns).FirstOrDefault();
         }
 ");
                         }
