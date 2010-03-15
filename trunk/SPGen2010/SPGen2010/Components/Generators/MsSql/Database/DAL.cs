@@ -1223,6 +1223,38 @@ namespace DAL.Database.Tables." + sn + @"
 
                         #region Insert
 
+                        sb.Append(@"INSERT INTO [" + Utils.GetEscapeSqlObjectName(t.Schema) + @"].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] (");
+                        for(int i = 0; i < wcs.Count; i++) {
+                            Column c = wcs[i];
+                            sb.Append((i > 0 ? ", " : "") + "[" + Utils.GetEscapeSqlObjectName(c.Name) + @"]");
+                        }
+                        sb.Append(@") OUTPUT Inserted.* VALUES (");
+                        for(int i = 0; i < wcs.Count; i++) {
+                            Column c = wcs[i];
+                            string cn = Utils.GetEscapeName(c);
+                            sb.Append((i > 0 ? ", " : "") + "@" + cn);
+                        }
+                        sb.Append(@");");
+
+
+                        sb.Append(@"INSERT INTO [" + Utils.GetEscapeSqlObjectName(t.Schema) + @"].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] ("");
+				StringBuilder sb2 = new StringBuilder();");
+
+                        foreach(Column c in wcs) {
+                            string cn = Utils.GetEscapeName(c);
+                            sb.Append(@"
+				if (cols.Contains(DI." + tbn + @"." + cn + @"))
+				{
+					cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + Utils.GetSqlDbType(c) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null));
+					sb.Append((isFirst ? """" : "", "") + ""[" + Utils.GetEscapeSqlObjectName(c.Name) + @"]"");
+					sb2.Append((isFirst ? """" : "", "") + ""@" + cn + @""");
+					isFirst = false;
+				}");
+                        }
+                        sb.Append(@"
+				sb.Append("") OUTPUT INSERTED.* VALUES ("");
+				sb.Append(sb2);
+				sb.Append(@"");"");");
 
 
                         #endregion
