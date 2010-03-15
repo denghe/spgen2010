@@ -743,17 +743,18 @@ using SqlLib.Queries;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach(var ts in schemas) {
-
+                    var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.Tables." + ts.Key.Escape() + @"
+namespace DAL.Queries.Tables." + sn + @"
 {
 ");
                     foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
-    public partial class " + tn + @" : Query<" + tn + @", Expressions.Tables.dbo." + tn + @", Orientations.Tables.dbo." + tn + @", ColumnEnums.Tables.dbo." + tn + @"> {
+    public partial class " + tn + @" : Query<" + tn + @", Expressions.Tables." + sn + @"." + tn + @", Orientations.Tables." + sn + @"." + tn + @", ColumnEnums.Tables." + sn + @"." + tn + @">
     {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
             return base.ToSqlString(schema ?? @""" + ts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + t.Name.Replace("\"", "\"\"") + @""", columns);
         }
     }");
@@ -777,7 +778,7 @@ using SqlLib.Queries;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
                 foreach(var vs in schemas) {
-
+                    var sn = vs.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.Views." + vs.Key.Escape() + @"
 {
@@ -785,9 +786,10 @@ namespace DAL.Queries.Views." + vs.Key.Escape() + @"
                     foreach(var v in vs) {
                         var vn = v.GetEscapeName();
                         sb.Append(@"
-    public partial class " + vn + @" : Query<" + vn + @", Expressions.Tables.dbo." + vn + @", Orientations.Tables.dbo." + vn + @", ColumnEnums.Tables.dbo." + vn + @"> {
+    public partial class " + vn + @" : Query<" + vn + @", Expressions.Views." + sn + @"." + vn + @", Orientations.Views." + sn + @"." + vn + @", ColumnEnums.Views." + sn + @"." + vn + @">
     {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
             return base.ToSqlString(schema ?? @""" + vs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + v.Name.Replace("\"", "\"\"") + @""", columns);
         }
     }");
@@ -811,7 +813,7 @@ using SqlLib.Queries;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
                 foreach(var tts in schemas) {
-
+                    var sn = tts.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
@@ -819,9 +821,10 @@ namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
                     foreach(var tt in tts) {
                         var ttn = tt.GetEscapeName();
                         sb.Append(@"
-    public partial class " + ttn + @" : Query<" + ttn + @", Expressions.Tables.dbo." + ttn + @", Orientations.Tables.dbo." + ttn + @", ColumnEnums.Tables.dbo." + ttn + @"> {
+    public partial class " + ttn + @" : Query<" + ttn + @", Expressions.UserDefinedTableTypes." + sn + @"." + ttn + @", Orientations.UserDefinedTableTypes." + sn + @"." + ttn + @", ColumnEnums.UserDefinedTableTypes." + sn + @"." + ttn + @">
     {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
             return base.ToSqlString(schema ?? @""" + tts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + tt.Name.Replace("\"", "\"\"") + @""", columns);
         }
     }");
@@ -847,7 +850,7 @@ using SqlLib.Queries;
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
                 foreach(var fs in schemas) {
-
+                    var sn = fs.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
@@ -855,9 +858,10 @@ namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
                     foreach(var f in fs) {
                         var fn = f.GetEscapeName();
                         sb.Append(@"
-    public partial class " + fn + @" : Query<" + fn + @", Expressions.Tables.dbo." + fn + @", Orientations.Tables.dbo." + fn + @", ColumnEnums.Tables.dbo." + fn + @"> {
+    public partial class " + fn + @" : Query<" + fn + @", Expressions.UserDefinedFunctions." + sn + @"." + fn + @", Orientations.UserDefinedFunctions." + sn + @"." + fn + @", ColumnEnums.UserDefinedFunctions." + sn + @"." + fn + @">
     {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
             return base.ToSqlString(schema ?? @""" + fs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + f.Name.Replace("\"", "\"\"") + @""", columns);
         }
     }");
@@ -907,10 +911,10 @@ namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if(i < t.Columns.Count) sb.Append(",");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
-        }
+        };
         public override string GetColumnName(int i) {
             return __cns[i];
         }
@@ -936,7 +940,7 @@ using SqlLib.ColumnEnums;
                 var schemas = from view in db.Views group view by view.Schema;
                 foreach(var vs in schemas) {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + vs.Key.Escape() + @"
+namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach(var v in vs) {
@@ -958,10 +962,10 @@ namespace DAL.ColumnEnums.Tables." + vs.Key.Escape() + @"
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if(i < v.Columns.Count) sb.Append(",");
+                            if(i < v.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
-        }
+        };
         public override string GetColumnName(int i) {
             return __cns[i];
         }
@@ -987,7 +991,7 @@ using SqlLib.ColumnEnums;
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
                 foreach(var tts in schemas) {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + tts.Key.Escape() + @"
+namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach(var tt in tts) {
@@ -1009,10 +1013,10 @@ namespace DAL.ColumnEnums.Tables." + tts.Key.Escape() + @"
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if(i < tt.Columns.Count) sb.Append(",");
+                            if(i < tt.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
-        }
+        };
         public override string GetColumnName(int i) {
             return __cns[i];
         }
@@ -1040,7 +1044,7 @@ using SqlLib.ColumnEnums;
                               group func by func.Schema;
                 foreach(var fs in schemas) {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + fs.Key.Escape() + @"
+namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach(var f in fs) {
@@ -1062,10 +1066,10 @@ namespace DAL.ColumnEnums.Tables." + fs.Key.Escape() + @"
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if(i < f.Columns.Count) sb.Append(",");
+                            if(i < f.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
-        }
+        };
         public override string GetColumnName(int i) {
             return __cns[i];
         }
