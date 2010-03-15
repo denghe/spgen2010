@@ -1125,9 +1125,18 @@ namespace DAL.Database.Tables." + sn + @"
                         for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
-                            var mn = "GetInt32";    // todo
                             sb.Append(@"
-                        " + cn + @" = reader." + mn + @"(" + i + ")");
+                        " + cn + " = ");
+                            var s = "";
+                            if(c.Nullable) {
+                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
+                                sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
+                            } else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                } else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
+                            }
                             if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
@@ -1148,21 +1157,35 @@ namespace DAL.Database.Tables." + sn + @"
             return Select(Queries.Tables." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
         }
 ");
+                        if(t.GetPKColumns().Count > 0) {
+                            sb.Append(@"
+        public static " + tn + @" Select(");
+                            var pks = t.GetPKColumns();
+                            for(int i = 0; i < pks.Count; i++) {
+                                var c = pks[i];
+                                var cn = c.Name.Escape();
+                                if(i > 0) sb.Append(@", ");
+                                sb.Append(c.DataType.GetTypeName() + " c" + i);
+                            }
+                            sb.Append(@")
+        {
+            return this.Select(o => ");
+                            for(int i = 0; i < pks.Count; i++) {
+                                var c = pks[i];
+                                var cn = c.Name.Escape();
+                                if(i > 0) sb.Append(@" & ");
+                                sb.Append("o." + cn + ".Equal(c" + i + ")");
+                            }
+                            sb.Append(@").FirstOrDefault();
+        }
+");
+                        }
                         // select
 
                         // insert
                         // update
                         // delete
 
-                        //                        var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        //                        foreach (var c in t.Columns)
-                        //                        {
-                        //                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
-                        //                            var fieldname = c.GetEscapeName().FillSpace(L);
-                        //                            sb.Append(c.Description.ToSummary(2));
-                        //                            sb.Append(@"
-                        //        public " + typename + @" " + fieldname + @"{ get; set; }");
-                        //                        }
                         sb.Append(@"
     }");
                     }
