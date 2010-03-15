@@ -250,6 +250,7 @@ namespace SPGen2010.Components.Providers.MsSql
             mysmo_db.UserDefinedFunctions = GetUserDefinedFunctions(smo_db, mysmo_db);
             mysmo_db.UserDefinedTableTypes = GetUserDefinedTableTypes(smo_db, mysmo_db);
             mysmo_db.StoredProcedures = GetStoredProcedures(smo_db, mysmo_db);
+            mysmo_db.CompatibilityLevel = (MySmo.CompatibilityLevel)(int)smo_db.CompatibilityLevel;
 
             CombineExtendProperties(mysmo_db);
 

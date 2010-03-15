@@ -1112,6 +1112,10 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
     partial class " + tn + @"
     {
+");
+                        #region Select
+
+                        sb.Append(@"
         public static List<" + tn + @"> Select(Queries.Tables." + sn + @"." + tn + @" q)
         {
             var tsql = q.ToSqlString();
@@ -1214,7 +1218,22 @@ namespace DAL.Database.Tables." + sn + @"
         }
 ");
                         }
-                        // select
+
+                        #endregion
+
+                        #region Insert
+
+
+
+                        #endregion
+
+                        #region Update
+
+                        #endregion
+
+                        #region Delete
+
+                        #endregion
 
                         // insert
                         // update
@@ -1234,7 +1253,115 @@ namespace DAL.Database.Tables." + sn + @"
 
             #region Views
 
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
+using SqlLib;
+");
+                var schemas = from table in db.Views group table by table.Schema;
+                foreach(var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Database.Views." + sn + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        public static List<" + tn + @"> Select(Queries.Views." + sn + @"." + tn + @" q)
+        {
+            var tsql = q.ToSqlString();
+            var rows = new List<" + tn + @">();
+            using(var reader = SqlHelper.ExecuteDataReader(tsql))
+            {
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0) {
+                    while(reader.Read()) {
+                        var row = new " + tn + @"();
+                        for(int i = 0; i < count; i++) {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+                            ");
+                            if(i > 0) sb.Append("else if(i < count && ");
+                            else sb.Append("if(");
+                            sb.Append(@"q.Columns[i] == @""" + c.Name.Replace("\"", "\"\"") + @""") {row." + cn + @" = ");
+                            var s = "";
+                            if(c.Nullable) {
+                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                sb.Append(@"reader.IsDBNull(i) ? null : " + s);
+                            } else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(i).Value");
+                                } else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
+                            }
+                            sb.Append(@"; i++; }");
+                        }
+                        sb.Append(@"
+                        }
+                        rows.Add(row);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new " + tn + @"
+                        {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+                            " + cn + " = ");
+                            var s = "";
+                            if(c.Nullable) {
+                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
+                                sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
+                            } else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                } else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
+                            }
+                            if(i < t.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+                        });
+                    }
+                }
 
+            }
+            return rows;
+        }
+
+        public static List<" + tn + @"> Select(
+            Expressions.Views." + sn + @"." + tn + @".Handler where = null
+            , Orientations.Views." + sn + @"." + tn + @".Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            , ColumnEnums.Views." + sn + @"." + tn + @".Handler columns = null
+            )
+        {
+            return Select(Queries.Views." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
+        }
+");
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Database_Views_Methods.cs", sb);
+            }
 
             #endregion
 

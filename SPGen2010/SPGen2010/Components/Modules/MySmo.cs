@@ -81,6 +81,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Name { get; set; }
         public string Owner { get; set; }
         public DateTime CreateTime { get; set; }
+        public CompatibilityLevel CompatibilityLevel { get; set; }
     }
 
     public partial class Table : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
@@ -299,5 +300,14 @@ namespace SPGen2010.Components.Modules.MySmo
         HierarchyId = 41,
         Geometry = 42,
         Geography = 43,
+    }
+
+    public enum CompatibilityLevel {
+        Version60 = 60,
+        Version65 = 65,
+        Version70 = 70,
+        Version80 = 80,
+        Version90 = 90,
+        Version100 = 100,
     }
 }
