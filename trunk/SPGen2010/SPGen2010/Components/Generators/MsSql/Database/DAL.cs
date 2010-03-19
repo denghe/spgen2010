@@ -1134,10 +1134,9 @@ namespace DAL.Database.Tables." + sn + @"
                             ");
                             if(i > 0) sb.Append("else if(i < count && ");
                             else sb.Append("if(");
-                            sb.Append(@"q.Columns[i] == @""" + c.Name.Replace("\"", "\"\"") + @""") {row." + cn + @" = ");
-                            var s = "";
+                            sb.Append(@"q.Contains(" + i + @") {row." + cn + @" = ");
                             if(c.Nullable) {
-                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
                                 sb.Append(@"reader.IsDBNull(i) ? null : " + s);
                             } else {
                                 if(c.DataType.CheckIsBinaryType()) {
@@ -1223,30 +1222,31 @@ namespace DAL.Database.Tables." + sn + @"
 
                         #region Insert
 
-                        sb.Append(@"INSERT INTO [" + Utils.GetEscapeSqlObjectName(t.Schema) + @"].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] (");
-                        for(int i = 0; i < wcs.Count; i++) {
-                            Column c = wcs[i];
-                            sb.Append((i > 0 ? ", " : "") + "[" + Utils.GetEscapeSqlObjectName(c.Name) + @"]");
-                        }
+                        sb.Append(@"
+			public static int Insert(" + tn + @" o, ClassEnums.Tables." + sn + @"." + tn + @".Handler h = null)
+			{
+				var isFirst = true;
+				var cmd = new SqlCommand();
+				var sb = new StringBuilder(""");
+                        var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
+                        sb.Append(@"INSERT INTO " + dbtn + @" (");
+                        var wcs = t.GetPKColumns();
+                        for(int i = 0; i < wcs.Count; i++)
+                            sb.Append((i > 0 ? ", " : "") + "[" + wcs[i].Name.Replace("]", "]]") + @"]");
                         sb.Append(@") OUTPUT Inserted.* VALUES (");
-                        for(int i = 0; i < wcs.Count; i++) {
-                            Column c = wcs[i];
-                            string cn = Utils.GetEscapeName(c);
-                            sb.Append((i > 0 ? ", " : "") + "@" + cn);
-                        }
+                        for(int i = 0; i < wcs.Count; i++)
+                            sb.Append((i > 0 ? ", " : "") + "@" + wcs[i].Name.Escape());
                         sb.Append(@");");
-
-
-                        sb.Append(@"INSERT INTO [" + Utils.GetEscapeSqlObjectName(t.Schema) + @"].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] ("");
-				StringBuilder sb2 = new StringBuilder();");
-
-                        foreach(Column c in wcs) {
-                            string cn = Utils.GetEscapeName(c);
+                        sb.Append(@"INSERT INTO " + dbtn + @" ("");
+				var sb2 = new StringBuilder();");
+                        foreach(var c in wcs) {
+                            var cn = c.Name.Escape();
                             sb.Append(@"
-				if (cols.Contains(DI." + tbn + @"." + cn + @"))
+                var cols = h.Invoke(new ClassEnums.Tables." + sn + @"." + tn + @"());
+				if (cols.Contains(" + c.GetOrdinal() + @"))
 				{
-					cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + Utils.GetSqlDbType(c) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null));
-					sb.Append((isFirst ? """" : "", "") + ""[" + Utils.GetEscapeSqlObjectName(c.Name) + @"]"");
+					cmd.AddParameter(""" + cn + @""", o." + cn + @");
+					sb.Append((isFirst ? """" : "", "") + ""[" + cn + @"]"");
 					sb2.Append((isFirst ? """" : "", "") + ""@" + cn + @""");
 					isFirst = false;
 				}");
@@ -1255,7 +1255,10 @@ namespace DAL.Database.Tables." + sn + @"
 				sb.Append("") OUTPUT INSERTED.* VALUES ("");
 				sb.Append(sb2);
 				sb.Append(@"");"");");
-
+                        sb.Append(@"
+				cmd.CommandText = sb.ToString();
+				return SqlHelper.ExecuteNonQuery(cmd);
+			}");
 
                         #endregion
 
