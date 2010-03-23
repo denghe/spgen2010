@@ -1126,6 +1126,7 @@ namespace DAL.Database.Tables." + sn + @"
                 if(count > 0) {
                     while(reader.Read()) {
                         var row = new " + tn + @"();
+                        var cols = q.Columns;
                         for(int i = 0; i < count; i++) {");
                         for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
@@ -1134,7 +1135,7 @@ namespace DAL.Database.Tables." + sn + @"
                             ");
                             if(i > 0) sb.Append("else if(i < count && ");
                             else sb.Append("if(");
-                            sb.Append(@"q.Contains(" + i + @") {row." + cn + @" = ");
+                            sb.Append(@"cols.Contains(" + i + @")) {row." + cn + @" = ");
                             if(c.Nullable) {
                                 var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
                                 sb.Append(@"reader.IsDBNull(i) ? null : " + s);
@@ -1223,26 +1224,20 @@ namespace DAL.Database.Tables." + sn + @"
                         #region Insert
 
                         sb.Append(@"
-			public static int Insert(" + tn + @" o, ClassEnums.Tables." + sn + @"." + tn + @".Handler h = null)
+			public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler h = null)
 			{
 				var isFirst = true;
 				var cmd = new SqlCommand();
 				var sb = new StringBuilder(""");
                         var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
                         sb.Append(@"INSERT INTO " + dbtn + @" (");
-                        var wcs = t.GetPKColumns();
-                        for(int i = 0; i < wcs.Count; i++)
-                            sb.Append((i > 0 ? ", " : "") + "[" + wcs[i].Name.Replace("]", "]]") + @"]");
-                        sb.Append(@") OUTPUT Inserted.* VALUES (");
-                        for(int i = 0; i < wcs.Count; i++)
-                            sb.Append((i > 0 ? ", " : "") + "@" + wcs[i].Name.Escape());
-                        sb.Append(@");");
-                        sb.Append(@"INSERT INTO " + dbtn + @" ("");
-				var sb2 = new StringBuilder();");
+                        var wcs = t.GetWriteableColumns();
+                        sb.Append(@""");
+				var sb2 = new StringBuilder();
+                var cols = h.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
                         foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-                var cols = h.Invoke(new ClassEnums.Tables." + sn + @"." + tn + @"());
 				if (cols.Contains(" + c.GetOrdinal() + @"))
 				{
 					cmd.AddParameter(""" + cn + @""", o." + cn + @");
@@ -1316,10 +1311,13 @@ namespace DAL.Database.Views." + sn + @"
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
                 var count = q.Columns == null ? 0 : q.Columns.Count();
-                if(count > 0) {
-                    while(reader.Read()) {
+                if(count > 0)
+                {
+                    while(reader.Read())
+                    {
                         var row = new " + tn + @"();
-                        for(int i = 0; i < count; i++) {");
+                        for(int i = 0; i < count; i++)
+                        {");
                         for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
