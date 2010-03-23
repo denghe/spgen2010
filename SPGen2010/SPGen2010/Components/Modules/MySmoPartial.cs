@@ -82,7 +82,7 @@ namespace SPGen2010.Components.Modules.MySmo {
         /// 返回一个表中的可写字段集合 （排除计算列，自增列，Timestamp 列）（如果没有返回 0 长度列表）
         /// </summary>
         public List<Column> GetWriteableColumns() {
-            return this.Columns.Where(c => c.Computed || c.Identity || c.DataType.SqlDataType == SqlDataType.Timestamp).ToList();  // || c.RowGuidCol
+            return this.Columns.Where(c => !(c.Computed || c.Identity || c.DataType.SqlDataType == SqlDataType.Timestamp)).ToList();  // || c.RowGuidCol
         }
 
         /// <summary>
