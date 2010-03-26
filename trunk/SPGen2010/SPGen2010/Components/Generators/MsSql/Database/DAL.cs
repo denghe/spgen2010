@@ -1231,9 +1231,8 @@ namespace DAL.Database.Tables." + sn + @"
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder(""");
-                        sb.Append(@"INSERT INTO " + dbtn + @" (");
-                        sb.Append(@""");
+			var sb = new StringBuilder(@""
+INSERT INTO " + dbtn + @" ("");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
                         foreach (var c in wcs) {
@@ -1242,16 +1241,19 @@ namespace DAL.Database.Tables." + sn + @"
 			if (ch == null || cols.Contains(" + c.GetOrdinal() + @"))
 			{
 				cmd.AddParameter(""" + cn + @""", o." + cn + @");
-				sb.Append((isFirst ? """" : "", "") + ""[" + cn + @"]"");
-				sb2.Append((isFirst ? """" : "", "") + ""@" + cn + @""");
+				sb.Append((isFirst ? """" : @""
+     , "") + ""[" + cn + @"]"");
+				sb2.Append((isFirst ? """" : @""
+     , "") + ""@" + cn + @""");
 				isFirst = false;
 			}");
                         }
                         sb.Append(@"
-			sb.Append("") OUTPUT INSERTED.* VALUES ("");
+			sb.Append(@""
+) OUTPUT INSERTED.* VALUES ("");
 			sb.Append(sb2);
-			sb.Append(@"");"");");
-                        sb.Append(@"
+			sb.Append(@""
+);"");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}");
@@ -1298,6 +1300,22 @@ UPDATE " + dbtn + @"
                         #endregion
 
                         #region Delete
+
+                        sb.Append(@"
+		public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh = null)
+		{
+			var s = @""");
+                        sb.Append(@"
+DELETE FROM " + dbtn + @""";");
+                        sb.Append(@"
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()).ToString();
+    			s += @""
+ WHERE "" + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}");
 
                         #endregion
 
