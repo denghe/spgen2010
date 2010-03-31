@@ -22,7 +22,7 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
         }
         public Dictionary<GenProperties, object> Properties {
             get {
-                if (_properties == null) {
+                if(_properties == null) {
                     this._properties = new Dictionary<GenProperties, object>();
                     this._properties.Add(GenProperties.Name, "DAL");
                     this._properties.Add(GenProperties.Caption, "根据 Database 生成 DAL 层");
@@ -71,18 +71,18 @@ using System.Collections.Generic;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
 
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
                     sb.Append(@"
 namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         sb.Append(t.Description.ToSummary(1));
                         sb.Append(@"
     public partial class " + t.GetEscapeName() + @"
     {");
                         var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in t.Columns) {
+                        foreach(var c in t.Columns) {
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
@@ -109,19 +109,19 @@ namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 using System.Collections.Generic;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
+                foreach(var vs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.Views." + vs.Key.Escape() + @"
 {
 ");
-                    foreach (var v in vs) {
+                    foreach(var v in vs) {
                         sb.Append(v.Description.ToSummary(1));
                         sb.Append(@"
     public partial class " + v.GetEscapeName() + @"
     {");
                         var L = v.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in v.Columns) {
+                        foreach(var c in v.Columns) {
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
@@ -148,19 +148,19 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 using System.Collections.Generic;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         sb.Append(tt.Description.ToSummary(1));
                         sb.Append(@"
     public partial class " + tt.GetEscapeName() + @"
     {");
                         var L = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in tt.Columns) {
+                        foreach(var c in tt.Columns) {
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
@@ -194,13 +194,13 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         sb.Append(f.Description.ToSummary(1));
                         sb.Append(@"
     public partial class " + f.GetEscapeName() + @"
@@ -209,10 +209,10 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
         public partial class Parameters
         {");
                         var L = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
-                        foreach (var p in f.Parameters) {
+                        foreach(var p in f.Parameters) {
                             var pn = p.GetEscapeName();
                             string pdn;
-                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                            if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                                 pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
@@ -245,7 +245,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
         public partial class ResultTable
         {");
                         L = f.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in f.Columns) {
+                        foreach(var c in f.Columns) {
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(3));
@@ -276,13 +276,13 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Scalar
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         sb.Append(f.Description.ToSummary(1));
                         sb.Append(@"
     public partial class " + f.GetEscapeName() + @"
@@ -291,10 +291,10 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
         public partial class Parameters
         {");
                         var L = f.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
-                        foreach (var p in f.Parameters) {
+                        foreach(var p in f.Parameters) {
                             var pn = p.GetEscapeName();
                             string pdn;
-                            if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                            if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                                 pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
@@ -345,27 +345,27 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
 using SqlLib;
 ");
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
-                foreach (var sps in schemas) {
+                foreach(var sps in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 {
 ");
-                    foreach (var sp in sps) {
+                    foreach(var sp in sps) {
                         sb.Append(sp.Description.ToSummary(1));
                         sb.Append(@"
     public static partial class " + sp.GetEscapeName() + @"
     {
 ");
-                        if (sp.Parameters.Count > 0) {
+                        if(sp.Parameters.Count > 0) {
                             sb.Append(@"
         public partial class Parameters
         {");
                             var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
-                            foreach (var p in sp.Parameters) {
+                            foreach(var p in sp.Parameters) {
                                 var pn = p.GetEscapeName();
                                 string pdn;
-                                if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                                     pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
                                 else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                                 sb.Append(@"
@@ -396,7 +396,8 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                             }
                             sb.Append(@"
         }");
-                        } else {
+                        }
+                        else {
                         }
                         sb.Append(@"
     }");
@@ -424,17 +425,17 @@ using System.Collections.Generic;
 using SqlLib.Expressions;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         sb.Append(@"
     public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
     {");
-                        foreach (var c in t.Columns) {
+                        foreach(var c in t.Columns) {
                             var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
                             var typename = "ExpNode" + s + "<" + t.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
@@ -463,17 +464,17 @@ using System.Collections.Generic;
 using SqlLib.Expressions;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
+                foreach(var vs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
 {
 ");
-                    foreach (var v in vs) {
+                    foreach(var v in vs) {
                         sb.Append(@"
     public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
     {");
-                        foreach (var c in v.Columns) {
+                        foreach(var c in v.Columns) {
                             var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
                             var typename = "ExpNode" + s + "<" + v.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
@@ -502,17 +503,17 @@ using System.Collections.Generic;
 using SqlLib.Expressions;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         sb.Append(@"
     public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
     {");
-                        foreach (var c in tt.Columns) {
+                        foreach(var c in tt.Columns) {
                             var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
                             var typename = "ExpNode" + s + "<" + tt.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
@@ -543,17 +544,17 @@ using SqlLib.Expressions;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         sb.Append(@"
     public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
     {");
-                        foreach (var c in f.Columns) {
+                        foreach(var c in f.Columns) {
                             var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
                             var typename = "ExpNode" + s + "<" + f.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
@@ -585,17 +586,17 @@ using System.Collections.Generic;
 using SqlLib.Orientations;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         sb.Append(@"
     public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
     {");
-                        foreach (var c in t.Columns) {
+                        foreach(var c in t.Columns) {
                             var typename = "ExpNode" + "<" + t.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
@@ -623,17 +624,17 @@ using System.Collections.Generic;
 using SqlLib.Orientations;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
+                foreach(var vs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
 {
 ");
-                    foreach (var v in vs) {
+                    foreach(var v in vs) {
                         sb.Append(@"
     public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
     {");
-                        foreach (var c in v.Columns) {
+                        foreach(var c in v.Columns) {
                             var typename = "ExpNode" + "<" + v.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
@@ -661,17 +662,17 @@ using System.Collections.Generic;
 using SqlLib.Orientations;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         sb.Append(@"
     public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
     {");
-                        foreach (var c in tt.Columns) {
+                        foreach(var c in tt.Columns) {
                             var typename = "ExpNode" + "<" + tt.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
@@ -701,17 +702,17 @@ using SqlLib.Orientations;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
 
                     sb.Append(@"
 namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         sb.Append(@"
     public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
     {");
-                        foreach (var c in f.Columns) {
+                        foreach(var c in f.Columns) {
                             var typename = "ExpNode" + "<" + f.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
@@ -742,13 +743,13 @@ using System.Collections.Generic;
 using SqlLib.Queries;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.Tables." + sn + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
     public partial class " + tn + @" : Query<" + tn + @", Expressions.Tables." + sn + @"." + tn + @", Orientations.Tables." + sn + @"." + tn + @", ColumnEnums.Tables." + sn + @"." + tn + @">
@@ -777,13 +778,13 @@ using System.Collections.Generic;
 using SqlLib.Queries;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
+                foreach(var vs in schemas) {
                     var sn = vs.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.Views." + vs.Key.Escape() + @"
 {
 ");
-                    foreach (var v in vs) {
+                    foreach(var v in vs) {
                         var vn = v.GetEscapeName();
                         sb.Append(@"
     public partial class " + vn + @" : Query<" + vn + @", Expressions.Views." + sn + @"." + vn + @", Orientations.Views." + sn + @"." + vn + @", ColumnEnums.Views." + sn + @"." + vn + @">
@@ -812,13 +813,13 @@ using System.Collections.Generic;
 using SqlLib.Queries;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
                     var sn = tts.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         var ttn = tt.GetEscapeName();
                         sb.Append(@"
     public partial class " + ttn + @" : Query<" + ttn + @", Expressions.UserDefinedTableTypes." + sn + @"." + ttn + @", Orientations.UserDefinedTableTypes." + sn + @"." + ttn + @", ColumnEnums.UserDefinedTableTypes." + sn + @"." + ttn + @">
@@ -849,13 +850,13 @@ using SqlLib.Queries;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
                     var sn = fs.Key.Escape();
                     sb.Append(@"
 namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         var fn = f.GetEscapeName();
                         sb.Append(@"
     public partial class " + fn + @" : Query<" + fn + @", Expressions.UserDefinedFunctions." + sn + @"." + fn + @", Orientations.UserDefinedFunctions." + sn + @"." + fn + @", ColumnEnums.UserDefinedFunctions." + sn + @"." + fn + @">
@@ -887,17 +888,17 @@ using System.Collections.Generic;
 using SqlLib.ColumnEnums;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
                     sb.Append(@"
 namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
     public partial class " + tn + @" : ColumnList<" + tn + @">
     {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
@@ -906,12 +907,12 @@ namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
                         sb.Append(@"
         protected static string[] __cns = new string[]
         {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if (i < t.Columns.Count - 1) sb.Append(",");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
         };
@@ -938,17 +939,17 @@ using System.Collections.Generic;
 using SqlLib.ColumnEnums;
 ");
                 var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
+                foreach(var vs in schemas) {
                     sb.Append(@"
 namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
 {
 ");
-                    foreach (var v in vs) {
+                    foreach(var v in vs) {
                         var vn = v.GetEscapeName();
                         sb.Append(@"
     public partial class " + vn + @" : ColumnList<" + vn + @">
     {");
-                        for (int i = 0; i < v.Columns.Count; i++) {
+                        for(int i = 0; i < v.Columns.Count; i++) {
                             var c = v.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
@@ -957,12 +958,12 @@ namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
                         sb.Append(@"
         protected static string[] __cns = new string[]
         {");
-                        for (int i = 0; i < v.Columns.Count; i++) {
+                        for(int i = 0; i < v.Columns.Count; i++) {
                             var c = v.Columns[i];
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if (i < v.Columns.Count - 1) sb.Append(",");
+                            if(i < v.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
         };
@@ -989,17 +990,17 @@ using System.Collections.Generic;
 using SqlLib.ColumnEnums;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
                     sb.Append(@"
 namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         var ttn = tt.GetEscapeName();
                         sb.Append(@"
     public partial class " + ttn + @" : ColumnList<" + ttn + @">
     {");
-                        for (int i = 0; i < tt.Columns.Count; i++) {
+                        for(int i = 0; i < tt.Columns.Count; i++) {
                             var c = tt.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
@@ -1008,12 +1009,12 @@ namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
                         sb.Append(@"
         protected static string[] __cns = new string[]
         {");
-                        for (int i = 0; i < tt.Columns.Count; i++) {
+                        for(int i = 0; i < tt.Columns.Count; i++) {
                             var c = tt.Columns[i];
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if (i < tt.Columns.Count - 1) sb.Append(",");
+                            if(i < tt.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
         };
@@ -1042,17 +1043,17 @@ using SqlLib.ColumnEnums;
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
                               group func by func.Schema;
-                foreach (var fs in schemas) {
+                foreach(var fs in schemas) {
                     sb.Append(@"
 namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
-                    foreach (var f in fs) {
+                    foreach(var f in fs) {
                         var fn = f.GetEscapeName();
                         sb.Append(@"
     public partial class " + fn + @" : ColumnList<" + fn + @">
     {");
-                        for (int i = 0; i < f.Columns.Count; i++) {
+                        for(int i = 0; i < f.Columns.Count; i++) {
                             var c = f.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
@@ -1061,12 +1062,12 @@ namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
                         sb.Append(@"
         protected static string[] __cns = new string[]
         {");
-                        for (int i = 0; i < f.Columns.Count; i++) {
+                        for(int i = 0; i < f.Columns.Count; i++) {
                             var c = f.Columns[i];
                             var cn = c.Name.Replace("\"", "\"\"");
                             sb.Append(@"
             @""" + cn + @"""");
-                            if (i < f.Columns.Count - 1) sb.Append(",");
+                            if(i < f.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
         };
@@ -1096,18 +1097,19 @@ namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
                 sb.Append(@"using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using SqlLib;
 ");
                 var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
 namespace DAL.Database.Tables." + sn + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
     partial class " + tn + @"
@@ -1131,21 +1133,23 @@ namespace DAL.Database.Tables." + sn + @"
                         var row = new " + tn + @"();
                         var cols = q.Columns;
                         for(int i = 0; i < count; i++) {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
                             ");
-                            if (i > 0) sb.Append("else if(i < count && ");
+                            if(i > 0) sb.Append("else if(i < count && ");
                             else sb.Append("if(");
                             sb.Append(@"cols.Contains(" + i + @")) {row." + cn + @" = ");
-                            if (c.Nullable) {
+                            if(c.Nullable) {
                                 var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
                                 sb.Append(@"reader.IsDBNull(i) ? null : " + s);
-                            } else {
-                                if (c.DataType.CheckIsBinaryType()) {
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
                                     sb.Append(@"reader.GetSqlBinary(i).Value");
-                                } else
+                                }
+                                else
                                     sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
                             }
                             sb.Append(@"; i++; }");
@@ -1161,22 +1165,24 @@ namespace DAL.Database.Tables." + sn + @"
                     {
                         rows.Add(new " + tn + @"
                         {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
                             " + cn + " = ");
                             var s = "";
-                            if (c.Nullable) {
+                            if(c.Nullable) {
                                 s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
                                 sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
-                            } else {
-                                if (c.DataType.CheckIsBinaryType()) {
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
                                     sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
-                                } else
+                                }
+                                else
                                     sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
                             }
-                            if (i < t.Columns.Count - 1) sb.Append(",");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
                         });
@@ -1198,23 +1204,23 @@ namespace DAL.Database.Tables." + sn + @"
             return Select(Queries.Tables." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
         }
 ");
-                        if (t.GetPKColumns().Count > 0) {
+                        if(t.GetPKColumns().Count > 0) {
                             sb.Append(@"
         public static " + tn + @" Select(");
                             var pks = t.GetPKColumns();
-                            for (int i = 0; i < pks.Count; i++) {
+                            for(int i = 0; i < pks.Count; i++) {
                                 var c = pks[i];
                                 var cn = c.Name.Escape();
-                                if (i > 0) sb.Append(@", ");
+                                if(i > 0) sb.Append(@", ");
                                 sb.Append(c.DataType.GetTypeName() + " c" + i);
                             }
                             sb.Append(@", ColumnEnums.Tables." + sn + @"." + tn + @".Handler columns = null)
         {
             return Select(o => ");
-                            for (int i = 0; i < pks.Count; i++) {
+                            for(int i = 0; i < pks.Count; i++) {
                                 var c = pks[i];
                                 var cn = c.Name.Escape();
-                                if (i > 0) sb.Append(@" & ");
+                                if(i > 0) sb.Append(@" & ");
                                 sb.Append("o." + cn + ".Equal(c" + i + ")");
                             }
                             sb.Append(@", columns: columns).FirstOrDefault();
@@ -1227,20 +1233,26 @@ namespace DAL.Database.Tables." + sn + @"
                         #region Insert
 
                         sb.Append(@"
-		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler ch = null)
+		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""
 INSERT INTO " + dbtn + @" ("");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
-                        foreach (var c in wcs) {
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
+                        foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-			if (ch == null || cols.Contains(" + c.GetOrdinal() + @"))
-			{
-				cmd.AddParameter(""" + cn + @""", o." + cn + @");
+			if (insertCols == null || cols.Contains(" + c.GetOrdinal() + @"))
+			{");
+                            if(c.Nullable) sb.Append(@"
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
+                if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
+                cmd.Parameters.Add(p);");
+                            else sb.Append(@"
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                            sb.Append(@"
 				sb.Append((isFirst ? """" : @""
      , "") + ""[" + cn + @"]"");
 				sb2.Append((isFirst ? """" : @""
@@ -1249,13 +1261,15 @@ INSERT INTO " + dbtn + @" ("");
 			}");
                         }
                         sb.Append(@"
-			sb.Append(@""
+			if (isFillAfterInsert) sb.Append(@""
 ) OUTPUT INSERTED.* VALUES ("");
 			sb.Append(sb2);
 			sb.Append(@""
 );"");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}");
 
                         #endregion
@@ -1263,7 +1277,7 @@ INSERT INTO " + dbtn + @" ("");
                         #region Update
 
                         sb.Append(@"
-		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler ch = null)
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
@@ -1272,19 +1286,27 @@ INSERT INTO " + dbtn + @" ("");
 UPDATE " + dbtn + @"
    SET ");
                         sb.Append(@""");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
-                        foreach (var c in wcs) {
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
+                        foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-			if (ch == null || cols.Contains(" + c.GetOrdinal() + @"))
-			{
-				cmd.AddParameter(""" + cn + @""", o." + cn + @");
+			if (updateCols == null || cols.Contains(" + c.GetOrdinal() + @"))
+			{");
+                            if(c.Nullable) sb.Append(@"
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
+                if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
+                cmd.Parameters.Add(p);");
+                            else sb.Append(@"
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                            sb.Append(@"
 				sb.Append((isFirst ? """" : @""
      , "") + ""[" + cn + @"] = @" + cn + @""");
 				isFirst = false;
 			}");
                         }
                         sb.Append(@"
+			if (isFillAfterUpdate) sb.Append(@""
+OUTPUT INSERTED.*"");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()).ToString();
@@ -1295,6 +1317,8 @@ UPDATE " + dbtn + @"
                         sb.Append(@"
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}");
 
                         #endregion
@@ -1343,13 +1367,13 @@ using System.Linq;
 using SqlLib;
 ");
                 var schemas = from table in db.Views group table by table.Schema;
-                foreach (var ts in schemas) {
+                foreach(var ts in schemas) {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
 namespace DAL.Database.Views." + sn + @"
 {
 ");
-                    foreach (var t in ts) {
+                    foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
     partial class " + tn + @"
@@ -1368,22 +1392,24 @@ namespace DAL.Database.Views." + sn + @"
                         var row = new " + tn + @"();
                         for(int i = 0; i < count; i++)
                         {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
                             ");
-                            if (i > 0) sb.Append("else if(i < count && ");
+                            if(i > 0) sb.Append("else if(i < count && ");
                             else sb.Append("if(");
                             sb.Append(@"q.Columns[i] == @""" + c.Name.Replace("\"", "\"\"") + @""") {row." + cn + @" = ");
                             var s = "";
-                            if (c.Nullable) {
+                            if(c.Nullable) {
                                 s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
                                 sb.Append(@"reader.IsDBNull(i) ? null : " + s);
-                            } else {
-                                if (c.DataType.CheckIsBinaryType()) {
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
                                     sb.Append(@"reader.GetSqlBinary(i).Value");
-                                } else
+                                }
+                                else
                                     sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
                             }
                             sb.Append(@"; i++; }");
@@ -1399,22 +1425,24 @@ namespace DAL.Database.Views." + sn + @"
                     {
                         rows.Add(new " + tn + @"
                         {");
-                        for (int i = 0; i < t.Columns.Count; i++) {
+                        for(int i = 0; i < t.Columns.Count; i++) {
                             var c = t.Columns[i];
                             var cn = c.GetEscapeName();
                             sb.Append(@"
                             " + cn + " = ");
                             var s = "";
-                            if (c.Nullable) {
+                            if(c.Nullable) {
                                 s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
                                 sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
-                            } else {
-                                if (c.DataType.CheckIsBinaryType()) {
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
                                     sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
-                                } else
+                                }
+                                else
                                     sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
                             }
-                            if (i < t.Columns.Count - 1) sb.Append(",");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
                         }
                         sb.Append(@"
                         });
@@ -1457,13 +1485,13 @@ using System.Data;
 using System.Collections.Generic;
 ");
                 var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
+                foreach(var tts in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
-                    foreach (var tt in tts) {
+                    foreach(var tt in tts) {
                         sb.Append(tt.Description.ToSummary(1));
                         sb.Append(@"
     partial class " + tt.GetEscapeName() + @"_Collection : List<" + tt.GetEscapeName() + @">
@@ -1471,7 +1499,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
         public DataTable ToDataTable()
         {");
                         var L = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
-                        foreach (var c in tt.Columns) {
+                        foreach(var c in tt.Columns) {
                             var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
                             var fieldname = c.GetEscapeName().FillSpace(L);
                             sb.Append(c.Description.ToSummary(2));
@@ -1521,29 +1549,29 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
 using SqlLib;
 ");
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
-                foreach (var sps in schemas) {
+                foreach(var sps in schemas) {
 
                     sb.Append(@"
 namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 {
 ");
-                    foreach (var sp in sps) {
+                    foreach(var sp in sps) {
                         sb.Append(sp.Description.ToSummary(1));
                         sb.Append(@"
     partial class " + sp.GetEscapeName() + @"
     {
 ");
-                        if (sp.Parameters.Count > 0) {
+                        if(sp.Parameters.Count > 0) {
                             sb.Append(@"
         partial class Parameters
         {");
                             var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                             var s = "";
                             var s2 = "";
-                            foreach (var p in sp.Parameters) {
+                            foreach(var p in sp.Parameters) {
                                 var pn = p.GetEscapeName();
                                 string pdn;
-                                if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                                     pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
                                 else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
 
@@ -1554,8 +1582,9 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                                 s += @"
                 _f_" + pn + @" = false;";
                                 // Parameters
-                                if (p.IsOutputParameter) {
-                                } else {
+                                if(p.IsOutputParameter) {
+                                }
+                                else {
                                     s2 += @"
             if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", ps." + pn + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
                                 }
@@ -1574,7 +1603,8 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
             return SqlHelper.ExecuteDbSet(cmd);
         }
 ");
-                        } else {
+                        }
+                        else {
                             sb.Append(@"
         public static DbSet ExecuteDbSet()
         {
