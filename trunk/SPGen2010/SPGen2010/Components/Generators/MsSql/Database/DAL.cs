@@ -1263,9 +1263,11 @@ INSERT INTO " + dbtn + @" ("");
                             else sb.Append(@"
                 cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
                             sb.Append(@"
-				sb.Append((isFirst ? """" : @""
+				sb.Append((isFirst ? @""
+       "" : @""
      , "") + ""[" + cn + @"]"");
-				sb2.Append((isFirst ? """" : @""
+				sb2.Append((isFirst ? @""
+       "" : @""
      , "") + ""@" + cn + @""");
 				isFirst = false;
 			}");
@@ -1274,11 +1276,13 @@ INSERT INTO " + dbtn + @" ("");
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@""
-) OUTPUT INSERTED.* VALUES ("");
+) 
+OUTPUT INSERTED.* VALUES ("");
                 }
                 else {
                     sb.Append(@""
-) OUTPUT "");
+) 
+OUTPUT "");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@"", "");
                         sb.Append(@""INSERTED.["" + fcs.GetColumnName(i).Replace(""]"", ""]]"") + ""]"");
@@ -1287,7 +1291,8 @@ INSERT INTO " + dbtn + @" ("");
                 }
             }
             else sb.Append(@""
-) VALUES ("");
+) 
+VALUES ("");
 			sb.Append(sb2);
 			sb.Append(@""
 );"");
@@ -1377,7 +1382,9 @@ INSERT INTO " + dbtn + @" ("");
 UPDATE " + dbtn + @"
    SET ");
                         sb.Append(@""");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
+            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var fccount = fcs == null ? 0 : fcs.Count();");
                         foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
@@ -1390,14 +1397,12 @@ UPDATE " + dbtn + @"
                             else sb.Append(@"
                 cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
                             sb.Append(@"
-				sb.Append((isFirst ? """" : @""
+				sb.Append((isFirst ? @"""" : @""
      , "") + ""[" + cn + @"] = @" + cn + @""");
 				isFirst = false;
 			}");
                         }
                         sb.Append(@"
-			if (isFillAfterUpdate) sb.Append(@""
-OUTPUT INSERTED.*"");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@""
