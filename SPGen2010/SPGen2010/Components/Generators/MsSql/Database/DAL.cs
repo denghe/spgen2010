@@ -1121,6 +1121,8 @@ namespace DAL.Database.Tables." + sn + @"
                         #region Select
 
                         sb.Append(@"
+        #region Select
+
         public static List<" + tn + @"> Select(Queries.Tables." + sn + @"." + tn + @" q)
         {
             var tsql = q.ToSqlString();
@@ -1228,11 +1230,17 @@ namespace DAL.Database.Tables." + sn + @"
 ");
                         }
 
+                        sb.Append(@"
+        #endregion
+");
+
                         #endregion
 
                         #region Insert
 
                         sb.Append(@"
+        #region Insert
+
 		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1272,11 +1280,16 @@ INSERT INTO " + dbtn + @" ("");
             // todo: if (isFillAfterInsert) 
 		}");
 
+                        sb.Append(@"
+        #endregion
+");
                         #endregion
 
                         #region Update
 
                         sb.Append(@"
+        #region Update
+
 		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1321,11 +1334,17 @@ OUTPUT INSERTED.*"");
             // todo: if (isFillAfterUpdate)
 		}");
 
+                        sb.Append(@"
+        #endregion
+");
+
                         #endregion
 
                         #region Delete
 
                         sb.Append(@"
+        #region Delete
+
 		public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh = null)
 		{
 			var s = @""");
@@ -1340,6 +1359,10 @@ DELETE FROM " + dbtn + @""";");
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}");
+
+                        sb.Append(@"
+        #endregion
+");
 
                         #endregion
 
