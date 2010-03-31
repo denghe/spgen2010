@@ -1241,18 +1241,20 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Insert
 
-		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
+		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""
 INSERT INTO " + dbtn + @" ("");
 			var sb2 = new StringBuilder();
-            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());");
+            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var fccount = fcs == null ? 0 : fcs.Count();");
                         foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-			if (insertCols == null || cols.Contains(" + c.GetOrdinal() + @"))
+			if (insertCols == null || ics.Contains(" + c.GetOrdinal() + @"))
 			{");
                             if(c.Nullable) sb.Append(@"
                 var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
@@ -1269,15 +1271,91 @@ INSERT INTO " + dbtn + @" ("");
 			}");
                         }
                         sb.Append(@"
-			if (isFillAfterInsert) sb.Append(@""
+            if(isFillAfterInsert) {
+                if(fillCols == null) {
+                    sb.Append(@""
 ) OUTPUT INSERTED.* VALUES ("");
+                }
+                else {
+                    sb.Append(@""
+) OUTPUT "");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@"", "");
+                        sb.Append(@""INSERTED.["" + fcs.GetColumnName(i).Replace(""]"", ""]]"") + ""]"");
+                    }
+                    sb.Append(@"" VALUES ("");
+                }
+            }
+            else sb.Append(@""
+) VALUES ("");
 			sb.Append(sb2);
 			sb.Append(@""
 );"");
 			cmd.CommandText = sb.ToString();
-			return SqlHelper.ExecuteNonQuery(cmd);
+            if(!isFillAfterInsert)
+                return SqlHelper.ExecuteNonQuery(cmd);
 
-            // todo: if (isFillAfterInsert) 
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+                        o." + cn + " = ");
+                            var s = "";
+                            if(c.Nullable) {
+                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
+                                sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                }
+                                else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
+                            }
+                            sb.Append(";");
+                        }
+                        sb.Append(@"
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+                            ");
+                            if(i > 0) sb.Append("else if(i < fccount && ");
+                            else sb.Append("if(");
+                            sb.Append(@"fcs.Contains(" + i + @")) {o." + cn + @" = ");
+                            if(c.Nullable) {
+                                var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                sb.Append(@"reader.IsDBNull(i) ? null : " + s);
+                            }
+                            else {
+                                if(c.DataType.CheckIsBinaryType()) {
+                                    sb.Append(@"reader.GetSqlBinary(i).Value");
+                                }
+                                else
+                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
+                            }
+                            sb.Append(@"; i++; }");
+                        }
+                        sb.Append(@"
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
 		}");
 
                         sb.Append(@"
@@ -1290,7 +1368,7 @@ INSERT INTO " + dbtn + @" ("");
                         sb.Append(@"
         #region Update
 
-		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null)
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
