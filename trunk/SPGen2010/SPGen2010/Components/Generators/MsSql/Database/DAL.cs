@@ -1092,6 +1092,7 @@ namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 
             #region Tables
 
+            #region Base Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1534,6 +1535,93 @@ DELETE FROM " + dbtn + @""";");
 
                 gr.Files.Add("DAL_Database_Tables_Methods.cs", sb);
             }
+            #endregion
+
+            #region Extend Methods
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using SqlLib;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach(var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Database.Tables." + sn + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial static class " + tn + @"_Extend
+    {
+");
+                        var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
+                        var wcs = t.GetWriteableColumns();
+
+                        #region Insert
+
+                        sb.Append(@"
+        #region Insert
+
+		public static int Insert(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return " + tn + @".Insert(o, insertCols, fillCols, isFillAfterInsert);
+		}");
+
+                        sb.Append(@"
+        #endregion
+");
+                        #endregion
+
+                        #region Update
+
+                        sb.Append(@"
+        #region Update
+
+		public static int Update(this " + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
+		{
+            return " + tn + @".Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+		}");
+
+                        sb.Append(@"
+        #endregion
+");
+
+                        #endregion
+
+                        #region Delete
+
+                        sb.Append(@"
+        #region Delete
+
+		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols)
+		{
+		}
+");
+
+                        sb.Append(@"
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Database_Tables_ExtendMethods.cs", sb);
+            }
+
+            #endregion
 
             #endregion
 
