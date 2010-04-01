@@ -1504,7 +1504,7 @@ OUTPUT "");
                         sb.Append(@"
         #region Delete
 
-		public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh = null)
+		public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh)
 		{
 			var s = @""");
                         sb.Append(@"
