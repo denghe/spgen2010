@@ -1602,6 +1602,7 @@ namespace DAL.Database.Tables." + sn + @"
 
 		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols)
 		{
+            return 0; // todo
 		}
 ");
 
