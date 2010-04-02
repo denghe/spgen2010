@@ -705,7 +705,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
         /// </summary>
         public static bool CheckIsTree(this Table t) {
             if(t == null) return false;
-            var pks = t.GetPKColumns();
+            var pks = t.GetPrimaryKeyColumns();
             if(pks == null || pks.Count == 0)		//没有主键？
             {
                 return false;

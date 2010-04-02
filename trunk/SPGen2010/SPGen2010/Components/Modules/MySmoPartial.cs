@@ -60,15 +60,25 @@ namespace SPGen2010.Components.Modules.MySmo {
         /// <summary>
         /// 返回一个表的主键集合（如果没有返回 0 长度列表）
         /// </summary>
-        public List<Column> GetPKColumns() {
+        public List<Column> GetPrimaryKeyColumns() {
             return (from Column c in this.Columns where c.InPrimaryKey select c).ToList();
         }
 
         /// <summary>
         /// 返回一个表的非主键集合（如果没有返回 0 长度列表）
         /// </summary>
-        public List<Column> GetNonPKColumns() {
+        public List<Column> GetNonPrimaryKeyColumns() {
             return (from Column c in this.Columns where !c.InPrimaryKey select c).ToList();
+        }
+
+        /// <summary>
+        /// 返回一个表的可比较字段集合（如果没有返回 0 长度列表）
+        /// </summary>
+        public List<Column> GetCompareableColumns() {
+            return (from Column c in this.Columns 
+                    where !(c.DataType.SqlDataType == SqlDataType.Variant
+                    || c.DataType.SqlDataType == SqlDataType.HierarchyId)
+                    select c).ToList();
         }
 
         /// <summary>
