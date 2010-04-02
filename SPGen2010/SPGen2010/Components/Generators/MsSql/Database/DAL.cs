@@ -1207,10 +1207,10 @@ namespace DAL.Database.Tables." + sn + @"
             return Select(Queries.Tables." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
         }
 ");
-                        if(t.GetPKColumns().Count > 0) {
+                        if(t.GetPrimaryKeyColumns().Count > 0) {
                             sb.Append(@"
         public static " + tn + @" Select(");
-                            var pks = t.GetPKColumns();
+                            var pks = t.GetPrimaryKeyColumns();
                             for(int i = 0; i < pks.Count; i++) {
                                 var c = pks[i];
                                 var cn = c.Name.Escape();
@@ -1242,20 +1242,18 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Insert
 
-		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @" ics = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""
 INSERT INTO " + dbtn + @" ("");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();");
                         foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-			if (insertCols == null || ics.Contains(" + c.GetOrdinal() + @"))
+			if (ics == null || ics.Contains(" + c.GetOrdinal() + @"))
 			{");
                             if(c.Nullable) sb.Append(@"
                 var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
@@ -1275,7 +1273,7 @@ INSERT INTO " + dbtn + @" ("");
                         }
                         sb.Append(@"
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@""
 ) 
 OUTPUT INSERTED.* VALUES ("");
@@ -1362,7 +1360,17 @@ VALUES ("");
                 }
                 return reader.RecordsAffected;
             }
-		}");
+		}
+
+		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                isFillAfterInsert
+            );
+        }
+");
 
                         sb.Append(@"
         #endregion
@@ -1374,22 +1382,20 @@ VALUES ("");
                         sb.Append(@"
         #region Update
 
-		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh = null, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""");
                         sb.Append(@"
 UPDATE " + dbtn + @"
    SET ");
                         sb.Append(@""");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();");
                         foreach(var c in wcs) {
                             var cn = c.Name.Escape();
                             sb.Append(@"
-			if (updateCols == null || ucs.Contains(" + c.GetOrdinal() + @"))
+			if (ucs == null || ucs.Contains(" + c.GetOrdinal() + @"))
 			{");
                             if(c.Nullable) sb.Append(@"
                 var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
@@ -1405,7 +1411,7 @@ UPDATE " + dbtn + @"
                         }
                         sb.Append(@"
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@""
 OUTPUT INSERTED.*"");
                 }
@@ -1421,8 +1427,9 @@ OUTPUT "");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()).ToString();
-    			sb.Append(@""
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@""
  WHERE "" + ws);
             }");
                         sb.Append(@"
@@ -1492,7 +1499,16 @@ OUTPUT "");
                 return reader.RecordsAffected;
             }
             
-		}");
+		}
+        public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                isFillAfterUpdate
+            );
+        }");
 
                         sb.Append(@"
         #endregion
@@ -1505,7 +1521,7 @@ OUTPUT "");
                         sb.Append(@"
         #region Delete
 
-		public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh)
+		public static int Delete(Expressions.Tables." + sn + @"." + tn + @" eh)
 		{
 			var s = @""");
                         sb.Append(@"
@@ -1513,12 +1529,17 @@ DELETE FROM " + dbtn + @""";");
                         sb.Append(@"
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()).ToString();
-    			s += @""
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @""
  WHERE "" + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
-		}");
+		}
+        public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()));
+        }");
 
                         sb.Append(@"
         #endregion
@@ -1558,7 +1579,7 @@ namespace DAL.Database.Tables." + sn + @"
                     foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
-    partial static class " + tn + @"_Extend
+    public static partial class " + tn + @"_Extend
     {
 ");
                         var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
@@ -1600,9 +1621,42 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Delete
 
-		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols)
+		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols = null)
 		{
-            return 0; // todo
+            if(conditionCols == null) return " + sn + @"." + tn + @".Delete(t =>");
+                        var pkcs = t.GetPrimaryKeyColumns();
+                        var ccs = t.GetCompareableColumns();
+                        if(pkcs.Count > 0) {
+                            for(int i = 0; i < pkcs.Count; i++) {
+                                var c = pkcs[i];
+                                var cn = c.GetEscapeName();
+                                sb.Append(@"
+                t." + cn + @" == o." + cn + @"");
+                                if(i < pkcs.Count - 1) sb.Append(" &");
+                            }
+                        }
+                        else {
+                            for(int i = 0; i < ccs.Count; i++) {
+                                var c = ccs[i];
+                                var cn = c.GetEscapeName();
+                                sb.Append(@"
+                t." + cn + @" == o." + cn + @"");
+                                if(i < ccs.Count - 1) sb.Append(" &");
+                            }
+                        }
+                        sb.Append(@"
+            );
+            var cols = conditionCols.Invoke(new DAL.ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var exp = new DAL.Expressions.Tables." + sn + @"." + tn + @"();");
+
+                        for(int i = 0; i < ccs.Count; i++) {
+                            var c = ccs[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+            if(cols.Contains(" + c.GetOrdinal() + ")) exp.And(t => t." + cn + @" == o." + cn + @");");
+                        }
+                        sb.Append(@"
+            return " + sn + @"." + tn + @".Delete(exp);
 		}
 ");
 
