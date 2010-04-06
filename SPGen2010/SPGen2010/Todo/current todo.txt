@@ -2,6 +2,4 @@
 继续丰富 MySmo 相关对象扫描功能
 继续做 DAL 生成
 
-填充 MySmo 时，取 DataType 的名字要判断是否为用户自定义数据类型，是的话取其原型
-
 所有类均带 GetBytes 和 Fill 序列化套件方法
