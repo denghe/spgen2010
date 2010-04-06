@@ -1086,8 +1086,6 @@ namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 
             #endregion
 
-
-
             #region Gen Database Class Server Extension Methods
 
             #region Tables
@@ -1842,12 +1840,6 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 
                 gr.Files.Add("DAL_Database_UserDefinedTableTypes_Methods.cs", sb);
             }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-
 
             #endregion
 
