@@ -36,16 +36,16 @@ namespace SPGen2010.Components.Modules.MySmo {
         /// </summary>
         public Dictionary<Column, Column> GetTreePKFKColumns() {
             var ccs = new Dictionary<Column, Column>();
-            foreach(var fk in this.ForeignKeys) {
-                if(fk.ReferencedTable != this.Name || fk.ReferencedTableSchema != this.Schema) continue;
+            foreach (var fk in this.ForeignKeys) {
+                if (fk.ReferencedTable != this.Name || fk.ReferencedTableSchema != this.Schema) continue;
                 int equaled = 0;
-                foreach(var fkc in fk.Columns)		// 判断是否一个外键约束所有字段都是在当前表
+                foreach (var fkc in fk.Columns)		// 判断是否一个外键约束所有字段都是在当前表
                 {
-                    if(fkc.ParentForeignKey.ParentTable == this) equaled++;
+                    if (fkc.ParentForeignKey.ParentTable == this) equaled++;
                 }
-                if(equaled == fk.Columns.Count)					// 当前表为树表
+                if (equaled == fk.Columns.Count)					// 当前表为树表
                 {
-                    for(int i = 0; i < fk.Columns.Count; i++) {
+                    for (int i = 0; i < fk.Columns.Count; i++) {
                         var fkc = fk.Columns[i];
                         var f = this.Columns.Find(o => o.Name == fkc.Name);
                         var p = this.Columns.Find(o => o.Name == fkc.ReferencedColumn);
@@ -56,6 +56,25 @@ namespace SPGen2010.Components.Modules.MySmo {
             }
             return ccs;
         }
+
+        ///// <summary>
+        ///// 返回当前表的所有　父表　外键关系
+        ///// </summary>
+        //public List<ForeignKey> GetParentForeignKeys() {
+        //    return this.ParentDatabase.Tables.Where(o => o != this).SelectMany(o => o.ForeignKeys)
+        //        .Where(o => o.ReferencedTable == this.Name && o.ReferencedTableSchema == this.Schema).ToList();
+        //    //return this.ForeignKeys.Where(o =>
+        //    //    o.ParentTable == this && o.ReferencedTable == this.Name && o.ReferencedTableSchema == this.Schema
+        //    //    || o.ParentTable != this
+        //    //).ToList();
+        //    //var results = new List<ForeignKey>();
+        //    //var ts = this.ParentDatabase.Tables.Where(o => o.ForeignKeys.Count > 0);
+        //    //foreach (var t in ts) {
+        //    //    var fks = t.ForeignKeys.Where(o => o.ReferencedTable == this.Name && o.ReferencedTableSchema == this.Schema);
+        //    //    results.AddRange(fks);
+        //    //}
+        //    //return results;
+        //}
 
         /// <summary>
         /// 返回一个表的主键集合（如果没有返回 0 长度列表）
@@ -75,7 +94,7 @@ namespace SPGen2010.Components.Modules.MySmo {
         /// 返回一个表的可比较字段集合（如果没有返回 0 长度列表）
         /// </summary>
         public List<Column> GetCompareableColumns() {
-            return (from Column c in this.Columns 
+            return (from Column c in this.Columns
                     where !(c.DataType.SqlDataType == SqlDataType.Variant
                     || c.DataType.SqlDataType == SqlDataType.HierarchyId)
                     select c).ToList();
@@ -129,7 +148,7 @@ namespace SPGen2010.Components.Modules.MySmo {
     }
 
     partial class Column {
-        public int GetOrdinal() { if(this.ParentTableBase == null) return 0; return this.ParentTableBase.Columns.IndexOf(this); }
+        public int GetOrdinal() { if (this.ParentTableBase == null) return 0; return this.ParentTableBase.Columns.IndexOf(this); }
     }
 
     partial class Parameter {
@@ -137,7 +156,7 @@ namespace SPGen2010.Components.Modules.MySmo {
 
     partial class DataType {
         public override string ToString() {
-            switch(this.SqlDataType) {
+            switch (this.SqlDataType) {
                 case SqlDataType.Int:
                 case SqlDataType.BigInt:
                 case SqlDataType.Numeric:
