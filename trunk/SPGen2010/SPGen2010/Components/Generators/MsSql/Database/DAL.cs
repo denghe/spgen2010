@@ -2102,7 +2102,8 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
                             var cn = c.GetEscapeName();
                             if(c.Nullable) sb.Append(@"
                 if(o." + cn + @" == null) rowdata[" + i + @"] = DBNull.Value;
-                else rowdata[" + i + @"] = o." + cn + @".Value;");
+                else rowdata[" + i + @"] = o." + cn + (c.DataType.CheckIsStringType() || c.DataType.CheckIsBinaryType()
+                               ? @";" : @".Value;"));
                             else sb.Append(@"
                 rowdata[" + i + @"] = o." + cn + @";");
                         }
