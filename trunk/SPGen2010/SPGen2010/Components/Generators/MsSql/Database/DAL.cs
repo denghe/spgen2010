@@ -2088,12 +2088,28 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
     public static partial class " + tt.GetEscapeName() + @"_Extensions
     {
         public static DataTable ToDataTable(this IEnumerable<" + tt.GetEscapeName() + @"> os)
-        {");
-                        foreach(var c in tt.Columns) {
+        {
+            var dt = new DataTable();");
+                        for(int i = 0; i < tt.Columns.Count; i++) {
+                            sb.Append(@"
+            dt.Columns.Add(""" + i + @""");");
                         }
                         sb.Append(@"
-            // todo
-            return null;
+            foreach(var o in os) {
+                var rowdata = new object[1];");
+                        for(int i = 0; i < tt.Columns.Count; i++) {
+                            var c = tt.Columns[i];
+                            var cn = c.GetEscapeName();
+                            if(c.Nullable) sb.Append(@"
+                if(o." + cn + @" == null) rowdata[" + i + @"] = DBNull.Value;
+                else rowdata[" + i + @"] = o." + cn + @".Value;");
+                            else sb.Append(@"
+                rowdata[" + i + @"] = o." + cn + @";");
+                        }
+                        sb.Append(@"
+                dt.Rows.Add(rowdata);
+            }
+            return dt;
         }
     }");
                     }
