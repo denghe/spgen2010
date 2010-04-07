@@ -168,10 +168,6 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
         public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
-    }
-    public partial class " + tt.GetEscapeName() + @"_Collection : List<" + tt.GetEscapeName() + @">
-    {
-        // todo: ToDataTable()
     }");
                     }
                     sb.Append(@"
@@ -213,7 +209,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
@@ -295,7 +291,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
@@ -366,7 +362,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                                 var pn = p.GetEscapeName();
                                 string pdn;
                                 if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                    pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                    pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                                 else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                                 sb.Append(@"
             #region " + pn + @"
@@ -1665,7 +1661,7 @@ DELETE FROM " + dbtn + @""";");
             }
             #endregion
 
-            #region DB Extend Methods
+            #region DB Extensions Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1686,7 +1682,7 @@ namespace DAL.Database.Tables." + sn + @"
                     foreach(var t in ts) {
                         var tn = t.GetEscapeName();
                         sb.Append(@"
-    public static partial class " + tn + @"_Extend
+    public static partial class " + tn + @"_Extensions
     {
 ");
                         var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
@@ -1834,7 +1830,6 @@ namespace DAL.Database.Views." + sn + @"
                         #endregion
 
                         #region Serial
-
 
                         sb.Append(@"
         #region Serial
@@ -1992,6 +1987,88 @@ namespace DAL.Database.Views." + sn + @"
 
             #region UserDefinedTableTypes
 
+            #region Serial Methods
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
+using SqlLib;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach(var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Database.UserDefinedTableTypes." + sn + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @" : ISerial
+    {");
+                        #region Constructor
+
+                        sb.Append(@"
+        #region Constructor
+
+        public " + tn + @"() {
+        }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        #region Serial
+
+
+                        sb.Append(@"
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();");
+                        foreach(var c in t.Columns) {
+                            sb.Append(@"
+            buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
+                        }
+                        sb.Append(@"
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {");
+                        foreach(var c in t.Columns) {
+                            sb.Append(@"
+            this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
+                        }
+                        sb.Append(@"
+        }
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Database_Methods_Serial_UserDefinedTableTypes.cs", sb);
+            }
+            #endregion
+
+            #region DB Extensions Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -2008,19 +2085,14 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
                     foreach(var tt in tts) {
                         sb.Append(tt.Description.ToSummary(1));
                         sb.Append(@"
-    partial class " + tt.GetEscapeName() + @"_Collection : List<" + tt.GetEscapeName() + @">
+    public static partial class " + tt.GetEscapeName() + @"_Extensions
     {
-        public DataTable ToDataTable()
+        public static DataTable ToDataTable(this IEnumerable<" + tt.GetEscapeName() + @"> os)
         {");
-                        var L = tt.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach(var c in tt.Columns) {
-                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName()).FillSpace(10);
-                            var fieldname = c.GetEscapeName().FillSpace(L);
-                            sb.Append(c.Description.ToSummary(2));
-                            //                            sb.Append(@"
-                            //        public " + typename + @" " + fieldname + @"{ get; set; }");
                         }
                         sb.Append(@"
+            // todo
             return null;
         }
     }");
@@ -2029,8 +2101,9 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_UserDefinedTableTypes.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_UserDefinedTableTypes_Extensions.cs", sb);
             }
+            #endregion
 
             #endregion
 
@@ -2080,7 +2153,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                                 var pn = p.GetEscapeName();
                                 string pdn;
                                 if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                    pdn = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Collection";
+                                    pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                                 else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
 
                                 sb.Append(@"
