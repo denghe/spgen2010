@@ -1780,7 +1780,7 @@ namespace DAL.Database.Tables." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DBExt_Tables.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_Tables_Extensions.cs", sb);
             }
 
             #endregion
