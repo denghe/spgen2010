@@ -419,6 +419,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
         /// </summary>
         public static string Escape(this string s) {
             s = s.Trim();
+            if(s == "") return s;
             if(s.CheckIsKeywords()) return "_" + s;
             if(s[0] >= '0' && s[0] <= '9') s = "_" + s;
             return s.Replace(' ', '_')
