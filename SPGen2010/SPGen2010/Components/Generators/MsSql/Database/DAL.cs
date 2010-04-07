@@ -1114,9 +1114,6 @@ namespace DAL.Database.Tables." + sn + @"
     partial class " + tn + @" : ISerial
     {
 ");
-                        var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
-                        var wcs = t.GetWriteableColumns();
-
                         #region Constructor
 
                         sb.Append(@"
@@ -1176,7 +1173,7 @@ namespace DAL.Database.Tables." + sn + @"
             }
             #endregion
 
-            #region Base Methods
+            #region DB Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1668,7 +1665,7 @@ DELETE FROM " + dbtn + @""";");
             }
             #endregion
 
-            #region Extend Methods
+            #region DB Extend Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1792,6 +1789,87 @@ namespace DAL.Database.Tables." + sn + @"
 
             #region Views
 
+            #region Serial Methods
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
+using SqlLib;
+");
+                var schemas = from table in db.Views group table by table.Schema;
+                foreach(var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Database.Views." + sn + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @" : ISerial
+    {");
+                        #region Constructor
+
+                        sb.Append(@"
+        #region Constructor
+
+        public " + tn + @"() {
+        }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        #region Serial
+
+
+                        sb.Append(@"
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();");
+                        foreach(var c in t.Columns) {
+                            sb.Append(@"
+            buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
+                        }
+                        sb.Append(@"
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {");
+                        foreach(var c in t.Columns) {
+                            sb.Append(@"
+            this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
+                        }
+                        sb.Append(@"
+        }
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+    }
+}");
+                    }
+                }
+
+                gr.Files.Add("DAL_Database_Views_Serial_Methods.cs", sb);
+            }
+            #endregion
+
+            #region DB Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1906,8 +1984,9 @@ namespace DAL.Database.Views." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Views_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Views_DB_Methods.cs", sb);
             }
+            #endregion
 
             #endregion
 
