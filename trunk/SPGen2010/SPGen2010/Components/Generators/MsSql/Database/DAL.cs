@@ -96,7 +96,7 @@ namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Tables.cs", sb);
+                gr.Files.Add("DAL_Database_Class_Tables.cs", sb);
             }
 
             #endregion
@@ -135,7 +135,7 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Views.cs", sb);
+                gr.Files.Add("DAL_Database_Class_Views.cs", sb);
             }
 
             #endregion
@@ -178,7 +178,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_UserDefinedTableTypes.cs", sb);
+                gr.Files.Add("DAL_Database_Class_UserDefinedTableTypes.cs", sb);
             }
 
             #endregion
@@ -260,7 +260,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_UserDefinedFunctions_Table.cs", sb);
+                gr.Files.Add("DAL_Database_Class_UserDefinedFunctions_Table.cs", sb);
             }
 
             #endregion
@@ -330,7 +330,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_UserDefinedFunctions_Scalar.cs", sb);
+                gr.Files.Add("DAL_Database_Class_UserDefinedFunctions_Scalar.cs", sb);
             }
 
             #endregion
@@ -406,7 +406,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_StoredProcedures.cs", sb);
+                gr.Files.Add("DAL_Database_Class_StoredProcedures.cs", sb);
             }
 
 
@@ -1169,7 +1169,7 @@ namespace DAL.Database.Tables." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Tables_Serial_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_Serial_Tables.cs", sb);
             }
             #endregion
 
@@ -1661,7 +1661,7 @@ DELETE FROM " + dbtn + @""";");
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Tables_DB_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_Tables.cs", sb);
             }
             #endregion
 
@@ -1780,7 +1780,7 @@ namespace DAL.Database.Tables." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Tables_DB_ExtendMethods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DBExt_Tables.cs", sb);
             }
 
             #endregion
@@ -1865,7 +1865,7 @@ namespace DAL.Database.Views." + sn + @"
                     }
                 }
 
-                gr.Files.Add("DAL_Database_Views_Serial_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_Serial_Views.cs", sb);
             }
             #endregion
 
@@ -1984,7 +1984,7 @@ namespace DAL.Database.Views." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Views_DB_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_Views.cs", sb);
             }
             #endregion
 
@@ -2029,7 +2029,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_UserDefinedTableTypes_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_UserDefinedTableTypes.cs", sb);
             }
 
             #endregion
@@ -2142,7 +2142,7 @@ sb.Append(@"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_StoredProcedures_Methods.cs", sb);
+                gr.Files.Add("DAL_Database_Methods_DB_StoredProcedures.cs", sb);
             }
 
 
