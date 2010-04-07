@@ -2096,7 +2096,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
                         }
                         sb.Append(@"
             foreach(var o in os) {
-                var rowdata = new object[1];");
+                var rowdata = new object[" + tt.Columns.Count + @"];");
                         for(int i = 0; i < tt.Columns.Count; i++) {
                             var c = tt.Columns[i];
                             var cn = c.GetEscapeName();
@@ -2168,10 +2168,16 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                             var s2 = "";
                             foreach(var p in sp.Parameters) {
                                 var pn = p.GetEscapeName();
+                                var pv = "";
                                 string pdn;
-                                if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                if(p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType) {
                                     pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
-                                else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
+                                    pv = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Extensions.ToDataTable(ps." + pn + @")";
+                                }
+                                else {
+                                    pdn = p.DataType.GetNullableTypeName().FillSpace(10);
+                                    pv = "ps." + pn;
+                                }
 
                                 sb.Append(@"
             public bool Exists_" + pn + @"() { return _f_" + pn + @"; }");
@@ -2184,7 +2190,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                                 }
                                 else {
                                     s2 += @"
-            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", ps." + pn + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
+            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", " + pv + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
                                 }
                             }
 
