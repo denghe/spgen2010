@@ -111,6 +111,9 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
                 case SqlDataType.Timestamp:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     return "byte[]";
                 case SqlDataType.UniqueIdentifier:
                     return "System.Guid?";
@@ -174,6 +177,9 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
                 case SqlDataType.Timestamp:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     return "byte[]";
                 case SqlDataType.UniqueIdentifier:
                     return "Guid";
@@ -239,6 +245,9 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
                 case SqlDataType.Timestamp:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     return "Bytes";
                 case SqlDataType.UniqueIdentifier:
                     return "Guid";
@@ -334,6 +343,9 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                     break;
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     result = "SqlDbType.VarBinary";
                     break;
                 case SqlDataType.UniqueIdentifier:
@@ -564,7 +576,11 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                     || sdt == SqlDataType.Binary
                     || sdt == SqlDataType.Timestamp
                     || sdt == SqlDataType.VarBinaryMax
-                    || sdt == SqlDataType.VarBinary);
+                    || sdt == SqlDataType.VarBinary
+                    || sdt == SqlDataType.HierarchyId
+                    || sdt == SqlDataType.Geography
+                    || sdt == SqlDataType.Geometry
+            );
         }
 
         #endregion
@@ -791,7 +807,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
         }
 
         #endregion
-        
+
         #region GetDataReaderMethod
         /// <summary>
         /// 根据数据类型返回在 DataReader 的字段读取中所用的方法名
@@ -840,6 +856,9 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
                 case SqlDataType.Timestamp:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     return "GetSqlBinary";				// GetSqlBinary 方法还须在后加 .Value
 
                 case SqlDataType.UniqueIdentifier:
@@ -849,11 +868,6 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.UserDefinedType:
                     throw new Exception("not Implementation");
 
-                case SqlDataType.HierarchyId:
-                case SqlDataType.Geography:
-                case SqlDataType.Geometry:
-                    return "GetValue";
-
                 default:
                     return "GetValue";
 
@@ -862,38 +876,38 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
 
         #endregion
 
-        #region GetDataReaderMethod
+        #region GetToTypeMethod
         /// <summary>
         /// 根据数据类型返回 byte[] 转为　原值　处理中所用的方法名
         /// </summary>
-        public static string GetToTypeMethod(this DataType dt) {
+        public static string GetToTypeMethod(this DataType dt, bool nullable) {
             switch(dt.SqlDataType) {
                 case SqlDataType.Bit:
-                    return "ToBoolean";
+                    return nullable ? "ToNullableBoolean" : "ToBoolean";
                 case SqlDataType.TinyInt:
-                    return "ToByte";
+                    return nullable ? "ToNullableByte" : "ToByte";
                 case SqlDataType.SmallInt:
-                    return "ToInt16";
+                    return nullable ? "ToNullableInt16" : "ToInt16";
                 case SqlDataType.Int:
-                    return "ToInt32";
+                    return nullable ? "ToNullableInt32" : "ToInt32";
                 case SqlDataType.BigInt:
-                    return "ToInt64";
+                    return nullable ? "ToNullableInt64" : "ToInt64";
                 case SqlDataType.Decimal:
                 case SqlDataType.Numeric:
                 case SqlDataType.Money:
                 case SqlDataType.SmallMoney:
-                    return "ToDecimal";
+                    return nullable ? "ToNullableDecimal" : "ToDecimal";
                 case SqlDataType.Float:
-                    return "ToDouble";
+                    return nullable ? "ToNullableDouble" : "ToDouble";
                 case SqlDataType.Real:
-                    return "ToSingle";
+                    return nullable ? "ToNullableSingle" : "ToSingle";
                 case SqlDataType.DateTime:
                 case SqlDataType.SmallDateTime:
                 case SqlDataType.DateTime2:
                 case SqlDataType.DateTimeOffset:
                 case SqlDataType.Date:
                 case SqlDataType.Time:
-                    return "ToDateTime";
+                    return nullable ? "ToNullableDateTime" : "ToDateTime";
                 case SqlDataType.Char:
                 case SqlDataType.Text:
                 case SqlDataType.VarChar:
@@ -903,7 +917,6 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.NVarCharMax:
                 case SqlDataType.VarCharMax:
                 case SqlDataType.Xml:
-                case SqlDataType.HierarchyId:
                     return "ToString";
 
                 case SqlDataType.Binary:
@@ -911,19 +924,20 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.VarBinary:
                 case SqlDataType.VarBinaryMax:
                 case SqlDataType.Timestamp:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     return "ToBytes";
 
                 case SqlDataType.UniqueIdentifier:
-                    return "ToGuid";
+                    return nullable ? "ToNullableGuid" : "ToGuid";
 
                 case SqlDataType.UserDefinedDataType:
                 case SqlDataType.UserDefinedType:
-                case SqlDataType.Geography:
-                case SqlDataType.Geometry:
                     throw new Exception("not Implementation");
 
                 default:
-                    return "GetValue";
+                    return "ToString";
 
             }
         }
