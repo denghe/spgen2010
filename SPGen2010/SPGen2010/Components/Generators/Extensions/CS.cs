@@ -847,10 +847,12 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
 
                 case SqlDataType.UserDefinedDataType:
                 case SqlDataType.UserDefinedType:
+                    throw new Exception("not Implementation");
+
                 case SqlDataType.HierarchyId:
                 case SqlDataType.Geography:
                 case SqlDataType.Geometry:
-                    throw new Exception("not Implementation");
+                    return "GetValue";
 
                 default:
                     return "GetValue";
@@ -901,6 +903,7 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                 case SqlDataType.NVarCharMax:
                 case SqlDataType.VarCharMax:
                 case SqlDataType.Xml:
+                case SqlDataType.HierarchyId:
                     return "ToString";
 
                 case SqlDataType.Binary:
@@ -915,7 +918,6 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
 
                 case SqlDataType.UserDefinedDataType:
                 case SqlDataType.UserDefinedType:
-                case SqlDataType.HierarchyId:
                 case SqlDataType.Geography:
                 case SqlDataType.Geometry:
                     throw new Exception("not Implementation");
