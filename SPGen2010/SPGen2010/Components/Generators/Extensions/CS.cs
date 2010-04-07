@@ -846,11 +846,79 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
                     return "GetGuid";
 
                 case SqlDataType.UserDefinedDataType:
+                case SqlDataType.UserDefinedType:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
                     throw new Exception("not Implementation");
 
-                case SqlDataType.UserDefinedType:
+                default:
+                    return "GetValue";
 
-                // todo: hierachyid, geography, ...
+            }
+        }
+
+        #endregion
+
+        #region GetDataReaderMethod
+        /// <summary>
+        /// 根据数据类型返回 byte[] 转为　原值　处理中所用的方法名
+        /// </summary>
+        public static string GetToTypeMethod(this DataType dt) {
+            switch(dt.SqlDataType) {
+                case SqlDataType.Bit:
+                    return "ToBoolean";
+                case SqlDataType.TinyInt:
+                    return "ToByte";
+                case SqlDataType.SmallInt:
+                    return "ToInt16";
+                case SqlDataType.Int:
+                    return "ToInt32";
+                case SqlDataType.BigInt:
+                    return "ToInt64";
+                case SqlDataType.Decimal:
+                case SqlDataType.Numeric:
+                case SqlDataType.Money:
+                case SqlDataType.SmallMoney:
+                    return "ToDecimal";
+                case SqlDataType.Float:
+                    return "ToDouble";
+                case SqlDataType.Real:
+                    return "ToSingle";
+                case SqlDataType.DateTime:
+                case SqlDataType.SmallDateTime:
+                case SqlDataType.DateTime2:
+                case SqlDataType.DateTimeOffset:
+                case SqlDataType.Date:
+                case SqlDataType.Time:
+                    return "ToDateTime";
+                case SqlDataType.Char:
+                case SqlDataType.Text:
+                case SqlDataType.VarChar:
+                case SqlDataType.NChar:
+                case SqlDataType.NText:
+                case SqlDataType.NVarChar:
+                case SqlDataType.NVarCharMax:
+                case SqlDataType.VarCharMax:
+                case SqlDataType.Xml:
+                    return "ToString";
+
+                case SqlDataType.Binary:
+                case SqlDataType.Image:
+                case SqlDataType.VarBinary:
+                case SqlDataType.VarBinaryMax:
+                case SqlDataType.Timestamp:
+                    return "ToBytes";
+
+                case SqlDataType.UniqueIdentifier:
+                    return "ToGuid";
+
+                case SqlDataType.UserDefinedDataType:
+                case SqlDataType.UserDefinedType:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
+                    throw new Exception("not Implementation");
 
                 default:
                     return "GetValue";
