@@ -1325,7 +1325,7 @@ namespace DAL.Database.Tables." + sn + @"
                                 sb.Append(@"
         public static List<" + tn + @"> Select(" + fktn + @" parent, Queries.Tables." + sn + @"." + tn + @".Handler query = null) {
             if(query == null) return " + tn + @".Select(where: o => " + s + @");
-            var q = query.Invoke(new Queries.Tables." + sn + @"." + tn + @"());
+            var q = query(new Queries.Tables." + sn + @"." + tn + @"());
             if(q.Where == null) q.SetWhere(o => " + s + @");
             else q.Where.And(o => " + s + @");
             return " + tn + @".Select(q);
@@ -1468,8 +1468,8 @@ VALUES ("");
 		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
 		{
             return Insert(o,
-                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
-                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                insertCols == null ? null : insertCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                fillCols == null ? null : fillCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
                 isFillAfterInsert
             );
         }
@@ -1606,9 +1606,9 @@ OUTPUT "");
         public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
         {
             return Update(o,
-                eh == null ? null : eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()),
-                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
-                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                eh == null ? null : eh(new Expressions.Tables." + sn + @"." + tn + @"()),
+                updateCols == null ? null : updateCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                fillCols == null ? null : fillCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
                 isFillAfterUpdate
             );
         }");
@@ -1641,7 +1641,7 @@ DELETE FROM " + dbtn + @""";");
 		}
         public static int Delete(Expressions.Tables." + sn + @"." + tn + @".Handler eh)
         {
-            return Delete(eh.Invoke(new Expressions.Tables." + sn + @"." + tn + @"()));
+            return Delete(eh(new Expressions.Tables." + sn + @"." + tn + @"()));
         }");
 
                         sb.Append(@"
@@ -1749,7 +1749,7 @@ namespace DAL.Database.Tables." + sn + @"
                         }
                         sb.Append(@"
             );
-            var cols = conditionCols.Invoke(new DAL.ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var cols = conditionCols(new DAL.ColumnEnums.Tables." + sn + @"." + tn + @"());
             var exp = new DAL.Expressions.Tables." + sn + @"." + tn + @"();");
 
                         for(int i = 0; i < ccs.Count; i++) {
