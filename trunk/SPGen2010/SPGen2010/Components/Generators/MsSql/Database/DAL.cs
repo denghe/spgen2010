@@ -15,6 +15,7 @@ using SPGen2010.Components.Generators.Extensions.CS;
 
 namespace SPGen2010.Components.Generators.MsSql.Database {
     class DAL : IGenerator {
+
         #region Settings
 
         public SqlElementTypes TargetSqlElementType {
@@ -49,6 +50,7 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
         #endregion
 
         public GenResult Generate(params Oe.NodeBase[] targetElements) {
+
             #region Init
 
             var gr = new GenResult(GenResultTypes.Files);
@@ -96,7 +98,7 @@ namespace DAL.Database.Tables." + ts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_Tables.cs", sb);
+                gr.Files.Add("DAL_Class_Database_Tables.cs", sb);
             }
 
             #endregion
@@ -135,7 +137,7 @@ namespace DAL.Database.Views." + vs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_Views.cs", sb);
+                gr.Files.Add("DAL_Class_Database_Views.cs", sb);
             }
 
             #endregion
@@ -174,7 +176,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_UserDefinedTableTypes.cs", sb);
+                gr.Files.Add("DAL_Class_Database_UserDefinedTableTypes.cs", sb);
             }
 
             #endregion
@@ -256,7 +258,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_UserDefinedFunctions_Table.cs", sb);
+                gr.Files.Add("DAL_Class_Database_UserDefinedFunctions_Table.cs", sb);
             }
 
             #endregion
@@ -326,7 +328,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_UserDefinedFunctions_Scalar.cs", sb);
+                gr.Files.Add("DAL_Class_Database_UserDefinedFunctions_Scalar.cs", sb);
             }
 
             #endregion
@@ -402,7 +404,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Class_StoredProcedures.cs", sb);
+                gr.Files.Add("DAL_Class_Database_StoredProcedures.cs", sb);
             }
 
 
@@ -410,864 +412,7 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
 
             #endregion
 
-            #region Gen Expressions Class
-
-            #region Tables
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from table in db.Tables group table by table.Schema;
-                foreach(var ts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
-{
-");
-                    foreach(var t in ts) {
-                        sb.Append(@"
-    public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
-    {");
-                        foreach(var c in t.Columns) {
-                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
-                            var typename = "ExpNode" + s + "<" + t.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Class_Tables.cs", sb);
-            }
-
-            #endregion
-
-            #region Views
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from view in db.Views group view by view.Schema;
-                foreach(var vs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
-{
-");
-                    foreach(var v in vs) {
-                        sb.Append(@"
-    public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
-    {");
-                        foreach(var c in v.Columns) {
-                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
-                            var typename = "ExpNode" + s + "<" + v.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Class_Views.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedTableTypes
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach(var tts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-");
-                    foreach(var tt in tts) {
-                        sb.Append(@"
-    public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
-    {");
-                        foreach(var c in tt.Columns) {
-                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
-                            var typename = "ExpNode" + s + "<" + tt.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Class_UserDefinedTableTypes.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from func in db.UserDefinedFunctions
-                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
-                              group func by func.Schema;
-                foreach(var fs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
-{
-");
-                    foreach(var f in fs) {
-                        sb.Append(@"
-    public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
-    {");
-                        foreach(var c in f.Columns) {
-                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
-                            var typename = "ExpNode" + s + "<" + f.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-                gr.Files.Add("DAL_Expressions_Class_UserDefinedFunctions_Table.cs", sb);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Gen Expressions Class Method
-
-            #region Tables
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from table in db.Tables group table by table.Schema;
-                foreach (var ts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
-{
-");
-                    foreach (var t in ts) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    partial class " + tn + @"
-    {
-        #region Serial
-
-        public " + tn + @"() { }
-        public " + tn + @"(byte[] buffer, ref int startIndex)
-            : this() {
-            Fill(buffer, ref startIndex);
-        }
-        public " + tn + @"(byte[] buffer)
-            : this() {
-            var startIndex = 0;
-            Fill(buffer, ref startIndex);
-        }
-
-        #endregion
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Methods_Tables.cs", sb);
-            }
-
-            #endregion
-
-            #region Views
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from view in db.Views group view by view.Schema;
-                foreach (var vs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
-{
-");
-                    foreach (var t in vs) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    partial class " + tn + @"
-    {
-        #region Serial
-
-        public " + tn + @"() { }
-        public " + tn + @"(byte[] buffer, ref int startIndex)
-            : this() {
-            Fill(buffer, ref startIndex);
-        }
-        public " + tn + @"(byte[] buffer)
-            : this() {
-            var startIndex = 0;
-            Fill(buffer, ref startIndex);
-        }
-
-        #endregion
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Methods_Views.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedTableTypes
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach (var tts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-");
-                    foreach (var t in tts) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    partial class " + tn + @"
-    {
-        #region Serial
-
-        public " + tn + @"() { }
-        public " + tn + @"(byte[] buffer, ref int startIndex)
-            : this() {
-            Fill(buffer, ref startIndex);
-        }
-        public " + tn + @"(byte[] buffer)
-            : this() {
-            var startIndex = 0;
-            Fill(buffer, ref startIndex);
-        }
-
-        #endregion
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Expressions_Methods_UserDefinedTableTypes.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Expressions;
-");
-                var schemas = from func in db.UserDefinedFunctions
-                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
-                              group func by func.Schema;
-                foreach (var fs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
-{
-");
-                    foreach (var t in fs) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    partial class " + tn + @"
-    {
-        #region Serial
-
-        public " + tn + @"() { }
-        public " + tn + @"(byte[] buffer, ref int startIndex)
-            : this() {
-            Fill(buffer, ref startIndex);
-        }
-        public " + tn + @"(byte[] buffer)
-            : this() {
-            var startIndex = 0;
-            Fill(buffer, ref startIndex);
-        }
-
-        #endregion
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-                gr.Files.Add("DAL_Expressions_Methods_UserDefinedFunctions_Table.cs", sb);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Gen Orientations Class
-
-            #region Tables
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Orientations;
-");
-                var schemas = from table in db.Tables group table by table.Schema;
-                foreach(var ts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
-{
-");
-                    foreach(var t in ts) {
-                        sb.Append(@"
-    public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
-    {");
-                        foreach(var c in t.Columns) {
-                            var typename = "ExpNode" + "<" + t.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Orientations_Tables.cs", sb);
-            }
-
-            #endregion
-
-            #region Views
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Orientations;
-");
-                var schemas = from view in db.Views group view by view.Schema;
-                foreach(var vs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
-{
-");
-                    foreach(var v in vs) {
-                        sb.Append(@"
-    public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
-    {");
-                        foreach(var c in v.Columns) {
-                            var typename = "ExpNode" + "<" + v.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Orientations_Views.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedTableTypes
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Orientations;
-");
-                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach(var tts in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-");
-                    foreach(var tt in tts) {
-                        sb.Append(@"
-    public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
-    {");
-                        foreach(var c in tt.Columns) {
-                            var typename = "ExpNode" + "<" + tt.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Orientations_UserDefinedTableTypes.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Orientations;
-");
-                var schemas = from func in db.UserDefinedFunctions
-                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
-                              group func by func.Schema;
-                foreach(var fs in schemas) {
-
-                    sb.Append(@"
-namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
-{
-");
-                    foreach(var f in fs) {
-                        sb.Append(@"
-    public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
-    {");
-                        foreach(var c in f.Columns) {
-                            var typename = "ExpNode" + "<" + f.GetEscapeName() + ">";
-                            var propertyname = c.GetEscapeName();
-                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
-                            sb.Append(@"
-        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
-                        }
-                        sb.Append(@"
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-                gr.Files.Add("DAL_Orientations_UserDefinedFunctions_Table.cs", sb);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Gen Queries Class
-
-            #region Tables
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Queries;
-");
-                var schemas = from table in db.Tables group table by table.Schema;
-                foreach(var ts in schemas) {
-                    var sn = ts.Key.Escape();
-                    sb.Append(@"
-namespace DAL.Queries.Tables." + sn + @"
-{
-");
-                    foreach(var t in ts) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + tn + @" : Query<" + tn + @", Expressions.Tables." + sn + @"." + tn + @", Orientations.Tables." + sn + @"." + tn + @", ColumnEnums.Tables." + sn + @"." + tn + @">
-    {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
-        {
-            return base.ToSqlString(schema ?? @""" + ts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + t.Name.Replace("\"", "\"\"") + @""", columns);
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Queries_Tables.cs", sb);
-            }
-
-            #endregion
-
-            #region Views
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Queries;
-");
-                var schemas = from view in db.Views group view by view.Schema;
-                foreach(var vs in schemas) {
-                    var sn = vs.Key.Escape();
-                    sb.Append(@"
-namespace DAL.Queries.Views." + vs.Key.Escape() + @"
-{
-");
-                    foreach(var v in vs) {
-                        var vn = v.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + vn + @" : Query<" + vn + @", Expressions.Views." + sn + @"." + vn + @", Orientations.Views." + sn + @"." + vn + @", ColumnEnums.Views." + sn + @"." + vn + @">
-    {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
-        {
-            return base.ToSqlString(schema ?? @""" + vs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + v.Name.Replace("\"", "\"\"") + @""", columns);
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Queries_Views.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedTableTypes
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Queries;
-");
-                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach(var tts in schemas) {
-                    var sn = tts.Key.Escape();
-                    sb.Append(@"
-namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-");
-                    foreach(var tt in tts) {
-                        var ttn = tt.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + ttn + @" : Query<" + ttn + @", Expressions.UserDefinedTableTypes." + sn + @"." + ttn + @", Orientations.UserDefinedTableTypes." + sn + @"." + ttn + @", ColumnEnums.UserDefinedTableTypes." + sn + @"." + ttn + @">
-    {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
-        {
-            return base.ToSqlString(schema ?? @""" + tts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + tt.Name.Replace("\"", "\"\"") + @""", columns);
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_Queries_UserDefinedTableTypes.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.Queries;
-");
-                var schemas = from func in db.UserDefinedFunctions
-                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
-                              group func by func.Schema;
-                foreach(var fs in schemas) {
-                    var sn = fs.Key.Escape();
-                    sb.Append(@"
-namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
-{
-");
-                    foreach(var f in fs) {
-                        var fn = f.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + fn + @" : Query<" + fn + @", Expressions.UserDefinedFunctions." + sn + @"." + fn + @", Orientations.UserDefinedFunctions." + sn + @"." + fn + @", ColumnEnums.UserDefinedFunctions." + sn + @"." + fn + @">
-    {
-        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
-        {
-            return base.ToSqlString(schema ?? @""" + fs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + f.Name.Replace("\"", "\"\"") + @""", columns);
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-                gr.Files.Add("DAL_Queries_UserDefinedFunctions_Table.cs", sb);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Gen ColumnEnums Class
-
-            #region Tables
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.ColumnEnums;
-");
-                var schemas = from table in db.Tables group table by table.Schema;
-                foreach(var ts in schemas) {
-                    sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
-{
-");
-                    foreach(var t in ts) {
-                        var tn = t.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + tn + @" : ColumnList<" + tn + @">
-    {");
-                        for(int i = 0; i < t.Columns.Count; i++) {
-                            var c = t.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-        public " + tn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
-                        }
-                        sb.Append(@"
-        protected static string[] __cns = new string[]
-        {");
-                        for(int i = 0; i < t.Columns.Count; i++) {
-                            var c = t.Columns[i];
-                            var cn = c.Name.Replace("\"", "\"\"");
-                            sb.Append(@"
-            @""" + cn + @"""");
-                            if(i < t.Columns.Count - 1) sb.Append(",");
-                        }
-                        sb.Append(@"
-        };
-        public override string GetColumnName(int i) {
-            return __cns[i];
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_ColumnEnums_Tables.cs", sb);
-            }
-
-            #endregion
-
-            #region Views
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.ColumnEnums;
-");
-                var schemas = from view in db.Views group view by view.Schema;
-                foreach(var vs in schemas) {
-                    sb.Append(@"
-namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
-{
-");
-                    foreach(var v in vs) {
-                        var vn = v.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + vn + @" : ColumnList<" + vn + @">
-    {");
-                        for(int i = 0; i < v.Columns.Count; i++) {
-                            var c = v.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-        public " + vn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
-                        }
-                        sb.Append(@"
-        protected static string[] __cns = new string[]
-        {");
-                        for(int i = 0; i < v.Columns.Count; i++) {
-                            var c = v.Columns[i];
-                            var cn = c.Name.Replace("\"", "\"\"");
-                            sb.Append(@"
-            @""" + cn + @"""");
-                            if(i < v.Columns.Count - 1) sb.Append(",");
-                        }
-                        sb.Append(@"
-        };
-        public override string GetColumnName(int i) {
-            return __cns[i];
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_ColumnEnums_Views.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedTableTypes
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.ColumnEnums;
-");
-                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
-                foreach(var tts in schemas) {
-                    sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
-{
-");
-                    foreach(var tt in tts) {
-                        var ttn = tt.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + ttn + @" : ColumnList<" + ttn + @">
-    {");
-                        for(int i = 0; i < tt.Columns.Count; i++) {
-                            var c = tt.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-        public " + ttn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
-                        }
-                        sb.Append(@"
-        protected static string[] __cns = new string[]
-        {");
-                        for(int i = 0; i < tt.Columns.Count; i++) {
-                            var c = tt.Columns[i];
-                            var cn = c.Name.Replace("\"", "\"\"");
-                            sb.Append(@"
-            @""" + cn + @"""");
-                            if(i < tt.Columns.Count - 1) sb.Append(",");
-                        }
-                        sb.Append(@"
-        };
-        public override string GetColumnName(int i) {
-            return __cns[i];
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-
-                gr.Files.Add("DAL_ColumnEnums_UserDefinedTableTypes.cs", sb);
-            }
-
-            #endregion
-
-            #region UserDefinedFunctions_Table
-
-            {
-                sb.Clear();
-                sb.Append(@"using System;
-using System.Collections.Generic;
-using SqlLib.ColumnEnums;
-");
-                var schemas = from func in db.UserDefinedFunctions
-                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
-                              group func by func.Schema;
-                foreach(var fs in schemas) {
-                    sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
-{
-");
-                    foreach(var f in fs) {
-                        var fn = f.GetEscapeName();
-                        sb.Append(@"
-    public partial class " + fn + @" : ColumnList<" + fn + @">
-    {");
-                        for(int i = 0; i < f.Columns.Count; i++) {
-                            var c = f.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-        public " + fn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
-                        }
-                        sb.Append(@"
-        protected static string[] __cns = new string[]
-        {");
-                        for(int i = 0; i < f.Columns.Count; i++) {
-                            var c = f.Columns[i];
-                            var cn = c.Name.Replace("\"", "\"\"");
-                            sb.Append(@"
-            @""" + cn + @"""");
-                            if(i < f.Columns.Count - 1) sb.Append(",");
-                        }
-                        sb.Append(@"
-        };
-        public override string GetColumnName(int i) {
-            return __cns[i];
-        }
-    }");
-                    }
-                    sb.Append(@"
-}");
-                }
-                gr.Files.Add("DAL_ColumnEnums_UserDefinedFunctions_Table.cs", sb);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Gen Database Class Server Extension Methods
+            #region Gen Database Methods
 
             #region Tables
 
@@ -1350,11 +495,11 @@ namespace DAL.Database.Tables." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_Serial_Tables.cs", sb);
+                gr.Files.Add("DAL_Methods_Serial_Database_Tables.cs", sb);
             }
             #endregion
 
-            #region DB Methods
+            #region Sql Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1842,11 +987,11 @@ DELETE FROM " + dbtn + @""";");
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_Tables.cs", sb);
+                gr.Files.Add("DAL_Methods_Sql_Database_Tables.cs", sb);
             }
             #endregion
 
-            #region DB Extensions Methods
+            #region Sql Extensions Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -1961,7 +1106,7 @@ namespace DAL.Database.Tables." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_Tables_Extensions.cs", sb);
+                gr.Files.Add("DAL_Methods_Sql_Ext_Database_Tables.cs", sb);
             }
 
             #endregion
@@ -2045,11 +1190,11 @@ namespace DAL.Database.Views." + sn + @"
                     }
                 }
 
-                gr.Files.Add("DAL_Database_Methods_Serial_Views.cs", sb);
+                gr.Files.Add("DAL_Methods_Serial_Database_Views.cs", sb);
             }
             #endregion
 
-            #region DB Methods
+            #region Sql Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -2164,7 +1309,7 @@ namespace DAL.Database.Views." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_Views.cs", sb);
+                gr.Files.Add("DAL_Methods_Sql_Database_Views.cs", sb);
             }
             #endregion
 
@@ -2249,11 +1394,11 @@ namespace DAL.Database.UserDefinedTableTypes." + sn + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_Serial_UserDefinedTableTypes.cs", sb);
+                gr.Files.Add("DAL_Methods_Serial_Database_UserDefinedTableTypes.cs", sb);
             }
             #endregion
 
-            #region DB Extensions Methods
+            #region Sql Extensions Methods
             {
                 sb.Clear();
                 sb.Append(@"using System;
@@ -2303,7 +1448,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_UserDefinedTableTypes_Extensions.cs", sb);
+                gr.Files.Add("DAL_Methods_Sql_Ext_Database_UserDefinedTableTypes.cs", sb);
             }
             #endregion
 
@@ -2423,9 +1568,1417 @@ sb.Append(@"
 }");
                 }
 
-                gr.Files.Add("DAL_Database_Methods_DB_StoredProcedures.cs", sb);
+                gr.Files.Add("DAL_Methods_Sql_Database_StoredProcedures.cs", sb);
             }
 
+
+            #endregion
+
+            #endregion
+
+            #region Gen Expressions Class
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach(var ts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach(var t in ts) {
+                        sb.Append(@"
+    public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
+    {");
+                        foreach(var c in t.Columns) {
+                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
+                            var typename = "ExpNode" + s + "<" + t.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Expressions_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach(var vs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach(var v in vs) {
+                        sb.Append(@"
+    public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
+    {");
+                        foreach(var c in v.Columns) {
+                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
+                            var typename = "ExpNode" + s + "<" + v.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Expressions_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach(var tts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach(var tt in tts) {
+                        sb.Append(@"
+    public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
+    {");
+                        foreach(var c in tt.Columns) {
+                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
+                            var typename = "ExpNode" + s + "<" + tt.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Expressions_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach(var fs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach(var f in fs) {
+                        sb.Append(@"
+    public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
+    {");
+                        foreach(var c in f.Columns) {
+                            var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
+                            var typename = "ExpNode" + s + "<" + f.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Class_Expressions_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Expressions Method
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach (var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Expressions_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach (var t in vs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Expressions_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach (var t in tts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Expressions_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach (var t in fs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Methods_Serial_Expressions_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Orientations Class
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach(var ts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach(var t in ts) {
+                        sb.Append(@"
+    public partial class " + t.GetEscapeName() + @" : LogicalNode<" + t.GetEscapeName() + @">
+    {");
+                        foreach(var c in t.Columns) {
+                            var typename = "ExpNode" + "<" + t.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Orientations_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach(var vs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach(var v in vs) {
+                        sb.Append(@"
+    public partial class " + v.GetEscapeName() + @" : LogicalNode<" + v.GetEscapeName() + @">
+    {");
+                        foreach(var c in v.Columns) {
+                            var typename = "ExpNode" + "<" + v.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Orientations_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach(var tts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach(var tt in tts) {
+                        sb.Append(@"
+    public partial class " + tt.GetEscapeName() + @" : LogicalNode<" + tt.GetEscapeName() + @">
+    {");
+                        foreach(var c in tt.Columns) {
+                            var typename = "ExpNode" + "<" + tt.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Orientation_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach(var fs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach(var f in fs) {
+                        sb.Append(@"
+    public partial class " + f.GetEscapeName() + @" : LogicalNode<" + f.GetEscapeName() + @">
+    {");
+                        foreach(var c in f.Columns) {
+                            var typename = "ExpNode" + "<" + f.GetEscapeName() + ">";
+                            var propertyname = c.GetEscapeName();
+                            var methodname = "this.New_Column(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
+                            sb.Append(@"
+        public " + typename + @" " + propertyname + " { get { return " + methodname + @"; } }");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Class_Orientations_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Orientations Method
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach (var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Orientations_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach (var t in vs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Orientations_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach (var t in tts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Orientations_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Orientations;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach (var t in fs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Methods_Serial_Orientations_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Queries Class
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach(var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.Tables." + sn + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + tn + @" : Query<" + tn + @", Expressions.Tables." + sn + @"." + tn + @", Orientations.Tables." + sn + @"." + tn + @", ColumnEnums.Tables." + sn + @"." + tn + @">
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @""" + ts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + t.Name.Replace("\"", "\"\"") + @""", columns);
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Queries_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach(var vs in schemas) {
+                    var sn = vs.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach(var v in vs) {
+                        var vn = v.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + vn + @" : Query<" + vn + @", Expressions.Views." + sn + @"." + vn + @", Orientations.Views." + sn + @"." + vn + @", ColumnEnums.Views." + sn + @"." + vn + @">
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @""" + vs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + v.Name.Replace("\"", "\"\"") + @""", columns);
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Queries_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach(var tts in schemas) {
+                    var sn = tts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach(var tt in tts) {
+                        var ttn = tt.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + ttn + @" : Query<" + ttn + @", Expressions.UserDefinedTableTypes." + sn + @"." + ttn + @", Orientations.UserDefinedTableTypes." + sn + @"." + ttn + @", ColumnEnums.UserDefinedTableTypes." + sn + @"." + ttn + @">
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @""" + tts.Key.Replace("\"", "\"\"") + @""", name ?? @""" + tt.Name.Replace("\"", "\"\"") + @""", columns);
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Queries_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach(var fs in schemas) {
+                    var sn = fs.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach(var f in fs) {
+                        var fn = f.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + fn + @" : Query<" + fn + @", Expressions.UserDefinedFunctions." + sn + @"." + fn + @", Orientations.UserDefinedFunctions." + sn + @"." + fn + @", ColumnEnums.UserDefinedFunctions." + sn + @"." + fn + @">
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @""" + fs.Key.Replace("\"", "\"\"") + @""", name ?? @""" + f.Name.Replace("\"", "\"\"") + @""", columns);
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Class_Queries_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Queries Method
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas) {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.Tables." + sn + @"
+{
+");
+                    foreach (var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_QueriesTables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas) {
+                    var sn = vs.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach (var t in vs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Queries_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas) {
+                    var sn = tts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach (var t in tts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Queries_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Queries;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas) {
+                    var sn = fs.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach (var t in fs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Methods_Serial_Queries_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen ColumnEnums Class
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach(var ts in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach(var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + tn + @" : ColumnList<" + tn + @">
+    {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+        public " + tn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
+                        }
+                        sb.Append(@"
+        protected static string[] __cns = new string[]
+        {");
+                        for(int i = 0; i < t.Columns.Count; i++) {
+                            var c = t.Columns[i];
+                            var cn = c.Name.Replace("\"", "\"\"");
+                            sb.Append(@"
+            @""" + cn + @"""");
+                            if(i < t.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_ColumnEnums_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach(var vs in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach(var v in vs) {
+                        var vn = v.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + vn + @" : ColumnList<" + vn + @">
+    {");
+                        for(int i = 0; i < v.Columns.Count; i++) {
+                            var c = v.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+        public " + vn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
+                        }
+                        sb.Append(@"
+        protected static string[] __cns = new string[]
+        {");
+                        for(int i = 0; i < v.Columns.Count; i++) {
+                            var c = v.Columns[i];
+                            var cn = c.Name.Replace("\"", "\"\"");
+                            sb.Append(@"
+            @""" + cn + @"""");
+                            if(i < v.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_ColumnEnums_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach(var tts in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach(var tt in tts) {
+                        var ttn = tt.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + ttn + @" : ColumnList<" + ttn + @">
+    {");
+                        for(int i = 0; i < tt.Columns.Count; i++) {
+                            var c = tt.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+        public " + ttn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
+                        }
+                        sb.Append(@"
+        protected static string[] __cns = new string[]
+        {");
+                        for(int i = 0; i < tt.Columns.Count; i++) {
+                            var c = tt.Columns[i];
+                            var cn = c.Name.Replace("\"", "\"\"");
+                            sb.Append(@"
+            @""" + cn + @"""");
+                            if(i < tt.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_ColumnEnums_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach(var fs in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach(var f in fs) {
+                        var fn = f.GetEscapeName();
+                        sb.Append(@"
+    public partial class " + fn + @" : ColumnList<" + fn + @">
+    {");
+                        for(int i = 0; i < f.Columns.Count; i++) {
+                            var c = f.Columns[i];
+                            var cn = c.GetEscapeName();
+                            sb.Append(@"
+        public " + fn + @" " + cn + " { get { __columns.Add(" + i + "); return this; } }");
+                        }
+                        sb.Append(@"
+        protected static string[] __cns = new string[]
+        {");
+                        for(int i = 0; i < f.Columns.Count; i++) {
+                            var c = f.Columns[i];
+                            var cn = c.Name.Replace("\"", "\"\"");
+                            sb.Append(@"
+            @""" + cn + @"""");
+                            if(i < f.Columns.Count - 1) sb.Append(",");
+                        }
+                        sb.Append(@"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Class_ColumnEnums_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen ColumnEnums Class Method
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach (var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_ColumnEnums_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach (var t in vs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_ColumnEnums_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach (var t in tts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_ColumnEnums_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.ColumnEnums;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas) {
+                    sb.Append(@"
+namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach (var t in fs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Methods_Serial_ColumnEnums_UserDefinedFunctions_Table.cs", sb);
+            }
 
             #endregion
 
