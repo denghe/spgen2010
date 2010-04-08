@@ -446,7 +446,7 @@ namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Expressions_Tables.cs", sb);
+                gr.Files.Add("DAL_Expressions_Class_Tables.cs", sb);
             }
 
             #endregion
@@ -485,7 +485,7 @@ namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Expressions_Views.cs", sb);
+                gr.Files.Add("DAL_Expressions_Class_Views.cs", sb);
             }
 
             #endregion
@@ -524,7 +524,7 @@ namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Expressions_UserDefinedTableTypes.cs", sb);
+                gr.Files.Add("DAL_Expressions_Class_UserDefinedTableTypes.cs", sb);
             }
 
             #endregion
@@ -564,7 +564,192 @@ namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
                     sb.Append(@"
 }");
                 }
-                gr.Files.Add("DAL_Expressions_UserDefinedFunctions_Table.cs", sb);
+                gr.Files.Add("DAL_Expressions_Class_UserDefinedFunctions_Table.cs", sb);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Gen Expressions Class Method
+
+            #region Tables
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+{
+");
+                    foreach (var t in ts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Expressions_Methods_Tables.cs", sb);
+            }
+
+            #endregion
+
+            #region Views
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from view in db.Views group view by view.Schema;
+                foreach (var vs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
+{
+");
+                    foreach (var t in vs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Expressions_Methods_Views.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedTableTypes
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from tabletype in db.UserDefinedTableTypes group tabletype by tabletype.Schema;
+                foreach (var tts in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
+{
+");
+                    foreach (var t in tts) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Expressions_Methods_UserDefinedTableTypes.cs", sb);
+            }
+
+            #endregion
+
+            #region UserDefinedFunctions_Table
+
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+");
+                var schemas = from func in db.UserDefinedFunctions
+                              where func.FunctionType == MySmo.UserDefinedFunctionType.Table
+                              group func by func.Schema;
+                foreach (var fs in schemas) {
+
+                    sb.Append(@"
+namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
+{
+");
+                    foreach (var t in fs) {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @"
+    {
+        #region Serial
+
+        public " + tn + @"() { }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+                gr.Files.Add("DAL_Expressions_Methods_UserDefinedFunctions_Table.cs", sb);
             }
 
             #endregion
