@@ -422,8 +422,6 @@ namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
                 sb.Append(@"using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using SqlLib;
 ");
@@ -1121,7 +1119,6 @@ namespace DAL.Database.Tables." + sn + @"
                 sb.Append(@"using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data.SqlClient;
 using System.Linq;
 using SqlLib;
 ");
@@ -1323,7 +1320,6 @@ namespace DAL.Database.Views." + sn + @"
                 sb.Append(@"using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data.SqlClient;
 using System.Linq;
 using SqlLib;
 ");
