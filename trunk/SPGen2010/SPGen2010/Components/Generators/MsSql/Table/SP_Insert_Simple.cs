@@ -95,7 +95,7 @@ CREATE PROCEDURE " + spn + @" (");
      , @xxxx                            .......                            .....
                  */
                 sb.Append(@"
-    " + (i > 0 ? ", " : "  ") + ("@" + cn).FillSpace(40) + c.GetParmDeclareStr().FillSpace(40) + "= NULL");
+    " + (i > 0 ? ", " : "  ") + ("@" + cn).FillSpace(30) + c.GetParmDeclareStr().FillSpace(30) + "= NULL");
             }
 
             // 身体生成
