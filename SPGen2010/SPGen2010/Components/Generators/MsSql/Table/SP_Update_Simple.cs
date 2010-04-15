@@ -13,7 +13,7 @@ using MySmo = SPGen2010.Components.Modules.MySmo;
 
 namespace SPGen2010.Components.Generators.MsSql.Table
 {
-    class SP_Insert_Simple : IGenerator
+    class SP_Update_Simple : IGenerator
     {
         #region Settings
 
@@ -28,8 +28,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
                 if (_properties == null)
                 {
                     this._properties = new Dictionary<GenProperties, object>();
-                    this._properties.Add(GenProperties.Name, "SP/Insert/2");
-                    this._properties.Add(GenProperties.Caption, "SP：插入一行（精简版）");
+                    this._properties.Add(GenProperties.Name, "SP/Update/2");
+                    this._properties.Add(GenProperties.Caption, "SP：更新一行（精简版1）");
                     this._properties.Add(GenProperties.Group, "SP");
                     this._properties.Add(GenProperties.Tips, "");
                 }
@@ -50,7 +50,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             var oe_t = (Oe.Table)targetElements[0];
             var t = WMain.Instance.MySmoProvider.GetTable(oe_t);
             var wcs = t.GetWriteableColumns();
-            return wcs.Count > 0;
+            var pks = t.GetPrimaryKeyColumns();
+            return wcs.Count > 0 && pks.Count > 0;
         }
 
         #endregion
@@ -80,23 +81,33 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             // 头生成
             sb.Append(@"
 -- 表    ：[" + ts + @"].[" + tn + @"]
--- 功能  ：添加一行数据
+-- 功能  ：根据*主键*更新一行数据
 -- 返回值：INT （成功：受影响行数; 失败：负数）
--- -1：添加失败
+-- -1：更新失败
 CREATE PROCEDURE " + spn + @" (");
 
             // 参数生成
+            /*
+       @Original_xxx                int
+     , @Original_...                ......
+             */
+            for (int i = 0; i < pks.Count; i++)
+            {
+                var c = pks[i];
+                var pn = c.Name.EscapeToParmName();
+                sb.Append(@"
+    " + (i > 0 ? ", " : "  ") + ("@Original_" + pn).FillSpace(30) + c.GetParmDeclareStr());
+            }
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
                 var pn = c.Name.EscapeToParmName();
-                var pd = c.GetParmDeclareStr();
                 /*
-       @xxx                             nvarchar(max)                      = NULL
-     , @xxxx                            .......                            .....
+       @xxx                         nvarchar(max)
+     , @xxxx                        .......
                  */
                 sb.Append(@"
-    " + (i > 0 ? ", " : "  ") + ("@" + pn).FillSpace(30) + pd.FillSpace(30) + "= NULL");
+    " + (i > 0 ? ", " : "  ") + ("@" + pn).FillSpace(30) + c.GetParmDeclareStr());
             }
 
             // 身体生成
@@ -111,30 +122,34 @@ BEGIN
 
     DECLARE @ERROR INT, @ROWCOUNT INT;
 
-    INSERT INTO [" + ts + @"].[" + tn + @"] (");
-            var opts = "";
+    UPDATE [" + ts + @"].[" + tn + @"]
+       SET ");
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
                 var cn = c.Name.EscapeToSqlName();
-                sb.Append(@"
-        " + (i > 0 ? ", " : "  ") + "[" + cn + @"]");
-                opts += (i > 0 ? ", " : "") + "Inserted.[" + cn + @"]";
+                var pn = c.Name.EscapeToParmName();
+                sb.Append((i > 0 ? @"
+         , " : "") + ("[" + cn + @"]").FillSpace(30) + ("= @" + pn).FillSpace(30));
             }
-            sb.Append(@"
-    )
---    OUTPUT " + opts + @"
-    VALUES (");
-            for (int i = 0; i < wcs.Count; i++)
+            var s = "";
+            var s2 = "";
+            for (int i = 0; i < pks.Count; i++)
             {
                 var c = wcs[i];
+                var cn = c.Name.EscapeToSqlName();
                 var pn = c.Name.EscapeToParmName();
-                sb.Append(@"
-        " + (i > 0 ? ", " : "  ") + "@" + pn);
+                if (i > 0) s += " AND ";
+                s += @"[" + cn + @"] = @Original_" + pn;
+
+                if (i > 0) s2 += ", ";
+                s2 += "Inserted.[" + cn + @"]";
             }
             sb.Append(@"
-    );");
-            sb.Append(@"
+--    OUTPUT " + s2);
+            if (s.Length > 0) sb.Append(@"
+     WHERE " + s);
+            sb.Append(@";
 
     SELECT @ERROR = @@ERROR, @ROWCOUNT = @@ROWCOUNT;
     IF @ERROR <> 0
