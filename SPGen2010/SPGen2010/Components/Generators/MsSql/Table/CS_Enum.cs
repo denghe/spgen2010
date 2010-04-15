@@ -10,7 +10,7 @@ using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
 
 namespace SPGen2010.Components.Generators.MsSql.Table
 {
-    class Enum : IGenerator
+    class CS_Enum : IGenerator
     {
         #region Settings
 
@@ -25,10 +25,10 @@ namespace SPGen2010.Components.Generators.MsSql.Table
                 if (_properties == null)
                 {
                     this._properties = new Dictionary<GenProperties, object>();
-                    this._properties.Add(GenProperties.Name, "Table Enum");
-                    this._properties.Add(GenProperties.Caption, "根据单主鍵（整型）表的数据生成 Enum");
+                    this._properties.Add(GenProperties.Name, "CS/Enum/1");
+                    this._properties.Add(GenProperties.Caption, "CS：将表的数据转为 Enum");
                     this._properties.Add(GenProperties.Group, "C#");
-                    this._properties.Add(GenProperties.Tips, "为 Table 里面的数据生成 C# 的枚举代码");
+                    this._properties.Add(GenProperties.Tips, "");
                 }
                 return this._properties;
             }
