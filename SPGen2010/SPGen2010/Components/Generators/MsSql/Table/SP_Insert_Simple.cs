@@ -81,7 +81,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             sb.Append(@"
 -- 表    ：[" + ts + @"].[" + tn + @"]
 -- 功能  ：添加一行数据
--- 返回值：受影响行数（成功）; 负数（失败）
+-- 返回值：INT （成功：受影响行数; 失败：负数）
 -- -1：添加失败
 CREATE PROCEDURE " + spn + @" (");
 
