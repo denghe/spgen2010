@@ -268,6 +268,23 @@ namespace SPGen2010.Components.Providers.MsSql {
             };
         }
 
+        public MySmo.DefaultConstraint GetDefaultConstraint(Smo.Column smo_c, MySmo.Column parentColumn, MySmo.Database parentDatabase = null)
+        {
+            var dc = smo_c.DefaultConstraint;
+            if (dc == null) return null;
+            var result = new MySmo.DefaultConstraint
+            {
+                CreateTime = dc.CreateDate,
+                IsSystemNamed = dc.IsSystemNamed,
+                Name = dc.Name,
+                Text = dc.Text,
+                ParentColumn = parentColumn,
+                ParentDatabase = parentDatabase
+            };
+            result.ExtendedProperties = GetExtendProperties(result, dc.ExtendedProperties);
+            return result;
+        }
+
         public MySmo.Table GetTable(Smo.Table smo_t, MySmo.Database parent = null) {
             #region implement
             SetDataLimit();
@@ -302,6 +319,7 @@ namespace SPGen2010.Components.Providers.MsSql {
                     Nullable = smo_c.Nullable,
                     RowGuidCol = smo_c.RowGuidCol
                 };
+                mysmo_c.DefaultConstraint = GetDefaultConstraint(smo_c, mysmo_c, parent);
                 mysmo_c.ExtendedProperties = GetExtendProperties(mysmo_c, smo_c.ExtendedProperties);
                 s = "";
                 if(mysmo_c.ExtendedProperties.TryGetValue(K_MS_Description, out s)) {

@@ -4,14 +4,13 @@ using System.Text;
 using System.Data;
 using System.Linq;
 
+using SPGen2010.Components.Windows;
+using SPGen2010.Components.Generators.Extensions.Generic;
+using SPGen2010.Components.Generators.Extensions.CS;
+
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
-//using Smo = Microsoft.SqlServer.Management.Smo;
-//using Utils = SPGen2010.Components.Helpers.MsSql.Utils;
-using SPGen2010.Components.Windows;
-//using SPGen2010.Components.Providers;
 
-using SPGen2010.Components.Generators.Extensions.CS;
 
 namespace SPGen2010.Components.Generators.MsSql.Database {
     class DAL : IGenerator {
@@ -25,10 +24,10 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
             get {
                 if(_properties == null) {
                     this._properties = new Dictionary<GenProperties, object>();
-                    this._properties.Add(GenProperties.Name, "DAL");
-                    this._properties.Add(GenProperties.Caption, "根据 Database 生成 DAL 层");
+                    this._properties.Add(GenProperties.Name, "C#/DAL/1");
+                    this._properties.Add(GenProperties.Caption, "C#：根据 Database 生成 DAL 层");
                     this._properties.Add(GenProperties.Group, "C#");
-                    this._properties.Add(GenProperties.Tips, "根据 Database 生成 DAL 层");
+                    this._properties.Add(GenProperties.Tips, "");
                 }
                 return this._properties;
             }
@@ -41,7 +40,6 @@ namespace SPGen2010.Components.Generators.MsSql.Database {
 
         /// <summary>
         /// condations:
-        /// only one primary key, and must be INTEGER (2bytes, 4bytes, 8bytes) type
         /// </summary>
         public bool Validate(params Oe.NodeBase[] targetElements) {
             return true;
