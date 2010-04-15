@@ -61,27 +61,7 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             var db = t.Parent;
 
             var pks = Utils.GetPrimaryKeyColumns(t);
-
-            if (pks.Count == 0)
-            {
-                gr = new GenResult(GenResultTypes.Message);
-                gr.Message = "无法为没有主键字段的表生成该代码！";
-                return gr;
-            }
-            else if (pks.Count > 1)
-            {
-                gr = new GenResult(GenResultTypes.Message);
-                gr.Message = "无法为多主键字段的表生成该代码！";
-                return gr;
-            }
-            else if (!Utils.CheckIsNumericType(pks[0]))
-            {
-                gr = new GenResult(GenResultTypes.Message);
-                gr.Message = "无法为非数字型主键字段的表生成该代码！";
-                return gr;
-            }
-
-            Smo.Column vc = pks[0],nc = null;
+            Smo.Column vc = pks[0], nc = null;
 
             var sacs = Utils.GetSearchableColumns(t);
             if (sacs.Count == 0)
@@ -99,28 +79,33 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
             #region Gen
 
-            var tbn = Utils.GetEscapeSqlObjectName(t.Name);
-
-            sb.Append(@"/// <summary>
-            /// " + Utils.GetDescription(t) + @"
-            /// </summary>
-            public enum " + tbn + @"
-            {");
-            var ds = db.ExecuteWithResults("SELECT [" + Utils.GetEscapeSqlObjectName(vc.Name) + "], [" + Utils.GetEscapeSqlObjectName(nc.Name) + "] FROM [" + Utils.GetEscapeSqlObjectName(t.Schema) + "].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] ORDER BY [" + Utils.GetEscapeSqlObjectName(nc.Name) + "]");
-            if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            DataSet  ds  = null;
+            try
+            {
+                ds = db.ExecuteWithResults("SELECT [" + Utils.GetEscapeSqlObjectName(vc.Name) + "], [" + Utils.GetEscapeSqlObjectName(nc.Name) + "] FROM [" + Utils.GetEscapeSqlObjectName(t.Schema) + "].[" + Utils.GetEscapeSqlObjectName(t.Name) + @"] ORDER BY [" + Utils.GetEscapeSqlObjectName(nc.Name) + "]");
+            }
+            catch { }
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
                 gr = new GenResult(GenResultTypes.Message);
                 gr.Message = "当前表中没有数据！生成失败！";
                 return gr;
             }
 
+            var tbn = Utils.GetEscapeSqlObjectName(t.Name);
+            sb.Append(@"
+/// <summary>
+/// " + Utils.GetDescription(t) + @"
+/// </summary>
+public enum " + tbn + @"
+{");
             foreach (DataRow c in ds.Tables[0].Rows)
             {
                 sb.Append(@"
-            	" + Utils.GetEscapeName(c[nc.Name].ToString()) + @" = " + c[vc.Name].ToString() + @",");
+    " + Utils.GetEscapeName(c[nc.Name].ToString()) + @" = " + c[vc.Name].ToString() + @",");
             }
             sb.Append(@"
-            }
+}
             ");
 
             #endregion
