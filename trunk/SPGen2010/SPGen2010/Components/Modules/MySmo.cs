@@ -159,6 +159,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public bool Computed { get; set; }
         public string ComputedText { get; set; }
         public string Default { get; set; }
+        public DefaultConstraint DefaultConstraint { get; set; }
         public bool Identity { get; set; }
         public long IdentityIncrement { get; set; }
         public long IdentitySeed { get; set; }
@@ -227,6 +228,20 @@ namespace SPGen2010.Components.Modules.MySmo
         public int NumericPrecision { get; set; }
         public int NumericScale { get; set; }
     }
+
+    public partial class DefaultConstraint : IMySmoObject, IExtendPropertiesBase, IName, IParentDatabase, ICreateTime
+    {
+        public Database ParentDatabase { get; set; }
+        public DateTime CreateTime { get; set; }
+        //public DateTime DateLastModified { get; set; }
+        public ExtendedProperties ExtendedProperties { get; set; }
+        public int ID { get; set; }
+        public bool IsSystemNamed { get; set; }
+        public string Name { get; set; }
+        public Column ParentColumn { get; set; }
+        public string Text { get; set; }
+    }
+
 
     public partial class Schema : IMySmoObject, IName, IParentDatabase, IOwner, IExtendPropertiesBase
     {

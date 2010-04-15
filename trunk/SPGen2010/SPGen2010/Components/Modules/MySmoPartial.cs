@@ -31,6 +31,7 @@ namespace SPGen2010.Components.Modules.MySmo {
     }
 
     partial class Table {
+
         /// <summary>
         /// 返回树表的 主外键 字典（如果没有返回 0 长度字典）
         /// </summary>
@@ -118,7 +119,7 @@ namespace SPGen2010.Components.Modules.MySmo {
         /// 返回一个表中的必写字段集合（如果没有返回 0 长度列表）
         /// </summary>
         public List<Column> GetMustWriteColumns() {
-            return this.Columns.Where(c => !(c.Identity || c.Computed || c.Nullable || c.Default != null)).ToList();  //    DefaultConstraint  ??   || c.RowGuidCol  
+            return this.Columns.Where(c => !(c.Identity || c.Computed || c.Nullable || c.DefaultConstraint != null)).ToList();  //    || c.RowGuidCol  
         }
 
         /// <summary>
