@@ -13,14 +13,49 @@ namespace SPGen2010.Components.Generators.Extensions.MsSql
     /// </summary>
     public static partial class Extensions
     {
-        #region Escape
+        #region EscapeTo...
 
         /// <summary>
         /// 取转义后的数据库对象名（标识符）
         /// </summary>
-        public static string Escape(this string s)
+        public static string EscapeToSqlName(this string s)
         {
             return s.Replace("]", @"]]");
+        }
+
+        /// <summary>
+        /// 取转义后的 TSQL 过程，函数的参数名称字串（过滤非法字符）
+        /// </summary>
+        public static string EscapeToParmName(this string s)
+        {
+            return s.Replace(' ', '_')
+                .Replace(',', '_')
+                .Replace('.', '_')
+                .Replace(';', '_')
+                .Replace(':', '_')
+                .Replace('~', '_')
+                .Replace('(', '_')
+                .Replace(')', '_')
+                .Replace('#', '_')
+                .Replace('\\', '_')
+                .Replace('/', '_')
+                .Replace('=', '_')
+                .Replace('>', '_')
+                .Replace('<', '_')
+                .Replace('+', '_')
+                .Replace('-', '_')
+                .Replace('*', '_')
+                .Replace('%', '_')
+                .Replace('&', '_')
+                .Replace('|', '_')
+                .Replace('^', '_')
+                .Replace('\'', '_')
+                .Replace('"', '_')
+                .Replace('[', '_')
+                .Replace(']', '_')
+                .Replace('!', '_')
+                .Replace('@', '_')
+                .Replace('$', '_');
         }
 
         #endregion

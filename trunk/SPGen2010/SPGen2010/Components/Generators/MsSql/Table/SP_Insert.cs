@@ -73,8 +73,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             var wcs = t.GetWriteableColumns();              // 可填字段集
             var mwcs = t.GetMustWriteColumns();             // 必填字段集
 
-            var tn = t.Name.Escape();                       // 表名
-            var ts = t.Schema.Escape();                     // 表架构名
+            var tn = t.Name.EscapeToSqlName();                       // 表名
+            var ts = t.Schema.EscapeToSqlName();                     // 表架构名
             var spn = "[" + ts + @"].[" + tn + @"_Insert]"; // 存储过程名
 
             // 头生成
@@ -92,13 +92,13 @@ CREATE PROCEDURE " + spn + @" (");
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
-                var cn = c.Name.Escape();
+                var pn = c.Name.EscapeToParmName();
                 /*
        @xxx                             nvarchar(max)                      = NULL
      , @xxxx                            .......                            .....
                  */
                 sb.Append(@"
-    " + (i > 0 ? ", " : "  ") + ("@" + cn).FillSpace(30) + c.GetParmDeclareStr().FillSpace(30) + "= NULL");
+    " + (i > 0 ? ", " : "  ") + ("@" + pn).FillSpace(30) + c.GetParmDeclareStr().FillSpace(30) + "= NULL");
             }
 
             // 身体生成
@@ -112,25 +112,25 @@ BEGIN
             foreach (var c in wcs)
             {
                 if (c.Nullable) continue;
-                var cn = c.Name.Escape();
+                var pn = c.Name.EscapeToParmName();
                 if (mwcs.Contains(c))
                 {
                     sb.Append(@"
-    IF @" + cn + @" IS NULL" + (c.DataType.CheckIsStringType() ? ("-- OR LEN(@" + cn + @") = 0") : ("")) + @"
+    IF @" + pn + @" IS NULL" + (c.DataType.CheckIsStringType() ? ("-- OR LEN(@" + pn + @") = 0") : ("")) + @"
         RETURN -1;
 ");
                 }
                 else
                 {
                     sb.Append(@"
-    IF @" + cn + @" IS NULL SET @" + cn + @" = " + c.DefaultConstraint.Text + @";
+    IF @" + pn + @" IS NULL SET @" + pn + @" = " + c.DefaultConstraint.Text + @";
 ");
                 }
             }
 
             //判断主键重复
             //判断是否存在自增主键
-            bool hasIdentityCol = false;
+            var hasIdentityCol = false;
             foreach (var c in pks)
             {
                 if (c.Identity)
@@ -149,9 +149,10 @@ BEGIN
                 for (int i = 0; i < pks.Count; i++)
                 {
                     var c = pks[i];
-                    string cn = c.Name.Escape();
+                    var cn = c.Name.EscapeToSqlName();
+                    var pn = c.Name.EscapeToParmName();
                     if (i > 0) sb.Append(@" AND ");
-                    sb.Append(@"[" + c.Name.Escape() + @"] = @" + cn);
+                    sb.Append(@"[" + cn + @"] = @" + pn);
                 }
                 sb.Append(@"
     ) RETURN -2;
@@ -162,18 +163,23 @@ BEGIN
             foreach (var fk in t.ForeignKeys)
             {
                 var ft = t.ParentDatabase.Tables.Find(fk.ReferencedTable, fk.ReferencedTableSchema);
+                var fts = ft.Schema.EscapeToSqlName();
+                var ftn = ft.Name.EscapeToSqlName();
                 sb.Append(@"
     IF NOT EXISTS (
-        SELECT 1 FROM [" + ts + @"].[" + ft.Name.Escape() + @"]
+        SELECT 1 FROM [" + fts + @"].[" + ftn + @"]
          WHERE ");
                 for (int i = 0; i < fk.Columns.Count; i++)
                 {
                     var fkc = fk.Columns[i];
+                    var fkcrn = fkc.ReferencedColumn.EscapeToSqlName();
+
                     var c = t.Columns.Find(fkc.Name);
-                    var cn = c.Name.Escape();
+                    var cn = c.Name.EscapeToSqlName();
+                    var pn = c.Name.EscapeToSqlName();
 
                     if (i > 0) sb.Append(@" AND ");
-                    sb.Append("(" + (c.Nullable ? (" @" + cn + @" IS NULL OR ") : "") + @"[" + fkc.ReferencedColumn.Escape() + @"] = @" + cn + @")");
+                    sb.Append("(" + (c.Nullable ? (" @" + cn + @" IS NULL OR ") : "") + @"[" + fkcrn + @"] = @" + pn + @")");
                 }
                 sb.Append(@"
     ) RETURN -3;
@@ -201,7 +207,7 @@ BEGIN
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
-                var cn = c.Name.Escape();
+                var cn = c.Name.EscapeToSqlName();
                 sb.Append(@"
         " + (i > 0 ? ", " : "  ") + "[" + cn + @"]");
                 opts += (i > 0 ? ", " : "") + "Inserted.[" + cn + @"]";
@@ -213,9 +219,9 @@ BEGIN
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
-                var cn = c.Name.Escape();
+                var pn = c.Name.EscapeToParmName();
                 sb.Append(@"
-        " + (i > 0 ? ", " : "  ") + "@" + cn);
+        " + (i > 0 ? ", " : "  ") + "@" + pn);
             }
             sb.Append(@"
     );");
