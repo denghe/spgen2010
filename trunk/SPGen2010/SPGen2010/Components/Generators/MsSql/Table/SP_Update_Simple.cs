@@ -124,16 +124,16 @@ BEGIN
 
     UPDATE [" + ts + @"].[" + tn + @"]
        SET ");
+
             for (int i = 0; i < wcs.Count; i++)
             {
                 var c = wcs[i];
                 var cn = c.Name.EscapeToSqlName();
                 var pn = c.Name.EscapeToParmName();
                 sb.Append((i > 0 ? @"
-         , " : "") + ("[" + cn + @"]").FillSpace(30) + ("= @" + pn).FillSpace(30));
+         , " : "") + ("[" + cn + @"]").FillSpace(30) + "= @" + pn);
             }
             var s = "";
-            var s2 = "";
             for (int i = 0; i < pks.Count; i++)
             {
                 var c = wcs[i];
@@ -141,12 +141,16 @@ BEGIN
                 var pn = c.Name.EscapeToParmName();
                 if (i > 0) s += " AND ";
                 s += @"[" + cn + @"] = @Original_" + pn;
-
-                if (i > 0) s2 += ", ";
-                s2 += "Inserted.[" + cn + @"]";
             }
             sb.Append(@"
---    OUTPUT " + s2);
+--    OUTPUT ");
+            for (int i = 0; i < t.Columns.Count; i++)
+            {
+                var c = t.Columns[i];
+                var cn = c.Name.EscapeToSqlName();
+                if (i > 0) sb.Append(", ");
+                sb.Append("Inserted.[" + cn + @"]");
+            }
             if (s.Length > 0) sb.Append(@"
      WHERE " + s);
             sb.Append(@";
