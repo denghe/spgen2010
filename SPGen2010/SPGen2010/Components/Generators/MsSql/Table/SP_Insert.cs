@@ -79,8 +79,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
 
             // 头生成
             sb.Append(@"
--- 表： 表 " + t.ToString() + @"
--- 功能：添加一行数据
+-- 表    ：[" + ts + @"].[" + tn + @"]
+-- 功能  ：添加一行数据
 -- 返回值：受影响行数（成功）; 负数（失败）
 -- -1: 某些必填字段为空
 -- -2: 主键冲突
