@@ -498,18 +498,7 @@ namespace DAL.Database.Tables." + sn + @"
             var buffers = new List<byte[]>();");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = 0;
-                var buff = SqlLib.DbSet_Utils.GetBytes(this." + c.GetEscapeName() + @", ref tn);
-                buffers.Add(((byte)tn).GetBytes());
-                buffers.Add(buff);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
                         }
                         sb.Append(@"
@@ -518,16 +507,7 @@ namespace DAL.Database.Tables." + sn + @"
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = buffer.ToByte(ref startIndex);
-                this." + c.GetEscapeName() + @" = SqlLib.DbSet_Utils.ToObject(buffer, tn, ref startIndex);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
                         }
                         sb.Append(@"
@@ -740,7 +720,7 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Insert
 
-		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @" ics = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(" + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @" ics, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""
@@ -1258,18 +1238,7 @@ namespace DAL.Database.Views." + sn + @"
             var buffers = new List<byte[]>();");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = 0;
-                var buff = SqlLib.DbSet_Utils.GetBytes(this." + c.GetEscapeName() + @", ref tn);
-                buffers.Add(((byte)tn).GetBytes());
-                buffers.Add(buff);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
                         }
                         sb.Append(@"
@@ -1278,16 +1247,7 @@ namespace DAL.Database.Views." + sn + @"
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = buffer.ToByte(ref startIndex);
-                this." + c.GetEscapeName() + @" = SqlLib.DbSet_Utils.ToObject(buffer, tn, ref startIndex);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
                         }
                         sb.Append(@"
@@ -1496,18 +1456,7 @@ namespace DAL.Database.UserDefinedTableTypes." + sn + @"
             var buffers = new List<byte[]>();");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = 0;
-                var buff = SqlLib.DbSet_Utils.GetBytes(this." + c.GetEscapeName() + @", ref tn);
-                buffers.Add(((byte)tn).GetBytes());
-                buffers.Add(buff);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
                         }
                         sb.Append(@"
@@ -1516,16 +1465,7 @@ namespace DAL.Database.UserDefinedTableTypes." + sn + @"
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
                         {
-                            if (c.DataType.SqlDataType == MySmo.SqlDataType.Variant)
-                            {
-                                sb.Append(@"
-            {
-                var tn = buffer.ToByte(ref startIndex);
-                this." + c.GetEscapeName() + @" = SqlLib.DbSet_Utils.ToObject(buffer, tn, ref startIndex);
-            }
-");
-                            }
-                            else sb.Append(@"
+                            sb.Append(@"
             this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
                         }
                         sb.Append(@"
