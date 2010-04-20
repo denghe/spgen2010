@@ -494,15 +494,17 @@ namespace DAL.Database.Tables." + sn + @"
 
                         sb.Append(@"
         #region Serial
-        public byte[] GetBytes() {
-            var buffers = new List<byte[]>();");
+        public byte[] GetBytes()
+        {
+            return new byte[][]
+            {");
                         foreach (var c in t.Columns)
                         {
                             sb.Append(@"
-            buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
+                this." + c.GetEscapeName() + @".GetBytes(),");
                         }
                         sb.Append(@"
-            return buffers.Combine();
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
@@ -1235,14 +1237,15 @@ namespace DAL.Database.Views." + sn + @"
                         sb.Append(@"
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();");
+            return new byte[][]
+            {");
                         foreach (var c in t.Columns)
                         {
                             sb.Append(@"
-            buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
+                this." + c.GetEscapeName() + @".GetBytes(),");
                         }
                         sb.Append(@"
-            return buffers.Combine();
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
@@ -1449,18 +1452,18 @@ namespace DAL.Database.UserDefinedTableTypes." + sn + @"
 
                         #region Serial
 
-
                         sb.Append(@"
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();");
+            return new byte[][]
+            {");
                         foreach (var c in t.Columns)
                         {
                             sb.Append(@"
-            buffers.Add(this." + c.GetEscapeName() + @".GetBytes());");
+                this." + c.GetEscapeName() + @".GetBytes(),");
                         }
                         sb.Append(@"
-            return buffers.Combine();
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {");
                         foreach (var c in t.Columns)
@@ -1548,7 +1551,89 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 
             #region UserDefinedFunctions_Table
 
-            // todo
+            #region Serial Methods
+            {
+                sb.Clear();
+                sb.Append(@"using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using SqlLib;
+");
+                var schemas = from uf in db.UserDefinedFunctions where uf.FunctionType == MySmo.UserDefinedFunctionType.Table group uf by uf.Schema;
+                foreach (var ts in schemas)
+                {
+                    var sn = ts.Key.Escape();
+                    sb.Append(@"
+namespace DAL.Database.UserDefinedFunctions." + sn + @"
+{
+");
+                    foreach (var t in ts)
+                    {
+                        var tn = t.GetEscapeName();
+                        sb.Append(@"
+    partial class " + tn + @" : ISerial
+    {");
+                        #region Constructor
+
+                        sb.Append(@"
+        #region Constructor
+
+        public " + tn + @"() {
+        }
+        public " + tn + @"(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public " + tn + @"(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        #region Serial
+
+                        sb.Append(@"
+        #region Serial
+        public byte[] GetBytes() {
+            return new byte[][]
+            {");
+                        foreach (var c in t.Columns)
+                        {
+                            sb.Append(@"
+                this." + c.GetEscapeName() + @".GetBytes(),");
+                        }
+                        sb.Append(@"
+            }.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {");
+                        foreach (var c in t.Columns)
+                        {
+                            sb.Append(@"
+            this." + c.GetEscapeName() + @" = buffer." + c.DataType.GetToTypeMethod(c.Nullable) + @"(ref startIndex);");
+                        }
+                        sb.Append(@"
+        }
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Methods_Serial_Database_UserDefinedFunctions_Table.cs", sb);
+            }
+            #endregion
 
             #endregion
 
