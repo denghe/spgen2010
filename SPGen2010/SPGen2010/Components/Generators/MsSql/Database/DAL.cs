@@ -877,7 +877,7 @@ VALUES ("");
                             }
                             else
                             {
-                                // todo: 有 trigger 的情况下只能将 OUTPUT 输出到一个临时表再输出
+                                // 有 trigger 的情况下只能将 OUTPUT 输出到一个临时表再输出
 
                                 #region Implement
 
@@ -1066,6 +1066,7 @@ VALUES ("");
                         }
                         else
                         {
+                            // todo
                             // SQL2000 不支持 OUTPUT
 
                             var pks = t.GetPrimaryKeyColumns();
