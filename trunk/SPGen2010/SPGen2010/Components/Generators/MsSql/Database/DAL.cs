@@ -892,7 +892,7 @@ VALUES ("");
             if(isFillAfterInsert)
             {
                 sb.Append(@""
-DECLATE @t TABLE ("");
+DECLARE @t TABLE("");
                 if(fcs == null)
                 {
                     sb.Append(@""");
