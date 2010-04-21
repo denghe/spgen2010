@@ -1,9 +1,8 @@
-﻿检测到表有 Trigger 则启用原始的回填模式
+﻿
+
+
 生成有外键关联的表的相关时,应填充表的 parent database 的相关外键表
 
 
 
-继续丰富 MySmo 相关对象扫描功能
-继续做 DAL 生成
-
-所有类均带 GetBytes 和 Fill 序列化套件方法
+添加对 INSERT 方法的 SQL2000 回填支持

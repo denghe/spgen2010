@@ -295,6 +295,7 @@ namespace SPGen2010.Components.Providers.MsSql {
             mysmo_t.Schema = smo_t.Schema;
             mysmo_t.CreateTime = smo_t.CreateDate;
             mysmo_t.Owner = smo_t.Owner;
+            mysmo_t.TriggersCount = smo_t.Triggers.Count;
             mysmo_t.ExtendedProperties = GetExtendProperties(mysmo_t, smo_t.ExtendedProperties);
             var s = "";
             if(mysmo_t.ExtendedProperties.TryGetValue(K_MS_Description, out s)) {
@@ -377,6 +378,7 @@ namespace SPGen2010.Components.Providers.MsSql {
             mysmo_v.Schema = smo_v.Schema;
             mysmo_v.CreateTime = smo_v.CreateDate;
             mysmo_v.Owner = smo_v.Owner;
+            mysmo_v.TriggersCount = smo_v.Triggers.Count;
             mysmo_v.ExtendedProperties = GetExtendProperties(mysmo_v, smo_v.ExtendedProperties);
             var s = "";
             if(mysmo_v.ExtendedProperties.TryGetValue(K_MS_Description, out s)) {
