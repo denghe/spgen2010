@@ -95,6 +95,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Description { get; set; }
         public string Owner { get; set; }
         public DateTime CreateTime { get; set; }
+        public int TriggersCount { get; set; }
     }
 
     public partial class View : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
@@ -107,6 +108,7 @@ namespace SPGen2010.Components.Modules.MySmo
         public string Description { get; set; }
         public string Owner { get; set; }
         public DateTime CreateTime { get; set; }
+        public int TriggersCount { get; set; }
     }
 
     public partial class UserDefinedTableType : IMySmoObject, IParentDatabase, ITableBase, INameSchema, IExtendPropertiesBase, IDescription, IOwner, ICreateTime
