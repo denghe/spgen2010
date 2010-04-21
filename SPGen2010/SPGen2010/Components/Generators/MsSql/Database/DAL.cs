@@ -977,6 +977,8 @@ VALUES ("");
 			sb.Append(sb2);
 			sb.Append(@""
 );"");
+            if(isFillAfterInsert) sb.Append(@""
+SELECT * FROM @t;"");
 			cmd.CommandText = sb.ToString();
             if(!isFillAfterInsert)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1107,36 +1109,46 @@ VALUES ("");
 
                         sb.Append(@"
         #region Update
+");
 
+                        if (db.CompatibilityLevel >= SPGen2010.Components.Modules.MySmo.CompatibilityLevel.Version90)
+                        {
+                            if (t.TriggersCount == 0)
+                            {
+                                // 无 trigger, 直接用 output 输出回填
+
+                                #region Implement
+
+                                sb.Append(@"
 		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh = null, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""");
-                        sb.Append(@"
+                                sb.Append(@"
 UPDATE " + dbtn + @"
    SET ");
-                        sb.Append(@""");
+                                sb.Append(@""");
 			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();");
-                        foreach (var c in wcs)
-                        {
-                            var cn = c.Name.Escape();
-                            sb.Append(@"
+                                foreach (var c in wcs)
+                                {
+                                    var cn = c.Name.Escape();
+                                    sb.Append(@"
 			if (ucs == null || ucs.Contains(" + c.GetOrdinal() + @"))
 			{");
-                            if (c.Nullable) sb.Append(@"
+                                    if (c.Nullable) sb.Append(@"
                 var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
                 if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
                 cmd.Parameters.Add(p);");
-                            else sb.Append(@"
+                                    else sb.Append(@"
                 cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
-                            sb.Append(@"
+                                    sb.Append(@"
 				sb.Append((isFirst ? @"""" : @""
      , "") + ""[" + cn + @"] = @" + cn + @""");
 				isFirst = false;
 			}");
-                        }
-                        sb.Append(@"
+                                }
+                                sb.Append(@"
             if(isFillAfterUpdate) {
                 if(fcs == null) {
                     sb.Append(@""
@@ -1159,7 +1171,7 @@ OUTPUT "");
     			    sb.Append(@""
  WHERE "" + ws);
             }");
-                        sb.Append(@"
+                                sb.Append(@"
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1170,30 +1182,30 @@ OUTPUT "");
                 {
                     while(reader.Read())
                     {");
-                        for (int i = 0; i < t.Columns.Count; i++)
-                        {
-                            var c = t.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-                        o." + cn + " = ");
-                            var s = "";
-                            if (c.Nullable)
-                            {
-                                s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
-                                sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
-                            }
-                            else
-                            {
-                                if (c.DataType.CheckIsBinaryType())
+                                for (int i = 0; i < t.Columns.Count; i++)
                                 {
-                                    sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                    var c = t.Columns[i];
+                                    var cn = c.GetEscapeName();
+                                    sb.Append(@"
+                        o." + cn + " = ");
+                                    var s = "";
+                                    if (c.Nullable)
+                                    {
+                                        s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
+                                        sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
+                                    }
+                                    else
+                                    {
+                                        if (c.DataType.CheckIsBinaryType())
+                                        {
+                                            sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                        }
+                                        else
+                                            sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
+                                    }
+                                    sb.Append(";");
                                 }
-                                else
-                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
-                            }
-                            sb.Append(";");
-                        }
-                        sb.Append(@"
+                                sb.Append(@"
                     }
                 }
                 else
@@ -1202,32 +1214,32 @@ OUTPUT "");
                     {
                         for(int i = 0; i < fccount; i++)
                         {");
-                        for (int i = 0; i < t.Columns.Count; i++)
-                        {
-                            var c = t.Columns[i];
-                            var cn = c.GetEscapeName();
-                            sb.Append(@"
-                            ");
-                            if (i > 0) sb.Append("else if(i < fccount && ");
-                            else sb.Append("if(");
-                            sb.Append(@"fcs.Contains(" + i + @")) {o." + cn + @" = ");
-                            if (c.Nullable)
-                            {
-                                var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
-                                sb.Append(@"reader.IsDBNull(i) ? null : " + s);
-                            }
-                            else
-                            {
-                                if (c.DataType.CheckIsBinaryType())
+                                for (int i = 0; i < t.Columns.Count; i++)
                                 {
-                                    sb.Append(@"reader.GetSqlBinary(i).Value");
+                                    var c = t.Columns[i];
+                                    var cn = c.GetEscapeName();
+                                    sb.Append(@"
+                            ");
+                                    if (i > 0) sb.Append("else if(i < fccount && ");
+                                    else sb.Append("if(");
+                                    sb.Append(@"fcs.Contains(" + i + @")) {o." + cn + @" = ");
+                                    if (c.Nullable)
+                                    {
+                                        var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                        sb.Append(@"reader.IsDBNull(i) ? null : " + s);
+                                    }
+                                    else
+                                    {
+                                        if (c.DataType.CheckIsBinaryType())
+                                        {
+                                            sb.Append(@"reader.GetSqlBinary(i).Value");
+                                        }
+                                        else
+                                            sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
+                                    }
+                                    sb.Append(@"; i++; }");
                                 }
-                                else
-                                    sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
-                            }
-                            sb.Append(@"; i++; }");
-                        }
-                        sb.Append(@"
+                                sb.Append(@"
                         }
                     }
                 }
@@ -1244,6 +1256,214 @@ OUTPUT "");
                 isFillAfterUpdate
             );
         }");
+
+                                #endregion
+
+                            }
+                            else
+                            {
+                                // 有 trigger 的情况下只能将 OUTPUT 输出到一个临时表再输出
+
+                                #region Implement
+
+                                sb.Append(@"
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh = null, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
+		{
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder();
+			var sb2 = new StringBuilder();
+			var isFirst = true;
+            var fccount = fcs == null ? 0 : fcs.Count();
+            if(isFillAfterInsert)
+            {
+                sb.Append(@""
+DECLARE @t TABLE("");
+                if(fcs == null)
+                {
+                    sb.Append(@""");
+                                for (int i = 0; i < t.Columns.Count; i++)
+                                {
+                                    var c = t.Columns[i];
+                                    sb.Append(@"
+    [" + c.Name.Replace("]", "]]") + "] " + c.DataType.ToString());
+                                    sb.Append(c.Nullable ? @" NULL" : @" NOT NULL");
+                                    if (i < t.Columns.Count - 1) sb.Append(@",");
+                                }
+                                sb.Append(@""");
+                }
+                else
+                {");
+                                for (int i = 0; i < t.Columns.Count; i++)
+                                {
+                                    var c = t.Columns[i];
+                                    sb.Append(@"
+                    if (fcs.Contains(" + c.GetOrdinal() + @")) sb.Append(@""
+    [" + c.Name.Replace("]", "]]") + "] " + c.DataType.ToString());
+                                    sb.Append(c.Nullable ? @" NULL" : @" NOT NULL");
+                                    if (i < t.Columns.Count - 1) sb.Append(@",");
+                                    sb.Append(@""");");
+                                }
+                                sb.Append(@"
+                }
+                sb.Append(@""
+);"");
+            }
+            sb.Append(@""
+UPDATE " + dbtn + @"
+   SET ");
+                                sb.Append(@""");
+");
+                                foreach (var c in wcs)
+                                {
+                                    var cn = c.Name.Escape();
+                                    sb.Append(@"
+			if (ucs == null || ucs.Contains(" + c.GetOrdinal() + @"))
+			{");
+                                    if (c.Nullable) sb.Append(@"
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, null);
+                if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
+                cmd.Parameters.Add(p);");
+                                    else sb.Append(@"
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.MaximumLength.ToString() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision.ToString() + @", " + c.DataType.NumericScale.ToString() + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                                    sb.Append(@"
+				sb.Append((isFirst ? @"""" : @""
+     , "") + ""[" + cn + @"] = @" + cn + @""");
+				isFirst = false;
+			}");
+                                }
+                                sb.Append(@"
+            if(isFillAfterUpdate) {
+                if(fcs == null) {
+                    sb.Append(@""
+OUTPUT INSERTED.* INTO @t"");
+                }
+                else
+                {
+                    sb.Append(@""
+OUTPUT "");
+                    for(int i = 0; i < fccount; i++)
+                    {
+                        if(i > 0) sb.Append(@"", "");
+                        sb.Append(@""INSERTED.["" + fcs.GetColumnName(i).Replace(""]"", ""]]"") + ""]"");
+                    }
+                    sb.Append(@"" INTO @t"");
+                }
+            }
+
+            if (eh != null)
+            {
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@""
+ WHERE "" + ws);
+            }");
+                                sb.Append(@"
+            if(isFillAfterInsert) sb.Append(@""
+SELECT * FROM @t;"");
+			cmd.CommandText = sb.ToString();
+			if (!isFillAfterUpdate)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {");
+                                for (int i = 0; i < t.Columns.Count; i++)
+                                {
+                                    var c = t.Columns[i];
+                                    var cn = c.GetEscapeName();
+                                    sb.Append(@"
+                        o." + cn + " = ");
+                                    var s = "";
+                                    if (c.Nullable)
+                                    {
+                                        s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(" + i + @").Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @"))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")"));
+                                        sb.Append(@"reader.IsDBNull(" + i + @") ? null : " + s);
+                                    }
+                                    else
+                                    {
+                                        if (c.DataType.CheckIsBinaryType())
+                                        {
+                                            sb.Append(@"reader.GetSqlBinary(" + i + @").Value");
+                                        }
+                                        else
+                                            sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(" + i + @")");
+                                    }
+                                    sb.Append(";");
+                                }
+                                sb.Append(@"
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {");
+                                for (int i = 0; i < t.Columns.Count; i++)
+                                {
+                                    var c = t.Columns[i];
+                                    var cn = c.GetEscapeName();
+                                    sb.Append(@"
+                            ");
+                                    if (i > 0) sb.Append("else if(i < fccount && ");
+                                    else sb.Append("if(");
+                                    sb.Append(@"fcs.Contains(" + i + @")) {o." + cn + @" = ");
+                                    if (c.Nullable)
+                                    {
+                                        var s = c.DataType.CheckIsBinaryType() ? ("reader.GetSqlBinary(i).Value") : (c.DataType.CheckIsValueType() ? ("new " + c.DataType.GetNullableTypeName() + @"(reader." + c.DataType.GetDataReaderMethod() + @"(i))") : ("reader." + c.DataType.GetDataReaderMethod() + @"(i)"));
+                                        sb.Append(@"reader.IsDBNull(i) ? null : " + s);
+                                    }
+                                    else
+                                    {
+                                        if (c.DataType.CheckIsBinaryType())
+                                        {
+                                            sb.Append(@"reader.GetSqlBinary(i).Value");
+                                        }
+                                        else
+                                            sb.Append(@"reader." + c.DataType.GetDataReaderMethod() + @"(i)");
+                                    }
+                                    sb.Append(@"; i++; }");
+                                }
+                                sb.Append(@"
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+            
+		}
+        public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh(new Expressions.Tables." + sn + @"." + tn + @"()),
+                updateCols == null ? null : updateCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                fillCols == null ? null : fillCols(new ColumnEnums.Tables." + sn + @"." + tn + @"()),
+                isFillAfterUpdate
+            );
+        }");
+
+                                #endregion
+
+                            }
+                        }
+                        else
+                        {
+                            // todo
+                            // SQL2000 不支持 OUTPUT
+
+                            var pks = t.GetPrimaryKeyColumns();
+                            if (pks.Count > 0)
+                            {
+                                // todo: 根据当前主键值回填
+                            }
+                            else
+                            {
+                                // todo: 没主键, 无法回填
+                            }
+                        }
 
                         sb.Append(@"
         #endregion
