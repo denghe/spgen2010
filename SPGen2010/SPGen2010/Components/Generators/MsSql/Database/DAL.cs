@@ -1274,7 +1274,7 @@ OUTPUT "");
 			var sb2 = new StringBuilder();
 			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-            if(isFillAfterInsert)
+            if(isFillAfterUpdate)
             {
                 sb.Append(@""
 DECLARE @t TABLE("");
@@ -1358,7 +1358,7 @@ OUTPUT "");
  WHERE "" + ws);
             }");
                                 sb.Append(@"
-            if(isFillAfterInsert) sb.Append(@""
+            if(isFillAfterUpdate) sb.Append(@""
 SELECT * FROM @t;"");
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
