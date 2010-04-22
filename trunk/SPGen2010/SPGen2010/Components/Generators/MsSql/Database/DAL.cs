@@ -1523,34 +1523,35 @@ using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+
 using SqlLib;
-");
+
+namespace DAL.Database.Tables
+{
+    public static partial class ___Extensions
+    {");
                 var schemas = from table in db.Tables group table by table.Schema;
                 foreach (var ts in schemas)
                 {
                     var sn = ts.Key.Escape();
-                    sb.Append(@"
-namespace DAL.Database.Tables." + sn + @"
-{
-");
                     foreach (var t in ts)
                     {
                         var tn = t.GetEscapeName();
-                        sb.Append(@"
-    public static partial class " + tn + @"_Extensions
-    {
-");
                         var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
                         var wcs = t.GetWriteableColumns();
+
+                        sb.Append(@"
+        #region " + sn + "." + tn + @"
+");
 
                         #region Insert
 
                         sb.Append(@"
         #region Insert
 
-		public static int Insert(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables." + sn + "." + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler insertCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return " + tn + @".Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables." + sn + "." + tn + @".Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}");
 
                         sb.Append(@"
@@ -1563,9 +1564,9 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Update
 
-		public static int Update(this " + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables." + sn + "." + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return " + tn + @".Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables." + sn + "." + tn + @".Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}");
 
                         sb.Append(@"
@@ -1579,7 +1580,7 @@ namespace DAL.Database.Tables." + sn + @"
                         sb.Append(@"
         #region Delete
 
-		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols = null)
+		public static int Delete(this Database.Tables." + sn + "." + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables." + sn + @"." + tn + @".Delete(t =>");
                         var pkcs = t.GetPrimaryKeyColumns();
@@ -1630,11 +1631,13 @@ namespace DAL.Database.Tables." + sn + @"
                         #endregion
 
                         sb.Append(@"
-    }");
+        #endregion
+");
                     }
-                    sb.Append(@"
-}");
                 }
+                sb.Append(@"
+    }
+}");
 
                 gr.Files.Add("DAL_Methods_Sql_Ext_Database_Tables.cs", sb);
             }
