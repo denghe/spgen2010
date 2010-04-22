@@ -746,11 +746,11 @@ INSERT INTO " + dbtn + @" ("");
 			if (ics == null || ics.Contains(" + c.GetOrdinal() + @"))
 			{");
                                     if (c.Nullable) sb.Append(@"
-                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, null);
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, null, """", """", """");
                 if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
                 cmd.Parameters.Add(p);");
                                     else sb.Append(@"
-                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, o." + cn + @", """", """", """"));");
                                     sb.Append(@"
 				sb.Append((isFirst ? @""
        "" : @""
@@ -932,11 +932,11 @@ INSERT INTO " + dbtn + @" ("");");
 			if (ics == null || ics.Contains(" + c.GetOrdinal() + @"))
 			{");
                                     if (c.Nullable) sb.Append(@"
-                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, null);
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, null, """", """", """");
                 if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
                 cmd.Parameters.Add(p);");
                                     else sb.Append(@"
-                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, o." + cn + @", """", """", """"));");
                                     sb.Append(@"
 				sb.Append((isFirst ? @""
        "" : @""
@@ -1137,11 +1137,11 @@ UPDATE " + dbtn + @"
 			if (ucs == null || ucs.Contains(" + c.GetOrdinal() + @"))
 			{");
                                     if (c.Nullable) sb.Append(@"
-                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, null);
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, null, """", """", """");
                 if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
                 cmd.Parameters.Add(p);");
                                     else sb.Append(@"
-                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, o." + cn + @", """", """", """"));");
                                     sb.Append(@"
 				sb.Append((isFirst ? @"""" : @""
      , "") + ""[" + cn + @"] = @" + cn + @""");
@@ -1320,11 +1320,11 @@ UPDATE " + dbtn + @"
 			if (ucs == null || ucs.Contains(" + c.GetOrdinal() + @"))
 			{");
                                     if (c.Nullable) sb.Append(@"
-                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, null);
+                var p = new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, null, """", """", """");
                 if (o." + cn + @" == null) p.Value = DBNull.Value; else p.Value = o." + cn + @";
                 cmd.Parameters.Add(p);");
                                     else sb.Append(@"
-                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", " + c.DataType.GetDbTypeLength() + @", ParameterDirection.Input, false, " + c.DataType.NumericPrecision + @", " + c.DataType.NumericScale + @", """ + cn + @""", DataRowVersion.Current, o." + cn + @"));");
+                cmd.Parameters.Add(new SqlParameter(""" + cn + @""", " + c.DataType.SqlDataType.GetSqlDbType(true) + @", 0, ParameterDirection.Input, 0, 0, """ + cn + @""", DataRowVersion.Current, false, o." + cn + @", """", """", """"));");
                                     sb.Append(@"
 				sb.Append((isFirst ? @"""" : @""
      , "") + ""[" + cn + @"] = @" + cn + @""");
