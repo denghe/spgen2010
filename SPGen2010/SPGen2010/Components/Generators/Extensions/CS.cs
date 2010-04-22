@@ -852,5 +852,63 @@ namespace SPGen2010.Components.Generators.Extensions.CS {
         }
 
         #endregion
+
+        #region GetDbTypeLength
+
+        /// <summary>
+        /// 返回一个SQL数据类型所对应的 SqlDb 对象类型的声明长度
+        /// </summary>
+        public static string GetDbTypeLength(this DataType dt)
+        {
+            switch (dt.SqlDataType)
+            {
+                case SqlDataType.Decimal:
+                case SqlDataType.Char:
+                case SqlDataType.VarChar:
+                case SqlDataType.NChar:
+                case SqlDataType.NVarChar:
+                case SqlDataType.Timestamp:
+                    return dt.MaximumLength.ToString();
+                case SqlDataType.Text:
+                case SqlDataType.NText:
+                case SqlDataType.Binary:
+                case SqlDataType.Image:
+                case SqlDataType.VarBinary:
+                case SqlDataType.NVarCharMax:
+                case SqlDataType.VarCharMax:
+                case SqlDataType.VarBinaryMax:
+                case SqlDataType.Xml:
+                    return int.MaxValue.ToString();
+                case SqlDataType.UniqueIdentifier:
+                case SqlDataType.BigInt:
+                case SqlDataType.Int:
+                case SqlDataType.Numeric:
+                case SqlDataType.SmallInt:
+                case SqlDataType.Money:
+                case SqlDataType.TinyInt:
+                case SqlDataType.SmallMoney:
+                case SqlDataType.Bit:
+                case SqlDataType.Float:
+                case SqlDataType.Real:
+                case SqlDataType.Date:
+                case SqlDataType.Time:
+                case SqlDataType.DateTime:
+                case SqlDataType.SmallDateTime:
+                case SqlDataType.DateTime2:
+                case SqlDataType.DateTimeOffset:
+                case SqlDataType.Geography:
+                case SqlDataType.Geometry:
+                case SqlDataType.HierarchyId:
+                case SqlDataType.UserDefinedType:
+
+                case SqlDataType.UserDefinedDataType:
+                // todo
+
+                default:
+                    return "0";
+            }
+        }
+
+        #endregion
     }
 }
