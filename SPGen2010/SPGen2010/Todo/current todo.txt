@@ -8,6 +8,10 @@ todo:
 
 
 
+todo:
+为每个数据类生成 Dump 扩展方法    DAL_Methods_CmdDump_Database_Tables.cs
+
+
 添加对 INSERT 方法的 SQL2000 回填支持
 
 
