@@ -372,8 +372,6 @@
     <Resource Include="Images\sql_view.png" />
     <Resource Include="Images\up.png" />
     <Resource Include="Todo\new singleton sample.txt" />
-    <Resource Include="Todo\todo.txt" />
-    <Resource Include="Todo\todo2.txt" />
     <Resource Include="Todo\todo3.txt" />
   </ItemGroup>
   <ItemGroup>

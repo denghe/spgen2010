@@ -690,6 +690,7 @@ namespace DAL.Database.Tables." + sn + @"
                             {
                                 var fkt = t.ParentDatabase.Tables.Find(o => o.Name == fk.ReferencedTable && o.Schema == fk.ReferencedTableSchema);
                                 var pks = fkt.GetPrimaryKeyColumns();
+                                var fksn = fkt.Schema.Escape();
                                 var fktn = fkt.GetEscapeName();
                                 var s = "";
                                 for (var i = 0; i < pks.Count; i++)
@@ -700,7 +701,7 @@ namespace DAL.Database.Tables." + sn + @"
                                     s += "o." + fkcn + " == parent." + pkcn;
                                 }
                                 sb.Append(@"
-        public static List<" + tn + @"> Select(" + fktn + @" parent, Queries.Tables." + sn + @"." + tn + @".Handler query = null) {
+        public static List<" + tn + @"> Select(Database.Tables." + fksn + "." + fktn + @" parent, Queries.Tables." + sn + @"." + tn + @".Handler query = null) {
             if(query == null) return " + tn + @".Select(where: o => " + s + @");
             var q = query(new Queries.Tables." + sn + @"." + tn + @"());
             if(q.Where == null) q.SetWhere(o => " + s + @");
@@ -1580,7 +1581,7 @@ namespace DAL.Database.Tables." + sn + @"
 
 		public static int Delete(this " + tn + @" o, ColumnEnums.Tables." + sn + @"." + tn + @".Handler conditionCols = null)
 		{
-            if(conditionCols == null) return " + sn + @"." + tn + @".Delete(t =>");
+            if(conditionCols == null) return Database.Tables." + sn + @"." + tn + @".Delete(t =>");
                         var pkcs = t.GetPrimaryKeyColumns();
                         var ccs = t.GetCompareableColumns();
                         if (pkcs.Count > 0)
@@ -1618,7 +1619,7 @@ namespace DAL.Database.Tables." + sn + @"
             if(cols.Contains(" + c.GetOrdinal() + ")) exp.And(t => t." + cn + @" == o." + cn + @");");
                         }
                         sb.Append(@"
-            return " + sn + @"." + tn + @".Delete(exp);
+            return Database.Tables." + sn + @"." + tn + @".Delete(exp);
 		}
 ");
 
