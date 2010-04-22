@@ -978,7 +978,8 @@ VALUES ("");
 			sb.Append(@""
 );"");
             if(isFillAfterInsert) sb.Append(@""
-SELECT * FROM @t;"");
+SELECT * FROM @t;
+DROP TABLE @t;"");
 			cmd.CommandText = sb.ToString();
             if(!isFillAfterInsert)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1359,7 +1360,8 @@ OUTPUT "");
             }");
                                 sb.Append(@"
             if(isFillAfterUpdate) sb.Append(@""
-SELECT * FROM @t;"");
+SELECT * FROM @t;
+DROP TABLE @t;"");
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
