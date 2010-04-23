@@ -1503,6 +1503,117 @@ DELETE FROM " + dbtn + @""";");
 
                         #endregion
 
+                        #region Others
+
+                        sb.Append(@"
+        #region Others
+");
+
+                        #region Count
+
+                        sb.Append(@"
+        #region Count
+
+        public static int Count(
+            Expressions.Tables." + sn + @"." + tn + @" where,
+            ColumnEnums.Tables." + sn + @"." + tn + @" column,
+            bool isDistinct
+        )
+        {
+            string tsql;
+            if (where == null)
+            {
+                if (column == null)
+                {
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT *) FROM " + dbtn + @""";
+                    else tsql = ""SELECT COUNT(*) FROM " + dbtn + @""";
+                }
+                else
+                {
+                    var c = column.ToString();
+                    if (c.Length == 0) c = ""*"";
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT "" + c + "") FROM " + dbtn + @""";
+                    else tsql = ""SELECT COUNT("" + c + "") FROM " + dbtn + @""";
+                }
+            }
+            else
+            {
+                var w = where.ToString();
+                if (w.Length > 0) w = "" WHERE "" + w;
+                if (column == null)
+                {
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT *) FROM " + dbtn + @""" + w;
+                    else tsql = ""SELECT COUNT(*) FROM " + dbtn + @""" + w;
+                }
+                else
+                {
+                    var c = column.ToString();
+                    if (c.Length == 0) c = ""*"";
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT "" + c + "") FROM " + dbtn + @""" + w;
+                    else tsql = ""SELECT COUNT("" + c + "") FROM " + dbtn + @""" + w;
+                }
+            }
+            return SqlHelper.ExecuteScalar<int>(tsql);
+        }
+
+        public static int Count(
+            Expressions.Tables." + sn + @"." + tn + @".Handler where = null,
+            ColumnEnums.Tables." + sn + @"." + tn + @".Handler column = null,
+            bool isDistinct = false
+        )
+        {
+            var w = where == null ? null : where(new Expressions.Tables." + sn + @"." + tn + @"());
+            var c = column == null ? null : column(new ColumnEnums.Tables." + sn + @"." + tn + @"());
+            return Count(w, c, isDistinct);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        #region Exists
+
+                        sb.Append(@"
+        #region Exists
+
+        public static bool Exists(
+            Expressions.Tables." + sn + @"." + tn + @" where
+        )
+        {
+            string tsql;
+            if (where == null)
+            {
+                tsql = ""SELECT TOP(1) 1 FROM " + dbtn + @""";
+            }
+            else
+            {
+                var w = where.ToString();
+                if (w.Length > 0) w = "" WHERE "" + w;
+                tsql = ""SELECT TOP(1) 1 FROM " + dbtn + @""" + w;
+            }
+            var o = SqlHelper.ExecuteScalar(tsql);
+            return !(o == null || o == DBNull.Value);
+        }
+        public static bool Exists(
+            Expressions.Tables." + sn + @"." + tn + @".Handler where = null
+        )
+        {
+            var w = where == null ? null : where(new Expressions.Tables." + sn + @"." + tn + @"());
+            return Exists(w);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+        #endregion
+");
+
+                        #endregion
+
                         sb.Append(@"
     }");
                     }
