@@ -1867,7 +1867,15 @@ namespace DAL.Database.Views." + sn + @"
                         var tn = t.GetEscapeName();
                         sb.Append(@"
     partial class " + tn + @"
-    {
+    {");
+
+                        var dbtn = "[" + t.Schema.Replace("]", "]]") + @"].[" + t.Name.Replace("]", "]]") + @"]";
+
+                        #region Select
+
+                        sb.Append(@"
+        #region Select
+
         public static List<" + tn + @"> Select(Queries.Views." + sn + @"." + tn + @" q)
         {
             var tsql = q.ToSqlString();
@@ -1961,7 +1969,123 @@ namespace DAL.Database.Views." + sn + @"
         {
             return Select(Queries.Views." + sn + @"." + tn + @".New(where, orderby, pageSize, pageIndex, columns));
         }
+
+        #endregion
 ");
+
+                        #endregion
+
+                        #region Others
+
+                        sb.Append(@"
+        #region Others
+");
+
+                        #region Count
+
+                        sb.Append(@"
+        #region Count
+
+        public static int Count(
+            Expressions.Views." + sn + @"." + tn + @" where,
+            ColumnEnums.Views." + sn + @"." + tn + @" column,
+            bool isDistinct
+        )
+        {
+            string tsql;
+            if (where == null)
+            {
+                if (column == null)
+                {
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT *) FROM " + dbtn + @""";
+                    else tsql = ""SELECT COUNT(*) FROM " + dbtn + @""";
+                }
+                else
+                {
+                    var c = column.ToString();
+                    if (c.Length == 0) c = ""*"";
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT "" + c + "") FROM " + dbtn + @""";
+                    else tsql = ""SELECT COUNT("" + c + "") FROM " + dbtn + @""";
+                }
+            }
+            else
+            {
+                var w = where.ToString();
+                if (w.Length > 0) w = "" WHERE "" + w;
+                if (column == null)
+                {
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT *) FROM " + dbtn + @""" + w;
+                    else tsql = ""SELECT COUNT(*) FROM " + dbtn + @""" + w;
+                }
+                else
+                {
+                    var c = column.ToString();
+                    if (c.Length == 0) c = ""*"";
+                    if (isDistinct) tsql = ""SELECT COUNT(DISTINCT "" + c + "") FROM " + dbtn + @""" + w;
+                    else tsql = ""SELECT COUNT("" + c + "") FROM " + dbtn + @""" + w;
+                }
+            }
+            return SqlHelper.ExecuteScalar<int>(tsql);
+        }
+
+        public static int Count(
+            Expressions.Views." + sn + @"." + tn + @".Handler where = null,
+            ColumnEnums.Views." + sn + @"." + tn + @".Handler column = null,
+            bool isDistinct = false
+        )
+        {
+            var w = where == null ? null : where(new Expressions.Views." + sn + @"." + tn + @"());
+            var c = column == null ? null : column(new ColumnEnums.Views." + sn + @"." + tn + @"());
+            return Count(w, c, isDistinct);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        #region Exists
+
+                        sb.Append(@"
+        #region Exists
+
+        public static bool Exists(
+            Expressions.Views." + sn + @"." + tn + @" where
+        )
+        {
+            string tsql;
+            if (where == null)
+            {
+                tsql = ""SELECT TOP(1) 1 FROM " + dbtn + @""";
+            }
+            else
+            {
+                var w = where.ToString();
+                if (w.Length > 0) w = "" WHERE "" + w;
+                tsql = ""SELECT TOP(1) 1 FROM " + dbtn + @""" + w;
+            }
+            var o = SqlHelper.ExecuteScalar(tsql);
+            return !(o == null || o == DBNull.Value);
+        }
+        public static bool Exists(
+            Expressions.Views." + sn + @"." + tn + @".Handler where = null
+        )
+        {
+            var w = where == null ? null : where(new Expressions.Views." + sn + @"." + tn + @"());
+            return Exists(w);
+        }
+
+        #endregion
+");
+
+                        #endregion
+
+                        sb.Append(@"
+        #endregion
+");
+
+                        #endregion
+
                         sb.Append(@"
     }");
                     }
