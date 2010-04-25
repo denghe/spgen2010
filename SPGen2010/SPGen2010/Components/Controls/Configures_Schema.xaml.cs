@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
 using SPGen2010.Components.Windows;
 using SPGen2010.Components.Helpers.IO;
@@ -21,21 +22,21 @@ using SPGen2010.Components.Helpers.IO;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Schema.xaml
+    /// Interaction logic for Configures_Schema.xaml
     /// </summary>
-    public partial class Actions_Schema : UserControl
+    public partial class Configures_Schema : UserControl
     {
-        public Actions_Schema()
+        public Configures_Schema()
         {
             InitializeComponent();
         }
 
-        public Actions_Schema(Oe.Schema o)
+        public Configures_Schema(Oe.Schema o)
             : this()
         {
             this.O = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Table) > 0 && a.Validate(o);
             });
@@ -51,16 +52,16 @@ namespace SPGen2010.Components.Controls
                     Tag = gen
                 };
                 c.MouseDown += new MouseButtonEventHandler(c_MouseDown);
-                _Actions_StackPanel.Children.Add(c);
+                _Configures_StackPanel.Children.Add(c);
             }
         }
 
         void c_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var c = sender as Label;
-            var gen = c.Tag as IGenerator;
-            var result = gen.Generate(this.O);
-            OutputHelper.Output(result);
+            var cfg = c.Tag as IConfigure;
+            cfg.Execute(this.O);
+            
         }
 
         public Oe.Schema O { get; set; }

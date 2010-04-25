@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
 using SPGen2010.Components.Windows;
 using SPGen2010.Components.Helpers.IO;
@@ -21,21 +22,21 @@ using SPGen2010.Components.Helpers.IO;
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Database.xaml
+    /// Interaction logic for Configures_Database.xaml
     /// </summary>
-    public partial class Actions_Database : UserControl
+    public partial class Configures_Database : UserControl
     {
-        public Actions_Database()
+        public Configures_Database()
         {
             InitializeComponent();
         }
 
-        public Actions_Database(Oe.Database o)
+        public Configures_Database(Oe.Database o)
             : this()
         {
             this.O = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Database) > 0 && a.Validate(o);
             });
@@ -51,16 +52,16 @@ namespace SPGen2010.Components.Controls
                     Tag = gen
                 };
                 c.MouseDown += new MouseButtonEventHandler(c_MouseDown);
-                _Actions_StackPanel.Children.Add(c);
+                _Configures_StackPanel.Children.Add(c);
             }
         }
 
         void c_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var c = sender as Label;
-            var gen = c.Tag as IGenerator;
-            var result = gen.Generate(this.O);
-            OutputHelper.Output(result);
+            var cfg = c.Tag as IConfigure;
+            cfg.Execute(this.O);
+            
         }
 
         public Oe.Database O { get; set; }

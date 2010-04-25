@@ -14,33 +14,34 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Windows;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Schemas.xaml
+    /// Interaction logic for Configures_Schemas.xaml
     /// </summary>
-    public partial class Actions_Schemas : UserControl
+    public partial class Configures_Schemas : UserControl
     {
-        public Actions_Schemas()
+        public Configures_Schemas()
         {
             InitializeComponent();
         }
 
-        public Actions_Schemas(Oe.Folder_Schemas o)
+        public Configures_Schemas(Oe.Folder_Schemas o)
             : this()
         {
             this.Schemas = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Schemas) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                _Configures_StackPanel.Children.Add(new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,

@@ -14,33 +14,34 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Windows;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Server.xaml
+    /// Interaction logic for Configures_Server.xaml
     /// </summary>
-    public partial class Actions_Server : UserControl
+    public partial class Configures_Server : UserControl
     {
-        public Actions_Server()
+        public Configures_Server()
         {
             InitializeComponent();
         }
 
-        public Actions_Server(Oe.Server o)
+        public Configures_Server(Oe.Server o)
             : this()
         {
             this.Server = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Databases) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                _Configures_StackPanel.Children.Add(new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,

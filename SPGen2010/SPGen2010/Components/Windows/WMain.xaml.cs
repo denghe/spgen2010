@@ -18,6 +18,7 @@ using SPGen2010.Components.Controls;
 using SPGen2010.Components.Providers;
 using SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Generators;
+using SPGen2010.Components.Configures;
 
 namespace SPGen2010.Components.Windows
 {
@@ -51,6 +52,11 @@ namespace SPGen2010.Components.Windows
         /// tips: set value before connect to database
         /// </summary>
         public List<IGenerator> Generators { get; set; }
+
+        /// <summary>
+        /// tips: set value before connect to database
+        /// </summary>
+        public List<IConfigure> Configures { get; set; }
 
         #endregion
 

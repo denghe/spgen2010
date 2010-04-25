@@ -14,33 +14,35 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Windows;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
+
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_Views.xaml
+    /// Interaction logic for Configures_Views.xaml
     /// </summary>
-    public partial class Actions_Views : UserControl
+    public partial class Configures_Views : UserControl
     {
-        public Actions_Views()
+        public Configures_Views()
         {
             InitializeComponent();
         }
 
-        public Actions_Views(Oe.Folder_Views o)
+        public Configures_Views(Oe.Folder_Views o)
             : this()
         {
             this.Views = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Views) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                _Configures_StackPanel.Children.Add(new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,
