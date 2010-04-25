@@ -8,9 +8,9 @@ using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Generators;
 
-namespace SPGen2010.Components.Configures.MsSql.Table
+namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 {
-    class CS_Enum : IConfigure
+    class ResultFormatter : IConfigure
     {
         #region Settings
 
@@ -25,7 +25,7 @@ namespace SPGen2010.Components.Configures.MsSql.Table
                 if (_properties == null)
                 {
                     this._properties = new Dictionary<GenProperties, object>();
-                    this._properties.Add(GenProperties.Name, "C#/DAL/1/SP");
+                    this._properties.Add(GenProperties.Name, "C#/DAL/1/SP/ResultFormatter");
                     this._properties.Add(GenProperties.Caption, "设置返回结果类型(for DAL)");
                     this._properties.Add(GenProperties.Group, "C#");
                     this._properties.Add(GenProperties.Tips, "");
