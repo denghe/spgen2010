@@ -40,12 +40,16 @@ namespace SPGen2010.Components.Controls
             this._TreeView.ItemsSource = new Server[] { this.DataSource };
         }
 
-        public void SetControl(UserControl details, UserControl actions)
+        public void SetControl(UserControl details, UserControl actions, UserControl configures)
         {
             WMain.Instance._Details_Grid.Children.Clear();
             WMain.Instance._Details_Grid.Children.Add(details);
+
             WMain.Instance._Actions_Grid.Children.Clear();
             WMain.Instance._Actions_Grid.Children.Add(actions);
+
+            WMain.Instance._Configures_Grid.Children.Clear();
+            WMain.Instance._Configures_Grid.Children.Add(configures);
         }
 
         private void _TreeView_Selected(object sender, RoutedEventArgs e)

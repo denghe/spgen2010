@@ -177,6 +177,51 @@
       <DependentUpon>Actions_UserDefinedTableTypes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Controls\Converters.cs" />
+    <Compile Include="Components\Controls\Configures_Database.xaml.cs">
+      <DependentUpon>Configures_Database.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Schema.xaml.cs">
+      <DependentUpon>Configures_Schema.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Schemas.xaml.cs">
+      <DependentUpon>Configures_Schemas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Server.xaml.cs">
+      <DependentUpon>Configures_Server.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_StoredProcedure.xaml.cs">
+      <DependentUpon>Configures_StoredProcedure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_StoredProcedures.xaml.cs">
+      <DependentUpon>Configures_StoredProcedures.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Table.xaml.cs">
+      <DependentUpon>Configures_Table.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Tables.xaml.cs">
+      <DependentUpon>Configures_Tables.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_UserDefinedFunctions.xaml.cs">
+      <DependentUpon>Configures_UserDefinedFunctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_UserDefinedFunction_Scale.xaml.cs">
+      <DependentUpon>Configures_UserDefinedFunction_Scale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_UserDefinedFunction_Table.xaml.cs">
+      <DependentUpon>Configures_UserDefinedFunction_Table.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_UserDefinedTableType.xaml.cs">
+      <DependentUpon>Configures_UserDefinedTableType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_UserDefinedTableTypes.xaml.cs">
+      <DependentUpon>Configures_UserDefinedTableTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_View.xaml.cs">
+      <DependentUpon>Configures_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controls\Configures_Views.xaml.cs">
+      <DependentUpon>Configures_Views.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Controls\Details_UserDefinedTableTypes.xaml.cs">
       <DependentUpon>Details_UserDefinedTableTypes.xaml</DependentUpon>
     </Compile>
@@ -398,6 +443,66 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\Controls\Actions_UserDefinedTableTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Database.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Schema.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Schemas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Server.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_StoredProcedure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_StoredProcedures.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Table.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Tables.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_UserDefinedFunctions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_UserDefinedFunction_Scale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_UserDefinedFunction_Table.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_UserDefinedTableType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_UserDefinedTableTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Controls\Configures_Views.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
