@@ -1,4 +1,8 @@
-﻿todo:
+﻿
+todo:
+为每个数据对象增加配置菜单  (在 Actions 下面增设 Configures 窗口, 列出配置插件菜单)
+
+todo:
 应利用 parallel 技术对集合对象的序列化和反序列化进行提速
 
 todo:
