@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -6,10 +7,8 @@ using System.Data;
 using SPGen2010.Components.Windows;
 using SPGen2010.Components.Generators.Extensions.Generic;
 using SPGen2010.Components.Generators.Extensions.MsSql;
-using SPGen2010.Components.Generators.Extensions.MySmo;
-
+using SPGen2010.Components.Modules.MySmo;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
-using MySmo = SPGen2010.Components.Modules.MySmo;
 
 namespace SPGen2010.Components.Generators.MsSql.Table
 {
@@ -62,6 +61,10 @@ namespace SPGen2010.Components.Generators.MsSql.Table
             var gr = new GenResult(GenResultTypes.CodeSegment);
             var oe_t = (Oe.Table)targetElements[0];
             var t = WMain.Instance.MySmoProvider.GetTable(oe_t);
+            var t_fts = from ForeignKey fk in t.ForeignKeys
+                      select WMain.Instance.MySmoProvider.GetTable(
+                          new Oe.Table { Parent = oe_t.Parent, Name = fk.ReferencedTable, Schema = fk.ReferencedTableSchema }
+                      );
 
             var sb = new StringBuilder();
 
@@ -162,7 +165,7 @@ BEGIN
             //判断外键字段是否在外键表中存在
             foreach (var fk in t.ForeignKeys)
             {
-                var ft = t.ParentDatabase.Tables.Find(fk.ReferencedTable, fk.ReferencedTableSchema);
+                var ft = t_fts.Find(fk.ReferencedTable, fk.ReferencedTableSchema);
                 var fts = ft.Schema.EscapeToSqlName();
                 var ftn = ft.Name.EscapeToSqlName();
                 sb.Append(@"
