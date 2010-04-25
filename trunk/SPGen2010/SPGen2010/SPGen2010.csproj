@@ -159,7 +159,7 @@
     </Compile>
     <Compile Include="Components\Configures\ConfigureLoader.cs" />
     <Compile Include="Components\Configures\IConfigure.cs" />
-    <Compile Include="Components\Configures\MsSql\Database\DAL_SP_Result.cs" />
+    <Compile Include="Components\Configures\MsSql\Database\DAL\SP_Result.cs" />
     <Compile Include="Components\Connectors\ConfigHandler.cs" />
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
