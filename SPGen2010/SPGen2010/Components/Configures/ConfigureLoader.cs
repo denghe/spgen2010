@@ -7,6 +7,7 @@ using System.IO;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Windows;
+using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Configures
 {
@@ -15,7 +16,7 @@ namespace SPGen2010.Components.Configures
         /// <summary>
         /// load & init configures
 		/// </summary>
-        public static void InitComponents(ref List<IConfigures> gens)
+        public static void InitComponents(ref List<IConfigure> gens)
 		{
             // load generators from current assembly
 			InitComponents(Assembly.GetExecutingAssembly(), ref gens);
@@ -93,7 +94,7 @@ namespace SPGen2010.Components.Configures
 				}
 				InitComponents(result.CompiledAssembly, ref gens);
 
-                gens.Sort(new Comparison<IConfigures>((a, b) => { return string.Compare(string.Concat(a.Properties[ConfigureProperties.Group], a.Properties[ConfigureProperties.Caption]), string.Concat(b.Properties[ConfigureProperties.Group], b.Properties[ConfigureProperties.Caption])); }));
+                gens.Sort(new Comparison<IConfigure>((a, b) => { return string.Compare(string.Concat(a.Properties[GenProperties.Group], a.Properties[GenProperties.Caption]), string.Concat(b.Properties[GenProperties.Group], b.Properties[GenProperties.Caption])); }));
 			}
 			catch (Exception ex)
 			{
@@ -104,17 +105,17 @@ namespace SPGen2010.Components.Configures
         /// <summary>
         /// load generators from assembly
         /// </summary>
-        public static void InitComponents(Assembly a, ref List<IConfigures> gens)
+        public static void InitComponents(Assembly a, ref List<IConfigure> gens)
 		{
-            string interfacename = typeof(IConfigures).FullName;
+            string interfacename = typeof(IConfigure).FullName;
 			Type[] types = a.GetTypes();
 			foreach (Type t in types)
 			{
 				List<Type> interfaces = new List<Type>(t.GetInterfaces());
 				if (interfaces.Exists(delegate(Type type) { return type.FullName == interfacename; }))
 				{
-                    IConfigures igc = (IConfigures)a.CreateInstance(t.FullName);
-                    if (igc.Properties.ContainsKey(ConfigureProperties.IsEnabled) && (bool)igc.Properties[ConfigureProperties.IsEnabled] == false) continue;
+                    IConfigure igc = (IConfigure)a.CreateInstance(t.FullName);
+                    if (igc.Properties.ContainsKey(GenProperties.IsEnabled) && (bool)igc.Properties[GenProperties.IsEnabled] == false) continue;
 					gens.Add(igc);
 				}
 			}

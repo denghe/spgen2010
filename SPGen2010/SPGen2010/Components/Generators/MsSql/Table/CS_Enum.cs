@@ -25,8 +25,8 @@ namespace SPGen2010.Components.Generators.MsSql.Table
                 if (_properties == null)
                 {
                     this._properties = new Dictionary<GenProperties, object>();
-                    this._properties.Add(GenProperties.Name, "CS/Enum/1");
-                    this._properties.Add(GenProperties.Caption, "CS：将表的数据转为 Enum");
+                    this._properties.Add(GenProperties.Name, "C#/Enum/1");
+                    this._properties.Add(GenProperties.Caption, "C#：将表的数据转为 Enum");
                     this._properties.Add(GenProperties.Group, "C#");
                     this._properties.Add(GenProperties.Tips, "");
                 }
