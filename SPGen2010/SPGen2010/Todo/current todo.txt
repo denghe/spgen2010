@@ -39,8 +39,6 @@ todo:
 
 Merge
 Distinct
-Count
-Exists
 Sum
 Avg
 ...
