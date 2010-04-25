@@ -35,18 +35,18 @@ namespace SPGen2010.Components.Controls
         {
             this.UserDefinedFunctions = o;
 
-            var gens = WMain.Instance.Configures.FindAll(a =>
+            var cfgs = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.UserDefinedFunctions) > 0 && a.Validate(o);
             });
 
-            foreach (var gen in gens)
+            foreach (var cfg in cfgs)
             {
                 _Configures_StackPanel.Children.Add(new Label
                 {
-                    Content = (string)gen.Properties[GenProperties.Caption]
+                    Content = (string)cfg.Properties[GenProperties.Caption]
                     ,
-                    ToolTip = (string)gen.Properties[GenProperties.Tips]
+                    ToolTip = (string)cfg.Properties[GenProperties.Tips]
                 });
             }
         }

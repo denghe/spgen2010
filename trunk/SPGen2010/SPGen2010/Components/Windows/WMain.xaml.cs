@@ -79,6 +79,10 @@ namespace SPGen2010.Components.Windows
             GeneratorLoader.InitComponents(ref gens);
             Generators = gens;
 
+            var cfgs = new List<IConfigure>();
+            ConfigureLoader.InitComponents(ref cfgs);
+            Configures = cfgs;
+
             PopupWindow_ConnectorBrowser();
         }
 
