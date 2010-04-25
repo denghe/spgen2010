@@ -14,33 +14,34 @@ using System.Windows.Shapes;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Windows;
+using SPGen2010.Components.Configures;
 using SPGen2010.Components.Generators;
 
 namespace SPGen2010.Components.Controls
 {
     /// <summary>
-    /// Interaction logic for Actions_StoredProcedures.xaml
+    /// Interaction logic for Configures_StoredProcedures.xaml
     /// </summary>
-    public partial class Actions_StoredProcedures : UserControl
+    public partial class Configures_StoredProcedures : UserControl
     {
-        public Actions_StoredProcedures()
+        public Configures_StoredProcedures()
         {
             InitializeComponent();
         }
 
-        public Actions_StoredProcedures(Oe.Folder_StoredProcedures o)
+        public Configures_StoredProcedures(Oe.Folder_StoredProcedures o)
             : this()
         {
             this.StoredProcedures = o;
 
-            var gens = WMain.Instance.Generators.FindAll(a =>
+            var gens = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.StoredProcedures) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
             {
-                _Actions_StackPanel.Children.Add(new Label
+                _Configures_StackPanel.Children.Add(new Label
                 {
                     Content = (string)gen.Properties[GenProperties.Caption]
                     ,

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SPGen2010.Components.Controls.Actions_Server"
+﻿<UserControl x:Class="SPGen2010.Components.Controls.Configures_Server"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,9 +11,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Foreground="White" Background="#3f5478">Actions</Label>
+        <Label Grid.Row="0" Foreground="White" Background="#3f5478">Configures</Label>
         
-        <StackPanel Grid.Row="1" Background="White" Name="_Actions_StackPanel">
+        <StackPanel Grid.Row="1" Background="White" Name="_Configures_StackPanel">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="TextElement.FontFamily" Value="SimSun" />
