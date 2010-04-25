@@ -4,30 +4,6 @@
 
 
 
-
-
-
-
-
-生成物命名空间样本：
-
-
-
-namespace DAL
-namespace DAL.Tables
-namespace DAL.Views
-namespace DAL.UserDefinedFunctions
-namespace DAL.UserDefinedTableTypes
-namespace DAL.StoredProcedures
-
-DAL. ... .dbo.Xxxxx.MethodName
-
-DAL.Schemas (enum)
-
-
-
-
-
 存储过程执行结果结构规划：
 
 必然返回部分：
@@ -96,18 +72,18 @@ return 1;
 返回值结构描述：
 
 <ResultConfig>
-	<ResultOption HasReturnValue="True" HasPrintMessages="True" HasRaiserrorMessages="True" HasResultSet="True" />
+	<ResultOption HasReturnValue="True" HasPrintMessages="False" HasRaiserrorMessages="False" HasResultSet="True" />
 	<ResultSet>
 		<Result Index="1" Name="Total" 			Category="Scalar" 		Type="int" 		Description="总行数" />
 		<Result Index="2" Name="PageSize" 		Category="Scalar" 		Type="int" 		Description="每页行数" />
 		<Result Index="3" Name="Rows" 			Category="TableRows" 	Schema="dbo" 	Name="xxx" 			Description="xxx表当前页的数据" />
-		<Result Index="4" Name="ReferenceRows" 	Category="CustomRow" 	Description="附带的相关明细数据" />
+		<Result Index="4" Name="ReferencedData"	Category="CustomRow" 	Description="附带的相关明细数据" />
 	</ResultSet>
-	<Custom_ReferenceRows>
+	<Custom_ReferencedData>
 		<Column Index="1" Name="ID" 	SqlDataType="int" 		Nullable="True" Description="编号" />
 		<Column Index="2" Name="Name" 	SqlDataType="string" 	Nullable="True" MaximumLength="50" 		Description="名称" />
 		<Column Index="3" Name="Price" 	SqlDataType="decimal" 	Nullable="True" NumericPrecision="10" 	NumericScale="2" 	Description="价格" />
-	</Custom_ReferenceRows>
+	</Custom_ReferencedData>
 </ResultConfig>
 
 
@@ -134,16 +110,18 @@ class SPName
 	    /// Custom Select Statments
 	    /// </summary>
 		public ResultSet	ResultSet			{ get; set; }
-
+/*
 	    /// <summary>
 	    /// Print Messages
 	    /// </summary>
 		public string		PrintMessages		{ get; set; }
-
+*/
+/*
 	    /// <summary>
 	    /// Level: 1 - 10 Raiserrors
 	    /// </summary>
 		public string		RaiserrorMessages	{ get; set; }
+*/
 	}
 	class ResultSet
 	{
@@ -160,14 +138,14 @@ class SPName
 	    /// <summary>
 	    /// xxx表当前页的数据
 	    /// </summary>
-		public Tables.dbo.xxx 					Rows 			{ get; set; }
+		public List<Tables.dbo.xxx> 			Rows 			{ get; set; }
 
 	    /// <summary>
 	    /// 附带的相关明细数据
 	    /// </summary>
-		public List<CustomRow_ReferenceRows>	ReferenceRows	{ get; set; }
+		public Custom_ReferencedData			ReferencedData	{ get; set; }
 	}
-	class CustomRow_ReferenceRows
+	class Custom_ReferencedData
 	{
 	    /// <summary>
 	    /// 编号
