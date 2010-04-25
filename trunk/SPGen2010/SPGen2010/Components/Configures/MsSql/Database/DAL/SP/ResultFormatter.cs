@@ -51,6 +51,8 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 
         public void Execute(params Oe.NodeBase[] targetElements)
         {
+            var w = new WResultFormatter();
+            w.ShowDialog();
         }
 
     }
