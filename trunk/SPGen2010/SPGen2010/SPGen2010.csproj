@@ -259,7 +259,6 @@
     <Compile Include="Components\Generators\Extensions\MsSql.cs" />
     <Compile Include="Components\Generators\Extensions\CS.cs" />
     <Compile Include="Components\Generators\Extensions\Generic.cs" />
-    <Compile Include="Components\Generators\Extensions\MySmo.cs" />
     <Compile Include="Components\Generators\MsSql\Database\DAL.cs" />
     <Compile Include="Components\Generators\MsSql\Table\SP_Update_Simple.cs" />
     <Compile Include="Components\Generators\MsSql\Table\SP_Insert_Simple.cs" />

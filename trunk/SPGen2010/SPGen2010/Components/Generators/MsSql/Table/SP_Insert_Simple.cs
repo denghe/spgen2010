@@ -6,7 +6,6 @@ using System.Data;
 using SPGen2010.Components.Windows;
 using SPGen2010.Components.Generators.Extensions.Generic;
 using SPGen2010.Components.Generators.Extensions.MsSql;
-using SPGen2010.Components.Generators.Extensions.MySmo;
 
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using MySmo = SPGen2010.Components.Modules.MySmo;
