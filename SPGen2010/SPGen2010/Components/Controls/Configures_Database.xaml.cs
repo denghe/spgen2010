@@ -36,20 +36,20 @@ namespace SPGen2010.Components.Controls
         {
             this.O = o;
 
-            var gens = WMain.Instance.Configures.FindAll(a =>
+            var cfgs = WMain.Instance.Configures.FindAll(a =>
             {
                 return (int)(a.TargetSqlElementType & SqlElementTypes.Database) > 0 && a.Validate(o);
             });
 
-            foreach (var gen in gens)
+            foreach (var cfg in cfgs)
             {
                 var c = new Label
                 {
-                    Content = (string)gen.Properties[GenProperties.Caption]
+                    Content = (string)cfg.Properties[GenProperties.Caption]
                     ,
-                    ToolTip = (string)gen.Properties[GenProperties.Tips]
+                    ToolTip = (string)cfg.Properties[GenProperties.Tips]
                     ,
-                    Tag = gen
+                    Tag = cfg
                 };
                 c.MouseDown += new MouseButtonEventHandler(c_MouseDown);
                 _Configures_StackPanel.Children.Add(c);
