@@ -71,20 +71,20 @@ return 1;
 
 返回值结构描述：
 
-<ResultConfig>
-	<ResultOption HasReturnValue="True" HasPrintMessages="False" HasRaiserrorMessages="False" HasResultSet="True" />
-	<ResultSet>
+<Result>
+	<Option HasReturnValue="True" HasPrintMessages="False" HasRaiserrorMessages="False" HasResultSet="True" />
+	<Sets>
 		<Result Index="1" Name="Total" 			Category="Scalar" 		Type="int" 		Description="总行数" />
 		<Result Index="2" Name="PageSize" 		Category="Scalar" 		Type="int" 		Description="每页行数" />
 		<Result Index="3" Name="Rows" 			Category="TableRows" 	Schema="dbo" 	Name="xxx" 			Description="xxx表当前页的数据" />
 		<Result Index="4" Name="ReferencedData"	Category="CustomRow" 	Description="附带的相关明细数据" />
-	</ResultSet>
-	<Custom_ReferencedData>
+	</Sets>
+	<CustomRow Name="ReferencedData">
 		<Column Index="1" Name="ID" 	SqlDataType="int" 		Nullable="True" Description="编号" />
 		<Column Index="2" Name="Name" 	SqlDataType="string" 	Nullable="True" MaximumLength="50" 		Description="名称" />
 		<Column Index="3" Name="Price" 	SqlDataType="decimal" 	Nullable="True" NumericPrecision="10" 	NumericScale="2" 	Description="价格" />
-	</Custom_ReferencedData>
-</ResultConfig>
+	</CustomRow>
+</Result>
 
 
 C# 结构描述相关生成物大至长像：
