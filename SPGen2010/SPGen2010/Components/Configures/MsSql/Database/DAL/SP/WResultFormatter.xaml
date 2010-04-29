@@ -20,15 +20,15 @@
         <TextBox Height="442" HorizontalAlignment="Left" Margin="12,26,0,0" Name="textBox1" VerticalAlignment="Top" Width="376"
                  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
         <Label Content="Stored Procedure Script:" Height="28" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" Width="163" Margin="9,0,0,0" />
-        <RadioButton Content="None" Grid.Column="1" Height="16" HorizontalAlignment="Left" Margin="18,91,0,0" Name="radioButton1" VerticalAlignment="Top" GroupName="ST" IsChecked="True" />
+        <RadioButton Content="None" Grid.Column="1" Height="16" HorizontalAlignment="Right" Margin="0,113,154,0" Name="radioButton1" VerticalAlignment="Top" GroupName="ST" IsChecked="True" />
         <RadioButton Height="24" HorizontalAlignment="Right" Margin="0,87,16,0" Name="radioButton2" VerticalAlignment="Top" Grid.Column="1" GroupName="ST">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Scalar. Data type:" Height="28" Margin="0,-1,0,0" />
                 <ComboBox Name="comboBox1" Width="66" Height="23" />
             </StackPanel>
         </RadioButton>
-        <RadioButton Content="Multi/Custom Data Set(s):" Height="16" HorizontalAlignment="Left" Margin="18,113,0,0" Name="radioButton3" VerticalAlignment="Top" Grid.Column="1" GroupName="ST" />
+        <RadioButton Content="Multi/Custom Select(s):" Height="16" HorizontalAlignment="Left" Margin="18,113,0,0" Name="radioButton3" VerticalAlignment="Top" Grid.Column="1" GroupName="ST" />
         <Label Content="Select type:" Height="28" HorizontalAlignment="Left" Margin="12,65,0,0" Name="label3" VerticalAlignment="Top" Width="77" Grid.Column="1" />
-
+        <RadioButton Content="DbSet" GroupName="ST" Height="16" HorizontalAlignment="Left" Margin="18,91,0,0" Name="radioButton4" VerticalAlignment="Top" Grid.Column="1" IsChecked="True" />
     </Grid>
 </Window>
