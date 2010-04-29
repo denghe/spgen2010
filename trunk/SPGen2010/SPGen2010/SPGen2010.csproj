@@ -163,6 +163,9 @@
     <Compile Include="Components\Configures\MsSql\Database\DAL\SP\WResultFormatter.xaml.cs">
       <DependentUpon>WResultFormatter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Configures\MsSql\Database\DAL\SP\WSelectType.xaml.cs">
+      <DependentUpon>WSelectType.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Connectors\ConfigHandler.cs" />
     <Compile Include="Components\Connectors\WConnectorBrowser.xaml.cs">
       <DependentUpon>WConnectorBrowser.xaml</DependentUpon>
@@ -430,6 +433,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\Configures\MsSql\Database\DAL\SP\WResultFormatter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Configures\MsSql\Database\DAL\SP\WSelectType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
