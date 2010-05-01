@@ -38,7 +38,7 @@ namespace SPGen2010.Components.Controls
 
             var cfgs = WMain.Instance.Configures.FindAll(a =>
             {
-                return (int)(a.TargetSqlElementType & SqlElementTypes.Table) > 0 && a.Validate(o);
+                return (int)(a.TargetSqlElementType & SqlElementTypes.UserDefinedFunction_Table) > 0 && a.Validate(o);
             });
 
             foreach (var cfg in cfgs)
