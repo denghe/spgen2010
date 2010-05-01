@@ -37,7 +37,7 @@ namespace SPGen2010.Components.Controls
 
             var gens = WMain.Instance.Generators.FindAll(a =>
             {
-                return (int)(a.TargetSqlElementType & SqlElementTypes.Table) > 0 && a.Validate(o);
+                return (int)(a.TargetSqlElementType & SqlElementTypes.Schema) > 0 && a.Validate(o);
             });
 
             foreach (var gen in gens)
