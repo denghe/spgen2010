@@ -21,6 +21,50 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
         public WResultFormatter()
         {
             InitializeComponent();
+
+            _ResultType_DbSet_RadioButton.Checked+=new RoutedEventHandler(_ResultType_DbSet_RadioButton_Checked);
+            _ResultType_Custom_RadioButton.Checked+=new RoutedEventHandler(_ResultType_Custom_RadioButton_Checked);
+            _SelectType_None_RadioButton.Checked +=new RoutedEventHandler(_SelectType_None_RadioButton_Checked);
+            _SelectType_Scalar_RadioButton.Checked+=new RoutedEventHandler(_SelectType_Scalar_RadioButton_Checked);
+            _SelectType_Custom_RadioButton.Checked+=new RoutedEventHandler(_SelectType_Custom_RadioButton_Checked);
+
+            _ResultType_DbSet_RadioButton_Checked();
+            _SelectType_None_RadioButton_Checked();
         }
+
+        private void _ResultType_DbSet_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
+        {
+            _ResultType_Custom_GroupBox.IsEnabled = false;
+        }
+
+        private void _ResultType_Custom_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
+        {
+            _ResultType_Custom_GroupBox.IsEnabled = true;
+        }
+
+        private void _SelectType_None_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
+        {
+            _SelectType_Custom_DataGrid.IsEnabled =
+                _New_Button.IsEnabled =
+                _Edit_Button.IsEnabled =
+                _Delete_Button.IsEnabled = false;
+        }
+
+        private void _SelectType_Scalar_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
+        {
+            _SelectType_Custom_DataGrid.IsEnabled =
+                _New_Button.IsEnabled =
+                _Edit_Button.IsEnabled =
+                _Delete_Button.IsEnabled = false;
+        }
+
+        private void _SelectType_Custom_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
+        {
+            _SelectType_Custom_DataGrid.IsEnabled =
+                _New_Button.IsEnabled =
+                _Edit_Button.IsEnabled =
+                _Delete_Button.IsEnabled = true;
+        }
+
     }
 }
