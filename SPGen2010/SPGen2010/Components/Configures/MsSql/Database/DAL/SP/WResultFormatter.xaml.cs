@@ -22,14 +22,22 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
         {
             InitializeComponent();
 
-            _ResultType_DbSet_RadioButton.Checked+=new RoutedEventHandler(_ResultType_DbSet_RadioButton_Checked);
-            _ResultType_Custom_RadioButton.Checked+=new RoutedEventHandler(_ResultType_Custom_RadioButton_Checked);
-            _SelectType_None_RadioButton.Checked +=new RoutedEventHandler(_SelectType_None_RadioButton_Checked);
-            _SelectType_Scalar_RadioButton.Checked+=new RoutedEventHandler(_SelectType_Scalar_RadioButton_Checked);
-            _SelectType_Custom_RadioButton.Checked+=new RoutedEventHandler(_SelectType_Custom_RadioButton_Checked);
+            this.Loaded += new RoutedEventHandler(WResultFormatter_Loaded);
+
+            _ResultType_DbSet_RadioButton.Checked += new RoutedEventHandler(_ResultType_DbSet_RadioButton_Checked);
+            _ResultType_Custom_RadioButton.Checked += new RoutedEventHandler(_ResultType_Custom_RadioButton_Checked);
+            _SelectType_None_RadioButton.Checked += new RoutedEventHandler(_SelectType_None_RadioButton_Checked);
+            _SelectType_Scalar_RadioButton.Checked += new RoutedEventHandler(_SelectType_Scalar_RadioButton_Checked);
+            _SelectType_Custom_RadioButton.Checked += new RoutedEventHandler(_SelectType_Custom_RadioButton_Checked);
+        }
+
+        void WResultFormatter_Loaded(object sender, RoutedEventArgs e)
+        {
+            // todo: restore current settings
 
             _ResultType_DbSet_RadioButton_Checked();
             _SelectType_None_RadioButton_Checked();
+            _SelectType_Scalar_DataType_ComboBox.SelectedIndex = 0;
         }
 
         private void _ResultType_DbSet_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
@@ -47,7 +55,8 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
             _SelectType_Custom_DataGrid.IsEnabled =
                 _New_Button.IsEnabled =
                 _Edit_Button.IsEnabled =
-                _Delete_Button.IsEnabled = false;
+                _Delete_Button.IsEnabled =
+                _SelectType_Scalar_StackPanel.IsEnabled = false;
         }
 
         private void _SelectType_Scalar_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
@@ -56,6 +65,7 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
                 _New_Button.IsEnabled =
                 _Edit_Button.IsEnabled =
                 _Delete_Button.IsEnabled = false;
+            _SelectType_Scalar_StackPanel.IsEnabled = true;
         }
 
         private void _SelectType_Custom_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
@@ -64,6 +74,27 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
                 _New_Button.IsEnabled =
                 _Edit_Button.IsEnabled =
                 _Delete_Button.IsEnabled = true;
+            _SelectType_Scalar_StackPanel.IsEnabled = false;
+        }
+
+        private void _New_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Edit_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Delete_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(_SelectType_Scalar_DataType_ComboBox.SelectedItem.ToString());
         }
 
     }
