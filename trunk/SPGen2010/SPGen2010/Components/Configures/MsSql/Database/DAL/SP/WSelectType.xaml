@@ -1,8 +1,59 @@
 ﻿<Window x:Class="SPGen2010.Components.Configures.MsSql.Database.DAL.SP.WSelectType"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WSelectType" Height="300" Width="300">
-    <Grid>
-        
+        mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Title="Single Result Select:">
+    <Window.Resources>
+        <XmlDataProvider x:Key="DataTypes">
+            <x:XData>
+                <DataTypes xmlns="">
+                    <DataType Name="object" Nullable="True"  Description="" />
+                    <DataType Name="bool" Description="" />
+                    <DataType Name="byte" Description="" />
+                    <DataType Name="byte[]" Nullable="True" Description="" />
+                    <DataType Name="datetime" Description="" />
+                    <DataType Name="decimal" Description="" />
+                    <DataType Name="double" Description="" />
+                    <DataType Name="float" Description="" />
+                    <DataType Name="guid" Description="" />
+                    <DataType Name="int" Description="" />
+                    <DataType Name="long" Description="" />
+                    <DataType Name="short" Description="" />
+                    <DataType Name="string" Nullable="True" Description="" />
+                </DataTypes>
+            </x:XData>
+        </XmlDataProvider>
+    </Window.Resources>
+    <Grid Height="300" Width="600">
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="10,10,0,0" Name="_SelectType_Scalar_RadioButton" VerticalAlignment="Top">
+            <StackPanel Name="_SelectType_Scalar_StackPanel" Orientation="Horizontal">
+                <Label Content="Scalar. Data type:" Height="28" Margin="0,-1,0,0" />
+                <ComboBox DisplayMemberPath="@Name" Height="23" IsReadOnly="True" ItemsSource="{Binding Source={StaticResource DataTypes}, XPath=DataTypes/DataType}" Name="_SelectType_Scalar_DataType_ComboBox" />
+                <CheckBox Content="Nullable" Margin="5,4,0,0" />
+            </StackPanel>
+        </RadioButton>
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="10,43,0,0" Name="_SelectType_Table_RadioButton" VerticalAlignment="Top">
+            <StackPanel Name="_SelectType_Table_StackPanel" Orientation="Horizontal">
+                <Label Content="Table:" Height="28" Margin="0,-1,0,0" Width="64" />
+                <CheckBox Content="SingleLine" Margin="0,4,0,0" Width="80" Name="_SelectType_Table_CheckBox" />
+                <ComboBox Height="23" Width="416" IsReadOnly="True" Name="_SelectType_Table_ComboBox" />
+            </StackPanel>
+        </RadioButton>
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="10,76,0,0" Name="_SelectType_View_RadioButton" VerticalAlignment="Top">
+            <StackPanel Name="_SelectType_View_StackPanel" Orientation="Horizontal">
+                <Label Content="Table:" Height="28" Margin="0,-1,0,0" Width="64" />
+                <CheckBox Content="SingleLine" Margin="0,4,0,0" Width="80" Name="_SelectType_View_CheckBox" />
+                <ComboBox Height="23" Width="416" IsReadOnly="True" Name="_SelectType_View_ComboBox" />
+            </StackPanel>
+        </RadioButton>
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="10,109,0,0" Name="_SelectType_UserDefinedTableType_RadioButton" VerticalAlignment="Top">
+            <StackPanel Name="_SelectType_UserDefinedTableType_StackPanel" Orientation="Horizontal">
+                <Label Content="Table:" Height="28" Margin="0,-1,0,0" Width="64" />
+                <CheckBox Content="SingleLine" Margin="0,4,0,0" Width="80" Name="_SelectType_UserDefinedTableType_CheckBox" />
+                <ComboBox Height="23" Width="416" IsReadOnly="True" Name="_SelectType_UserDefinedTableType_ComboBox" />
+            </StackPanel>
+        </RadioButton>
     </Grid>
 </Window>
