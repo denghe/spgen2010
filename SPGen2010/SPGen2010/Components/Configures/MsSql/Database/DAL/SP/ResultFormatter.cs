@@ -51,6 +51,7 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 
         public void Execute(params Oe.NodeBase[] targetElements)
         {
+            // todo: send current sp & database to window
             var w = new WResultFormatter();
             w.ShowDialog();
         }

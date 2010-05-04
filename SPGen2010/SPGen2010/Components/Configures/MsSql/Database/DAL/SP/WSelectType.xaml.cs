@@ -35,6 +35,11 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
             _New_Button.Click += new RoutedEventHandler(_Add_Button_Click);
             _Delete_Button.Click += new RoutedEventHandler(_Remove_Button_Click);
             _Submit_Button.Click += new RoutedEventHandler(_Submit_Button_Click);
+
+            // todo: fill data
+
+            _SelectType_Scalar_DataType_ComboBox.SelectedIndex = 0;
+            _SelectType_DbTable_RadioButton_Checked();
         }
 
         private void DisableAll()

@@ -32,11 +32,11 @@
     </Window.Resources>
     <Grid Height="480" Width="640">
         <Label Content="Property Name:" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label111" VerticalAlignment="Top" />
-        <Label Content="Description:" HorizontalAlignment="Left" Margin="24,42,0,0" Name="label11" VerticalAlignment="Top" />
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="24,40,0,0" Name="label11" VerticalAlignment="Top" />
         <Label Content="Data Type:" HorizontalAlignment="Left" Margin="36,95,0,0" Name="label1" VerticalAlignment="Top" />
-        <TextBox AcceptsReturn="True" Height="46" Margin="108,44,12,0" Name="_Script_TextBox" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" />
-        <TextBox AcceptsReturn="True" Margin="108,16,0,0" Name="_Script1_TextBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="195" />
-        <RadioButton IsChecked="True" GroupName="ST" Height="24" HorizontalAlignment="Right" Margin="0,97,463,0" Name="_SelectType_DbTable_RadioButton" VerticalAlignment="Top">
+        <TextBox AcceptsReturn="True" Height="46" Margin="108,42,12,0" Name="_Script_TextBox" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" />
+        <TextBox AcceptsReturn="True" Margin="108,14,0,0" Name="_Script1_TextBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="268" />
+        <RadioButton IsChecked="True" GroupName="ST" Height="24" HorizontalAlignment="Right" Margin="0,97,464,0" Name="_SelectType_DbTable_RadioButton" VerticalAlignment="Top">
             <StackPanel Name="_SelectType_DbTable_StackPanel" Orientation="Horizontal">
                 <Label Content="DbTable" Height="28" Margin="0,0,0,0" />
             </StackPanel>
@@ -44,7 +44,9 @@
         <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Right" Margin="0,97,12,0" Name="_SelectType_Scalar_RadioButton" VerticalAlignment="Top">
             <StackPanel Name="_SelectType_Scalar_StackPanel" Orientation="Horizontal">
                 <Label Content="Scalar. Data type:" Height="28" Margin="0,0,0,0" />
-                <ComboBox DisplayMemberPath="@Name" Height="23" IsReadOnly="True" ItemsSource="{Binding Source={StaticResource DataTypes}, XPath=DataTypes/DataType}" Name="_SelectType_Scalar_DataType_ComboBox" />
+                <ComboBox DisplayMemberPath="@Name" Height="23" IsReadOnly="True"
+                          ItemsSource="{Binding Source={StaticResource DataTypes}, XPath=DataTypes/DataType}"
+                          Name="_SelectType_Scalar_DataType_ComboBox" />
                 <CheckBox Name="_SelectType_Scalar_CheckBox" Content="Nullable" Margin="5,5,0,0" />
             </StackPanel>
         </RadioButton>

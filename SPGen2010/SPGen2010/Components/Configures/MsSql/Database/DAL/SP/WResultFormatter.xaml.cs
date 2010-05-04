@@ -79,7 +79,9 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 
         private void _New_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            var w = new WSelectType();
+            w.ShowDialog();
+            // todo
         }
 
         private void _Edit_Button_Click(object sender, RoutedEventArgs e)
