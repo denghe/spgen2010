@@ -30,53 +30,54 @@
             </x:XData>
         </XmlDataProvider>
     </Window.Resources>
-    <Grid Height="320" Width="600">
+    <Grid Height="480" Width="640">
         <Label Content="Property Name:" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label111" VerticalAlignment="Top" />
         <Label Content="Description:" HorizontalAlignment="Left" Margin="24,42,0,0" Name="label11" VerticalAlignment="Top" />
         <Label Content="Data Type:" HorizontalAlignment="Left" Margin="36,95,0,0" Name="label1" VerticalAlignment="Top" />
         <TextBox AcceptsReturn="True" Height="46" Margin="108,44,12,0" Name="_Script_TextBox" TextWrapping="Wrap" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" />
-        <TextBox AcceptsReturn="True" Margin="108,16,12,0" Name="_Script1_TextBox" VerticalAlignment="Top" />
-        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,96,0,0" Name="_SelectType_Scalar_RadioButton" VerticalAlignment="Top">
+        <TextBox AcceptsReturn="True" Margin="108,16,0,0" Name="_Script1_TextBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="195" />
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Right" Margin="0,97,12,0" Name="_SelectType_Scalar_RadioButton" VerticalAlignment="Top" Checked="_SelectType_Scalar_RadioButton_Checked">
             <StackPanel Name="_SelectType_Scalar_StackPanel" Orientation="Horizontal">
                 <Label Content="Scalar. Data type:" Height="28" Margin="0,0,0,0" />
                 <ComboBox DisplayMemberPath="@Name" Height="23" IsReadOnly="True" ItemsSource="{Binding Source={StaticResource DataTypes}, XPath=DataTypes/DataType}" Name="_SelectType_Scalar_DataType_ComboBox" />
                 <CheckBox Content="Nullable" Margin="5,5,0,0" />
             </StackPanel>
         </RadioButton>
-        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,164,0,0" Name="_SelectType_Table_RadioButton" VerticalAlignment="Top">
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,130,0,0" Name="_SelectType_Table_RadioButton" VerticalAlignment="Top" Checked="_SelectType_Table_RadioButton_Checked">
             <StackPanel Name="_SelectType_Table_StackPanel" Orientation="Horizontal">
                 <Label Content="Table:" Height="28" Margin="0,0,0,0" />
                 <ComboBox Height="23" MaxWidth="500" IsReadOnly="True" Name="_SelectType_Table_ComboBox" />
                 <CheckBox Content="SingleLine" Margin="5,5,0,0" Width="80" Name="_SelectType_Table_CheckBox" />
             </StackPanel>
         </RadioButton>
-        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,197,0,0" Name="_SelectType_View_RadioButton" VerticalAlignment="Top">
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,163,0,0" Name="_SelectType_View_RadioButton" VerticalAlignment="Top" Checked="_SelectType_View_RadioButton_Checked">
             <StackPanel Name="_SelectType_View_StackPanel" Orientation="Horizontal">
                 <Label Content="View:" Height="28" Margin="0,0,0,0" />
                 <ComboBox Height="23" MaxWidth="500" IsReadOnly="True" Name="_SelectType_View_ComboBox" />
                 <CheckBox Content="SingleLine" Margin="5,5,0,0" Width="80" Name="_SelectType_View_CheckBox" />
             </StackPanel>
         </RadioButton>
-        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,230,0,0" Name="_SelectType_UserDefinedTableType_RadioButton" VerticalAlignment="Top">
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,196,0,0" Name="_SelectType_UserDefinedTableType_RadioButton" VerticalAlignment="Top" Checked="_SelectType_UserDefinedTableType_RadioButton_Checked">
             <StackPanel Name="_SelectType_UserDefinedTableType_StackPanel" Orientation="Horizontal">
                 <Label Content="User Defined Table Type:" Height="28" Margin="0,0,0,0" />
                 <ComboBox Height="23" MaxWidth="500" IsReadOnly="True" Name="_SelectType_UserDefinedTableType_ComboBox" />
                 <CheckBox Content="SingleLine" Margin="5,5,0,0" Width="80" Name="_SelectType_UserDefinedTableType_CheckBox" />
             </StackPanel>
         </RadioButton>
-        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,130,0,0" Name="_SelectType_DbTable_RadioButton" VerticalAlignment="Top">
+        <RadioButton IsChecked="True" GroupName="ST" Height="24" HorizontalAlignment="Right" Margin="0,97,463,0" Name="_SelectType_DbTable_RadioButton" VerticalAlignment="Top" Checked="_SelectType_DbTable_RadioButton_Checked">
             <StackPanel Name="_SelectType_DbTable_StackPanel" Orientation="Horizontal">
                 <Label Content="DbTable" Height="28" Margin="0,0,0,0" />
             </StackPanel>
         </RadioButton>
-        <RadioButton IsEnabled="False" GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,284,0,0" Name="_SelectType_Custom_RadioButton" VerticalAlignment="Top">
+        <RadioButton GroupName="ST" Height="24" HorizontalAlignment="Left" Margin="108,226,0,0" Name="_SelectType_Custom_RadioButton" VerticalAlignment="Top" Checked="_SelectType_Custom_RadioButton_Checked">
             <StackPanel Name="_SelectType_Custom_StackPanel" Orientation="Horizontal">
-                <Label Content="UserDefinedTable:" Height="28" Margin="0,0,0,0" />
-                <ComboBox Height="23" MaxWidth="500" IsReadOnly="True" Name="_SelectType_Custom_ComboBox" />
+                <Label Content="Custom Struct:" Height="28" Margin="0,0,0,0" />
                 <CheckBox Content="SingleLine" Margin="5,5,0,0" Width="80" Name="_SelectType_Custom_CheckBox" />
-                <Label Content=" ( TODO )" Height="28" Margin="0,0,0,0" />
             </StackPanel>
         </RadioButton>
-        <Button Content="_Submit" Width="71" Height="23" Margin="0,0,12,12" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <DataGrid AutoGenerateColumns="False" Margin="124,256,12,70" Name="dataGrid1" />
+        <Button Name="_Add_Button" Content="_Add" Height="23" HorizontalAlignment="Left" Margin="124,0,0,41" VerticalAlignment="Bottom" Width="46" Click="_Add_Button_Click" />
+        <Button Name="_Remove_Button" Content="_Remove" Height="23" HorizontalAlignment="Left" Margin="177,0,0,41" VerticalAlignment="Bottom" Width="59" Click="_Remove_Button_Click" />
+        <Button Name="_Submit_Button" Content="_Submit" Width="71" Height="23" Margin="0,0,12,12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="_Submit_Button_Click" />
     </Grid>
 </Window>

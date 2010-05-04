@@ -21,6 +21,57 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
         public WSelectType()
         {
             InitializeComponent();
+            this.Loaded += new RoutedEventHandler(WSelectType_Loaded);
+        }
+
+        void WSelectType_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void _SelectType_DbTable_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void _SelectType_Scalar_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _SelectType_Table_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _SelectType_View_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _SelectType_UserDefinedTableType_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _SelectType_Custom_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Add_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Remove_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _Submit_Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
