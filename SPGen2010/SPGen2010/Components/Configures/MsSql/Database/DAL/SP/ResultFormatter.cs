@@ -7,6 +7,9 @@ using System.Data;
 using Oe = SPGen2010.Components.Modules.ObjectExplorer;
 using SPGen2010.Components.Modules.MySmo;
 using SPGen2010.Components.Generators;
+using Smo = Microsoft.SqlServer.Management.Smo;
+using SPGen2010.Components.Windows;
+using System.Windows;
 
 namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 {
@@ -51,6 +54,13 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 
         public void Execute(params Oe.NodeBase[] targetElements)
         {
+            var smo_sp = (Smo.StoredProcedure)targetElements[0].Tag;
+            var oe_sp = (Oe.StoredProcedure)targetElements[0];
+            var mysmo_sp = WMain.Instance.MySmoProvider.GetStoredProcedure(oe_sp);
+
+            var ss = smo_sp.Script();
+            foreach (var s in ss)
+                MessageBox.Show(s.ToString());
             // todo: send current sp & database to window
             var w = new WResultFormatter();
             w.ShowDialog();
