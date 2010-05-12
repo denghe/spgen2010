@@ -5,7 +5,7 @@
     <Application.Resources>
         <!-- 通用的改字体为 SimSun 解决字体模糊问题 -->
         <Style x:Key="Font">
-            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextElement.FontFamily" Value="Arial, SimSun" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
         </Style>
 
@@ -24,7 +24,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+        <Style BasedOn="{StaticResource Font}" TargetType="{x:Type Paragraph}">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
         <!-- DataGrid -->
         <SolidColorBrush x:Key="WhiteGridLine" Color="#FFFFFFFF" />
         <SolidColorBrush x:Key="SmokeGridLine" Color="#FFF0F0F0" />

@@ -1,7 +1,9 @@
 ﻿<Window x:Class="SPGen2010.Components.Configures.MsSql.Database.DAL.SP.WResultFormatter"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        xmlns:my="clr-namespace:SPGen2010.Components.Controls"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
+        Height="562" Width="961"
         Title="Stored Procedure Receive Data Formatter Declare">
     <Window.Resources>
         <Style TargetType="Window">
@@ -28,23 +30,27 @@
             </x:XData>
         </XmlDataProvider>
     </Window.Resources>
-    <Grid Height="480" Width="800">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="388*" />
-            <ColumnDefinition Width="412*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="412" />
         </Grid.ColumnDefinitions>
-        <TextBox Height="442" HorizontalAlignment="Left" Margin="12,26,0,0" Name="_Script_TextBox" VerticalAlignment="Top" Width="376"
-                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
         <Label Content="Stored Procedure Script:" Height="28" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" Width="163" Margin="9,0,0,0" />
+        <RichTextBox Margin="12,26,0,12" Name="_Script_RichTextBox"
+                     IsReadOnly="True"
+                     ScrollViewer.CanContentScroll="True" 
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                     ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                     AcceptsReturn="True" />
         <Label Content="Result Type:" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="label4" VerticalAlignment="Top" Width="163" Grid.Column="1" />
         <RadioButton Content="DbSet" Height="16" HorizontalAlignment="Left" Margin="18,26,0,0" Name="_ResultType_DbSet_RadioButton" VerticalAlignment="Top" Grid.Column="1" GroupName="RT" IsChecked="True" />
         <RadioButton Content="Custom" Height="16" HorizontalAlignment="Left" Margin="106,26,0,0" Name="_ResultType_Custom_RadioButton" VerticalAlignment="Top" Grid.Column="1" GroupName="RT"  />
-        <GroupBox Grid.Column="1" Header="Custom Result Struct Declare" Height="391" HorizontalAlignment="Left" Margin="12,48,0,0" Name="_ResultType_Custom_GroupBox" VerticalAlignment="Top" Width="388">
+        <GroupBox Grid.Column="1" Header="Custom Result Struct Declare" Margin="12,48,12,39" Name="_ResultType_Custom_GroupBox">
             <Grid>
                 <CheckBox Content="Return Value (Int32)" Height="16" HorizontalAlignment="Left" Margin="6,6,0,0" Name="_ReturnValue_CheckBox" VerticalAlignment="Top" />
                 <CheckBox Content="Record Affected" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="_RecordAffected_checkBox" VerticalAlignment="Top" />
-                <CheckBox Content="Raise Errors" Height="16" HorizontalAlignment="Left" Margin="221,6,0,0" Name="_RaiseError_CheckBox" VerticalAlignment="Top" />
-                <CheckBox Content="Print Message" Height="16" HorizontalAlignment="Left" Margin="221,28,0,0" Name="_PrintMessage_CheckBox" VerticalAlignment="Top" />
+                <CheckBox Content="Raise Errors" Height="16" HorizontalAlignment="Right" Margin="0,6,66,0" Name="_RaiseError_CheckBox" VerticalAlignment="Top" />
+                <CheckBox Content="Print Message" Height="16" HorizontalAlignment="Right" Margin="0,28,60,0" Name="_PrintMessage_CheckBox" VerticalAlignment="Top" />
                 <Label Content="Select type:" Height="28" HorizontalAlignment="Left" Margin="0,50,0,0" Name="label3" VerticalAlignment="Top" Width="91" />
                 <RadioButton Content="None" Height="16" HorizontalAlignment="Left" Margin="6,79,0,0" Name="_SelectType_None_RadioButton" VerticalAlignment="Top" GroupName="ST" IsChecked="True" />
                 <RadioButton Height="24" HorizontalAlignment="Right" Margin="0,75,6,0" Name="_SelectType_Scalar_RadioButton" VerticalAlignment="Top" GroupName="ST">
@@ -63,6 +69,6 @@
                 <Button Content="_Delete" Height="23" HorizontalAlignment="Left" Margin="122,0,0,6" Name="_Delete_Button" VerticalAlignment="Bottom" Width="61" Click="_Delete_Button_Click" />
             </Grid>
         </GroupBox>
-        <Button Grid.Column="1" Content="_Save" Height="23" HorizontalAlignment="Right" Margin="0,445,12,0" Name="_Save_Button" VerticalAlignment="Top" Width="55" Click="_Save_Button_Click" />
+        <Button Grid.Column="1" Content="_Save" HorizontalAlignment="Right" Margin="0,0,13,10" Name="_Save_Button" Width="55" Click="_Save_Button_Click" Height="23" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

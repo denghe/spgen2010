@@ -58,13 +58,15 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
             var oe_sp = (Oe.StoredProcedure)targetElements[0];
             var mysmo_sp = WMain.Instance.MySmoProvider.GetStoredProcedure(oe_sp);
 
+            // 取脚本并拼接
+            var sb = new StringBuilder();
             var ss = smo_sp.Script();
-            foreach (var s in ss)
-                MessageBox.Show(s.ToString());
+            foreach (var s in ss) sb.Append(s + Environment.NewLine + Environment.NewLine);
             // todo: send current sp & database to window
-            var w = new WResultFormatter();
+            var w = new WResultFormatter(sb.ToString());
             w.ShowDialog();
         }
 
     }
+
 }
