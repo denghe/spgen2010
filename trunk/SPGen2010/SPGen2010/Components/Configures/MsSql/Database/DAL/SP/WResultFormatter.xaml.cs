@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using System.Diagnostics;
 
 namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 {
@@ -31,6 +33,17 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
             _SelectType_Custom_RadioButton.Checked += new RoutedEventHandler(_SelectType_Custom_RadioButton_Checked);
         }
 
+
+        // todo: get/set mysmo.ExtendedProperties
+        public WResultFormatter(string script, bool isWrapLine = true)
+            : this()
+        {
+            var myFlowDoc = new FlowDocument();
+            if(!isWrapLine)myFlowDoc.PageWidth = this.Width + 2000.0d;
+            myFlowDoc.Blocks.Add(new Paragraph(new Run(script)) { FontSize = 13.0d });
+            _Script_RichTextBox.Document = myFlowDoc;
+        }
+
         void WResultFormatter_Loaded(object sender, RoutedEventArgs e)
         {
             // todo: restore current settings
@@ -39,6 +52,7 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
             _SelectType_None_RadioButton_Checked();
             _SelectType_Scalar_DataType_ComboBox.SelectedIndex = 0;
         }
+
 
         private void _ResultType_DbSet_RadioButton_Checked(object sender = null, RoutedEventArgs e = null)
         {
@@ -96,7 +110,7 @@ namespace SPGen2010.Components.Configures.MsSql.Database.DAL.SP
 
         private void _Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(_SelectType_Scalar_DataType_ComboBox.SelectedItem.ToString());
+            //MessageBox.Show(_SelectType_Scalar_DataType_ComboBox.SelectedItem.ToString());
         }
 
     }
