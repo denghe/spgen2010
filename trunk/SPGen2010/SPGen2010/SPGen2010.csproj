@@ -310,9 +310,6 @@
       <DependentUpon>Details_Server.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Controls\PasswordBoxHelper.cs" />
-    <Compile Include="Components\Controls\SyntaxRichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Components\Controls\TreeViewExtensions.cs" />
     <Compile Include="Components\Controls\UIHelpers.cs" />
     <Compile Include="Components\Controls\UIUtility.cs" />
