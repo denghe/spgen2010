@@ -201,7 +201,9 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
             {
                 sb.Clear();
                 sb.Append(@"using System;
-using System.Collections.Generic;
+using System.Collections.Generic;");
+                if (db.UserDefinedTableTypes.Count > 0)
+                    sb.Append(@"
 using UDTT = DAL.Database.UserDefinedTableTypes;
 ");
                 var schemas = from func in db.UserDefinedFunctions
@@ -287,7 +289,9 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
             {
                 sb.Clear();
                 sb.Append(@"using System;
-using System.Collections.Generic;
+using System.Collections.Generic;");
+                if (db.UserDefinedTableTypes.Count > 0)
+                    sb.Append(@"
 using UDTT = DAL.Database.UserDefinedTableTypes;
 ");
                 var schemas = from func in db.UserDefinedFunctions
@@ -360,8 +364,11 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
             {
                 sb.Clear();
                 sb.Append(@"using System;
-using System.Collections.Generic;
-using UDTT = DAL.Database.UserDefinedTableTypes;
+using System.Collections.Generic;");
+                if (db.UserDefinedTableTypes.Count > 0)
+                    sb.Append(@"
+using UDTT = DAL.Database.UserDefinedTableTypes;");
+                sb.Append(@"
 using SqlLib;
 ");
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
@@ -2345,8 +2352,11 @@ namespace DAL.Database.UserDefinedFunctions." + sn + @"
                 sb.Clear();
                 sb.Append(@"using System;
 using System.Data;
-using System.Collections.Generic;
-using UDTT = DAL.Database.UserDefinedTableTypes;
+using System.Collections.Generic;");
+                if (db.UserDefinedTableTypes.Count > 0)
+                    sb.Append(@"
+using UDTT = DAL.Database.UserDefinedTableTypes;");
+                sb.Append(@"
 using SqlLib;
 ");
                 var schemas = from sp in db.StoredProcedures group sp by sp.Schema;
