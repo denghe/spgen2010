@@ -1121,7 +1121,7 @@ SELECT * FROM @t;"");
                                 #region Implement
 
                                 sb.Append(@"
-		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh = null, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@""");
@@ -1268,7 +1268,7 @@ OUTPUT "");
                                 #region Implement
 
                                 sb.Append(@"
-		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh = null, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(" + tn + @" o, Expressions.Tables." + sn + @"." + tn + @" eh, ColumnEnums.Tables." + sn + @"." + tn + @" ucs = null, ColumnEnums.Tables." + sn + @"." + tn + @" fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder();
