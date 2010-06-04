@@ -1684,6 +1684,16 @@ namespace DAL.Database.Tables
 
 		public static int Update(this Database.Tables." + sn + "." + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
+            if (eh == null) eh = new Expressions.Tables." + sn + "." + tn + @".Handler(a => ");
+                        var pks = t.GetPrimaryKeyColumns();
+                        for (int i = 0; i < pks.Count; i++)
+                        {
+                            var c = pks[i];
+                            var cn = c.GetEscapeName();
+                            if (i > 0) sb.Append(@" & ");
+                            sb.Append(@"a." + cn + " == o." + cn);
+                        }
+                        sb.Append(@");
             return Database.Tables." + sn + "." + tn + @".Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}");
 
