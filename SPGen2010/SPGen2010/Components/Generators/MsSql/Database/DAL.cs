@@ -1523,8 +1523,8 @@ DELETE FROM " + dbtn + @""";");
 
         public static int Count(
             Expressions.Tables." + sn + @"." + tn + @" where,
-            ColumnEnums.Tables." + sn + @"." + tn + @" column,
-            bool isDistinct
+            ColumnEnums.Tables." + sn + @"." + tn + @" column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
