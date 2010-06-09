@@ -1171,15 +1171,32 @@ OUTPUT "");
                     }
                 }
             }
-
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@""
- WHERE "" + ws);
-            }");
+");
+                                var pks = t.GetPrimaryKeyColumns();
+                                if (pks.Count > 0)
+                                {
+                                    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables." + sn + "." + tn + @".New(a => ");
+                                    for (int i = 0; i < pks.Count; i++)
+                                    {
+                                        var c = pks[i];
+                                        var cn = c.GetEscapeName();
+                                        if (i > 0) sb.Append(@" & ");
+                                        sb.Append(@"a." + cn + " == o." + cn);
+                                    }
+                                    sb.Append(@");
+");
+                                }
+                                else
+                                    sb.Append(@"
+            if (eh == null) throw new Exception(""因为该表没主键, 所以条件不可以传入空"");
+");
                                 sb.Append(@"
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@""
+ WHERE "" + ws);
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1358,14 +1375,33 @@ OUTPUT "");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@""
- WHERE "" + ws);
-            }");
+");
+                                var pks = t.GetPrimaryKeyColumns();
+                                if (pks.Count > 0)
+                                {
+                                    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables." + sn + "." + tn + @".New(a => ");
+                                    for (int i = 0; i < pks.Count; i++)
+                                    {
+                                        var c = pks[i];
+                                        var cn = c.GetEscapeName();
+                                        if (i > 0) sb.Append(@" & ");
+                                        sb.Append(@"a." + cn + " == o." + cn);
+                                    }
+                                    sb.Append(@");
+");
+                                }
+                                else
+                                    sb.Append(@"
+            if (eh == null) throw new Exception(""因为该表没主键, 所以条件不可以传入空"");
+");
                                 sb.Append(@"
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@""
+ WHERE "" + ws);
+
+
             if(isFillAfterUpdate) sb.Append(@""
 SELECT * FROM @t;"");
 			cmd.CommandText = sb.ToString();
@@ -1684,16 +1720,6 @@ namespace DAL.Database.Tables
 
 		public static int Update(this Database.Tables." + sn + "." + tn + @" o, Expressions.Tables." + sn + @"." + tn + @".Handler eh = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler updateCols = null, ColumnEnums.Tables." + sn + @"." + tn + @".Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            if (eh == null) eh = new Expressions.Tables." + sn + "." + tn + @".Handler(a => ");
-                        var pks = t.GetPrimaryKeyColumns();
-                        for (int i = 0; i < pks.Count; i++)
-                        {
-                            var c = pks[i];
-                            var cn = c.GetEscapeName();
-                            if (i > 0) sb.Append(@" & ");
-                            sb.Append(@"a." + cn + " == o." + cn);
-                        }
-                        sb.Append(@");
             return Database.Tables." + sn + "." + tn + @".Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}");
 
