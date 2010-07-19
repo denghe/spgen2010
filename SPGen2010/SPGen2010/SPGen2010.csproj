@@ -317,6 +317,9 @@
     <Compile Include="Components\Generators\Extensions\CS.cs" />
     <Compile Include="Components\Generators\Extensions\Generic.cs" />
     <Compile Include="Components\Generators\MsSql\Database\DAL.cs" />
+    <Compile Include="Components\Generators\MsSql\Database\WSettings.xaml.cs">
+      <DependentUpon>WSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Generators\MsSql\Table\SP_Update_Simple.cs" />
     <Compile Include="Components\Generators\MsSql\Table\SP_Insert_Simple.cs" />
     <Compile Include="Components\Generators\MsSql\Table\SP_Insert.cs" />
@@ -634,6 +637,10 @@
     <Page Include="Components\Connectors\MsSql\WConnector_UP.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\Generators\MsSql\Database\WSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Windows\WMain.xaml">
       <Generator>MSBuild:Compile</Generator>

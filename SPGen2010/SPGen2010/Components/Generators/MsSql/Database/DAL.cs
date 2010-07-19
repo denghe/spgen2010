@@ -56,7 +56,11 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
         public GenResult Generate(params Oe.NodeBase[] targetElements)
         {
-
+            // todo: save namespace settings to Database
+            var w = new WSettings();
+            w.ShowDialog();
+            if (w.DialogResult == false) return null;
+            var ns = w._Namespace_TextBox.Text;
 
 
             #region Init
@@ -67,7 +71,6 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
             #endregion
 
-            // todo: Get Namespace replace "DAL"
             var sb = new StringBuilder();
 
             #region Gen Database Class
@@ -84,7 +87,7 @@ using System.Collections.Generic;
                 foreach (var ts in schemas)
                 {
                     sb.Append(@"
-namespace DAL.Database.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".Database.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -126,7 +129,7 @@ using System.Collections.Generic;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Database.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var v in vs)
@@ -168,7 +171,7 @@ using System.Collections.Generic;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -206,7 +209,7 @@ namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 using System.Collections.Generic;");
                 if (db.UserDefinedTableTypes.Count > 0)
                     sb.Append(@"
-using UDTT = DAL.Database.UserDefinedTableTypes;
+using UDTT = " + ns + @".Database.UserDefinedTableTypes;
 ");
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Table
@@ -215,7 +218,7 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -294,7 +297,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 using System.Collections.Generic;");
                 if (db.UserDefinedTableTypes.Count > 0)
                     sb.Append(@"
-using UDTT = DAL.Database.UserDefinedTableTypes;
+using UDTT = " + ns + @".Database.UserDefinedTableTypes;
 ");
                 var schemas = from func in db.UserDefinedFunctions
                               where func.FunctionType == MySmo.UserDefinedFunctionType.Scalar
@@ -303,7 +306,7 @@ using UDTT = DAL.Database.UserDefinedTableTypes;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -369,7 +372,7 @@ namespace DAL.Database.UserDefinedFunctions." + fs.Key.Escape() + @"
 using System.Collections.Generic;");
                 if (db.UserDefinedTableTypes.Count > 0)
                     sb.Append(@"
-using UDTT = DAL.Database.UserDefinedTableTypes;");
+using UDTT = " + ns + @".Database.UserDefinedTableTypes;");
                 sb.Append(@"
 using SqlLib;
 ");
@@ -378,7 +381,7 @@ using SqlLib;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
+namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
 {
 ");
                     foreach (var sp in sps)
@@ -466,7 +469,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.Tables." + sn + @"
+namespace " + ns + @".Database.Tables." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -555,7 +558,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.Tables." + sn + @"
+namespace " + ns + @".Database.Tables." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -1682,7 +1685,7 @@ using System.Linq;
 
 using SqlLib;
 
-namespace DAL.Database.Tables
+namespace " + ns + @".Database.Tables
 {
     public static partial class ___Extensions
     {");
@@ -1765,8 +1768,8 @@ namespace DAL.Database.Tables
                         }
                         sb.Append(@"
             );
-            var cols = conditionCols(new DAL.ColumnEnums.Tables." + sn + @"." + tn + @"());
-            var exp = new DAL.Expressions.Tables." + sn + @"." + tn + @"();");
+            var cols = conditionCols(new " + ns + @".ColumnEnums.Tables." + sn + @"." + tn + @"());
+            var exp = new " + ns + @".Expressions.Tables." + sn + @"." + tn + @"();");
 
                         for (int i = 0; i < ccs.Count; i++)
                         {
@@ -1818,7 +1821,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.Views." + sn + @"
+namespace " + ns + @".Database.Views." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -1904,7 +1907,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.Views." + sn + @"
+namespace " + ns + @".Database.Views." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -2160,7 +2163,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.UserDefinedTableTypes." + sn + @"
+namespace " + ns + @".Database.UserDefinedTableTypes." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -2242,7 +2245,7 @@ using System.Collections.Generic;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Database.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -2306,7 +2309,7 @@ using SqlLib;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Database.UserDefinedFunctions." + sn + @"
+namespace " + ns + @".Database.UserDefinedFunctions." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -2393,7 +2396,7 @@ using System.Data;
 using System.Collections.Generic;");
                 if (db.UserDefinedTableTypes.Count > 0)
                     sb.Append(@"
-using UDTT = DAL.Database.UserDefinedTableTypes;");
+using UDTT = " + ns + @".Database.UserDefinedTableTypes;");
                 sb.Append(@"
 using SqlLib;
 ");
@@ -2402,7 +2405,7 @@ using SqlLib;
                 {
 
                     sb.Append(@"
-namespace DAL.Database.StoredProcedures." + sps.Key.Escape() + @"
+namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
 {
 ");
                     foreach (var sp in sps)
@@ -2521,7 +2524,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".Expressions.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -2564,7 +2567,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Expressions.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var v in vs)
@@ -2606,7 +2609,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -2650,7 +2653,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -2695,7 +2698,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".Expressions.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -2742,7 +2745,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Expressions.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var t in vs)
@@ -2789,7 +2792,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Expressions.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var t in tts)
@@ -2838,7 +2841,7 @@ using SqlLib.Expressions;
                 {
 
                     sb.Append(@"
-namespace DAL.Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Expressions.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var t in fs)
@@ -2888,7 +2891,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".Orientations.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -2929,7 +2932,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Orientations.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var v in vs)
@@ -2970,7 +2973,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -3013,7 +3016,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -3057,7 +3060,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".Orientations.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -3104,7 +3107,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Orientations.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var t in vs)
@@ -3151,7 +3154,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Orientations.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var t in tts)
@@ -3200,7 +3203,7 @@ using SqlLib.Orientations;
                 {
 
                     sb.Append(@"
-namespace DAL.Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Orientations.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var t in fs)
@@ -3250,7 +3253,7 @@ using SqlLib.Queries;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.Tables." + sn + @"
+namespace " + ns + @".Queries.Tables." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -3287,7 +3290,7 @@ using SqlLib.Queries;
                 {
                     var sn = vs.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Queries.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var v in vs)
@@ -3324,7 +3327,7 @@ using SqlLib.Queries;
                 {
                     var sn = tts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -3363,7 +3366,7 @@ using SqlLib.Queries;
                 {
                     var sn = fs.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -3403,7 +3406,7 @@ using SqlLib.Queries;
                 {
                     var sn = ts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.Tables." + sn + @"
+namespace " + ns + @".Queries.Tables." + sn + @"
 {
 ");
                     foreach (var t in ts)
@@ -3450,7 +3453,7 @@ using SqlLib.Queries;
                 {
                     var sn = vs.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".Queries.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var t in vs)
@@ -3497,7 +3500,7 @@ using SqlLib.Queries;
                 {
                     var sn = tts.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".Queries.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var t in tts)
@@ -3546,7 +3549,7 @@ using SqlLib.Queries;
                 {
                     var sn = fs.Key.Escape();
                     sb.Append(@"
-namespace DAL.Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".Queries.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var t in fs)
@@ -3595,7 +3598,7 @@ using SqlLib.ColumnEnums;
                 foreach (var ts in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -3650,7 +3653,7 @@ using SqlLib.ColumnEnums;
                 foreach (var vs in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var v in vs)
@@ -3705,7 +3708,7 @@ using SqlLib.ColumnEnums;
                 foreach (var tts in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var tt in tts)
@@ -3762,7 +3765,7 @@ using SqlLib.ColumnEnums;
                 foreach (var fs in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var f in fs)
@@ -3820,7 +3823,7 @@ using SqlLib.ColumnEnums;
                 foreach (var ts in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Tables." + ts.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.Tables." + ts.Key.Escape() + @"
 {
 ");
                     foreach (var t in ts)
@@ -3866,7 +3869,7 @@ using SqlLib.ColumnEnums;
                 foreach (var vs in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.Views." + vs.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.Views." + vs.Key.Escape() + @"
 {
 ");
                     foreach (var t in vs)
@@ -3912,7 +3915,7 @@ using SqlLib.ColumnEnums;
                 foreach (var tts in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.UserDefinedTableTypes." + tts.Key.Escape() + @"
 {
 ");
                     foreach (var t in tts)
@@ -3960,7 +3963,7 @@ using SqlLib.ColumnEnums;
                 foreach (var fs in schemas)
                 {
                     sb.Append(@"
-namespace DAL.ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
+namespace " + ns + @".ColumnEnums.UserDefinedFunctions." + fs.Key.Escape() + @"
 {
 ");
                     foreach (var t in fs)
