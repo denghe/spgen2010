@@ -2530,6 +2530,7 @@ namespace DAL.Expressions.Tables." + ts.Key.Escape() + @"
                         foreach (var c in t.Columns)
                         {
                             var s = (c.Nullable ? "_Nullable_" : "_") + c.DataType.GetExpressionTypeName();
+                            if (c.DataType.SqlDataType == MySmo.SqlDataType.DateTime2) s += "2";
                             var typename = "ExpNode" + s + "<" + t.GetEscapeName() + ">";
                             var propertyname = c.GetEscapeName();
                             var methodname = "this.New" + s + "(@\"" + c.Name.Replace("\"", "\"\"") + "\")";
