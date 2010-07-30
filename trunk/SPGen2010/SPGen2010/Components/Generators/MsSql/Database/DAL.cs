@@ -2475,7 +2475,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             sb.Append(@"
         public static DbSet ExecuteDbSet()
         {
-            return SqlHelper.ExecuteDbSet(""" + sp.Name.Replace("\"", "\"\"") + @""", """ + sp.Schema.Replace("\"", "\"\"") + @""");
+            return SqlHelper.ExecuteDbSet(@""[" + sp.Schema.Replace("\"", "\"\"").Replace("]", @"]]") + "].[" + sp.Name.Replace("\"", "\"\"").Replace("]", @"]]") + @"]"", true);
         }
 ");
                         }
