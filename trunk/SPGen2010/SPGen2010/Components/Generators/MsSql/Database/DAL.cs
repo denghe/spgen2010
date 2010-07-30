@@ -2452,7 +2452,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 else
                                 {
                                     s2 += @"
-            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(""" + pn + @""", " + pv + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
+            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + pv + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
                                 }
                             }
 
