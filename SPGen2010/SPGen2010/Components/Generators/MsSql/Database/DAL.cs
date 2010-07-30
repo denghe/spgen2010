@@ -2465,7 +2465,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             sb.Append(@"
         public static DbSet ExecuteDbSet(Parameters ps)
         {
-            var cmd = SqlHelper.NewCommand(""" + sp.GetEscapeName() + @""");" + s2 + @"
+            var cmd = SqlHelper.NewCommand(""" + sp.GetEscapeName() + @""", """ + sp.Schema.Escape() + @""");" + s2 + @"
             return SqlHelper.ExecuteDbSet(cmd);
         }
 ");
@@ -2475,7 +2475,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             sb.Append(@"
         public static DbSet ExecuteDbSet()
         {
-            return SqlHelper.ExecuteDbSet(""" + sp.GetEscapeName() + @""", true);
+            return SqlHelper.ExecuteDbSet(""" + sp.GetEscapeName() + @""", """ + sp.Schema.Escape() + @""");
         }
 ");
                         }
