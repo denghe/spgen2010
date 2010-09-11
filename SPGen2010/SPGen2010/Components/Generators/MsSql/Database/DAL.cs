@@ -56,13 +56,6 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
         public GenResult Generate(params Oe.NodeBase[] targetElements)
         {
-            // todo: save namespace settings to Database
-            var w = new WSettings();
-            w.ShowDialog();
-            if (w.DialogResult == false) return null;
-            var ns = w._Namespace_TextBox.Text;
-
-
             #region Init
 
             var gr = new GenResult(GenResultTypes.Files);
@@ -70,6 +63,19 @@ namespace SPGen2010.Components.Generators.MsSql.Database
             var db = WMain.Instance.MySmoProvider.GetDatabase(oe_db);
 
             #endregion
+
+            // todo: save namespace settings to Database
+            var w = new WSettings();
+            var oldns = db.ExtendedProperties.ContainsKey("DAL/1/Namespace") ? db.ExtendedProperties["DAL/1/Namespace"] : "DAL";
+            w._Namespace_TextBox.Text = oldns;
+            w.ShowDialog();
+            if (w.DialogResult == false) return null;
+            var ns = w._Namespace_TextBox.Text;
+            if (oldns != ns)
+            {
+                db.ExtendedProperties["DAL/1/Namespace"] = ns;
+                WMain.Instance.MySmoProvider.SaveExtendProperty(db);
+            }
 
             var sb = new StringBuilder();
 
@@ -236,7 +242,7 @@ namespace " + ns + @".Database.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
+                                pdn = "IEnumerable<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
@@ -324,7 +330,7 @@ namespace " + ns + @".Database.UserDefinedFunctions." + fs.Key.Escape() + @"
                             var pn = p.GetEscapeName();
                             string pdn;
                             if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
+                                pdn = "IEnumerable<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                             else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                             sb.Append(@"
             #region " + pn + @"
@@ -402,7 +408,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 var pn = p.GetEscapeName();
                                 string pdn;
                                 if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                    pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
+                                    pdn = "IEnumerable<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                                 else pdn = p.DataType.GetNullableTypeName().FillSpace(10);
                                 sb.Append(@"
             #region " + pn + @"
@@ -2430,7 +2436,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 string pdn;
                                 if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
                                 {
-                                    pdn = "List<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
+                                    pdn = "IEnumerable<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
                                     pv = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Extensions.ToDataTable(ps." + pn + @")";
                                 }
                                 else
