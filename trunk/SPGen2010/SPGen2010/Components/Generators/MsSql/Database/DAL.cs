@@ -2452,14 +2452,8 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 s += @"
                 _f_" + pn + @" = false;";
                                 // Parameters
-                                if (p.IsOutputParameter)
-                                {
-                                }
-                                else
-                                {
-                                    s2 += @"
+                                s2 += @"
             if( ps.Exists_" + pn + @"() ) cmd.AddParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + pv + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
-                                }
                             }
 
                             sb.Append(@"
