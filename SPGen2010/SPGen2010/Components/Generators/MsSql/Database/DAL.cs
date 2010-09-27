@@ -2455,17 +2455,28 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                 _f_" + pn + @" = false;";
                                 // Parameters
                                 // todo: 处理 IsOutputParameter
-                                s2 += @"
+                                if (p.IsOutputParameter)
+                                {
+                                    s2 += @"
             var _____" + pn + @" = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @")" + (p.IsOutputParameter ? " { Direction = ParameterDirection.InputOutput }" : "") + @";
             if (ps.Exists_" + pn + @"()) if (_____" + pn + @".Value == null) _____" + pn + @".Value = DBNull.Value;
                 else _____" + pn + @".Value = ps." + pn + @".Value;
             cmd.Parameters.Add(_____" + pn + @");
 ";
-                                if (p.IsOutputParameter)
-                                {
                                     s3 += @"
             if (_____" + pn + @".Value == DBNull.Value) ps." + pn + @" = null;
             else ps." + pn + @" = (" + p.DataType.GetTypeName() + @")_____" + pn + @".Value;
+";
+                                }
+                                else
+                                {
+                                    s2 += @"
+            if (ps.Exists_" + pn + @"())
+            {
+                var p = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @");
+                if (p.Value == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @".Value;
+                cmd.Parameters.Add(p);
+            }
 ";
                                 }
                             }
