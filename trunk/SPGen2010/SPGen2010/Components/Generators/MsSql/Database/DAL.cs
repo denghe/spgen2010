@@ -2474,7 +2474,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
             if (ps.Exists_" + pn + @"())
             {
                 var p = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @");
-                if (p.Value == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @";
+                if (ps." + pn + @" == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @";
                 cmd.Parameters.Add(p);
             }
 ";
