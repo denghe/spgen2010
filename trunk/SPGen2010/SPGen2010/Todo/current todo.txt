@@ -1,4 +1,33 @@
-﻿todo:
+﻿
+
+todo:
+做一个多表结果容器
+
+public class Tuples<T>
+{
+    public List<T> Items1;
+}
+public class Tuples<T1, T2>
+{
+    public List<T1> Items1;
+    public List<T2> Items2;
+}
+public class Tuples<T1, T2, T3>
+{
+    public List<T1> Items1;
+    public List<T2> Items2;
+    public List<T3> Items2;
+}
+
+
+
+
+
+
+
+
+
+todo:
 序列化/反序列化考虑加上静态的数据类型编号 发现不匹配 ( 例如把 query 当作 exp 还原之类 ) 即可检测并报错 
 
 todo:
