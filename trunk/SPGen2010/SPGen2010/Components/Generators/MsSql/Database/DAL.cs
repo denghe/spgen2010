@@ -2460,7 +2460,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                     s2 += @"
             var _____" + pn + @" = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @")" + (p.IsOutputParameter ? " { Direction = ParameterDirection.InputOutput }" : "") + @";
             if (ps.Exists_" + pn + @"()) if (_____" + pn + @".Value == null) _____" + pn + @".Value = DBNull.Value;
-                else _____" + pn + @".Value = ps." + pn + @".Value;
+                else _____" + pn + @".Value = ps." + pn + @";
             cmd.Parameters.Add(_____" + pn + @");
 ";
                                     s3 += @"
@@ -2474,7 +2474,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
             if (ps.Exists_" + pn + @"())
             {
                 var p = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @");
-                if (p.Value == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @".Value;
+                if (p.Value == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @";
                 cmd.Parameters.Add(p);
             }
 ";
