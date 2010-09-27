@@ -2399,7 +2399,8 @@ namespace " + ns + @".Database.UserDefinedFunctions." + sn + @"
                 sb.Clear();
                 sb.Append(@"using System;
 using System.Data;
-using System.Collections.Generic;");
+using System.Collections.Generic;
+using System.Data.SqlClient;");
                 if (db.UserDefinedTableTypes.Count > 0)
                     sb.Append(@"
 using UDTT = " + ns + @".Database.UserDefinedTableTypes;");
@@ -2429,6 +2430,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             var L = sp.Parameters.Max(c => c.GetEscapeName().GetByteCount()) + 4;
                             var s = "";
                             var s2 = "";
+                            var s3 = "";
                             foreach (var p in sp.Parameters)
                             {
                                 var pn = p.GetEscapeName();
@@ -2441,7 +2443,7 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 }
                                 else
                                 {
-                                    pdn = p.DataType.GetNullableTypeName().FillSpace(10);
+                                    pdn = p.DataType.GetNullableTypeName();
                                     pv = "ps." + pn;
                                 }
 
@@ -2454,7 +2456,18 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 // Parameters
                                 // todo: 处理 IsOutputParameter
                                 s2 += @"
-            if( ps.Exists_" + pn + @"() ) cmd.AddParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + pv + @", " + p.DataType.SqlDataType.GetSqlDbType(true) + @", " + (p.IsOutputParameter ? "true" : "false") + @");";
+            var _____" + pn + @" = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @")" + (p.IsOutputParameter ? " { Direction = ParameterDirection.InputOutput }" : "") + @";
+            if (ps.Exists_" + pn + @"()) if (_____" + pn + @".Value == null) _____" + pn + @".Value = DBNull.Value;
+                else _____" + pn + @".Value = ps." + pn + @".Value;
+            cmd.Parameters.Add(_____" + pn + @");
+";
+                                if (p.IsOutputParameter)
+                                {
+                                    s3 += @"
+            if (_____" + pn + @".Value == DBNull.Value) ps." + pn + @" = null;
+            else ps." + pn + @" = (" + p.DataType.GetTypeName() + @")_____" + pn + @".Value;
+";
+                                }
                             }
 
                             sb.Append(@"
@@ -2466,8 +2479,11 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             sb.Append(@"
         public static DbSet ExecuteDbSet(Parameters ps)
         {
-            var cmd = SqlHelper.NewCommand(@""" + sp.Name.Replace("\"", "\"\"") + @""", """ + sp.Schema.Replace("\"", "\"\"") + @""");" + s2 + @"
-            return SqlHelper.ExecuteDbSet(cmd);
+            var cmd = SqlHelper.NewCommand(@""" + sp.Name.Replace("\"", "\"\"") + @""", """ + sp.Schema.Replace("\"", "\"\"") + @""");
+" + s2 + @"
+            var result = SqlHelper.ExecuteDbSet(cmd);
+" + s3 + @"
+            return result;
         }
 ");
                         }
