@@ -2434,18 +2434,6 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                             foreach (var p in sp.Parameters)
                             {
                                 var pn = p.GetEscapeName();
-                                var pv = "";
-                                string pdn;
-                                if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
-                                {
-                                    pdn = "IEnumerable<UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + ">";
-                                    pv = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Extensions.ToDataTable(ps." + pn + @")";
-                                }
-                                else
-                                {
-                                    pdn = p.DataType.GetNullableTypeName();
-                                    pv = "ps." + pn;
-                                }
 
                                 sb.Append(@"
             public bool Exists_" + pn + @"() { return _f_" + pn + @"; }");
@@ -2454,7 +2442,6 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 s += @"
                 _f_" + pn + @" = false;";
                                 // Parameters
-                                // todo: 处理 IsOutputParameter
                                 if (p.IsOutputParameter)
                                 {
                                     s2 += @"
@@ -2470,11 +2457,16 @@ namespace " + ns + @".Database.StoredProcedures." + sps.Key.Escape() + @"
                                 }
                                 else
                                 {
+                                    var pv = "";
+                                    if (p.DataType.SqlDataType == MySmo.SqlDataType.UserDefinedTableType)
+                                        pv = "UDTT." + p.DataType.Schema.Escape() + @"." + p.DataType.Name.Escape() + "_Extensions.ToDataTable(ps." + pn + @")";
+                                    else
+                                        pv = "ps." + pn;
                                     s2 += @"
             if (ps.Exists_" + pn + @"())
             {
                 var p = new SqlParameter(@""" + p.Name.Replace("\"", "\"\"") + @""", " + p.DataType.SqlDataType.GetSqlDbType(true) + @");
-                if (ps." + pn + @" == null) p.Value = DBNull.Value; else p.Value = ps." + pn + @";
+                if (ps." + pn + @" == null) p.Value = DBNull.Value; else p.Value = " + pv + @";
                 cmd.Parameters.Add(p);
             }
 ";
