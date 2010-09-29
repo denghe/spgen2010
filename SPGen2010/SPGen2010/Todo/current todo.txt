@@ -1,25 +1,13 @@
 ﻿
 
 todo:
-做一个多表结果容器
+为 SP 执行增加更多的方法．例如：
 
-public class Tuples<T>
-{
-    public List<T> Items1;
-}
-public class Tuples<T1, T2>
-{
-    public List<T1> Items1;
-    public List<T2> Items2;
-}
-public class Tuples<T1, T2, T3>
-{
-    public List<T1> Items1;
-    public List<T2> Items2;
-    public List<T3> Items2;
-}
+int ExecuteReturnValue()
 
+T ExecuteScalar<T>
 
+DbTable ExecuteDbTable()
 
 
 
@@ -60,7 +48,7 @@ todo:
 应利用 parallel 技术对集合对象的序列化和反序列化进行提速
 
 todo:
-为每个数据类生成 Dump 扩展方法    DAL_Methods_CmdDump_Database_Tables.cs
+为每个数据类生成 Dump 扩展方法    DAL_Methods_Dump_Database_Tables.cs
 
 todo:
 添加对 INSERT 方法的 SQL2000 回填支持

@@ -64,7 +64,7 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
             #endregion
 
-            // todo: save namespace settings to Database
+            // save namespace settings to Database
             var w = new WSettings();
             var oldns = db.ExtendedProperties.ContainsKey("DAL/1/Namespace") ? db.ExtendedProperties["DAL/1/Namespace"] : "DAL";
             w._Namespace_TextBox.Text = oldns;
