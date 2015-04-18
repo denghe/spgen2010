@@ -1,0 +1,3 @@
+generate code by stored procedures
+tsql, c#, aspx, xaml, etc...
+wpf 4.0, .net framework 4.0
