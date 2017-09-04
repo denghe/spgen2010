@@ -81,6 +81,53 @@ namespace SPGen2010.Components.Generators.MsSql.Database
 
             #region Gen Database Class
 
+            #region Gen Tables for template
+
+            {
+                sb.Clear();
+
+                var schemas = from table in db.Tables group table by table.Schema;
+                foreach (var ts in schemas)
+                {
+                    sb.Append(@"
+namespace " + ts.Key.Escape() + @"
+{
+");
+                    foreach (var t in ts)
+                    {
+                        if (!string.IsNullOrWhiteSpace(t.Description))
+                        {
+                            sb.Append(@"
+    [Desc(""" + t.Description + @""")]");
+                        }
+                        sb.Append(@"
+    class " + t.GetEscapeName() + @"
+    {");
+                        var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
+                        foreach (var c in t.Columns)
+                        {
+                            var typename = (c.Nullable ? c.DataType.GetNullableTypeName() : c.DataType.GetTypeName().Replace("Int64", "long")).FillSpace(10);
+                            var fieldname = c.GetEscapeName();
+                            if (!string.IsNullOrWhiteSpace(c.Description))
+                            {
+                                sb.Append(@"
+        [Desc(""" + c.Description + @""")]");
+                            }
+                            sb.Append(@"
+        " + typename + @" " + fieldname + @";");
+                        }
+                        sb.Append(@"
+    }");
+                    }
+                    sb.Append(@"
+}");
+                }
+
+                gr.Files.Add("DAL_Class_Database_Tables_For_Template.cs", sb);
+            }
+
+            #endregion
+
             #region Gen Tables
 
             {
