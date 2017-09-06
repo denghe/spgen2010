@@ -100,8 +100,10 @@ namespace " + ts.Key.Escape() + @"
                             sb.Append(@"
     [Desc(""" + t.Description + @""")]");
                         }
+                        var tn = t.GetEscapeName();
+                        tn = tn.Substring(0, 1).ToUpper() + (tn.Length > 1 ? tn.Substring(1) : "");
                         sb.Append(@"
-    class " + t.GetEscapeName() + @"
+    class " + tn + @"
     {");
                         var L = t.Columns.Max(c => c.GetEscapeName().GetByteCount()) + 1;
                         foreach (var c in t.Columns)
@@ -114,6 +116,7 @@ namespace " + ts.Key.Escape() + @"
         [Desc(""" + c.Description + @""")]");
                             }
                             sb.Append(@"
+        [Column]
         " + typename + @" " + fieldname + @";");
                         }
                         sb.Append(@"
@@ -123,7 +126,7 @@ namespace " + ts.Key.Escape() + @"
 }");
                 }
 
-                gr.Files.Add("DAL_Class_Database_Tables_For_Template.cs", sb);
+                gr.Files.Add("____DAL_Class_Database_Tables_For_Template.cs", sb);
             }
 
             #endregion
